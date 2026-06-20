@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="inema-course" content="vibe-coding-completo">
+
+  <!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
+  <script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        } else {
+          var legacy = localStorage.getItem('theme');
+          if (legacy === 'light') p.theme = 'claro';
+          else if (legacy === 'dark') p.theme = 'inema-dark';
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'inema-dark': { dark: true,  attr: null,        cs: 'dark'  },
+        'claro':      { dark: false, attr: null,        cs: 'light' },
+        'sepia':      { dark: false, attr: 'sepia',     cs: 'light' },
+        'foco':       { dark: null,  attr: 'foco',      cs: null    },
+        'contraste':  { dark: true,  attr: 'contraste', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['inema-dark'];
+
+      if (t.dark === true) html.classList.add('dark');
+      else if (t.dark === false) html.classList.remove('dark');
+
+      if (t.attr) html.setAttribute('data-theme', t.attr);
+      else html.removeAttribute('data-theme');
+
+      html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark') ? 'dark' : 'light'));
+
+      html.setAttribute('data-font', p.font || 'inter');
+      html.setAttribute('data-accent', p.accent || 'emerald');
+
+      var s = html.style;
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--inema-font-scale', (scale / 100).toString());
+      s.setProperty('font-size', scale + '%');
+      s.setProperty('--measure', (+p.lineWidth || 68) + 'ch');
+      s.setProperty('--lh-body', (+p.leading || 1.7).toString());
+      var fam = p.font === 'system'
+        ? 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif'
+        : (p.font === 'leitura'
+          ? '"Atkinson Hyperlegible", "Inter", system-ui, sans-serif'
+          : '"Inter", system-ui, sans-serif');
+      s.setProperty('--font-body', fam);
+
+      var ACC = {
+        emerald: [152, 76, 45], blue: [217, 91, 60], purple: [258, 90, 66],
+        amber: [38, 92, 50], teal: [174, 72, 41], rose: [350, 89, 60]
+      };
+      var a = ACC[p.accent] || ACC.emerald;
+      s.setProperty('--accent-h', a[0] + '');
+      s.setProperty('--accent-s', a[1] + '%');
+      s.setProperty('--accent-l', a[2] + '%');
+      s.setProperty('--accent', 'hsl(' + a[0] + ' ' + a[1] + '% ' + a[2] + '%)');
+    } catch (err) {
+      try { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme = 'dark'; } catch (e) {}
+    }
+  })();
+  </script>
+
+  <title>Módulo 2.3 · MCP por Dentro | Vibe Coding: Domínio Completo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
+  <script type="application/json" data-inema-manifest>
+  {
+    "course": "vibe-coding-completo",
+    "tracks": [
+      { "n": "1", "title": "Fundamentos & Glossário", "modules": [
+        { "id": "1-1", "title": "A Mentalidade do Vibe Coding", "topics": 7, "href": "curso/trilha1/modulo-1-1.html" },
+        { "id": "1-2", "title": "O Ecossistema: Como as Peças se Encaixam", "topics": 6, "href": "curso/trilha1/modulo-1-2.html" },
+        { "id": "1-3", "title": "Glossário Essencial (Parte 1: IA, Claude Code, n8n)", "topics": 7, "href": "curso/trilha1/modulo-1-3.html" },
+        { "id": "1-4", "title": "Glossário Essencial (Parte 2: Agêntico, RAG, Deploy, Segurança)", "topics": 6, "href": "curso/trilha1/modulo-1-4.html" }
+      ]},
+      { "n": "2", "title": "Técnica: Arquitetura & Engenharia", "modules": [
+        { "id": "2-1", "title": "Engenharia de CLAUDE.md", "topics": 6, "href": "curso/trilha2/modulo-2-1.html" },
+        { "id": "2-2", "title": "O Framework WAT a Fundo", "topics": 7, "href": "curso/trilha2/modulo-2-2.html" },
+        { "id": "2-3", "title": "MCP por Dentro", "topics": 7, "href": "curso/trilha2/modulo-2-3.html" },
+        { "id": "2-4", "title": "Contexto & Tokens", "topics": 6, "href": "curso/trilha2/modulo-2-4.html" },
+        { "id": "2-5", "title": "RAG & Dados", "topics": 6, "href": "curso/trilha2/modulo-2-5.html" }
+      ]},
+      { "n": "3", "title": "Prompts & Padrões de Conversa", "modules": [
+        { "id": "3-1", "title": "Os Padrões de Prompting", "topics": 7, "href": "curso/trilha3/modulo-3-1.html" },
+        { "id": "3-2", "title": "O Ciclo Plan → Build → Troubleshoot → Optimize", "topics": 7, "href": "curso/trilha3/modulo-3-2.html" },
+        { "id": "3-3", "title": "Biblioteca de Prompts Prontos (copy-run)", "topics": 8, "href": "curso/trilha3/modulo-3-3.html" }
+      ]},
+      { "n": "4", "title": "Skills & Agentes", "modules": [
+        { "id": "4-1", "title": "Skills: Conceito & Anatomia", "topics": 7, "href": "curso/trilha4/modulo-4-1.html" },
+        { "id": "4-2", "title": "Construindo Skills na Prática", "topics": 7, "href": "curso/trilha4/modulo-4-2.html" },
+        { "id": "4-3", "title": "Agentes: Locais, Agendados & por Evento", "topics": 8, "href": "curso/trilha4/modulo-4-3.html" }
+      ]},
+      { "n": "5", "title": "Projetos Práticos (End-to-End)", "modules": [
+        { "id": "5-1", "title": "Projeto: Agente de Suporte por E-mail com RAG", "topics": 8, "href": "curso/trilha5/modulo-5-1.html" },
+        { "id": "5-2", "title": "Projeto: Agentes Hospedados (Agendado + Webhook)", "topics": 8, "href": "curso/trilha5/modulo-5-2.html" },
+        { "id": "5-3", "title": "Projeto: App Full-Stack (Lead Qualifier) + Frontend pra n8n", "topics": 8, "href": "curso/trilha5/modulo-5-3.html" }
+      ]},
+      { "n": "6", "title": "Produção, Deploy & Segurança", "modules": [
+        { "id": "6-1", "title": "GitHub & Trigger.dev", "topics": 7, "href": "curso/trilha6/modulo-6-1.html" },
+        { "id": "6-2", "title": "Secrets & Segurança", "topics": 8, "href": "curso/trilha6/modulo-6-2.html" },
+        { "id": "6-3", "title": "Confiabilidade & Monetização", "topics": 7, "href": "curso/trilha6/modulo-6-3.html" }
+      ]}
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="../../assets/learn.css">
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+    [id] { scroll-margin-top: 5rem; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - acento (blue, T2 ativa) + cores das outras trilhas no nav */
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .bg-blue-500\/20 { background-color: rgba(37, 99, 235, 0.12); }
+    html:not(.dark) .bg-blue-500\/10 { background-color: rgba(37, 99, 235, 0.08); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37, 99, 235, 0.25); }
+    html:not(.dark) .hover\:bg-blue-500\/30:hover { background-color: rgba(37, 99, 235, 0.18); }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37, 99, 235, 0.08); }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .text-blue-300 { color: #1d4ed8; }
+    html:not(.dark) .bg-blue-900\/20 { background-color: rgba(37, 99, 235, 0.08); }
+    /* nav: outras trilhas (hover) — emerald/purple/amber/teal/rose */
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5, 150, 105, 0.08); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124, 58, 237, 0.08); }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .hover\:bg-amber-500\/10:hover { background-color: rgba(217, 119, 6, 0.08); }
+    html:not(.dark) .hover\:text-teal-400:hover { color: #0d9488; }
+    html:not(.dark) .hover\:bg-teal-500\/10:hover { background-color: rgba(13, 148, 136, 0.08); }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .hover\:bg-rose-500\/10:hover { background-color: rgba(225, 29, 72, 0.08); }
+    html:not(.dark) .text-red-400 { color: #dc2626; }
+    html:not(.dark) .bg-red-900\/20 { background-color: rgba(220, 38, 38, 0.07); }
+    html:not(.dark) .border-red-500\/30 { border-color: rgba(220, 38, 38, 0.25); }
+
+    /* Light mode - remove gradientes + cores especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    /* Dark mode - bordas suavizadas */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* TOC scrollspy active link */
+    .inema-toc-link.is-active, [data-inema-toc] a.is-active { color: #60a5fa; font-weight: 600; }
+    html:not(.dark) [data-inema-toc] a.is-active { color: #2563eb; }
+
+    /* code box (copy-run) */
+    .codebox pre { white-space: pre; }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
+    }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-blue-600 focus:text-white focus:rounded-lg" href="#conteudo">Pular para o conteúdo</a>
+
+  <!-- NAVIGATION (T2 ativa) -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">⚡</span>
+            <span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
+          </a>
+          <a href="index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10">
+            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Técnica</span>
+          </a>
+          <a href="../trilha3/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
+            <span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
+          </a>
+          <a href="../trilha4/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors">
+            <span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
+          </a>
+          <a href="../trilha5/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors">
+            <span class="sm:hidden">T5</span><span class="hidden sm:inline">Projetos</span>
+          </a>
+          <a href="../trilha6/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors">
+            <span class="sm:hidden">T6</span><span class="hidden sm:inline">Produção</span>
+          </a>
+          <button type="button" data-inema-journey-open class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1">
+            <span aria-hidden="true">◷</span><span>Minha jornada</span>
+            <span class="inema-journey-badge hidden" data-inema-journey-badge data-count="0"></span>
+          </button>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" aria-label="Alternar tema claro/escuro">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4" aria-label="Trilha de navegação">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-blue-400">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-blue-400">Trilha 2</a>
+      <span>/</span>
+      <span class="text-blue-400">Módulo 2.3</span>
+    </div>
+  </nav>
+
+  <!-- HEADER DO MÓDULO -->
+  <header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4">MÓDULO 2.3</span>
+      <h3 class="text-2xl font-bold mb-4">🔌 MCP por Dentro</h3>
+      <p class="text-lg text-neutral-400 max-w-3xl"><strong class="text-blue-300">MCP (Model Context Protocol)</strong> é o padrão que dá "braços" à IA: uma única conexão expõe muitas ferramentas de um serviço (enviar, rascunhar, buscar…), e o agente descobre sozinho quais existem e decide qual chamar, quando e com quais parâmetros. Neste módulo você vê como instalar um server, onde a chave de API entra (na mão, no arquivo — <strong>nunca no chat</strong>), por que preferir config por projeto, e como diagnosticar e controlar o custo de contexto.</p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">7</div>
+          <div class="text-xs text-neutral-400">Tópicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">~50</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">Inter.</div>
+          <div class="text-xs text-neutral-400">Nível</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">Protocolo</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+      <div class="mt-6 max-w-2xl" data-inema-meter="modulo:2-3" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso do módulo 2.3">
+        <div class="flex items-center justify-between mb-1 text-sm">
+          <span class="text-neutral-400">Progresso do módulo</span>
+          <span class="text-blue-400 font-semibold"><span data-inema-meter-pct>0%</span> · <span data-inema-meter-frac>0 de 7</span></span>
+        </div>
+        <div class="inema-bar h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-blue-500 rounded-full" data-inema-meter-fill style="width:0%"></div></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:grid lg:grid-cols-[1fr_220px] lg:gap-10">
+
+    <main id="conteudo" class="min-w-0">
+
+      <!-- Intro + SVG visão geral -->
+      <section class="mb-12">
+        <p class="text-neutral-300 mb-4 inema-prose leading-relaxed">Sem MCP, a IA só sabe conversar. Com MCP, ela <strong>age</strong>: lê e-mails, consulta um banco, busca uma página na web, manda mensagem no Slack. O truque é que você não conecta uma ação por vez — você conecta um <strong>server</strong> (um serviço inteiro, como o e-mail) e ele já anuncia todas as suas ferramentas de uma vez. O agente vê o cardápio e escolhe o prato certo para o pedido.</p>
+        <div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+          <svg viewBox="0 0 1000 250" class="w-full h-auto" role="img" aria-label="O agente coordenador se conecta a um único server MCP de e-mail; esse server expõe várias ferramentas — enviar, rascunhar, buscar; diante de um pedido, o agente escolhe qual ferramenta chamar">
+            <defs>
+              <linearGradient id="m23-grad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#60a5fa"/><stop offset="1" stop-color="#3b82f6"/>
+              </linearGradient>
+              <filter id="m23-glow" x="-40%" y="-40%" width="180%" height="180%">
+                <feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <pattern id="m23-grid" width="32" height="32" patternUnits="userSpaceOnUse">
+                <circle cx="1.3" cy="1.3" r="1.3" fill="#3b82f6" opacity="0.12"/>
+              </pattern>
+              <marker id="m23-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#3b82f6"/></marker>
+              <marker id="m23-ahc" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"/></marker>
+            </defs>
+            <rect x="0" y="0" width="1000" height="250" fill="url(#m23-grid)"/>
+
+            <!-- agente coordenador (ciano) -->
+            <g filter="url(#m23-glow)"><rect x="40" y="92" width="190" height="66" rx="16" fill="#0e1b26" stroke="#38bdf8" stroke-width="2.5"/></g>
+            <text x="135" y="120" text-anchor="middle" fill="#bfe6ff" font-family="Inter,sans-serif" font-weight="700" font-size="15">🤖 Agente</text>
+            <text x="135" y="140" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11">coordenador</text>
+
+            <!-- 1 conexão -->
+            <g fill="none" stroke="#38bdf8" stroke-width="2.4" opacity="0.8"><path d="M230,125 L356,125" marker-end="url(#m23-ahc)"/></g>
+            <text x="293" y="115" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11">1 conexão</text>
+
+            <!-- 1 server MCP (azul) -->
+            <g filter="url(#m23-glow)"><rect x="356" y="86" width="210" height="78" rx="16" fill="#0e1830" stroke="url(#m23-grad)" stroke-width="2.5"/></g>
+            <text x="461" y="116" text-anchor="middle" fill="#93c5fd" font-family="Inter,sans-serif" font-weight="700" font-size="15">Server MCP · E-mail</text>
+            <text x="461" y="138" text-anchor="middle" fill="#bfdbfe" font-family="Inter,sans-serif" font-size="11">expõe N ferramentas</text>
+
+            <!-- N ferramentas -->
+            <g fill="none" stroke="#3b82f6" stroke-width="2" opacity="0.7">
+              <path d="M566,108 C620,108 640,58 700,58" marker-end="url(#m23-ah)"/>
+              <path d="M566,125 L700,125" marker-end="url(#m23-ah)"/>
+              <path d="M566,142 C620,142 640,192 700,192" marker-end="url(#m23-ah)"/>
+            </g>
+            <g class="wf-a"><rect x="700" y="40" width="200" height="36" rx="9" fill="#0e1830" stroke="#60a5fa" stroke-width="2"/><text x="800" y="63" text-anchor="middle" fill="#bfdbfe" font-family="Inter,sans-serif" font-size="12">✉️ enviar e-mail</text></g>
+            <g class="wf-a"><rect x="700" y="107" width="200" height="36" rx="9" fill="#0e1830" stroke="#60a5fa" stroke-width="2"/><text x="800" y="130" text-anchor="middle" fill="#bfdbfe" font-family="Inter,sans-serif" font-size="12">📝 rascunhar</text></g>
+            <g class="wf-a"><rect x="700" y="174" width="200" height="36" rx="9" fill="#0e1830" stroke="#60a5fa" stroke-width="2"/><text x="800" y="197" text-anchor="middle" fill="#bfdbfe" font-family="Inter,sans-serif" font-size="12">🔍 buscar mensagem</text></g>
+            <text x="800" y="232" text-anchor="middle" fill="#7fb0e6" font-family="Inter,sans-serif" font-size="11">o agente escolhe qual chamar</text>
+          </svg>
+        </div>
+        <p class="text-xs text-neutral-500">Diagrama ilustrativo — uma conexão (o server) entrega um conjunto de ferramentas. O agente lê o que está disponível e decide, a cada pedido, qual ferramenta usar.</p>
+      </section>
+
+      <!-- TÓPICO 1 -->
+      <section id="topico-1" data-inema-topic="modulo-2-3#topico-1" class="mb-16">
+        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">1</span>
+            <h2 class="text-2xl font-bold">🧩 O que o protocolo resolve</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
+            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
+          </button>
+        </div>
+
+        <h3 class="text-lg font-semibold text-blue-400 mb-2">O que é</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-3-t1-p1">
+          <strong class="text-blue-400">MCP (Model Context Protocol)</strong> é uma linguagem comum para a IA conversar com serviços externos. Em vez de você ligar uma ação por vez, uma única conexão expõe <strong>muitas ferramentas</strong> daquele serviço. Pense num serviço de e-mail: ao conectar o server de e-mail, o agente passa a ter acesso a "enviar", "rascunhar", "buscar mensagem" — tudo de uma vez.
+        </p>
+
+        <div class="bg-dark-800 border border-blue-500/30 rounded-xl p-4 mb-4">
+          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold mr-2">O que é?</span><strong>Server MCP</strong> — um programinha que faz a ponte entre a IA e um serviço (e-mail, banco, web), traduzindo o que cada lado entende. <strong>Ferramenta (tool)</strong> — uma ação concreta que o server oferece (ex.: "enviar e-mail"), com nome e parâmetros bem definidos.</p>
+        </div>
+
+        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m2-3-t1-p2">
+          O protocolo resolve o problema do "como a IA descobre e usa uma ação": ele padroniza a descrição das ferramentas. Por isso o agente consegue, sozinho, decidir <strong>qual</strong> ferramenta chamar, <strong>quando</strong> chamar e <strong>com quais parâmetros</strong>. É assim que a IA ganha "braços" — sai de só conversar para de fato agir no mundo.
+        </p>
+
+        <h3 class="text-lg font-semibold text-blue-400 mb-2">Por que aprender</h3>
+        <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+          <p class="text-neutral-300 mb-3 inema-prose" data-inema-block="m2-3-t1-p3">Entender MCP é entender de onde vêm os poderes do seu agente. Sem isso, parece "mágica" — e mágica é difícil de depurar. Sabendo que cada poder é um server com ferramentas, você sabe o que instalar, o que falta e o que desligar.</p>
+          <ul class="space-y-2 text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">•</span><span><strong>Uma conexão, muitas ações:</strong> menos configuração, mais capacidade.</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">•</span><span><strong>Padrão único:</strong> o mesmo protocolo serve para e-mail, banco, web, etc.</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">•</span><span><strong>Base para o resto:</strong> os próximos tópicos só fazem sentido com isso firme.</span></li>
+          </ul>
+        </div>
+
+        <h3 class="text-lg font-semibold text-blue-400 mb-3">Conceitos-chave</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Protocolo</div><p class="text-xs text-neutral-400">Linguagem comum IA↔serviço.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">1 → N</div><p class="text-xs text-neutral-400">Uma conexão, várias tools.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Braços da IA</div><p class="text-xs text-neutral-400">De conversar a agir.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Server</div><p class="text-xs text-neutral-400">Ponte para um serviço.</p></div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 2 -->
+      <section id="topico-2" data-inema-topic="modulo-2-3#topico-2" class="mb-16">
+        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">2</span>
+            <h2 class="text-2xl font-bold">🤖 Como o agente descobre e decide</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
+            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
+          </button>
+        </div>
+
+        <h3 class="text-lg font-semibold text-blue-400 mb-2">O que é</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-3-t2-p1">
+          Assim que o agente e o server MCP se conectam, o agente passa a <strong>conhecer todas as ferramentas disponíveis</strong> daquele server — nomes, descrições e parâmetros. A partir daí, a decisão é dele: você descreve o resultado em linguagem natural ("mande um aviso pro time"), e o agente escolhe a ferramenta certa ("enviar mensagem") e preenche os parâmetros.
+        </p>
+
+        <div class="bg-dark-800 border border-blue-500/30 rounded-xl p-4 mb-6">
+          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold mr-2">O que é?</span><strong>Descoberta de ferramentas</strong> — o momento em que o agente lê o "cardápio" do server e fica sabendo o que pode fazer. <strong>Seleção de ferramenta</strong> — o agente raciocina sobre o pedido e decide qual tool casa com o objetivo.</p>
+        </div>
+
+        <!-- SVG: agente decide a tool -->
+        <div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+          <svg viewBox="0 0 1000 200" class="w-full h-auto" role="img" aria-label="O agente coordenador recebe um pedido e, diante de três ferramentas disponíveis, escolhe uma — aqui a de enviar e-mail fica destacada como a escolhida">
+            <defs>
+              <pattern id="m23b-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#3b82f6" opacity="0.1"/></pattern>
+              <filter id="m23b-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              <marker id="m23b-ahc" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"/></marker>
+              <marker id="m23b-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#64748b"/></marker>
+            </defs>
+            <rect x="0" y="0" width="1000" height="200" fill="url(#m23b-grid)"/>
+            <text x="40" y="34" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="12">pedido: "avise o cliente por e-mail"</text>
+            <g filter="url(#m23b-glow)"><rect x="40" y="78" width="200" height="64" rx="14" fill="#0e1b26" stroke="#38bdf8" stroke-width="2.5"/></g>
+            <text x="140" y="106" text-anchor="middle" fill="#bfe6ff" font-family="Inter,sans-serif" font-weight="700" font-size="14">🤖 Agente decide</text>
+            <text x="140" y="126" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11">avalia as tools</text>
+            <!-- escolhida -->
+            <g fill="none" stroke="#38bdf8" stroke-width="2.4" opacity="0.9"><path d="M240,96 C320,96 340,56 420,56" marker-end="url(#m23b-ahc)"/></g>
+            <rect x="420" y="36" width="220" height="40" rx="10" fill="#0e1830" stroke="#60a5fa" stroke-width="2.5"/><text x="530" y="61" text-anchor="middle" fill="#bfdbfe" font-family="Inter,sans-serif" font-size="12" font-weight="600">✉️ enviar e-mail (escolhida)</text>
+            <!-- descartadas -->
+            <g fill="none" stroke="#64748b" stroke-width="1.6" opacity="0.5"><path d="M240,118 L420,118" marker-end="url(#m23b-ah)"/><path d="M240,128 C320,128 340,160 420,160" marker-end="url(#m23b-ah)"/></g>
+            <rect x="420" y="100" width="220" height="36" rx="9" fill="#1e293b" stroke="#475569" stroke-width="1.6"/><text x="530" y="123" text-anchor="middle" fill="#94a3b8" font-family="Inter,sans-serif" font-size="12">📝 rascunhar</text>
+            <rect x="420" y="146" width="220" height="36" rx="9" fill="#1e293b" stroke="#475569" stroke-width="1.6"/><text x="530" y="169" text-anchor="middle" fill="#94a3b8" font-family="Inter,sans-serif" font-size="12">🔍 buscar mensagem</text>
+            <g fill="none" stroke="#60a5fa" stroke-width="2.4" opacity="0.9"><path d="M640,56 L760,56" marker-end="url(#m23b-ahc)"/></g>
+            <rect x="760" y="36" width="200" height="40" rx="10" fill="#0e1830" stroke="#3b82f6" stroke-width="2"/><text x="860" y="61" text-anchor="middle" fill="#bfdbfe" font-family="Inter,sans-serif" font-size="12">executa com parâmetros</text>
+          </svg>
+        </div>
+        <p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — você não diz "use a tool X". Você descreve o resultado; o agente compara o pedido com as ferramentas conhecidas e escolhe a melhor.</p>
+
+        <h3 class="text-lg font-semibold text-blue-400 mb-2">Por que aprender</h3>
+        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m2-3-t2-p2">Saber que a decisão é do agente muda como você pede: você foca no <strong>resultado</strong>, não em apontar a ferramenta. E quando ele escolher errado, você corrige com contexto ("não rascunhe, envie de fato") em vez de microgerenciar. Também explica por que um server "ligado mas inútil" ainda atrapalha: suas tools entram na lista que o agente precisa avaliar.</p>
+
+        <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Dica prática</h3>
+          <p class="text-neutral-300 text-sm">Se o agente escolher a tool errada, não dite o nome dela — esclareça o resultado: "quero que chegue na caixa de entrada do cliente agora, não que fique salvo como rascunho". Descrições de resultado guiam a escolha melhor do que comandos.</p>
+        </div>
+
+        <h3 class="text-lg font-semibold text-blue-400 mb-3">Conceitos-chave</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Descoberta</div><p class="text-xs text-neutral-400">Lê o cardápio ao conectar.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Decisão própria</div><p class="text-xs text-neutral-400">O agente escolhe a tool.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Você → resultado</div><p class="text-xs text-neutral-400">Descreva o "o quê".</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Parâmetros</div><p class="text-xs text-neutral-400">Ele preenche sozinho.</p></div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 3 -->
+      <section id="topico-3" data-inema-topic="modulo-2-3#topico-3" class="mb-16">
+        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">3</span>
+            <h2 class="text-2xl font-bold">🔑 .mcp.json e a chave na mão</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
+            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
+          </button>
+        </div>
+
+        <h3 class="text-lg font-semibold text-blue-400 mb-2">O que é</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-3-t3-p1">
+          Instalar um server MCP gera (ou edita) um arquivo <strong class="text-blue-400">.mcp.json</strong>: ele guarda a configuração do server e, quando o serviço exige autenticação, um <strong>espaço reservado para a chave de API</strong>. A chave em si você cola <strong>manualmente</strong> no arquivo. Nunca no chat, e nunca pedindo para o agente inserir por você.
+        </p>
+
+        <div class="bg-dark-800 border border-blue-500/30 rounded-xl p-4 mb-6">
+          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold mr-2">O que é?</span><strong>Chave de API (API key)</strong> — uma senha que prova que você tem permissão de usar um serviço. <strong>.mcp.json</strong> — o arquivo de configuração que lista os servers e como iniciá-los. <strong>Placeholder</strong> — o "buraco" onde a chave deve entrar, marcado para você preencher.</p>
+        </div>
+
+        <!-- code box 1: .mcp.json -->
+        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <p class="text-sm text-blue-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">colar a chave de API à mão no .mcp.json</span></p>
+          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-blue-400"></span><span class="text-xs text-neutral-500 ml-2">.mcp.json (edite o arquivo)</span></div>
+          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">{
+  "mcpServers": {
+    "firecrawl": {
+      "command": "npx",
+      "args": ["-y", "firecrawl-mcp"],
+      "env": {
+        "API_KEY": "&lt;cole-sua-chave-aqui&gt;"
+      }
+    }
+  }
+}</pre>
+          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: troque <code>&lt;cole-sua-chave-aqui&gt;</code> pela sua chave real, salve o arquivo e reinicie o assistente. A chave fica só no arquivo local — fora do histórico do chat.</p>
+        </div>
+
+        <h3 class="text-lg font-semibold text-blue-400 mb-2">Por que aprender</h3>
+        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m2-3-t3-p2">Chave colada no chat vira parte do histórico da conversa — que pode ser registrado, compartilhado ou vazar. Colar no arquivo mantém o segredo onde só você (e o programa) alcança. Essa é uma <strong>regra de segurança</strong>, não uma preferência de estilo: trate toda chave como senha.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+            <h4 class="font-bold text-blue-400 mb-4">✓ Chave no .mcp.json (à mão)</h4>
+            <ul class="space-y-3 text-neutral-300 text-sm">
+              <li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Você cola a chave direto no arquivo de configuração.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>O segredo fica local, fora do histórico de conversa.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Você controla quem vê o arquivo (e o exclui do versionamento).</span></li>
+            </ul>
+          </div>
+          <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+            <h4 class="font-bold text-red-400 mb-4">✗ Chave no chat</h4>
+            <ul class="space-y-3 text-neutral-300 text-sm">
+              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Colar a chave numa mensagem para o agente.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Pedir para a IA "inserir a chave" por você.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Deixar a chave em logs, prints ou conversas compartilhadas.</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <h3 class="text-lg font-semibold text-blue-400 mb-3">Conceitos-chave</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">.mcp.json</div><p class="text-xs text-neutral-400">Onde mora a config.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Placeholder</div><p class="text-xs text-neutral-400">Buraco para a chave.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">À mão</div><p class="text-xs text-neutral-400">Você cola, não a IA.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Nunca no chat</div><p class="text-xs text-neutral-400">Chave = senha.</p></div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 4 -->
+      <section id="topico-4" data-inema-topic="modulo-2-3#topico-4" class="mb-16">
+        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">4</span>
+            <h2 class="text-2xl font-bold">🏷️ Por projeto vs global</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
+            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
+          </button>
+        </div>
+
+        <h3 class="text-lg font-semibold text-blue-400 mb-2">O que é</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-3-t4-p1">
+          A configuração de MCP pode viver em dois escopos: <strong class="text-blue-400">global</strong> (vale para a máquina inteira, todos os projetos enxergam) ou <strong class="text-blue-400">por projeto</strong> (o .mcp.json fica dentro da pasta do projeto e só vale ali). A recomendação é <strong>por projeto</strong>: ele isola os segredos e o contexto de cada trabalho.
+        </p>
+
+        <div class="bg-dark-800 border border-blue-500/30 rounded-xl p-4 mb-6">
+          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold mr-2">O que é?</span><strong>Escopo global</strong> — configuração que se aplica em qualquer lugar da máquina. <strong>Escopo por projeto</strong> — configuração que mora na pasta do projeto e só vale enquanto você trabalha nele. <strong>Isolamento</strong> — manter os segredos e ferramentas de um projeto separados dos outros.</p>
+        </div>
+
+        <!-- SVG: projeto vs global -->
+        <div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+          <svg viewBox="0 0 1000 200" class="w-full h-auto" role="img" aria-label="À esquerda, o escopo global espalha a mesma configuração por todos os projetos da máquina; à direita, o escopo por projeto guarda cada .mcp.json dentro da sua pasta, isolando segredos">
+            <defs>
+              <pattern id="m23c-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#3b82f6" opacity="0.1"/></pattern>
+              <filter id="m23c-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              <marker id="m23c-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#94a3b8"/></marker>
+              <marker id="m23c-ahc" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#60a5fa"/></marker>
+            </defs>
+            <rect x="0" y="0" width="1000" height="200" fill="url(#m23c-grid)"/>
+            <!-- global -->
+            <text x="40" y="30" fill="#94a3b8" font-family="Inter,sans-serif" font-size="13" font-weight="600">Global — uma config para a máquina toda</text>
+            <rect x="40" y="44" width="150" height="40" rx="10" fill="#1e293b" stroke="#94a3b8" stroke-width="1.8"/><text x="115" y="69" text-anchor="middle" fill="#cbd5e1" font-family="Inter,sans-serif" font-size="12">config global</text>
+            <g fill="none" stroke="#94a3b8" stroke-width="1.8" opacity="0.7"><path d="M190,64 L250,40" marker-end="url(#m23c-ah)"/><path d="M190,64 L250,64" marker-end="url(#m23c-ah)"/><path d="M190,64 L250,88" marker-end="url(#m23c-ah)"/></g>
+            <rect x="250" y="24" width="120" height="28" rx="7" fill="#1e293b" stroke="#475569" stroke-width="1.4"/><text x="310" y="43" text-anchor="middle" fill="#94a3b8" font-family="Inter,sans-serif" font-size="11">projeto A</text>
+            <rect x="250" y="56" width="120" height="28" rx="7" fill="#1e293b" stroke="#475569" stroke-width="1.4"/><text x="310" y="75" text-anchor="middle" fill="#94a3b8" font-family="Inter,sans-serif" font-size="11">projeto B</text>
+            <rect x="250" y="88" width="120" height="28" rx="7" fill="#1e293b" stroke="#475569" stroke-width="1.4"/><text x="310" y="107" text-anchor="middle" fill="#94a3b8" font-family="Inter,sans-serif" font-size="11">projeto C</text>
+            <text x="115" y="140" fill="#f87171" font-family="Inter,sans-serif" font-size="11">⚠ segredos vazam entre projetos</text>
+            <!-- divisor -->
+            <line x1="500" y1="20" x2="500" y2="180" stroke="#374151" stroke-width="1.5" stroke-dasharray="4 5"/>
+            <!-- por projeto -->
+            <text x="560" y="30" fill="#60a5fa" font-family="Inter,sans-serif" font-size="13" font-weight="600">Por projeto — cada pasta tem seu .mcp.json</text>
+            <g filter="url(#m23c-glow)"><rect x="560" y="44" width="170" height="44" rx="11" fill="#0e1830" stroke="#60a5fa" stroke-width="2"/></g>
+            <text x="645" y="64" text-anchor="middle" fill="#bfdbfe" font-family="Inter,sans-serif" font-size="12">📁 projeto A</text>
+            <text x="645" y="81" text-anchor="middle" fill="#93c5fd" font-family="Inter,sans-serif" font-size="10">.mcp.json próprio</text>
+            <g filter="url(#m23c-glow)"><rect x="760" y="44" width="170" height="44" rx="11" fill="#0e1830" stroke="#60a5fa" stroke-width="2"/></g>
+            <text x="845" y="64" text-anchor="middle" fill="#bfdbfe" font-family="Inter,sans-serif" font-size="12">📁 projeto B</text>
+            <text x="845" y="81" text-anchor="middle" fill="#93c5fd" font-family="Inter,sans-serif" font-size="10">.mcp.json próprio</text>
+            <text x="745" y="140" text-anchor="middle" fill="#7fb0e6" font-family="Inter,sans-serif" font-size="11">✓ segredos e contexto isolados</text>
+          </svg>
+        </div>
+        <p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — no global, um vazamento contamina tudo; por projeto, cada trabalho fica em sua bolha.</p>
+
+        <h3 class="text-lg font-semibold text-blue-400 mb-2">Por que aprender</h3>
+        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m2-3-t4-p2">Configuração global pode disparar um <strong>aviso de segurança a cada reinício</strong> (o programa avisa que servers globais estão ativos para qualquer projeto). A correção é mover a config para dentro da pasta do projeto. Por projeto, você também evita que um cliente "veja" ferramentas e chaves de outro — menos risco, menos ruído.</p>
+
+        <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Dica prática</h3>
+          <p class="text-neutral-300 text-sm">Cansado do aviso de segurança a cada reinício? Mova o bloco de servers da config global para o <code>.mcp.json</code> dentro da pasta do projeto. O aviso some e cada projeto passa a carregar só o que precisa.</p>
+        </div>
+
+        <h3 class="text-lg font-semibold text-blue-400 mb-3">Conceitos-chave</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Global</div><p class="text-xs text-neutral-400">Vale na máquina toda.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Por projeto</div><p class="text-xs text-neutral-400">Recomendado, isola.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Aviso no reinício</div><p class="text-xs text-neutral-400">Global pode alertar.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Mover p/ pasta</div><p class="text-xs text-neutral-400">A correção do aviso.</p></div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 5 -->
+      <section id="topico-5" data-inema-topic="modulo-2-3#topico-5" class="mb-16">
+        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">5</span>
+            <h2 class="text-2xl font-bold">🔎 Onde achar servers</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
+            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
+          </button>
+        </div>
+
+        <h3 class="text-lg font-semibold text-blue-400 mb-2">O que é</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-3-t5-p1">
+          Servers MCP ficam em dois lugares principais: <strong class="text-blue-400">diretórios de MCP</strong> (sites que catalogam servers, como o <code>mcp.so</code>) e no <strong class="text-blue-400">GitHub</strong> (busque "MCP server" + o nome do serviço que você quer). Antes de instalar, você procura o server do serviço alvo; depois, segue o README dele.
+        </p>
+
+        <div class="bg-dark-800 border border-blue-500/30 rounded-xl p-4 mb-6">
+          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold mr-2">O que é?</span><strong>Diretório de MCP</strong> — um catálogo online de servers prontos, organizado por categoria. <strong>GitHub</strong> — onde mora o código dos servers; o README costuma trazer o comando de instalação e quais variáveis (como a chave) preencher.</p>
+        </div>
+
+        <h3 class="text-lg font-semibold text-blue-400 mb-2">Por que aprender</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-3-t5-p2">Saber onde caçar evita reinventar a roda: na maioria dos casos, o server que você precisa já existe. Conhecer as <strong>categorias comuns</strong> também acelera a busca — você sabe que existe algo para web scraping, banco de dados, documentos e comunicação, e vai direto.</p>
+
+        <h3 class="text-lg font-semibold text-blue-400 mb-3">Categorias comuns de servers</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">🕸️ Web scraping</div><p class="text-xs text-neutral-400">Ex.: Firecrawl — ler páginas da web.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">🗄️ Bancos de dados</div><p class="text-xs text-neutral-400">Ex.: Postgres, Supabase.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">📄 Documentos</div><p class="text-xs text-neutral-400">Ex.: Google Drive, Notion.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">💬 Comunicação</div><p class="text-xs text-neutral-400">Ex.: Slack, Gmail.</p></div>
+        </div>
+
+        <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Dica prática</h3>
+          <p class="text-neutral-300 text-sm">Busca rápida: no GitHub, pesquise <code>MCP server</code> + o nome do serviço (ex.: <code>MCP server notion</code>). Prefira repositórios com mais estrelas e README claro — eles costumam estar mais cuidados e seguros.</p>
+        </div>
+
+        <h3 class="text-lg font-semibold text-blue-400 mb-3">Conceitos-chave</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Diretórios</div><p class="text-xs text-neutral-400">Catálogos como mcp.so.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">GitHub</div><p class="text-xs text-neutral-400">"MCP server" + serviço.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Categorias</div><p class="text-xs text-neutral-400">Web, banco, docs, chat.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Já existe</div><p class="text-xs text-neutral-400">Não reinvente a roda.</p></div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 6 -->
+      <section id="topico-6" data-inema-topic="modulo-2-3#topico-6" class="mb-16">
+        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">6</span>
+            <h2 class="text-2xl font-bold">🩺 Verificar e diagnosticar</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
+            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
+          </button>
+        </div>
+
+        <h3 class="text-lg font-semibold text-blue-400 mb-2">O que é</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-3-t6-p1">
+          O comando <strong class="text-blue-400">/mcp</strong> lista os servers instalados e o <strong>status</strong> de cada um (conectado, com erro, etc.). É a sua "saúde do MCP". E há uma regra de ouro do diagnóstico: se um server recém-instalado <strong>não aparece</strong> na lista, <strong>reinicie o assistente primeiro</strong> — isso resolve na maioria das vezes.
+        </p>
+
+        <div class="bg-dark-800 border border-blue-500/30 rounded-xl p-4 mb-6">
+          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold mr-2">O que é?</span><strong>/mcp</strong> — comando que mostra os servers e seu estado. <strong>Reiniciar</strong> — fechar e abrir o assistente para ele reler a configuração; muitos servers só "aparecem" depois disso.</p>
+        </div>
+
+        <!-- code box 2: /mcp -->
+        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <p class="text-sm text-blue-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">verificar os servers MCP conectados</span></p>
+          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-blue-400"></span><span class="text-xs text-neutral-500 ml-2">comando (copie e rode)</span></div>
+          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">/mcp</pre>
+          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: a lista mostra cada server e o status; se um server novo não aparecer, reinicie o assistente e rode /mcp de novo.</p>
+        </div>
+
+        <!-- timeline: sequência de instalação -->
+        <h3 class="text-lg font-semibold text-blue-400 mb-3">A sequência completa, passo a passo</h3>
+        <div class="space-y-4 mb-6">
+          <div class="flex items-start gap-4"><span class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 font-bold text-sm">1</span><div><p class="font-semibold text-neutral-100">Instalar o server</p><p class="text-sm text-neutral-400">Ache no diretório/GitHub e siga o README. Isso gera ou edita o <code>.mcp.json</code>.</p></div></div>
+          <div class="flex items-start gap-4"><span class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 font-bold text-sm">2</span><div><p class="font-semibold text-neutral-100">Conferir a config</p><p class="text-sm text-neutral-400">Veja o bloco do server no <code>.mcp.json</code> (de preferência por projeto).</p></div></div>
+          <div class="flex items-start gap-4"><span class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 font-bold text-sm">3</span><div><p class="font-semibold text-neutral-100">Colar a chave à mão</p><p class="text-sm text-neutral-400">Substitua o placeholder pela chave de API — no arquivo, nunca no chat.</p></div></div>
+          <div class="flex items-start gap-4"><span class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 font-bold text-sm">4</span><div><p class="font-semibold text-neutral-100">Reiniciar o assistente</p><p class="text-sm text-neutral-400">Fecha e abre para reler a configuração e carregar o server.</p></div></div>
+          <div class="flex items-start gap-4"><span class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 font-bold text-sm">5</span><div><p class="font-semibold text-neutral-100">Verificar com /mcp</p><p class="text-sm text-neutral-400">Rode <code>/mcp</code>; o server deve aparecer conectado. Se não, volte ao passo 4.</p></div></div>
+        </div>
+
+        <h3 class="text-lg font-semibold text-blue-400 mb-2">Por que aprender</h3>
+        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m2-3-t6-p2">Sem o <code>/mcp</code>, você fica no escuro: não sabe se o server conectou, falhou ou nem foi lido. E sem o reflexo de reiniciar, perde tempo "consertando" o que não está quebrado. Reiniciar é o <strong>primeiro passo</strong> de qualquer troubleshooting de MCP — barato, rápido e quase sempre suficiente.</p>
+
+        <h3 class="text-lg font-semibold text-blue-400 mb-3">Conceitos-chave</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">/mcp</div><p class="text-xs text-neutral-400">Lista servers + status.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Status</div><p class="text-xs text-neutral-400">Conectado? Com erro?</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Reiniciar 1º</div><p class="text-xs text-neutral-400">Resolve na maioria.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Não apareceu?</div><p class="text-xs text-neutral-400">Reinicie, rode /mcp.</p></div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 7 -->
+      <section id="topico-7" data-inema-topic="modulo-2-3#topico-7" class="mb-16">
+        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">7</span>
+            <h2 class="text-2xl font-bold">💸 Custo de contexto</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
+            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
+          </button>
+        </div>
+
+        <h3 class="text-lg font-semibold text-blue-400 mb-2">O que é</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-3-t7-p1">
+          Cada server <strong>ativo</strong> injeta as definições das suas ferramentas no <strong class="text-blue-400">contexto</strong> da IA — e isso consome <strong>tokens</strong>. Muitos servers ligados = mais texto que o modelo precisa ler antes de responder, mesmo que você não use nenhum deles. A regra: <strong>desligue os servers que você não está usando</strong> para liberar contexto.
+        </p>
+
+        <div class="bg-dark-800 border border-blue-500/30 rounded-xl p-4 mb-6">
+          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold mr-2">O que é?</span><strong>Contexto</strong> — tudo que a IA "tem na cabeça" durante a conversa (sua mensagem + instruções + definições de ferramentas). <strong>Token</strong> — pedacinho de texto que o modelo conta; mais texto = mais tokens = mais custo e mais ruído.</p>
+        </div>
+
+        <!-- SVG: custo de contexto -->
+        <div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+          <svg viewBox="0 0 1000 200" class="w-full h-auto" role="img" aria-label="Uma barra representa o contexto disponível; cada server ativo adiciona um bloco de definições de ferramentas, enchendo a barra; ao desligar servers não usados, sobra espaço livre para a conversa">
+            <defs>
+              <pattern id="m23d-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#3b82f6" opacity="0.1"/></pattern>
+            </defs>
+            <rect x="0" y="0" width="1000" height="200" fill="url(#m23d-grid)"/>
+            <!-- barra cheia -->
+            <text x="40" y="34" fill="#f87171" font-family="Inter,sans-serif" font-size="13" font-weight="600">Tudo ligado — contexto lotado de definições</text>
+            <rect x="40" y="46" width="700" height="34" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1.4"/>
+            <rect x="42" y="48" width="170" height="30" rx="6" fill="#3b1d1d" stroke="#f87171" stroke-width="1.2"/><text x="127" y="68" text-anchor="middle" fill="#fca5a5" font-family="Inter,sans-serif" font-size="11">tools server A</text>
+            <rect x="216" y="48" width="170" height="30" rx="6" fill="#3b1d1d" stroke="#f87171" stroke-width="1.2"/><text x="301" y="68" text-anchor="middle" fill="#fca5a5" font-family="Inter,sans-serif" font-size="11">tools server B</text>
+            <rect x="390" y="48" width="170" height="30" rx="6" fill="#3b1d1d" stroke="#f87171" stroke-width="1.2"/><text x="475" y="68" text-anchor="middle" fill="#fca5a5" font-family="Inter,sans-serif" font-size="11">tools server C</text>
+            <rect x="564" y="48" width="120" height="30" rx="6" fill="#3b1d1d" stroke="#f87171" stroke-width="1.2"/><text x="624" y="68" text-anchor="middle" fill="#fca5a5" font-family="Inter,sans-serif" font-size="11">server D</text>
+            <text x="715" y="100" text-anchor="end" fill="#f87171" font-family="Inter,sans-serif" font-size="11">pouco espaço para a conversa</text>
+            <!-- barra enxuta -->
+            <text x="40" y="138" fill="#60a5fa" font-family="Inter,sans-serif" font-size="13" font-weight="600">Só o necessário — sobra contexto livre</text>
+            <rect x="40" y="150" width="700" height="34" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1.4"/>
+            <rect x="42" y="152" width="170" height="30" rx="6" fill="#0e1830" stroke="#60a5fa" stroke-width="1.4"/><text x="127" y="172" text-anchor="middle" fill="#93c5fd" font-family="Inter,sans-serif" font-size="11">tools em uso</text>
+            <rect x="216" y="152" width="522" height="30" rx="6" fill="#0b1220" stroke="#374151" stroke-width="1"/><text x="477" y="172" text-anchor="middle" fill="#7fb0e6" font-family="Inter,sans-serif" font-size="11">espaço livre para raciocinar e responder</text>
+          </svg>
+        </div>
+        <p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — cada server liga um bloco de definições. Menos blocos = mais espaço para a IA pensar, menos custo e menos ruído.</p>
+
+        <h3 class="text-lg font-semibold text-blue-400 mb-2">Por que aprender</h3>
+        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m2-3-t7-p2">Contexto entupido tem três custos: gasta mais tokens (mais caro), confunde o agente (mais ferramentas para avaliar = mais chance de escolher errado) e deixa tudo mais lento. Manter ativos só os servers do trabalho atual é a forma mais simples de cortar custo e erro de uma vez.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+            <h4 class="font-bold text-blue-400 mb-4">✓ Desligue servers não usados</h4>
+            <ul class="space-y-3 text-neutral-300 text-sm">
+              <li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Mantenha ativos só os servers do trabalho atual.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Liberta contexto: menos tokens, menos custo.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Menos tools para avaliar = escolhas mais certeiras.</span></li>
+            </ul>
+          </div>
+          <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+            <h4 class="font-bold text-red-400 mb-4">✗ Deixe todos sempre ligados</h4>
+            <ul class="space-y-3 text-neutral-300 text-sm">
+              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Acumular servers que você nem usa naquele projeto.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Pagar tokens por definições de ferramentas ociosas.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Mais ruído = mais chance de o agente errar a tool.</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Dica prática</h3>
+          <p class="text-neutral-300 text-sm">Faça uma "faxina" periódica: rode <code>/mcp</code>, olhe a lista e desligue (ou remova do <code>.mcp.json</code>) tudo que não é do projeto de agora. Menos ruído = menos erros + custo menor.</p>
+        </div>
+
+        <h3 class="text-lg font-semibold text-blue-400 mb-3">Conceitos-chave</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Custo de tokens</div><p class="text-xs text-neutral-400">Cada tool definida pesa.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Ruído</div><p class="text-xs text-neutral-400">Mais tools, mais erro.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Desligar</div><p class="text-xs text-neutral-400">O que não usa, off.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Libera contexto</div><p class="text-xs text-neutral-400">Mais espaço p/ pensar.</p></div>
+        </div>
+
+        <!-- Checagem leve -->
+        <div data-inema-check="modulo-2-3#q1" class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6">
+          <p class="inema-check__q font-medium mb-4">Você instalou um server e a chave de API. Onde a chave vai — e o que fazer se o server <strong>não aparece</strong> no <code>/mcp</code>?</p>
+          <div class="inema-check-options inema-check__options space-y-2">
+            <button type="button" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0">Colar a chave no chat e pedir para a IA configurar; se não aparecer, instalar de novo.</button>
+            <button type="button" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1">Colar a chave à mão no .mcp.json (nunca no chat); se não aparecer, reiniciar o assistente e rodar /mcp de novo.</button>
+            <button type="button" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2">Deixar a chave em branco e ligar todos os servers globais para garantir que algum funcione.</button>
+          </div>
+          <div data-inema-check-feedback class="mt-4 text-sm" role="status" aria-live="polite"></div>
+        </div>
+
+        <div class="flex justify-start mt-8">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- RESUMO -->
+      <section class="mb-8">
+        <div class="bg-gradient-to-br from-blue-900/40 via-dark-800 to-dark-800 rounded-xl border border-blue-500/30 p-8">
+          <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📌</span> Resumo do Módulo</h2>
+          <div class="space-y-4 mb-8">
+            <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">O que o MCP resolve</strong><span class="text-neutral-400"> — uma conexão expõe muitas ferramentas de um serviço; é como a IA ganha "braços".</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">Descobre e decide</strong><span class="text-neutral-400"> — ao conectar, o agente conhece todas as tools e escolhe sozinho; você descreve o resultado.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">Chave à mão no .mcp.json</strong><span class="text-neutral-400"> — instalar gera a config com um placeholder; cole a chave no arquivo, nunca no chat.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">Por projeto &gt; global</strong><span class="text-neutral-400"> — config por projeto isola segredos; mover o global para a pasta resolve o aviso de segurança.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">Onde achar servers</strong><span class="text-neutral-400"> — diretórios (mcp.so) e GitHub; categorias: web, banco, documentos, comunicação.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">Verificar e diagnosticar</strong><span class="text-neutral-400"> — /mcp lista servers e status; se um novo não aparece, reinicie primeiro.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">Custo de contexto</strong><span class="text-neutral-400"> — cada server ativo gasta tokens; desligue os não usados para liberar contexto.</span></div></div>
+          </div>
+          <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+            <h3 class="font-semibold text-blue-400 mb-2">Próximo Módulo:</h3>
+            <p class="text-neutral-300">2.4 — Contexto & Tokens</p>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="index.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← Voltar para Trilha</a>
+            <a href="modulo-2-4.html" class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors">Próximo Módulo →</a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- TOC sticky + scrollspy -->
+    <aside class="hidden lg:block">
+      <nav data-inema-toc aria-label="Índice da página" class="sticky top-24 self-start">
+        <p class="text-sm text-neutral-400 mb-3">Seção <span data-inema-section-counter><span class="inema-toc-pos">1</span> de <span class="inema-toc-total">7</span></span></p>
+        <ol class="space-y-1.5 text-sm">
+          <li><a href="#topico-1" class="inema-toc-link text-neutral-400 hover:text-blue-400 block">1. O que o protocolo resolve</a></li>
+          <li><a href="#topico-2" class="inema-toc-link text-neutral-400 hover:text-blue-400 block">2. Descobre e decide</a></li>
+          <li><a href="#topico-3" class="inema-toc-link text-neutral-400 hover:text-blue-400 block">3. .mcp.json e a chave</a></li>
+          <li><a href="#topico-4" class="inema-toc-link text-neutral-400 hover:text-blue-400 block">4. Por projeto vs global</a></li>
+          <li><a href="#topico-5" class="inema-toc-link text-neutral-400 hover:text-blue-400 block">5. Onde achar servers</a></li>
+          <li><a href="#topico-6" class="inema-toc-link text-neutral-400 hover:text-blue-400 block">6. Verificar e diagnosticar</a></li>
+          <li><a href="#topico-7" class="inema-toc-link text-neutral-400 hover:text-blue-400 block">7. Custo de contexto</a></li>
+        </ol>
+      </nav>
+    </aside>
+
+  </div>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>Vibe Coding: Domínio Completo · Curso original <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 font-medium">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const htmlEl = document.documentElement;
+    if (htmlEl.classList.contains('dark')) { themeToggleLightIcon.classList.remove('hidden'); }
+    else { themeToggleDarkIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      htmlEl.classList.toggle('dark');
+      const isDark = htmlEl.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      if (window.INEMA && INEMA.setPref) { INEMA.setPref('theme', isDark ? 'inema-dark' : 'claro'); }
+    });
+  </script>
+
+  <script src="../../assets/learn.js"></script>
+  <script>
+    if (window.INEMA && typeof window.INEMA.init === 'function') {
+      window.INEMA.init();
+      if (window.INEMA.registerCheck) {
+        INEMA.registerCheck('modulo-2-3#q1', {
+          answer: 1,
+          explain: {
+            0: 'Não. Chave no chat vira histórico e pode vazar; e reinstalar não resolve a ausência no /mcp — o reflexo certo é reiniciar.',
+            1: 'Isso. A chave vai à mão no .mcp.json (nunca no chat) e, se o server não aparece, o primeiro passo é reiniciar o assistente e rodar /mcp de novo.',
+            2: 'Não. Chave em branco não autentica, e ligar tudo só entope o contexto — o oposto do recomendado.'
+          }
+        });
+      }
+    }
+  </script>
+
+</body>
+</html>

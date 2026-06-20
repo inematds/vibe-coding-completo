@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="inema-course" content="vibe-coding-completo">
+
+  <!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
+  <script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        } else {
+          var legacy = localStorage.getItem('theme');
+          if (legacy === 'light') p.theme = 'claro';
+          else if (legacy === 'dark') p.theme = 'inema-dark';
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'inema-dark': { dark: true,  attr: null,        cs: 'dark'  },
+        'claro':      { dark: false, attr: null,        cs: 'light' },
+        'sepia':      { dark: false, attr: 'sepia',     cs: 'light' },
+        'foco':       { dark: null,  attr: 'foco',      cs: null    },
+        'contraste':  { dark: true,  attr: 'contraste', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['inema-dark'];
+
+      if (t.dark === true) html.classList.add('dark');
+      else if (t.dark === false) html.classList.remove('dark');
+
+      if (t.attr) html.setAttribute('data-theme', t.attr);
+      else html.removeAttribute('data-theme');
+
+      html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark') ? 'dark' : 'light'));
+
+      html.setAttribute('data-font', p.font || 'inter');
+      html.setAttribute('data-accent', p.accent || 'emerald');
+
+      var s = html.style;
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--inema-font-scale', (scale / 100).toString());
+      s.setProperty('font-size', scale + '%');
+      s.setProperty('--measure', (+p.lineWidth || 68) + 'ch');
+      s.setProperty('--lh-body', (+p.leading || 1.7).toString());
+      var fam = p.font === 'system'
+        ? 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif'
+        : (p.font === 'leitura'
+          ? '"Atkinson Hyperlegible", "Inter", system-ui, sans-serif'
+          : '"Inter", system-ui, sans-serif');
+      s.setProperty('--font-body', fam);
+
+      var ACC = {
+        emerald: [152, 76, 45], blue: [217, 91, 60], purple: [258, 90, 66],
+        amber: [38, 92, 50], teal: [174, 72, 41], rose: [350, 89, 60]
+      };
+      var a = ACC[p.accent] || ACC.emerald;
+      s.setProperty('--accent-h', a[0] + '');
+      s.setProperty('--accent-s', a[1] + '%');
+      s.setProperty('--accent-l', a[2] + '%');
+      s.setProperty('--accent', 'hsl(' + a[0] + ' ' + a[1] + '% ' + a[2] + '%)');
+    } catch (err) {
+      try { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme = 'dark'; } catch (e) {}
+    }
+  })();
+  </script>
+
+  <title>Módulo 5.3 · App Full-Stack (Lead Qualifier) + Frontend pra n8n | Vibe Coding: Domínio Completo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
+  <script type="application/json" data-inema-manifest>
+  {
+    "course": "vibe-coding-completo",
+    "tracks": [
+      { "n": "1", "title": "Fundamentos & Glossário", "modules": [
+        { "id": "1-1", "title": "A Mentalidade do Vibe Coding", "topics": 7, "href": "curso/trilha1/modulo-1-1.html" },
+        { "id": "1-2", "title": "O Ecossistema: Como as Peças se Encaixam", "topics": 6, "href": "curso/trilha1/modulo-1-2.html" },
+        { "id": "1-3", "title": "Glossário Essencial (Parte 1: IA, Claude Code, n8n)", "topics": 7, "href": "curso/trilha1/modulo-1-3.html" },
+        { "id": "1-4", "title": "Glossário Essencial (Parte 2: Agêntico, RAG, Deploy, Segurança)", "topics": 6, "href": "curso/trilha1/modulo-1-4.html" }
+      ]},
+      { "n": "2", "title": "Técnica: Arquitetura & Engenharia", "modules": [
+        { "id": "2-1", "title": "Engenharia de CLAUDE.md", "topics": 6, "href": "curso/trilha2/modulo-2-1.html" },
+        { "id": "2-2", "title": "O Framework WAT a Fundo", "topics": 7, "href": "curso/trilha2/modulo-2-2.html" },
+        { "id": "2-3", "title": "MCP por Dentro", "topics": 7, "href": "curso/trilha2/modulo-2-3.html" },
+        { "id": "2-4", "title": "Contexto & Tokens", "topics": 6, "href": "curso/trilha2/modulo-2-4.html" },
+        { "id": "2-5", "title": "RAG & Dados", "topics": 6, "href": "curso/trilha2/modulo-2-5.html" }
+      ]},
+      { "n": "3", "title": "Prompts & Padrões de Conversa", "modules": [
+        { "id": "3-1", "title": "Os Padrões de Prompting", "topics": 7, "href": "curso/trilha3/modulo-3-1.html" },
+        { "id": "3-2", "title": "O Ciclo Plan → Build → Troubleshoot → Optimize", "topics": 7, "href": "curso/trilha3/modulo-3-2.html" },
+        { "id": "3-3", "title": "Biblioteca de Prompts Prontos (copy-run)", "topics": 8, "href": "curso/trilha3/modulo-3-3.html" }
+      ]},
+      { "n": "4", "title": "Skills & Agentes", "modules": [
+        { "id": "4-1", "title": "Skills: Conceito & Anatomia", "topics": 7, "href": "curso/trilha4/modulo-4-1.html" },
+        { "id": "4-2", "title": "Construindo Skills na Prática", "topics": 7, "href": "curso/trilha4/modulo-4-2.html" },
+        { "id": "4-3", "title": "Agentes: Locais, Agendados & por Evento", "topics": 8, "href": "curso/trilha4/modulo-4-3.html" }
+      ]},
+      { "n": "5", "title": "Projetos Práticos (End-to-End)", "modules": [
+        { "id": "5-1", "title": "Projeto: Agente de Suporte por E-mail com RAG", "topics": 8, "href": "curso/trilha5/modulo-5-1.html" },
+        { "id": "5-2", "title": "Projeto: Agentes Hospedados (Agendado + Webhook)", "topics": 8, "href": "curso/trilha5/modulo-5-2.html" },
+        { "id": "5-3", "title": "Projeto: App Full-Stack (Lead Qualifier) + Frontend pra n8n", "topics": 8, "href": "curso/trilha5/modulo-5-3.html" }
+      ]},
+      { "n": "6", "title": "Produção, Deploy & Segurança", "modules": [
+        { "id": "6-1", "title": "GitHub & Trigger.dev", "topics": 7, "href": "curso/trilha6/modulo-6-1.html" },
+        { "id": "6-2", "title": "Secrets & Segurança", "topics": 8, "href": "curso/trilha6/modulo-6-2.html" },
+        { "id": "6-3", "title": "Confiabilidade & Monetização", "topics": 7, "href": "curso/trilha6/modulo-6-3.html" }
+      ]}
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="../../assets/learn.css">
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+    [id] { scroll-margin-top: 5rem; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - acento (teal) + cores das outras trilhas no nav */
+    html:not(.dark) .text-teal-400 { color: #0d9488; }
+    html:not(.dark) .bg-teal-500\/20 { background-color: rgba(13, 148, 136, 0.12); }
+    html:not(.dark) .bg-teal-500\/10 { background-color: rgba(13, 148, 136, 0.08); }
+    html:not(.dark) .border-teal-500\/30 { border-color: rgba(13, 148, 136, 0.25); }
+    html:not(.dark) .hover\:bg-teal-500\/30:hover { background-color: rgba(13, 148, 136, 0.18); }
+    html:not(.dark) .hover\:bg-teal-500\/10:hover { background-color: rgba(13, 148, 136, 0.08); }
+    html:not(.dark) .hover\:text-teal-400:hover { color: #0d9488; }
+    html:not(.dark) .text-teal-300 { color: #0f766e; }
+    html:not(.dark) .bg-teal-900\/20 { background-color: rgba(13, 148, 136, 0.08); }
+    /* nav: outras trilhas (hover) — amber/rose com texto -800 */
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5, 150, 105, 0.08); }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37, 99, 235, 0.08); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124, 58, 237, 0.08); }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .hover\:bg-amber-500\/10:hover { background-color: rgba(217, 119, 6, 0.08); }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .hover\:bg-rose-500\/10:hover { background-color: rgba(225, 29, 72, 0.08); }
+    html:not(.dark) .text-red-400 { color: #dc2626; }
+    html:not(.dark) .bg-red-900\/20 { background-color: rgba(220, 38, 38, 0.07); }
+    html:not(.dark) .border-red-500\/30 { border-color: rgba(220, 38, 38, 0.25); }
+
+    /* Light mode - remove gradientes + cores especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    /* Dark mode - bordas suavizadas */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* TOC scrollspy active link */
+    .inema-toc-link.is-active, [data-inema-toc] a.is-active { color: #2dd4bf; font-weight: 600; }
+    html:not(.dark) [data-inema-toc] a.is-active { color: #0d9488; }
+
+    /* code box (copy-run) */
+    .codebox pre { white-space: pre-wrap; word-break: break-word; }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
+    }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-teal-600 focus:text-white focus:rounded-lg" href="#conteudo">Pular para o conteúdo</a>
+
+  <!-- NAVIGATION (T5 ativa) -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">⚡</span>
+            <span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
+          </a>
+          <a href="../trilha2/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Técnica</span>
+          </a>
+          <a href="../trilha3/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
+            <span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
+          </a>
+          <a href="../trilha4/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors">
+            <span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
+          </a>
+          <a href="index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-teal-400 bg-teal-500/10">
+            <span class="sm:hidden">T5</span><span class="hidden sm:inline">Projetos</span>
+          </a>
+          <a href="../trilha6/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors">
+            <span class="sm:hidden">T6</span><span class="hidden sm:inline">Produção</span>
+          </a>
+          <button type="button" data-inema-journey-open class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1">
+            <span aria-hidden="true">◷</span><span>Minha jornada</span>
+            <span class="inema-journey-badge hidden" data-inema-journey-badge data-count="0"></span>
+          </button>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" aria-label="Alternar tema claro/escuro">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4" aria-label="Trilha de navegação">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-teal-400">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-teal-400">Trilha 5</a>
+      <span>/</span>
+      <span class="text-teal-400">Módulo 5.3</span>
+    </div>
+  </nav>
+
+  <!-- HEADER DO MÓDULO -->
+  <header class="bg-gradient-to-br from-teal-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-teal-500/20 text-teal-400 text-xs font-semibold rounded-full mb-4">MÓDULO 5.3</span>
+      <h3 class="text-2xl font-bold mb-4">🚀 Projeto: App Full-Stack (Lead Qualifier) + Frontend pra n8n</h3>
+      <p class="text-lg text-neutral-400 max-w-3xl">O projeto mais ambicioso: um app que <strong class="text-teal-300">outras pessoas usam</strong>. Backend que qualifica leads (Trigger.dev) + frontend (Vercel), conectados por env vars. Depois você adiciona <strong class="text-teal-300">autenticação</strong> (Supabase + RLS), faz uma <strong class="text-teal-300">auditoria de segurança</strong>, cobra com <strong class="text-teal-300">Stripe</strong> (freemium) e ainda constrói um frontend para um workflow n8n (form → webhook). Tudo em iteração incremental: design → auth → pagamento.</p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-teal-400">8</div>
+          <div class="text-xs text-neutral-400">Tópicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-teal-400">~90</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-teal-400">Avançado</div>
+          <div class="text-xs text-neutral-400">Nível</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-teal-400">Projeto</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+      <div class="mt-6 max-w-2xl" data-inema-meter="modulo:5-3" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso do módulo 5.3">
+        <div class="flex items-center justify-between mb-1 text-sm">
+          <span class="text-neutral-400">Progresso do módulo</span>
+          <span class="text-teal-400 font-semibold"><span data-inema-meter-pct>0%</span> · <span data-inema-meter-frac>0 de 8</span></span>
+        </div>
+        <div class="inema-bar h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-teal-500 rounded-full" data-inema-meter-fill style="width:0%"></div></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:grid lg:grid-cols-[1fr_220px] lg:gap-10">
+
+    <main id="conteudo" class="min-w-0">
+
+      <!-- Pré-requisitos / como usar -->
+      <div class="bg-teal-900/20 border border-teal-500/30 rounded-xl p-5 mb-10">
+        <h2 class="text-base font-semibold text-teal-400 mb-2 flex items-center"><span class="mr-2">🧰</span> Pré-requisitos e como usar</h2>
+        <p class="text-neutral-300 text-sm">Este é um build full-stack. Cada caixa abaixo é um <strong>prompt para copiar e rodar</strong>, com <strong>🎯 objetivo</strong> e <strong>✅ como verificar</strong>; troque o que está entre <code class="text-teal-300">&lt;chaves&gt;</code>. Pré-requisitos: contas no Trigger.dev, Vercel, Supabase e Stripe; GitHub conectado; uma chave de IA (ex.: Anthropic). A regra de ouro do módulo é <strong>iterar em camadas</strong>: app funcional → design → auth → segurança → pagamento, testando a cada passo.</p>
+      </div>
+
+      <!-- SVG FUTURISTA (arquitetura, #29) -->
+      <section class="mb-12">
+        <p class="text-neutral-300 mb-4 inema-prose leading-relaxed">O salto deste módulo é o <strong>front + back</strong>. O que o usuário vê (o <strong class="text-teal-400">frontend</strong>, na Vercel) é uma casca bonita; o trabalho de verdade acontece no <strong class="text-teal-400">backend</strong> (a lógica do agente, no Trigger.dev). Eles conversam — e tudo o que os liga (URL, chaves) viaja por <strong>env vars</strong>, nunca escrito no código.</p>
+        <div class="rounded-2xl border border-teal-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+          <svg viewBox="0 0 1000 280" class="w-full h-auto" role="img" aria-label="Arquitetura full-stack do Lead Qualifier: o usuário preenche um formulário no frontend hospedado na Vercel, que faz uma requisição ao backend no Trigger.dev; a IA analisa o lead e devolve um score; pelo caminho, o Supabase cuida do login e dos dados com RLS, e o Stripe cobra a assinatura. As pontas se conectam por variáveis de ambiente.">
+            <defs>
+              <linearGradient id="m53-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2dd4bf"/><stop offset="1" stop-color="#14b8a6"/></linearGradient>
+              <filter id="m53-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              <pattern id="m53-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#14b8a6" opacity="0.1"/></pattern>
+              <marker id="m53-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#2dd4bf"/></marker>
+              <marker id="m53-ahc" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"/></marker>
+            </defs>
+            <rect x="0" y="0" width="1000" height="280" fill="url(#m53-grid)"/>
+
+            <!-- usuário -->
+            <rect x="30" y="106" width="120" height="60" rx="14" fill="#0c211f" stroke="#2dd4bf" stroke-width="1.8"/><text x="90" y="132" text-anchor="middle" fill="#9beadd" font-family="Inter,sans-serif" font-size="13">🙋 usuário</text><text x="90" y="150" text-anchor="middle" fill="#7fd6c9" font-family="Inter,sans-serif" font-size="11">preenche o form</text>
+
+            <!-- frontend (Vercel) -->
+            <g filter="url(#m53-glow)"><rect x="210" y="96" width="220" height="80" rx="16" fill="#0c211f" stroke="url(#m53-grad)" stroke-width="2.5"/></g>
+            <text x="320" y="124" text-anchor="middle" fill="#2dd4bf" font-family="Inter,sans-serif" font-weight="700" font-size="15">🖥️ Frontend · Vercel</text>
+            <text x="320" y="146" text-anchor="middle" fill="#9beadd" font-family="Inter,sans-serif" font-size="11">o que o usuário vê</text>
+            <text x="320" y="162" text-anchor="middle" fill="#7fd6c9" font-family="Inter,sans-serif" font-size="11">form + resultado</text>
+
+            <!-- backend (Trigger.dev = ciano máquina) -->
+            <g filter="url(#m53-glow)"><rect x="560" y="96" width="220" height="80" rx="16" fill="#0e1b26" stroke="#38bdf8" stroke-width="2.5"/></g>
+            <text x="670" y="124" text-anchor="middle" fill="#bfe6ff" font-family="Inter,sans-serif" font-weight="700" font-size="15">⚙️ Backend · Trigger.dev</text>
+            <text x="670" y="146" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11">IA qualifica o lead</text>
+            <text x="670" y="162" text-anchor="middle" fill="#86c9f5" font-family="Inter,sans-serif" font-size="11">score · resumo · próximos passos</text>
+
+            <!-- score result -->
+            <rect x="840" y="106" width="130" height="60" rx="14" fill="#0c211f" stroke="#2dd4bf" stroke-width="1.8"/><text x="905" y="132" text-anchor="middle" fill="#9beadd" font-family="Inter,sans-serif" font-size="13">📈 score</text><text x="905" y="150" text-anchor="middle" fill="#7fd6c9" font-family="Inter,sans-serif" font-size="11">68/100 · warm</text>
+
+            <g fill="none" stroke="#2dd4bf" stroke-width="2" opacity="0.6"><path d="M150,136 L206,136" marker-end="url(#m53-ah)"/></g>
+            <g fill="none" stroke="#38bdf8" stroke-width="2" opacity="0.6"><path d="M430,128 L556,128" marker-end="url(#m53-ahc)"/></g>
+            <g fill="none" stroke="#38bdf8" stroke-width="2" opacity="0.6"><path d="M780,148 L836,148" marker-end="url(#m53-ahc)"/></g>
+            <text x="493" y="118" text-anchor="middle" fill="#86c9f5" font-family="Inter,sans-serif" font-size="11">env var liga as pontas</text>
+
+            <!-- camadas: supabase + stripe -->
+            <rect x="210" y="216" width="270" height="44" rx="12" fill="#0c211f" stroke="#2dd4bf" stroke-width="1.6"/><text x="345" y="243" text-anchor="middle" fill="#9beadd" font-family="Inter,sans-serif" font-size="12">🔐 Supabase — login + RLS (dados)</text>
+            <rect x="510" y="216" width="270" height="44" rx="12" fill="#0c211f" stroke="#2dd4bf" stroke-width="1.6"/><text x="645" y="243" text-anchor="middle" fill="#9beadd" font-family="Inter,sans-serif" font-size="12">💳 Stripe — assinatura (freemium)</text>
+            <g fill="none" stroke="#64748b" stroke-width="1.6" opacity="0.5" stroke-dasharray="5 4"><path d="M320,176 L345,214"/><path d="M620,176 L645,214"/></g>
+          </svg>
+        </div>
+        <p class="text-xs text-neutral-500">Diagrama ilustrativo — frontend (Vercel) e backend (Trigger.dev, em ciano como "máquina") ligados por env vars; Supabase e Stripe entram como camadas depois.</p>
+      </section>
+
+      <!-- TÓPICO 1 -->
+      <section id="topico-1" data-inema-topic="modulo-5-3#topico-1" class="mb-16">
+        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">1</span>
+            <h2 class="text-2xl font-bold">🏛️ A arquitetura: backend + frontend</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
+            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
+          </button>
+        </div>
+
+        <h3 class="text-lg font-semibold text-teal-400 mb-2">O que é</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m5-3-t1-p1">
+          O app tem duas pontas. O <strong class="text-teal-400">frontend</strong> é tudo o que o usuário vê (o formulário e a tela de resultado), hospedado na <strong>Vercel</strong>. O <strong class="text-teal-400">backend</strong> é o workflow de IA que qualifica o lead (a lógica de negócio), hospedado no <strong>Trigger.dev</strong>. Eles se comunicam para que qualquer pessoa com a URL possa usar o fluxo. O resultado é uma tela com um <strong>score</strong> (ex.: 68/100, "lead morno"), um resumo, o detalhamento do score e os próximos passos sugeridos.
+        </p>
+
+        <div class="bg-dark-800 border border-teal-500/30 rounded-xl p-4 mb-6">
+          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-teal-500/20 text-teal-400 text-xs font-semibold mr-2">O que é?</span><strong>Frontend</strong> — o que roda no navegador, a interface. <strong>Backend</strong> — o que roda no servidor (lógica, chamadas de IA, banco). <strong>Ciclo request/response</strong> — você clica, o frontend manda um pedido, o backend processa e devolve a resposta, a tela atualiza.</p>
+        </div>
+
+        <!-- CODE BOX 1: CLAUDE.md / planejamento -->
+        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <p class="text-sm text-teal-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">planejar o app inteiro e gerar o CLAUDE.md (em Plan Mode).</span></p>
+          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (copie e rode em Plan Mode)</span></div>
+          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Me ajude a rascunhar o CLAUDE.md. Quero construir um workflow no framework WAT.
+Crie uma pasta para cada seção, exceto o agente.
+
+O workflow é um qualificador de leads com IA: eu envio dados de um lead e a IA
+o qualifica. Stack: vou hospedar o workflow no Trigger.dev. Vou criar um frontend
+com sua ajuda onde eu preencho um formulário sobre o lead, clico em "Analisar",
+e o workflow no Trigger.dev é chamado. Quando ele terminar, mostra os resultados
+no frontend. Por fim, eu publico o frontend na Vercel via GitHub.
+
+Meu backend fica no Trigger.dev e meu frontend na Vercel, e eles precisam
+conseguir se comunicar.</pre>
+          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: a IA cria o <code class="text-teal-300">CLAUDE.md</code> e a estrutura base (pastas de workflows/tools) seguindo o WAT, antes de codar. Revise o plano antes de aprovar.</p>
+        </div>
+
+        <h3 class="text-lg font-semibold text-teal-400 mb-2">Por que aprender</h3>
+        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m5-3-t1-p2">Entender a divisão front/back é o que destrava construir <strong>produtos</strong>, não só automações. O frontend torna o agente acessível; o backend mantém a lógica e os segredos longe do navegador. Começar pelo <code class="text-teal-300">CLAUDE.md</code> dá à IA o contexto persistente do projeto inteiro.</p>
+
+        <h3 class="text-lg font-semibold text-teal-400 mb-3">Conceitos-chave</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Frontend</div><p class="text-xs text-neutral-400">Vercel · o que se vê.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Backend</div><p class="text-xs text-neutral-400">Trigger.dev · a lógica.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Request/response</div><p class="text-xs text-neutral-400">Pedido → resposta.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">CLAUDE.md</div><p class="text-xs text-neutral-400">Contexto do projeto.</p></div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500/20 border border-teal-500/30 text-teal-400 hover:bg-teal-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 2 -->
+      <section id="topico-2" data-inema-topic="modulo-5-3#topico-2" class="mb-16">
+        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">2</span>
+            <h2 class="text-2xl font-bold">⚙️ Build do lead qualifier (do prompt ao app)</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
+            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
+          </button>
+        </div>
+
+        <h3 class="text-lg font-semibold text-teal-400 mb-2">O que é</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m5-3-t2-p1">
+          Com o plano pronto, você constrói o backend e depois o frontend. O backend recebe os dados do lead (empresa, setor, porte, critério, urgência, dores), pontua com IA e devolve a classificação. Você cria o projeto no Trigger.dev, cola o <strong>Project ID</strong> no <code class="text-teal-300">trigger.config.ts</code> e faz o deploy nos ambientes de <strong>dev</strong> e <strong>prod</strong>. A chave de IA entra como env var no painel.
+        </p>
+
+        <!-- CODE BOX 2: build backend + promover prod -->
+        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <p class="text-sm text-teal-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">construir o workflow e colocá-lo em dev e prod.</span></p>
+          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompts (na sequência)</span></div>
+          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">[1] Crie o workflow do qualificador e me guie no deploy para o Trigger.dev.
+
+[2] Estou vendo estes passos no Trigger.dev, me ajude a configurar —
+    já atualizei o trigger.config.ts com o meu project ref &lt;project-id&gt;.
+
+[3] A tarefa foi adicionada ao ambiente de DEV no Trigger.dev, mas não vejo
+    no ambiente de PRODUÇÃO. Configure isso pra mim.</pre>
+          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: a tarefa aparece em <strong>dev E prod</strong> (erro comum: ela nasce só em dev). Adicione a chave de IA (ex.: Anthropic) como env var nos dois ambientes — de preferência chaves separadas para acompanhar custo.</p>
+        </div>
+
+        <!-- CODE BOX 3: frontend + design skill -->
+        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <p class="text-sm text-teal-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">construir o frontend bonito (após /clear, em Plan Mode).</span></p>
+          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (copie e rode)</span></div>
+          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Agora que meu backend está pronto (o workflow do qualificador), quero construir
+o frontend. Deve ser um formulário onde eu preencho dados de uma empresa, e ao
+clicar em "Analisar" ele chama meu workflow no Trigger.dev. Quando o workflow
+terminar, quero ver os resultados no site. Primeiro quero ver o site LOCALMENTE
+para avaliar o design. Aprovado o design, eu publico na Vercel.
+Para o design, use a skill de front-end design da Anthropic.</pre>
+          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: rode local primeiro e avalie o visual. A skill de design cuida de tipografia, cores e movimento — fugindo do "look genérico de IA" (o gradiente roxo de sempre).</p>
+        </div>
+
+        <h3 class="text-lg font-semibold text-teal-400 mb-2">Por que aprender</h3>
+        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m5-3-t2-p2">Este tópico repete o padrão "descreva o resultado completo", agora num contexto full-stack — e mostra dois gotchas reais: promover a tarefa de dev para prod (não acontece sozinho) e <strong>chamar a skill de design</strong> para o frontend não sair com a aparência padrão. Teste o app local antes de publicar.</p>
+
+        <h3 class="text-lg font-semibold text-teal-400 mb-3">Conceitos-chave</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Project ID</div><p class="text-xs text-neutral-400">No trigger.config.ts.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Dev + prod</div><p class="text-xs text-neutral-400">Promova pra produção.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Skill de design</div><p class="text-xs text-neutral-400">Foge do look genérico.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Local 1º</div><p class="text-xs text-neutral-400">Avalie antes de publicar.</p></div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500/20 border border-teal-500/30 text-teal-400 hover:bg-teal-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 3 -->
+      <section id="topico-3" data-inema-topic="modulo-5-3#topico-3" class="mb-16">
+        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">3</span>
+            <h2 class="text-2xl font-bold">🔌 Conectar frontend ↔ backend (env vars)</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
+            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
+          </button>
+        </div>
+
+        <h3 class="text-lg font-semibold text-teal-400 mb-2">O que é</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m5-3-t3-p1">
+          A costura entre as pontas é uma <strong class="text-teal-400">env var</strong>: o frontend na Vercel descobre o backend (e a chave de acesso) por uma variável de ambiente, nunca por um valor escrito no código. Você publica na Vercel (conectando o GitHub) e adiciona o <strong>secret key</strong> do Trigger.dev como env var na Vercel — em produção e desenvolvimento — sem nunca colar a chave no chat.
+        </p>
+
+        <div class="bg-dark-800 border border-teal-500/30 rounded-xl p-4 mb-6">
+          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-teal-500/20 text-teal-400 text-xs font-semibold mr-2">O que é?</span><strong>Variável de ambiente (env var)</strong> — um valor (URL, chave) configurado fora do código e injetado em tempo de execução. Trocar de ambiente (dev/prod) é trocar o valor, não o código.</p>
+        </div>
+
+        <!-- CODE BOX 4: deploy Vercel + conexão -->
+        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <p class="text-sm text-teal-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">publicar na Vercel e ligar o frontend ao backend com segurança.</span></p>
+          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt + passo manual</span></div>
+          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">[prompt] O site ficou ótimo. Agora quero publicá-lo na Vercel. E garanta que
+ele consiga se comunicar com o meu workflow no Trigger.dev quando eu clicar
+em "Analisar". Não quero colar a chave secreta no chat — me diga onde colocá-la.
+
+[passo manual]
+Trigger.dev → API Keys → copie o secret key
+Vercel → projeto → Settings → Environment Variables → nova var:
+  Name:  TRIGGER_SECRET_KEY
+  Value: <secret-key>      (production + development)
+Depois: "Já configurei o secret key no painel da Vercel." → redeploy</pre>
+          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: clique em "Analisar" e veja o score voltar. Se der erro de modelo (ex.: 404 — nome de modelo inexistente), a conexão até funcionou; basta: "Rodei o workflow e deu este erro: &lt;erro&gt;. Corrija e refaça o deploy."</p>
+        </div>
+
+        <h3 class="text-lg font-semibold text-teal-400 mb-2">Por que aprender</h3>
+        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m5-3-t3-p2">Env vars são o que fazem as duas pontas conversarem <strong>com segurança</strong>: a chave fica no painel, não no código que vai para o navegador. Note o hábito de não colar segredos no chat — você mesmo configura e só avisa a IA onde a chave está. Erros de conexão são normais; o ciclo é devolver o erro e refazer o deploy.</p>
+
+        <h3 class="text-lg font-semibold text-teal-400 mb-3">Conceitos-chave</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Env var liga</div><p class="text-xs text-neutral-400">URL + chave do backend.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Você configura</div><p class="text-xs text-neutral-400">Chave nunca no chat.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Auto-deploy</div><p class="text-xs text-neutral-400">Push → Vercel publica.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Erro → fix</div><p class="text-xs text-neutral-400">Devolva e redeploy.</p></div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500/20 border border-teal-500/30 text-teal-400 hover:bg-teal-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 4 -->
+      <section id="topico-4" data-inema-topic="modulo-5-3#topico-4" class="mb-16">
+        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">4</span>
+            <h2 class="text-2xl font-bold">👤 Autenticação com Supabase + RLS</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
+            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
+          </button>
+        </div>
+
+        <h3 class="text-lg font-semibold text-teal-400 mb-2">O que é</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m5-3-t4-p1">
+          Um app aberto é um problema: qualquer um com a URL dispara o workflow e <strong>gasta seus tokens de IA</strong> (você paga pelo uso dos outros). A solução é <strong class="text-teal-400">autenticação</strong> com Supabase (login/cadastro, cada usuário com seu histórico) e, crucialmente, <strong class="text-teal-400">RLS</strong> (Row-Level Security): regras que vivem no próprio banco e impedem um usuário de ver dados de outro — mesmo que haja um bug no frontend.
+        </p>
+
+        <div class="bg-dark-800 border border-teal-500/30 rounded-xl p-4 mb-6">
+          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-teal-500/20 text-teal-400 text-xs font-semibold mr-2">O que é?</span><strong>RLS (Row-Level Security)</strong> — regras no banco que limitam quais <em>linhas</em> cada usuário enxerga. É uma camada extra: mesmo com um bug na interface, o banco recusa entregar dados alheios. <strong>Migration</strong> — um script SQL que altera a estrutura do banco (ex.: criar a tabela <code class="text-teal-300">leads</code>).</p>
+        </div>
+
+        <!-- CODE BOX 5: auth prompt -->
+        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <p class="text-sm text-teal-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">adicionar login/cadastro e proteger as rotas (em Plan Mode).</span></p>
+          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (copie e rode em Plan Mode)</span></div>
+          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Quero adicionar autenticação ao qualificador de leads. Os usuários devem poder
+se cadastrar, fazer login e ver o próprio histórico de qualificações. Quero usar
+o Supabase, e proteger as rotas principais do app para que só usuários logados
+acessem. Nunca usei Supabase — me guie passo a passo na configuração.</pre>
+          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: a IA gera as páginas de auth, a barra de navegação e o schema. No Supabase, crie o projeto, defina uma <strong>senha forte de banco</strong> (diferente da senha de login), escolha a região e <strong>habilite RLS</strong>.</p>
+        </div>
+
+        <!-- CODE BOX 6: migration + URLs -->
+        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <p class="text-sm text-teal-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">conectar o Supabase e rodar a migration.</span></p>
+          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">passos manuais</span></div>
+          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">1. Supabase → copie o project URL e a publishable key.
+2. Vercel → Settings → Environment Variables → adicione as duas → redeploy.
+3. Supabase → Authentication → URL Configuration → adicione a URL do app (Vercel)
+   e a redirect URL.
+4. Migration: cole o SQL gerado pela IA no SQL editor do Supabase → Run
+   (cria a tabela `leads`).</pre>
+          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: aparecem páginas de login/cadastro, a navbar com conta + sair, e uma <strong>página de histórico</strong> com os leads persistidos por usuário (antes se perdiam ao fechar o navegador).</p>
+        </div>
+
+        <h3 class="text-lg font-semibold text-teal-400 mb-2">Por que aprender</h3>
+        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m5-3-t4-p2">Login sozinho não basta: sem RLS, um bug no frontend poderia mostrar os dados de um usuário a outro. RLS move a defesa para o <strong>nível dos dados</strong>, onde ela é confiável. É a diferença entre "parece protegido" e "está protegido".</p>
+
+        <h3 class="text-lg font-semibold text-teal-400 mb-3">Conceitos-chave</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">App aberto = risco</div><p class="text-xs text-neutral-400">Gastam seus tokens.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Supabase</div><p class="text-xs text-neutral-400">Login + banco.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">RLS</div><p class="text-xs text-neutral-400">Defesa no banco.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Migration</div><p class="text-xs text-neutral-400">SQL no editor.</p></div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500/20 border border-teal-500/30 text-teal-400 hover:bg-teal-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 5 -->
+      <section id="topico-5" data-inema-topic="modulo-5-3#topico-5" class="mb-16">
+        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">5</span>
+            <h2 class="text-2xl font-bold">🛡️ Auditoria de segurança</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
+            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
+          </button>
+        </div>
+
+        <h3 class="text-lg font-semibold text-teal-400 mb-2">O que é</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m5-3-t5-p1">
+          Com auth no lugar, peça à IA para agir como uma <strong class="text-teal-400">especialista em segurança</strong> e varrer o código: rotas protegidas exigem login? alguma chave de API exposta no frontend? segredos vêm de env vars? o RLS está realmente habilitado? Ela reporta o que não passa, e você pede a correção.
+        </p>
+
+        <div class="bg-dark-800 border border-teal-500/30 rounded-xl p-4 mb-6">
+          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-teal-500/20 text-teal-400 text-xs font-semibold mr-2">O que é?</span><strong>Auditoria de segurança</strong> — uma revisão sistemática em busca de brechas. <strong>Rate limiting</strong> — limitar quantas vezes um endpoint pode ser chamado num intervalo, para evitar abuso de custo.</p>
+        </div>
+
+        <!-- CODE BOX 7: security audit prompt -->
+        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <p class="text-sm text-teal-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">auditar o código em busca de problemas de segurança (após /clear).</span></p>
+          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (copie e rode)</span></div>
+          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Quero que você audite o código em busca de problemas de segurança. Verifique que:
+- todas as rotas protegidas exigem autenticação;
+- nenhuma chave de API está exposta no código do frontend;
+- variáveis de ambiente são usadas para TODOS os segredos;
+- o Row-Level Security (RLS) está habilitado corretamente.
+Aja como uma especialista em segurança e reporte tudo que não passar.</pre>
+          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: o relatório classifica os achados (ex.: 1 médio, 3 baixos, 1 informativo, nenhum crítico/alto). Um achado típico e acionável: adicionar <strong>rate limiting</strong> no endpoint de qualificação para evitar abuso de custo. Peça à IA para corrigir os apontamentos.</p>
+        </div>
+
+        <h3 class="text-lg font-semibold text-teal-400 mb-2">Por que aprender</h3>
+        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m5-3-t5-p2">Um app em produção tem superfície de ataque. A auditoria pega o que é fácil de esquecer: uma rota sem login, uma chave que vazou para o cliente, RLS desligado. Tratar a IA como especialista de segurança é um padrão poderoso — ela conhece as brechas comuns e te aponta o que você não veria.</p>
+
+        <h3 class="text-lg font-semibold text-teal-400 mb-3">Conceitos-chave</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Rotas protegidas</div><p class="text-xs text-neutral-400">Exigem login.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Nada exposto</div><p class="text-xs text-neutral-400">Chave fica no servidor.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">RLS on</div><p class="text-xs text-neutral-400">Confirme no banco.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Rate limit</div><p class="text-xs text-neutral-400">Evita abuso de custo.</p></div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500/20 border border-teal-500/30 text-teal-400 hover:bg-teal-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 6 -->
+      <section id="topico-6" data-inema-topic="modulo-5-3#topico-6" class="mb-16">
+        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">6</span>
+            <h2 class="text-2xl font-bold">💳 Pagamentos com Stripe (freemium)</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
+            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
+          </button>
+        </div>
+
+        <h3 class="text-lg font-semibold text-teal-400 mb-2">O que é</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m5-3-t6-p1">
+          Mesmo um usuário logado pode chamar sua chave de IA sem limite (200 leads = 200 chamadas pagas). A solução é cobrar com <strong class="text-teal-400">Stripe</strong> num modelo <strong class="text-teal-400">freemium</strong>: um nível grátis com limite (ex.: 2 qualificações por dia) e um plano pago (ex.: $29/mês, ilimitado) via Stripe Checkout. Isso transforma o app num SaaS.
+        </p>
+
+        <div class="bg-dark-800 border border-teal-500/30 rounded-xl p-4 mb-6">
+          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-teal-500/20 text-teal-400 text-xs font-semibold mr-2">O que é?</span><strong>Freemium</strong> — grátis até um limite, pago para liberar o resto. <strong>Checkout</strong> — a tela de pagamento hospedada pelo Stripe. <strong>Price ID</strong> — o identificador do preço do produto. <strong>Webhook secret</strong> — a chave que valida que o aviso de pagamento veio mesmo do Stripe.</p>
+        </div>
+
+        <!-- CODE BOX 8: stripe prompt -->
+        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <p class="text-sm text-teal-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">adicionar pagamentos com modelo freemium (em Plan Mode).</span></p>
+          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (copie e rode em Plan Mode)</span></div>
+          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Quero adicionar pagamentos com Stripe ao qualificador de leads. O nível grátis
+recebe &lt;2&gt; qualificações por dia. Passado isso, precisa assinar. O plano pago
+custa &lt;$29&gt; por mês e dá qualificações ilimitadas. Quero usar o Stripe no fluxo
+de pagamento. Me guie passo a passo para configurar a conta, criar o produto e
+conectar o Stripe à Vercel e ao Supabase.</pre>
+          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: a IA gera a página de preços (Grátis vs Pro), tabelas no banco e o cliente/servidor do Stripe. Comece no <strong>modo teste/sandbox</strong> do Stripe.</p>
+        </div>
+
+        <!-- CODE BOX 9: stripe setup manual -->
+        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <p class="text-sm text-teal-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">configurar produto, webhook e as 4 chaves do Stripe.</span></p>
+          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">passos manuais (Stripe + Vercel + Supabase)</span></div>
+          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">1. Stripe (modo teste) → Product catalog → New product:
+   nome "<AI lead qualifier pro>", recorrente, mensal, <$29> → salvar.
+2. Abra o produto → Pricing → copie o PRICE ID (guarde num bloco de notas).
+3. Developers → API keys → copie publishable key e secret key.
+4. Developers → Webhooks → Add endpoint:
+   URL = <dominio-vercel>/api/stripe-webhook  (use a URL EXATA que a IA der)
+   Eventos: checkout.session.completed,
+            customer.subscription.updated,
+            customer.subscription.deleted
+   → copie o WEBHOOK SECRET.
+5. Supabase → SQL editor → rode a migration gerada (cria a tabela `subscriptions`).
+6. Vercel → Settings → Environment Variables → adicione as 4 chaves
+   (secret, publishable, price ID, webhook secret) → salvar → redeploy.</pre>
+          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: na página de preços, assine o Pro → Checkout do Stripe → cartão de teste (validade futura, ex.: 10/27, qualquer CVC) → assinatura confirmada → uma nova linha aparece na tabela <code class="text-teal-300">subscriptions</code> do Supabase.</p>
+        </div>
+
+        <h3 class="text-lg font-semibold text-teal-400 mb-2">Por que aprender</h3>
+        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m5-3-t6-p2">O pagamento é o que transforma um app num <strong>produto</strong>: receita real e proteção contra abuso de custo. O webhook do Stripe é a peça que "destrava" o plano pago quando o pagamento confirma — e o webhook secret garante que esse aviso veio mesmo do Stripe, não de um impostor.</p>
+
+        <h3 class="text-lg font-semibold text-teal-400 mb-3">Conceitos-chave</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Freemium</div><p class="text-xs text-neutral-400">Grátis até o limite.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Checkout</div><p class="text-xs text-neutral-400">Tela do Stripe.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">3 eventos</div><p class="text-xs text-neutral-400">Completed, updated, deleted.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">4 chaves</div><p class="text-xs text-neutral-400">No painel da Vercel.</p></div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500/20 border border-teal-500/30 text-teal-400 hover:bg-teal-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 7 -->
+      <section id="topico-7" data-inema-topic="modulo-5-3#topico-7" class="mb-16">
+        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">7</span>
+            <h2 class="text-2xl font-bold">🖥️ Frontend pra um workflow n8n (form → webhook)</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
+            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
+          </button>
+        </div>
+
+        <h3 class="text-lg font-semibold text-teal-400 mb-2">O que é</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m5-3-t7-p1">
+          O último build une os dois mundos do curso: dar uma cara de app a um <strong>workflow n8n</strong>. O exemplo é um gerador de orçamentos (entradas: descrição do projeto, horas estimadas, tipo de cliente → devolve um orçamento). Você cria um frontend que envia os dados ao <strong class="text-teal-400">webhook</strong> do fluxo e mostra a resposta. O truque no n8n: trocar o nó de form pelo <strong>Webhook trigger</strong> e o nó de saída pelo <strong>Respond to Webhook</strong>.
+        </p>
+
+        <div class="bg-dark-800 border border-teal-500/30 rounded-xl p-4 mb-6">
+          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-teal-500/20 text-teal-400 text-xs font-semibold mr-2">O que é?</span><strong>Respond to Webhook</strong> — um nó do n8n que devolve a resposta para quem chamou o webhook, para o frontend exibir. <strong>Placeholder</strong> — um valor provisório (ex.: a URL do webhook) que você substitui pelo real depois.</p>
+        </div>
+
+        <!-- CODE BOX 10: n8n frontend prompt -->
+        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <p class="text-sm text-teal-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">planejar o frontend que conversa com o webhook do n8n.</span></p>
+          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (copie e rode em Plan Mode)</span></div>
+          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Me ajude a criar um CLAUDE.md para este projeto. O objetivo é construir um
+frontend web para um workflow do n8n. O workflow é um gerador de orçamentos:
+o usuário informa descrição do projeto, horas estimadas e tipo de cliente, e
+recebe de volta um orçamento profissional. O frontend envia os dados para um
+webhook do n8n e deve exibir a resposta. Use a skill de front-end design da
+Anthropic. Me faça as perguntas de esclarecimento que precisar.</pre>
+          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: a IA pergunta a stack, a URL do webhook (use um <strong>placeholder</strong> por enquanto) e o formato da resposta (ex.: JSON). Se o visual sair básico, peça: "A UI está muito simples. Garanta que está usando a skill de front-end design" e cole a skill de novo.</p>
+        </div>
+
+        <!-- CODE BOX 11: converter workflow + ligar URL -->
+        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <p class="text-sm text-teal-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">converter o n8n para webhook e ligar a URL real.</span></p>
+          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">passos (n8n + Vercel)</span></div>
+          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">No n8n:
+1. Remova o PRIMEIRO nó (form) → adicione um Webhook trigger.
+2. Remova o ÚLTIMO nó (saída) → adicione um "Respond to Webhook".
+3. Reconecte ambos à lógica existente.
+4. PUBLIQUE o workflow e copie a URL de produção do webhook.
+
+[prompt] Quando o usuário clicar em "Gerar orçamento", chame este webhook.
+Substitua o placeholder atual por ele: <url-de-producao-do-webhook>
+
+Na Vercel: Settings → Environment Variables → nova var N8N_WEBHOOK_URL =
+<url-de-producao> → salvar → redeploy.</pre>
+          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: preencha o form (ex.: landing page / saúde / 40 h / enterprise) → "Gerar orçamento" → o n8n roda → o orçamento aparece no app. Use a URL de <strong>produção</strong> e o workflow precisa estar publicado.</p>
+        </div>
+
+        <h3 class="text-lg font-semibold text-teal-400 mb-2">Por que aprender</h3>
+        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m5-3-t7-p2">Este build conecta a automação visual (n8n) a uma interface de app de verdade — o formulário nativo do n8n funciona, mas a experiência é limitada e o acesso é restrito. Trocar form por webhook + "Respond to Webhook" é o padrão para dar a qualquer workflow uma cara amigável e compartilhável.</p>
+
+        <h3 class="text-lg font-semibold text-teal-400 mb-3">Conceitos-chave</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Form → webhook</div><p class="text-xs text-neutral-400">Troca o gatilho.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Respond to Webhook</div><p class="text-xs text-neutral-400">Devolve a resposta.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Placeholder</div><p class="text-xs text-neutral-400">URL provisória.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Publicar</div><p class="text-xs text-neutral-400">URL de produção.</p></div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500/20 border border-teal-500/30 text-teal-400 hover:bg-teal-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 8 -->
+      <section id="topico-8" data-inema-topic="modulo-5-3#topico-8" class="mb-16">
+        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">8</span>
+            <h2 class="text-2xl font-bold">🪜 Iteração incremental (design → auth → pagamento)</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
+            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
+          </button>
+        </div>
+
+        <h3 class="text-lg font-semibold text-teal-400 mb-2">O que é</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m5-3-t8-p1">
+          Todo este módulo é <strong class="text-teal-400">um app que cresceu em camadas</strong>, partindo de um prompt de uma frase: app funcional → design → autenticação → pagamento → deploy. Você não precisa planejar tudo de antemão; entrega a v1 e adiciona recursos conforme a necessidade — uma boa prática de engenharia.
+        </p>
+
+        <!-- SVG: timeline incremental (#29 + timeline) -->
+        <div class="rounded-2xl border border-teal-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+          <svg viewBox="0 0 1000 150" class="w-full h-auto" role="img" aria-label="Linha do tempo da iteração incremental do app: começa com um app funcional de uma frase, depois ganha design, depois autenticação, depois auditoria de segurança, depois pagamento, e por fim o deploy contínuo — uma camada por vez, testada">
+            <defs>
+              <marker id="m53b-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#2dd4bf"/></marker>
+            </defs>
+            <line x1="40" y1="75" x2="960" y2="75" stroke="#14b8a6" stroke-width="2" opacity="0.4" marker-end="url(#m53b-ah)"/>
+            <g font-family="Inter,sans-serif">
+              <circle cx="100" cy="75" r="20" fill="#0c211f" stroke="#2dd4bf" stroke-width="2"/><text x="100" y="81" text-anchor="middle" fill="#2dd4bf" font-size="14" font-weight="700">1</text><text x="100" y="115" text-anchor="middle" fill="#9beadd" font-size="10">app v1</text>
+              <circle cx="272" cy="75" r="20" fill="#0c211f" stroke="#2dd4bf" stroke-width="2"/><text x="272" y="81" text-anchor="middle" fill="#2dd4bf" font-size="14" font-weight="700">2</text><text x="272" y="115" text-anchor="middle" fill="#9beadd" font-size="10">design</text>
+              <circle cx="444" cy="75" r="20" fill="#0c211f" stroke="#2dd4bf" stroke-width="2"/><text x="444" y="81" text-anchor="middle" fill="#2dd4bf" font-size="14" font-weight="700">3</text><text x="444" y="115" text-anchor="middle" fill="#9beadd" font-size="10">auth + RLS</text>
+              <circle cx="616" cy="75" r="20" fill="#0c211f" stroke="#2dd4bf" stroke-width="2"/><text x="616" y="81" text-anchor="middle" fill="#2dd4bf" font-size="14" font-weight="700">4</text><text x="616" y="115" text-anchor="middle" fill="#9beadd" font-size="10">segurança</text>
+              <circle cx="788" cy="75" r="20" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/><text x="788" y="81" text-anchor="middle" fill="#38bdf8" font-size="14" font-weight="700">5</text><text x="788" y="115" text-anchor="middle" fill="#bfe6ff" font-size="10">pagamento</text>
+              <circle cx="920" cy="75" r="20" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/><text x="920" y="81" text-anchor="middle" fill="#38bdf8" font-size="14" font-weight="700">6</text><text x="920" y="115" text-anchor="middle" fill="#bfe6ff" font-size="10">deploy</text>
+            </g>
+            <text x="40" y="36" fill="#94a3b8" font-family="Inter,sans-serif" font-size="11">comece pequeno, publique cedo, escale</text>
+          </svg>
+        </div>
+        <p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — uma camada por vez, testando a cada uma. O app começou como uma frase e virou um SaaS com auth e pagamento.</p>
+
+        <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎨</span> Dica: fuja do "look genérico de IA"</h3>
+          <p class="text-neutral-300 text-sm">Saídas de IA se parecem porque o modelo padrão é o "design seguro". Combata isso: peça para usar a <strong>skill de front-end design</strong>; busque inspiração (galerias de design, bibliotecas de componentes); suba screenshots de referência para o projeto; e descreva o layout com precisão (cabeçalho fixo, logo à esquerda, CTA com brilho). Dê feedback específico ao iterar: "gostei de X, mude Y".</p>
+        </div>
+
+        <h3 class="text-lg font-semibold text-teal-400 mb-2">Por que aprender</h3>
+        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m5-3-t8-p2">Iterar em camadas mantém cada passo <strong>testável e reversível</strong>: se o pagamento quebra algo, você sabe que foi a última camada. Tentar montar tudo de uma vez gera um emaranhado impossível de depurar. Comece pequeno, faça backup antes de cada mudança, publique cedo e cresça — é o mesmo princípio que abre a trilha 1.</p>
+
+        <!-- Checagem leve -->
+        <div data-inema-check="modulo-5-3#q1" class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6">
+          <p class="inema-check__q font-medium mb-4">Você tem um app full-stack para construir com design, login e pagamento. Qual abordagem segue a boa prática deste módulo?</p>
+          <div class="inema-check-options inema-check__options space-y-2">
+            <button type="button" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0">Planejar e construir tudo (design + auth + pagamento) de uma vez, antes de testar.</button>
+            <button type="button" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1">Entregar a v1 funcional e adicionar uma camada por vez (design → auth → pagamento), testando a cada passo.</button>
+            <button type="button" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2">Começar pelo pagamento, que é a parte mais importante.</button>
+          </div>
+          <div data-inema-check-feedback class="mt-4 text-sm" role="status" aria-live="polite"></div>
+        </div>
+
+        <div class="flex justify-start mt-8">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500/20 border border-teal-500/30 text-teal-400 hover:bg-teal-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- RESUMO -->
+      <section class="mb-8">
+        <div class="bg-gradient-to-br from-teal-900/40 via-dark-800 to-dark-800 rounded-xl border border-teal-500/30 p-8">
+          <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📌</span> Resumo do Módulo</h2>
+          <div class="space-y-4 mb-8">
+            <div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Arquitetura</strong><span class="text-neutral-400"> — frontend (Vercel) + backend (Trigger.dev) que se comunicam; comece pelo CLAUDE.md.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Build</strong><span class="text-neutral-400"> — workflow em dev E prod; chamar a skill de design no frontend; testar local antes de publicar.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Conexão</strong><span class="text-neutral-400"> — env vars ligam as pontas; segredo no painel, nunca no chat; erro → devolver → redeploy.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Auth + RLS</strong><span class="text-neutral-400"> — Supabase para login; RLS protege os dados no banco; migration cria a tabela.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Segurança</strong><span class="text-neutral-400"> — auditoria como especialista: rotas, chaves, env vars, RLS; rate limiting contra abuso.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Stripe freemium</strong><span class="text-neutral-400"> — grátis até o limite, Pro mensal; produto, price ID, 3 eventos, webhook secret, 4 chaves.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Frontend pra n8n</strong><span class="text-neutral-400"> — form → webhook + Respond to Webhook; URL de produção em env var.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Iteração incremental</strong><span class="text-neutral-400"> — uma camada por vez, testando; comece pequeno, publique cedo, escale.</span></div></div>
+          </div>
+          <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+            <h3 class="font-semibold text-teal-400 mb-2">Você concluiu a Trilha 5! 🎉</h3>
+            <p class="text-neutral-300">Construiu três projetos end-to-end. Próximo passo natural: a Trilha 6 — Produção, Deploy &amp; Segurança, para endurecer tudo isso com confiabilidade e monetização.</p>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="index.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← Voltar para Trilha</a>
+            <a href="../trilha6/index.html" class="flex-1 text-center px-6 py-3 bg-rose-600 text-white rounded-lg font-semibold hover:bg-rose-500 transition-colors">Trilha 6: Produção →</a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- TOC sticky + scrollspy -->
+    <aside class="hidden lg:block">
+      <nav data-inema-toc aria-label="Índice da página" class="sticky top-24 self-start">
+        <p class="text-sm text-neutral-400 mb-3">Seção <span data-inema-section-counter><span class="inema-toc-pos">1</span> de <span class="inema-toc-total">8</span></span></p>
+        <ol class="space-y-1.5 text-sm">
+          <li><a href="#topico-1" class="inema-toc-link text-neutral-400 hover:text-teal-400 block">1. A arquitetura</a></li>
+          <li><a href="#topico-2" class="inema-toc-link text-neutral-400 hover:text-teal-400 block">2. Build do lead qualifier</a></li>
+          <li><a href="#topico-3" class="inema-toc-link text-neutral-400 hover:text-teal-400 block">3. Conectar front ↔ back</a></li>
+          <li><a href="#topico-4" class="inema-toc-link text-neutral-400 hover:text-teal-400 block">4. Auth Supabase + RLS</a></li>
+          <li><a href="#topico-5" class="inema-toc-link text-neutral-400 hover:text-teal-400 block">5. Auditoria de segurança</a></li>
+          <li><a href="#topico-6" class="inema-toc-link text-neutral-400 hover:text-teal-400 block">6. Stripe (freemium)</a></li>
+          <li><a href="#topico-7" class="inema-toc-link text-neutral-400 hover:text-teal-400 block">7. Frontend pra n8n</a></li>
+          <li><a href="#topico-8" class="inema-toc-link text-neutral-400 hover:text-teal-400 block">8. Iteração incremental</a></li>
+        </ol>
+      </nav>
+    </aside>
+
+  </div>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>Vibe Coding: Domínio Completo · Curso original <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 font-medium">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const htmlEl = document.documentElement;
+    if (htmlEl.classList.contains('dark')) { themeToggleLightIcon.classList.remove('hidden'); }
+    else { themeToggleDarkIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      htmlEl.classList.toggle('dark');
+      const isDark = htmlEl.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      if (window.INEMA && INEMA.setPref) { INEMA.setPref('theme', isDark ? 'inema-dark' : 'claro'); }
+    });
+  </script>
+
+  <script src="../../assets/learn.js"></script>
+  <script>
+    if (window.INEMA && typeof window.INEMA.init === 'function') {
+      window.INEMA.init();
+      if (window.INEMA.registerCheck) {
+        INEMA.registerCheck('modulo-5-3#q1', {
+          answer: 1,
+          explain: {
+            0: 'Não. Construir tudo de uma vez vira um emaranhado impossível de depurar — você não sabe qual camada quebrou.',
+            1: 'Isso. Iteração incremental: v1 funcional, depois uma camada por vez, testando a cada passo. Reversível e diagnosticável.',
+            2: 'Não. Sem o app funcional e a auth antes, não há o que cobrar nem como proteger o pagamento. A ordem importa.'
+          }
+        });
+      }
+    }
+  </script>
+
+</body>
+</html>

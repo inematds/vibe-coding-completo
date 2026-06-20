@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="inema-course" content="vibe-coding-completo">
+
+  <!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
+  <script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        } else {
+          var legacy = localStorage.getItem('theme');
+          if (legacy === 'light') p.theme = 'claro';
+          else if (legacy === 'dark') p.theme = 'inema-dark';
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'inema-dark': { dark: true,  attr: null,        cs: 'dark'  },
+        'claro':      { dark: false, attr: null,        cs: 'light' },
+        'sepia':      { dark: false, attr: 'sepia',     cs: 'light' },
+        'foco':       { dark: null,  attr: 'foco',      cs: null    },
+        'contraste':  { dark: true,  attr: 'contraste', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['inema-dark'];
+
+      if (t.dark === true) html.classList.add('dark');
+      else if (t.dark === false) html.classList.remove('dark');
+
+      if (t.attr) html.setAttribute('data-theme', t.attr);
+      else html.removeAttribute('data-theme');
+
+      html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark') ? 'dark' : 'light'));
+
+      html.setAttribute('data-font', p.font || 'inter');
+      html.setAttribute('data-accent', p.accent || 'emerald');
+
+      var s = html.style;
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--inema-font-scale', (scale / 100).toString());
+      s.setProperty('font-size', scale + '%');
+      s.setProperty('--measure', (+p.lineWidth || 68) + 'ch');
+      s.setProperty('--lh-body', (+p.leading || 1.7).toString());
+      var fam = p.font === 'system'
+        ? 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif'
+        : (p.font === 'leitura'
+          ? '"Atkinson Hyperlegible", "Inter", system-ui, sans-serif'
+          : '"Inter", system-ui, sans-serif');
+      s.setProperty('--font-body', fam);
+
+      var ACC = {
+        emerald: [152, 76, 45], blue: [217, 91, 60], purple: [258, 90, 66],
+        amber: [38, 92, 50], teal: [174, 72, 41], rose: [350, 89, 60]
+      };
+      var a = ACC[p.accent] || ACC.emerald;
+      s.setProperty('--accent-h', a[0] + '');
+      s.setProperty('--accent-s', a[1] + '%');
+      s.setProperty('--accent-l', a[2] + '%');
+      s.setProperty('--accent', 'hsl(' + a[0] + ' ' + a[1] + '% ' + a[2] + '%)');
+    } catch (err) {
+      try { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme = 'dark'; } catch (e) {}
+    }
+  })();
+  </script>
+
+  <title>Módulo 6.2 · Secrets & Segurança | Vibe Coding: Domínio Completo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
+  <script type="application/json" data-inema-manifest>
+  {
+    "course": "vibe-coding-completo",
+    "tracks": [
+      { "n": "1", "title": "Fundamentos & Glossário", "modules": [
+        { "id": "1-1", "title": "A Mentalidade do Vibe Coding", "topics": 7, "href": "curso/trilha1/modulo-1-1.html" },
+        { "id": "1-2", "title": "O Ecossistema: Como as Peças se Encaixam", "topics": 6, "href": "curso/trilha1/modulo-1-2.html" },
+        { "id": "1-3", "title": "Glossário Essencial (Parte 1: IA, Claude Code, n8n)", "topics": 7, "href": "curso/trilha1/modulo-1-3.html" },
+        { "id": "1-4", "title": "Glossário Essencial (Parte 2: Agêntico, RAG, Deploy, Segurança)", "topics": 6, "href": "curso/trilha1/modulo-1-4.html" }
+      ]},
+      { "n": "2", "title": "Técnica: Arquitetura & Engenharia", "modules": [
+        { "id": "2-1", "title": "Engenharia de CLAUDE.md", "topics": 6, "href": "curso/trilha2/modulo-2-1.html" },
+        { "id": "2-2", "title": "O Framework WAT a Fundo", "topics": 7, "href": "curso/trilha2/modulo-2-2.html" },
+        { "id": "2-3", "title": "MCP por Dentro", "topics": 7, "href": "curso/trilha2/modulo-2-3.html" },
+        { "id": "2-4", "title": "Contexto & Tokens", "topics": 6, "href": "curso/trilha2/modulo-2-4.html" },
+        { "id": "2-5", "title": "RAG & Dados", "topics": 6, "href": "curso/trilha2/modulo-2-5.html" }
+      ]},
+      { "n": "3", "title": "Prompts & Padrões de Conversa", "modules": [
+        { "id": "3-1", "title": "Os Padrões de Prompting", "topics": 7, "href": "curso/trilha3/modulo-3-1.html" },
+        { "id": "3-2", "title": "O Ciclo Plan → Build → Troubleshoot → Optimize", "topics": 7, "href": "curso/trilha3/modulo-3-2.html" },
+        { "id": "3-3", "title": "Biblioteca de Prompts Prontos (copy-run)", "topics": 8, "href": "curso/trilha3/modulo-3-3.html" }
+      ]},
+      { "n": "4", "title": "Skills & Agentes", "modules": [
+        { "id": "4-1", "title": "Skills: Conceito & Anatomia", "topics": 7, "href": "curso/trilha4/modulo-4-1.html" },
+        { "id": "4-2", "title": "Construindo Skills na Prática", "topics": 7, "href": "curso/trilha4/modulo-4-2.html" },
+        { "id": "4-3", "title": "Agentes: Locais, Agendados & por Evento", "topics": 8, "href": "curso/trilha4/modulo-4-3.html" }
+      ]},
+      { "n": "5", "title": "Projetos Práticos (End-to-End)", "modules": [
+        { "id": "5-1", "title": "Projeto: Agente de Suporte por E-mail com RAG", "topics": 8, "href": "curso/trilha5/modulo-5-1.html" },
+        { "id": "5-2", "title": "Projeto: Agentes Hospedados (Agendado + Webhook)", "topics": 8, "href": "curso/trilha5/modulo-5-2.html" },
+        { "id": "5-3", "title": "Projeto: App Full-Stack (Lead Qualifier) + Frontend pra n8n", "topics": 8, "href": "curso/trilha5/modulo-5-3.html" }
+      ]},
+      { "n": "6", "title": "Produção, Deploy & Segurança", "modules": [
+        { "id": "6-1", "title": "GitHub & Trigger.dev", "topics": 7, "href": "curso/trilha6/modulo-6-1.html" },
+        { "id": "6-2", "title": "Secrets & Segurança", "topics": 8, "href": "curso/trilha6/modulo-6-2.html" },
+        { "id": "6-3", "title": "Confiabilidade & Monetização", "topics": 7, "href": "curso/trilha6/modulo-6-3.html" }
+      ]}
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="../../assets/learn.css">
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+    [id] { scroll-margin-top: 5rem; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - acento da trilha (rose, texto -800) + cores das outras trilhas no nav */
+    html:not(.dark) .text-rose-400 { color: #9f1239; }
+    html:not(.dark) .text-rose-300 { color: #be123c; }
+    html:not(.dark) .bg-rose-500\/20 { background-color: rgba(225, 29, 72, 0.12); }
+    html:not(.dark) .bg-rose-500\/10 { background-color: rgba(225, 29, 72, 0.08); }
+    html:not(.dark) .bg-rose-900\/20 { background-color: rgba(225, 29, 72, 0.08); }
+    html:not(.dark) .border-rose-500\/30 { border-color: rgba(225, 29, 72, 0.25); }
+    html:not(.dark) .hover\:bg-rose-500\/30:hover { background-color: rgba(225, 29, 72, 0.18); }
+    html:not(.dark) .hover\:bg-rose-500\/10:hover { background-color: rgba(225, 29, 72, 0.08); }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .group:hover .group-hover\:text-rose-400 { color: #9f1239; }
+    html:not(.dark) .hover\:border-rose-500\/30:hover { border-color: rgba(225, 29, 72, 0.25); }
+    /* nav: outras trilhas (hover only) — texto -800 */
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5, 150, 105, 0.08); }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37, 99, 235, 0.08); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124, 58, 237, 0.08); }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .hover\:bg-amber-500\/10:hover { background-color: rgba(217, 119, 6, 0.08); }
+    html:not(.dark) .hover\:text-teal-400:hover { color: #0d9488; }
+    html:not(.dark) .hover\:bg-teal-500\/10:hover { background-color: rgba(13, 148, 136, 0.08); }
+    /* emerald (✓ grids) + red (✗ grids) em light */
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .bg-emerald-900\/20 { background-color: rgba(5, 150, 105, 0.08); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5, 150, 105, 0.25); }
+    html:not(.dark) .text-red-400 { color: #dc2626; }
+    html:not(.dark) .bg-red-900\/20 { background-color: rgba(220, 38, 38, 0.07); }
+    html:not(.dark) .border-red-500\/30 { border-color: rgba(220, 38, 38, 0.25); }
+
+    /* Light mode - remove gradientes + cores especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    /* Dark mode - bordas suavizadas */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* TOC scrollspy active link */
+    .inema-toc-link.is-active, [data-inema-toc] a.is-active { color: #fb7185; font-weight: 600; }
+    html:not(.dark) [data-inema-toc] a.is-active { color: #9f1239; }
+
+    /* code box (copy-run) */
+    .codebox pre { white-space: pre; }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
+    }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-rose-600 focus:text-white focus:rounded-lg" href="#conteudo">Pular para o conteúdo</a>
+
+  <!-- NAVIGATION (T6 ativa) -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">⚡</span>
+            <span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
+          </a>
+          <a href="../trilha2/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Técnica</span>
+          </a>
+          <a href="../trilha3/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
+            <span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
+          </a>
+          <a href="../trilha4/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors">
+            <span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
+          </a>
+          <a href="../trilha5/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors">
+            <span class="sm:hidden">T5</span><span class="hidden sm:inline">Projetos</span>
+          </a>
+          <a href="index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-rose-400 bg-rose-500/10">
+            <span class="sm:hidden">T6</span><span class="hidden sm:inline">Produção</span>
+          </a>
+          <button type="button" data-inema-journey-open class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1">
+            <span aria-hidden="true">◷</span><span>Minha jornada</span>
+            <span class="inema-journey-badge hidden" data-inema-journey-badge data-count="0"></span>
+          </button>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" aria-label="Alternar tema claro/escuro">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4" aria-label="Trilha de navegação">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-rose-400">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-rose-400">Trilha 6</a>
+      <span>/</span>
+      <span class="text-rose-400">Módulo 6.2</span>
+    </div>
+  </nav>
+
+  <!-- HEADER DO MÓDULO -->
+  <header class="bg-gradient-to-br from-rose-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-rose-500/20 text-rose-400 text-xs font-semibold rounded-full mb-4">MÓDULO 6.2</span>
+      <h3 class="text-2xl font-bold mb-4">🔐 Secrets & Segurança</h3>
+      <p class="text-lg text-neutral-400 max-w-3xl">Quando o app sai da sua máquina e passa a rodar na nuvem, ele precisa de <strong class="text-rose-300">chaves</strong> para acessar serviços — e essas chaves não podem morar no código. Aqui você firma a disciplina de segredos: <strong>variáveis de ambiente</strong> (local vs nuvem), <strong>.env.example</strong> e leitura via <code>process.env</code>, <strong>OAuth & refresh token</strong>, as regras de ouro, <strong>RLS</strong> para isolar dados no banco, auditoria de segurança e por que um app aberto vira risco financeiro. Módulo <strong>prático</strong>: tem código que você copia e roda.</p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-rose-400">8</div>
+          <div class="text-xs text-neutral-400">Tópicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-rose-400">~60</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-rose-400">Avançado</div>
+          <div class="text-xs text-neutral-400">Nível</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-rose-400">Prático</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+      <div class="mt-6 max-w-2xl" data-inema-meter="modulo:6-2" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso do módulo 6.2">
+        <div class="flex items-center justify-between mb-1 text-sm">
+          <span class="text-neutral-400">Progresso do módulo</span>
+          <span class="text-rose-400 font-semibold"><span data-inema-meter-pct>0%</span> · <span data-inema-meter-frac>0 de 8</span></span>
+        </div>
+        <div class="inema-bar h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-rose-500 rounded-full" data-inema-meter-fill style="width:0%"></div></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:grid lg:grid-cols-[1fr_220px] lg:gap-10">
+
+    <main id="conteudo" class="min-w-0">
+
+      <!-- Caixa de contexto -->
+      <div class="bg-rose-900/20 border border-rose-500/30 rounded-xl p-5 mb-10">
+        <h2 class="text-base font-semibold text-rose-400 mb-2 flex items-center"><span class="mr-2">🔐</span> O salto de "protótipo" para "produto seguro"</h2>
+        <p class="text-neutral-300 text-sm">Um app na sua máquina pode até ter a chave colada no código que ninguém vê. Mas no momento em que ele sobe para o GitHub e roda na nuvem, qualquer descuido com segredos vira um problema real — chave vazada gasta seu dinheiro, dado exposto vira incidente. Este módulo é o conjunto de hábitos que mantém isso sob controle: <strong>onde</strong> os segredos moram, <strong>como</strong> o código os lê, e <strong>quem</strong> consegue ver o quê.</p>
+      </div>
+
+      <!-- SVG FUTURISTA (visão geral) -->
+      <section class="mb-12">
+        <p class="text-neutral-300 mb-4 inema-prose leading-relaxed">Antes dos oito tópicos, veja a ideia que une todos: o <strong>código</strong> é público (vai para o GitHub), mas os <strong>segredos</strong> ficam fora dele, num cofre separado, e só são injetados na hora de rodar. Mais uma camada — o banco com <strong>RLS</strong> — garante que, mesmo com o app no ar, um usuário nunca vê os dados de outro.</p>
+        <div class="rounded-2xl border border-rose-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+          <svg viewBox="0 0 1000 250" class="w-full h-auto" role="img" aria-label="O modelo de segredos: o código público sobe para o GitHub sem nenhuma chave; as chaves ficam num cofre de variáveis de ambiente (local .env ou dashboard na nuvem) e são injetadas só em runtime; o banco de dados aplica Row-Level Security para isolar os dados de cada usuário">
+            <defs>
+              <linearGradient id="m62-grad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#fb7185"/><stop offset="1" stop-color="#f43f5e"/>
+              </linearGradient>
+              <filter id="m62-glow" x="-40%" y="-40%" width="180%" height="180%">
+                <feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <pattern id="m62-grid" width="32" height="32" patternUnits="userSpaceOnUse">
+                <circle cx="1.3" cy="1.3" r="1.3" fill="#f43f5e" opacity="0.12"/>
+              </pattern>
+              <marker id="m62-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fb7185"/></marker>
+              <marker id="m62-ahc" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"/></marker>
+            </defs>
+            <rect x="0" y="0" width="1000" height="250" fill="url(#m62-grid)"/>
+
+            <!-- código público -->
+            <rect x="40" y="96" width="200" height="60" rx="14" fill="#1e293b" stroke="#64748b" stroke-width="2"/>
+            <text x="140" y="122" text-anchor="middle" fill="#e2e8f0" font-family="Inter,sans-serif" font-weight="600" font-size="14">📦 Código (público)</text>
+            <text x="140" y="142" text-anchor="middle" fill="#cbd5e1" font-family="Inter,sans-serif" font-size="11">sobe pro GitHub · sem chave</text>
+
+            <!-- cofre de segredos -->
+            <g filter="url(#m62-glow)"><rect x="400" y="84" width="220" height="84" rx="16" fill="#2a0e16" stroke="url(#m62-grad)" stroke-width="2.5"/></g>
+            <text x="510" y="112" text-anchor="middle" fill="#fb7185" font-family="Inter,sans-serif" font-weight="700" font-size="15">🔐 Cofre de segredos</text>
+            <text x="510" y="132" text-anchor="middle" fill="#fecdd3" font-family="Inter,sans-serif" font-size="11">.env (local) · dashboard (nuvem)</text>
+            <text x="510" y="150" text-anchor="middle" fill="#fecdd3" font-family="Inter,sans-serif" font-size="11">variáveis de ambiente</text>
+
+            <!-- injeção em runtime -->
+            <g fill="none" stroke="#fb7185" stroke-width="2.2" opacity="0.8"><path d="M400,126 L244,126" marker-end="url(#m62-ah)"/></g>
+            <text x="320" y="116" text-anchor="middle" fill="#fda4af" font-family="Inter,sans-serif" font-size="11">injeta em runtime</text>
+
+            <!-- banco com RLS -->
+            <rect x="760" y="84" width="200" height="84" rx="16" fill="#0e1b26" stroke="#38bdf8" stroke-width="2.5"/>
+            <text x="860" y="112" text-anchor="middle" fill="#bfe6ff" font-family="Inter,sans-serif" font-weight="700" font-size="15">🛡️ Banco + RLS</text>
+            <text x="860" y="132" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11">cada usuário só vê</text>
+            <text x="860" y="150" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11">os dados dele</text>
+            <g fill="none" stroke="#38bdf8" stroke-width="2.2" opacity="0.7"><path d="M620,126 L756,126" marker-end="url(#m62-ahc)"/></g>
+
+            <text x="500" y="216" text-anchor="middle" fill="#9aa6b2" font-family="Inter,sans-serif" font-size="12">o que é público fica no código · o que é secreto fica no cofre · o banco protege os dados</text>
+          </svg>
+        </div>
+        <p class="text-xs text-neutral-500">Diagrama ilustrativo — segurança em camadas: nenhum segredo no código, chaves só no cofre injetadas em runtime, e o banco isolando dados com RLS independentemente de bugs no app.</p>
+      </section>
+
+      <!-- TÓPICO 1 -->
+      <section id="topico-1" data-inema-topic="modulo-6-2#topico-1" class="mb-16">
+        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">1</span>
+            <h2 class="text-2xl font-bold">🔑 Variáveis de ambiente</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
+            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
+          </button>
+        </div>
+
+        <h3 class="text-lg font-semibold text-rose-400 mb-2">O que é</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-2-t1-p1">
+          Uma <strong class="text-rose-400">variável de ambiente</strong> é um valor que fica armazenado <strong>fora do código</strong> e é injetado no programa só <strong>na hora de rodar</strong> (em <em>runtime</em>). O efeito é simples e poderoso: o código nunca contém a chave. Onde antes você escreveria <code>const key = "sk-ant-abc123..."</code>, agora escreve <code>const key = process.env.ANTHROPIC_API_KEY</code> — o valor real vem do ambiente, não do arquivo.
+        </p>
+
+        <div class="bg-dark-800 border border-rose-500/30 rounded-xl p-4 mb-4">
+          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 text-xs font-semibold mr-2">O que é?</span><strong>Runtime</strong> — o momento em que o programa está de fato executando. <strong>Chave de API</strong> — uma senha que dá ao seu app acesso a um serviço (Anthropic, Firecrawl, Google). <strong>Hard-coded</strong> — valor escrito direto no código (o que queremos evitar para segredos).</p>
+        </div>
+
+        <!-- SVG conceitual -->
+        <div class="rounded-2xl border border-rose-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+          <svg viewBox="0 0 1000 170" class="w-full h-auto" role="img" aria-label="Comparação: no jeito errado a chave está hard-coded dentro do código; no jeito certo o código apenas referencia process.env e o valor real é injetado do ambiente em runtime">
+            <defs>
+              <pattern id="m62a-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#f43f5e" opacity="0.1"/></pattern>
+              <marker id="m62a-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fb7185"/></marker>
+            </defs>
+            <rect x="0" y="0" width="1000" height="170" fill="url(#m62a-grid)"/>
+            <text x="40" y="34" fill="#f87171" font-family="Inter,sans-serif" font-size="13" font-weight="600">✗ Errado — chave dentro do código</text>
+            <rect x="40" y="46" width="380" height="40" rx="9" fill="#2a1010" stroke="#ef4444" stroke-width="1.8"/>
+            <text x="60" y="71" fill="#fca5a5" font-family="monospace" font-size="12">const key = "sk-ant-abc123secreta..."</text>
+
+            <text x="540" y="34" fill="#34d399" font-family="Inter,sans-serif" font-size="13" font-weight="600">✓ Certo — código sem segredo</text>
+            <rect x="540" y="46" width="420" height="40" rx="9" fill="#0e2018" stroke="#34d399" stroke-width="1.8"/>
+            <text x="560" y="71" fill="#9ee9c9" font-family="monospace" font-size="12">const key = process.env.ANTHROPIC_API_KEY</text>
+
+            <rect x="540" y="110" width="200" height="40" rx="10" fill="#2a0e16" stroke="#fb7185" stroke-width="2"/>
+            <text x="640" y="135" text-anchor="middle" fill="#fb7185" font-family="Inter,sans-serif" font-size="12" font-weight="600">🔐 ambiente (cofre)</text>
+            <g fill="none" stroke="#fb7185" stroke-width="2.2" opacity="0.8"><path d="M740,118 C800,118 800,96 800,90" marker-end="url(#m62a-ah)"/></g>
+            <text x="830" y="135" text-anchor="start" fill="#fda4af" font-family="Inter,sans-serif" font-size="11">injeta o valor</text>
+            <text x="830" y="150" text-anchor="start" fill="#fda4af" font-family="Inter,sans-serif" font-size="11">só em runtime</text>
+          </svg>
+        </div>
+        <p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — o código vira uma referência ("dê-me a chave chamada ANTHROPIC_API_KEY"); o valor real vive no ambiente e nunca aparece no repositório.</p>
+
+        <h3 class="text-lg font-semibold text-rose-400 mb-2">Por que aprender</h3>
+        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m6-2-t1-p2">É o mecanismo que separa "o que é público" (o código) de "o que é secreto" (as chaves). Sem ele, todo segredo viaja junto com o código — e basta um <code>git push</code> para ele estar exposto no GitHub para sempre, mesmo que você apague depois. Variável de ambiente é a fundação de tudo que vem nos próximos tópicos: é a base de gerência de segredos.</p>
+
+        <h3 class="text-lg font-semibold text-rose-400 mb-3">Conceitos-chave</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Fora do código</div><p class="text-xs text-neutral-400">O segredo não mora no arquivo.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Em runtime</div><p class="text-xs text-neutral-400">Injetado só na hora de rodar.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Por nome</div><p class="text-xs text-neutral-400">O código pede a chave pelo nome.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Nada hard-coded</div><p class="text-xs text-neutral-400">Chave nunca escrita à mão.</p></div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:bg-rose-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 2 -->
+      <section id="topico-2" data-inema-topic="modulo-6-2#topico-2" class="mb-16">
+        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">2</span>
+            <h2 class="text-2xl font-bold">🗄️ Local (.env) vs nuvem (dashboard)</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
+            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
+          </button>
+        </div>
+
+        <h3 class="text-lg font-semibold text-rose-400 mb-2">O que é</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-2-t2-p1">
+          O mesmo segredo vive em <strong>dois lugares diferentes</strong>, dependendo de onde o código roda. No modelo <strong class="text-rose-400">local</strong>, ele fica num arquivo <code>.env</code> na sua máquina. No modelo <strong class="text-rose-400">nuvem</strong>, ele fica no painel de <strong>Environment Variables</strong> da plataforma (Trigger.dev, Vercel), que injeta os valores em runtime. O detalhe que pega todo mundo: o <strong>Trigger.dev não consegue ler o seu <code>.env</code> local</strong> — na nuvem, ele só conhece o que você cadastrou no dashboard.
+        </p>
+
+        <div class="bg-dark-800 border border-rose-500/30 rounded-xl p-4 mb-6">
+          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 text-xs font-semibold mr-2">O que é?</span><strong>Environment Variables (dashboard)</strong> — a tela da plataforma onde você adiciona cada segredo como par <em>chave/valor</em>. <strong>Ambiente de development</strong> — para testar; <strong>production</strong> — o que roda de verdade para os usuários.</p>
+        </div>
+
+        <!-- copy-run #1: arquivo .env -->
+        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <p class="text-sm text-rose-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">guardar todos os segredos do projeto fora do código, num arquivo local.</span></p>
+          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">arquivo .env (copie, preencha os valores)</span></div>
+          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"># .env — NUNCA vai para o GitHub (precisa estar no .gitignore)
+ANTHROPIC_API_KEY=&lt;sua-chave&gt;
+FIRECRAWL_API_KEY=&lt;sua-chave&gt;
+
+# Google (acesso via OAuth — ver tópico 4)
+GOOGLE_CLIENT_ID=&lt;seu-client-id&gt;
+GOOGLE_CLIENT_SECRET=&lt;seu-client-secret&gt;
+GOOGLE_REFRESH_TOKEN=&lt;seu-refresh-token&gt;
+SHEET_ID=&lt;id-da-sua-planilha&gt;</pre>
+          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: rode <code>cat .gitignore</code> e confirme que existe uma linha <code>.env</code> — se o arquivo aparece em <code>git status</code> como "a ser commitado", PARE e adicione ao .gitignore antes de qualquer push.</p>
+        </div>
+
+        <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Dica prática</h3>
+          <p class="text-neutral-300 text-sm">Ao subir para produção, cadastre <strong>cada</strong> chave do <code>.env</code> também no dashboard da nuvem — e marque tanto <strong>development</strong> quanto <strong>production</strong>. Esquecer de cadastrar uma chave em production é a origem clássica do bug que "só falha em prod": localmente tudo funciona, na nuvem o app quebra com "key is undefined".</p>
+        </div>
+
+        <h3 class="text-lg font-semibold text-rose-400 mb-2">Por que aprender</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-2-t2-p2">Porque "funcionou na minha máquina" não basta: o ambiente da nuvem é outro, com outro cofre de segredos. Entender que são dois lugares — e que precisam estar sincronizados — evita o erro mais frustrante do deploy. E reforça a regra do tópico 5: você pode (e às vezes deve) usar <strong>chaves distintas</strong> para local e produção.</p>
+
+        <h3 class="text-lg font-semibold text-rose-400 mb-3">Conceitos-chave</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Local = .env</div><p class="text-xs text-neutral-400">Arquivo na sua máquina.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Nuvem = dashboard</div><p class="text-xs text-neutral-400">Painel de env vars.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Não lê o .env</div><p class="text-xs text-neutral-400">A nuvem ignora seu arquivo local.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Dev + prod</div><p class="text-xs text-neutral-400">Cadastre nos dois ambientes.</p></div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:bg-rose-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 3 -->
+      <section id="topico-3" data-inema-topic="modulo-6-2#topico-3" class="mb-16">
+        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">3</span>
+            <h2 class="text-2xl font-bold">📄 .env.example e process.env</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
+            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
+          </button>
+        </div>
+
+        <h3 class="text-lg font-semibold text-rose-400 mb-2">O que é</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-2-t3-p1">
+          O <strong class="text-rose-400">.env.example</strong> é um <em>template seguro de commitar</em>: lista os <strong>nomes</strong> das chaves que o projeto precisa, mas <strong>sem nenhum valor</strong>. Ele documenta "o que esse projeto exige" sem expor um único segredo. Já o <strong class="text-rose-400">process.env</strong> é como o código lê esses valores em runtime — nunca os escreve direto. Na prática, você pede ao Claude Code para criar o <code>.env</code>, confirmar que está no <code>.gitignore</code>, gerar o <code>.env.example</code> e ajustar o código para ler de <code>process.env</code>.
+        </p>
+
+        <!-- copy-run #2: .env.example -->
+        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <p class="text-sm text-rose-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">documentar quais segredos o projeto precisa, sem expor nenhum — este arquivo PODE ir para o GitHub.</span></p>
+          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">arquivo .env.example (seguro de commitar)</span></div>
+          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"># .env.example — só os NOMES, nenhum valor. Seguro de commitar.
+# Copie para .env e preencha os valores reais.
+ANTHROPIC_API_KEY=
+FIRECRAWL_API_KEY=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GOOGLE_REFRESH_TOKEN=
+SHEET_ID=</pre>
+          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: abra o arquivo — nenhum valor depois do <code>=</code>. Quem clonar o repo entende o que precisa configurar, mas não recebe nenhum segredo seu.</p>
+        </div>
+
+        <!-- copy-run #3: leitura via process.env -->
+        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <p class="text-sm text-rose-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">ler o segredo em runtime, sem nunca escrevê-lo no código.</span></p>
+          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">código (lê do ambiente)</span></div>
+          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">// lê o valor do ambiente — o código fica sem segredo
+const key = process.env.ANTHROPIC_API_KEY;
+
+// falha rápido e claro se a chave não foi configurada
+if (!key) {
+  throw new Error("Faltou ANTHROPIC_API_KEY no ambiente (.env ou dashboard).");
+}</pre>
+          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: rode o código sem a chave no ambiente — ele deve falhar com a mensagem clara, não com um erro confuso lá na frente. Esse "falha rápido" economiza horas de debug.</p>
+        </div>
+
+        <!-- copy-run #4: prompt em plan mode -->
+        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <p class="text-sm text-rose-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">deixar o Claude Code configurar todo o esquema de segredos de uma vez.</span></p>
+          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt para o Claude Code (em plan mode)</span></div>
+          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Configure as variáveis de ambiente do projeto para estas chaves:
+ANTHROPIC_API_KEY, FIRECRAWL_API_KEY, GOOGLE_CLIENT_ID,
+GOOGLE_CLIENT_SECRET, GOOGLE_REFRESH_TOKEN, SHEET_ID.
+
+Faça, nesta ordem:
+1. crie o arquivo .env (com placeholders &lt;sua-chave&gt;);
+2. garanta que .env está no .gitignore;
+3. crie um .env.example com as mesmas chaves SEM valores;
+4. ajuste o código para ler tudo de process.env (nada hard-coded).
+Não cole nenhuma chave real no chat.</pre>
+          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: ao final, <code>git status</code> mostra <code>.env.example</code> como novo arquivo, mas NÃO mostra <code>.env</code>. Faça uma busca por aspas com "sk-" no código para garantir que nenhuma chave ficou hard-coded.</p>
+        </div>
+
+        <h3 class="text-lg font-semibold text-rose-400 mb-2">Por que aprender</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-2-t3-p2">Porque um projeto sem <code>.env.example</code> é um quebra-cabeça: quem clona não sabe quais chaves precisa, e acaba descobrindo por tentativa e erro. O par <code>.env.example</code> + <code>process.env</code> resolve isso elegantemente — documenta o necessário e mantém o código limpo de segredos. É a prática padrão de qualquer projeto profissional.</p>
+
+        <h3 class="text-lg font-semibold text-rose-400 mb-3">Conceitos-chave</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">.env.example</div><p class="text-xs text-neutral-400">Só os nomes, sem valor.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Commitável</div><p class="text-xs text-neutral-400">O example pode subir; o .env não.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">process.env</div><p class="text-xs text-neutral-400">Leitura em runtime.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Documenta</div><p class="text-xs text-neutral-400">Diz o que o projeto precisa.</p></div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:bg-rose-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 4 -->
+      <section id="topico-4" data-inema-topic="modulo-6-2#topico-4" class="mb-16">
+        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">4</span>
+            <h2 class="text-2xl font-bold">🔄 OAuth & refresh token</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
+            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
+          </button>
+        </div>
+
+        <h3 class="text-lg font-semibold text-rose-400 mb-2">O que é</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-2-t4-p1">
+          <strong class="text-rose-400">OAuth</strong> é o protocolo que permite <strong>delegar acesso</strong> a um serviço (por exemplo, o Google) <strong>sem expor a sua senha</strong>. Em vez de dar sua senha ao app, você autoriza o app a agir em seu nome e ele recebe tokens. O <strong class="text-rose-400">refresh token</strong> é o token de longa duração que <strong>renova o acesso sozinho</strong> quando o acesso temporário expira — é o que mantém um agente hospedado funcionando sem você logar de novo toda vez.
+        </p>
+
+        <div class="bg-dark-800 border border-rose-500/30 rounded-xl p-4 mb-6">
+          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 text-xs font-semibold mr-2">O que é?</span><strong>Client ID / Client secret</strong> — a "identidade" do seu app no Google Cloud Console. <strong>Access token</strong> — acesso curto, expira rápido. <strong>Refresh token</strong> — acesso longo, gera novos access tokens. <strong>Service account</strong> — uma conta-robô alternativa (aqui usamos OAuth do usuário, mais simples para Sheets/Drive pessoais).</p>
+        </div>
+
+        <h3 class="text-lg font-semibold text-rose-400 mb-2">Por que aprender</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-2-t4-p2">Porque é assim que agentes na nuvem acessam Google Sheets, Drive e Gmail sem você abrir o navegador toda execução. O caminho concreto: criar credenciais OAuth (client ID + secret) no Google Cloud Console e obter um refresh token. O fluxo padrão pelo <strong>OAuth Playground</strong> às vezes falha com "access blocked" ou "request is invalid"; a alternativa que funciona é um <strong>script de terminal</strong> que imprime uma URL de autorização e, no fim, devolve o refresh token para você colar no <code>.env</code> e nas env vars do Trigger.dev.</p>
+
+        <!-- grid certo vs errado -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+            <h4 class="font-bold text-emerald-400 mb-4">✓ Acesso delegado (OAuth)</h4>
+            <ul class="space-y-3 text-neutral-300 text-sm">
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Autorizar o app sem entregar a senha.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Refresh token renova o acesso sozinho.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Se o Playground falhar, gerar o token via script no terminal.</span></li>
+            </ul>
+          </div>
+          <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+            <h4 class="font-bold text-red-400 mb-4">✗ Atalhos perigosos</h4>
+            <ul class="space-y-3 text-neutral-300 text-sm">
+              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Colar sua senha do Google direto no app.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Logar manualmente toda vez que o agente roda.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Commitar o refresh token no repositório.</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Dica prática</h3>
+          <p class="text-neutral-300 text-sm">Se o OAuth Playground travar com "access blocked / request is invalid", não insista nele. Peça ao Claude Code um pequeno script de terminal que usa seu <code>GOOGLE_CLIENT_ID</code> e <code>GOOGLE_CLIENT_SECRET</code>, imprime a URL de autorização, recebe o código que o Google devolve e cospe o <code>GOOGLE_REFRESH_TOKEN</code> no console — daí é só colar no <code>.env</code> (e no dashboard da nuvem).</p>
+        </div>
+
+        <h3 class="text-lg font-semibold text-rose-400 mb-3">Conceitos-chave</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Acesso delegado</div><p class="text-xs text-neutral-400">Autoriza sem dar senha.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Refresh token</div><p class="text-xs text-neutral-400">Renova o acesso sozinho.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Client ID/secret</div><p class="text-xs text-neutral-400">Identidade do app.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Fallback no terminal</div><p class="text-xs text-neutral-400">Script gera o token.</p></div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:bg-rose-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 5 -->
+      <section id="topico-5" data-inema-topic="modulo-6-2#topico-5" class="mb-16">
+        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">5</span>
+            <h2 class="text-2xl font-bold">🏆 Regras de ouro</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
+            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
+          </button>
+        </div>
+
+        <h3 class="text-lg font-semibold text-rose-400 mb-2">O que é</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-2-t5-p1">
+          Três regras inegociáveis para tratar segredos. <strong class="text-rose-400">Um:</strong> nunca cole chaves de API no chat da IA — o chat não é o lugar de um segredo. <strong class="text-rose-400">Dois:</strong> nunca commite o <code>.env</code> no GitHub — uma vez no histórico, considere a chave vazada. <strong class="text-rose-400">Três:</strong> rotacione/regenere chaves periodicamente, e idealmente use chaves <strong>diferentes</strong> para local e produção. A imagem mental: trate uma chave de API como acesso a um cartão de crédito.
+        </p>
+
+        <!-- timeline vertical: ciclo de vida de um segredo seguro -->
+        <h3 class="text-lg font-semibold text-rose-400 mb-3">O ciclo de vida de um segredo seguro</h3>
+        <div class="relative pl-8 mb-6 border-l-2 border-rose-500/30 space-y-6">
+          <div class="relative">
+            <span class="absolute -left-[2.45rem] flex items-center justify-center w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-xs font-bold">1</span>
+            <p class="text-neutral-300 text-sm"><strong class="text-neutral-100">Gerar</strong> a chave no painel do serviço (Anthropic, Firecrawl) e copiá-la <em>direto</em> para o <code>.env</code> — sem passar pelo chat.</p>
+          </div>
+          <div class="relative">
+            <span class="absolute -left-[2.45rem] flex items-center justify-center w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-xs font-bold">2</span>
+            <p class="text-neutral-300 text-sm"><strong class="text-neutral-100">Isolar</strong>: o <code>.env</code> no <code>.gitignore</code>; o valor cadastrado no dashboard da nuvem (dev e prod).</p>
+          </div>
+          <div class="relative">
+            <span class="absolute -left-[2.45rem] flex items-center justify-center w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-xs font-bold">3</span>
+            <p class="text-neutral-300 text-sm"><strong class="text-neutral-100">Usar</strong> via <code>process.env</code> — nunca hard-coded, nunca impresso em log.</p>
+          </div>
+          <div class="relative">
+            <span class="absolute -left-[2.45rem] flex items-center justify-center w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-xs font-bold">4</span>
+            <p class="text-neutral-300 text-sm"><strong class="text-neutral-100">Rotacionar</strong>: se desconfiar de vazamento, regenere a chave no painel — a antiga morre na hora. Chaves separadas dev/prod limitam o estrago.</p>
+          </div>
+        </div>
+
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+          <h4 class="font-bold text-red-400 mb-2 flex items-center"><span class="mr-2">⚠️</span> Chave = cartão de crédito</h4>
+          <p class="text-neutral-300 text-sm">Uma chave vazada não dá só "acesso": ela permite que alguém rode chamadas de IA <strong>na sua conta</strong>, acumulando uso e custo no seu nome. Bots varrem o GitHub atrás de chaves expostas em minutos. Por isso a regra é dura: vazou, rotacione imediatamente.</p>
+        </div>
+
+        <h3 class="text-lg font-semibold text-rose-400 mb-2">Por que aprender</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-2-t5-p2">Porque a maioria dos incidentes de segurança com apps de IA não vem de hacker sofisticado — vem de uma chave colada no lugar errado. Internalizar estas três regras é o que separa um protótipo descuidado de um produto que você pode deixar rodando com tranquilidade.</p>
+
+        <h3 class="text-lg font-semibold text-rose-400 mb-3">Conceitos-chave</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Nunca no chat</div><p class="text-xs text-neutral-400">Chave fora da conversa com a IA.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Nunca commitar</div><p class="text-xs text-neutral-400">.env sempre no .gitignore.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Rotacionar</div><p class="text-xs text-neutral-400">Regenere se desconfiar.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Chave = cartão</div><p class="text-xs text-neutral-400">Vazou, alguém gasta por você.</p></div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:bg-rose-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 6 -->
+      <section id="topico-6" data-inema-topic="modulo-6-2#topico-6" class="mb-16">
+        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">6</span>
+            <h2 class="text-2xl font-bold">🛡️ RLS — isolar dados no banco</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
+            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
+          </button>
+        </div>
+
+        <h3 class="text-lg font-semibold text-rose-400 mb-2">O que é</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-2-t6-p1">
+          <strong class="text-rose-400">RLS (Row-Level Security)</strong> são regras que vivem <strong>dentro do próprio banco de dados</strong> (no Supabase, por exemplo) e impedem um usuário de ver as linhas de outro — mesmo que exista um bug no frontend. É uma <strong>camada extra</strong> de defesa: o banco protege os dados independentemente do app. Se o seu código por engano pedir "todos os leads", o banco, com RLS, devolve apenas os leads daquele usuário.
+        </p>
+
+        <div class="bg-dark-800 border border-rose-500/30 rounded-xl p-4 mb-6">
+          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 text-xs font-semibold mr-2">O que é?</span><strong>Linha (row)</strong> — um registro na tabela (ex.: um lead). <strong>Policy</strong> — a regra que diz "quem pode ver/alterar quais linhas". <strong>Defesa em profundidade</strong> — não confiar numa única camada; se uma falha, a outra segura.</p>
+        </div>
+
+        <!-- SVG conceitual: defesa em camadas -->
+        <div class="rounded-2xl border border-rose-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+          <svg viewBox="0 0 1000 180" class="w-full h-auto" role="img" aria-label="Defesa em profundidade: mesmo que o frontend tenha um bug e peça todos os dados, o banco com Row-Level Security filtra e devolve só as linhas do usuário logado, bloqueando o acesso às linhas alheias">
+            <defs>
+              <pattern id="m62b-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#f43f5e" opacity="0.1"/></pattern>
+              <marker id="m62b-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fb7185"/></marker>
+              <marker id="m62b-ahc" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"/></marker>
+            </defs>
+            <rect x="0" y="0" width="1000" height="180" fill="url(#m62b-grid)"/>
+            <rect x="40" y="66" width="190" height="48" rx="11" fill="#2a1010" stroke="#ef4444" stroke-width="1.8"/>
+            <text x="135" y="88" text-anchor="middle" fill="#fca5a5" font-family="Inter,sans-serif" font-size="12" font-weight="600">Frontend com bug</text>
+            <text x="135" y="105" text-anchor="middle" fill="#fca5a5" font-family="Inter,sans-serif" font-size="11">pede "todos os leads"</text>
+            <g fill="none" stroke="#fb7185" stroke-width="2.2" opacity="0.8"><path d="M230,90 L356,90" marker-end="url(#m62b-ah)"/></g>
+            <rect x="360" y="56" width="240" height="68" rx="14" fill="#2a0e16" stroke="#fb7185" stroke-width="2.5"/>
+            <text x="480" y="84" text-anchor="middle" fill="#fb7185" font-family="Inter,sans-serif" font-weight="700" font-size="15">🛡️ Banco com RLS</text>
+            <text x="480" y="104" text-anchor="middle" fill="#fecdd3" font-family="Inter,sans-serif" font-size="11">filtra por user_id (policy)</text>
+            <g fill="none" stroke="#38bdf8" stroke-width="2.2" opacity="0.8"><path d="M600,76 L726,76" marker-end="url(#m62b-ahc)"/></g>
+            <rect x="730" y="56" width="220" height="34" rx="9" fill="#0e2018" stroke="#34d399" stroke-width="1.8"/>
+            <text x="840" y="78" text-anchor="middle" fill="#9ee9c9" font-family="Inter,sans-serif" font-size="11">só os leads do usuário ✓</text>
+            <g fill="none" stroke="#64748b" stroke-width="2" opacity="0.6" stroke-dasharray="5 4"><path d="M600,104 L726,104"/></g>
+            <rect x="730" y="100" width="220" height="34" rx="9" fill="#1a1010" stroke="#64748b" stroke-width="1.6"/>
+            <text x="840" y="122" text-anchor="middle" fill="#94a3b8" font-family="Inter,sans-serif" font-size="11">leads alheios bloqueados ✗</text>
+            <text x="500" y="160" text-anchor="middle" fill="#9aa6b2" font-family="Inter,sans-serif" font-size="11">o banco é a última linha de defesa — protege mesmo com o app errado</text>
+          </svg>
+        </div>
+        <p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — com RLS, a regra de isolamento mora no banco; um erro no frontend não consegue mais vazar os dados de outro usuário.</p>
+
+        <!-- copy-run #5: política RLS / SQL -->
+        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <p class="text-sm text-rose-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">isolar os dados por usuário na própria base, com uma política RLS na tabela de leads.</span></p>
+          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">SQL no editor do Supabase (copie e rode)</span></div>
+          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">-- liga o Row-Level Security na tabela
+alter table leads enable row level security;
+
+-- política: cada usuário só enxerga as próprias linhas
+-- (compara o dono da linha com o usuário autenticado)
+create policy "cada um vê só os seus leads"
+on leads
+for select
+using ( user_id = auth.uid() );</pre>
+          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: logue como um usuário A e liste os leads — só aparecem os dele. Logue como B e tente ler os de A: o banco devolve vazio. Isolamento garantido na base, não no app.</p>
+        </div>
+
+        <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Dica prática</h3>
+          <p class="text-neutral-300 text-sm">Ao criar o projeto no Supabase: defina uma <strong>senha de banco</strong> distinta da senha de login da conta, escolha a <strong>região</strong> mais próxima dos usuários, <strong>habilite o RLS</strong> nas tabelas com dados de usuário e rode a migração SQL que cria a tabela. RLS desligado numa tabela exposta é a falha de segurança nº 1 em apps feitos rápido.</p>
+        </div>
+
+        <h3 class="text-lg font-semibold text-rose-400 mb-2">Por que aprender</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-2-t6-p2">Porque você vai construir rápido, e código rápido tem bugs. RLS é o cinto de segurança: ainda que o frontend escorregue, o banco não deixa um usuário ver dados de outro. É a diferença entre "um bug irritante" e "um vazamento de dados que vira notícia".</p>
+
+        <h3 class="text-lg font-semibold text-rose-400 mb-3">Conceitos-chave</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Regra no banco</div><p class="text-xs text-neutral-400">A proteção mora na base.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Isolar por usuário</div><p class="text-xs text-neutral-400">Cada um só vê o seu.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Camada extra</div><p class="text-xs text-neutral-400">Independe do frontend.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Defesa em profundidade</div><p class="text-xs text-neutral-400">Se uma falha, a outra segura.</p></div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:bg-rose-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 7 -->
+      <section id="topico-7" data-inema-topic="modulo-6-2#topico-7" class="mb-16">
+        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">7</span>
+            <h2 class="text-2xl font-bold">🔍 Auditoria de segurança</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
+            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
+          </button>
+        </div>
+
+        <h3 class="text-lg font-semibold text-rose-400 mb-2">O que é</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-2-t7-p1">
+          Antes de deixar o app em produção, você pede à IA que <strong>aja como especialista de segurança</strong> e revise o projeto contra um checklist de quatro pontos: <strong class="text-rose-400">rotas protegidas</strong>, <strong class="text-rose-400">nenhuma chave exposta no frontend</strong>, <strong class="text-rose-400">segredos só em variáveis de ambiente</strong> e <strong class="text-rose-400">RLS habilitado</strong>. Uma boa prática é <strong>limpar a conversa</strong> antes (contexto fresco audita melhor) e, depois, corrigir tudo que falhar.
+        </p>
+
+        <!-- copy-run #6: prompt de auditoria -->
+        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <p class="text-sm text-rose-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">fazer uma auditoria de segurança explícita antes do deploy.</span></p>
+          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt para o Claude Code (limpe a conversa antes)</span></div>
+          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Aja como especialista de segurança e audite este app.
+Verifique, item por item:
+1. rotas protegidas (nada sensível acessível sem login);
+2. nenhuma chave de API exposta no frontend / no bundle;
+3. segredos APENAS em variáveis de ambiente (nada hard-coded);
+4. RLS habilitado em todas as tabelas com dados de usuário.
+
+Liste o que FALHAR e, para cada falha, diga exatamente
+como corrigir. Não invente: se não der pra confirmar, diga.</pre>
+          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: você recebe uma lista de achados acionáveis. Corrija cada falha e rode a auditoria de novo até a lista ficar vazia — só então faça o deploy para produção.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+            <h4 class="font-bold text-emerald-400 mb-4">✓ Auditoria que funciona</h4>
+            <ul class="space-y-3 text-neutral-300 text-sm">
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Limpar o contexto antes, para uma análise fresca.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Checklist explícito de 4 pontos.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Corrigir o que falhar e re-auditar até zerar.</span></li>
+            </ul>
+          </div>
+          <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+            <h4 class="font-bold text-red-400 mb-4">✗ O que dá errado</h4>
+            <ul class="space-y-3 text-neutral-300 text-sm">
+              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Achar que "compilou" = "está seguro".</span></li>
+              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Deixar a chave da API ir parar no frontend.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Subir para produção sem nunca revisar segurança.</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <h3 class="text-lg font-semibold text-rose-400 mb-2">Por que aprender</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-2-t7-p2">Porque no vibe coding você constrói depressa e é fácil deixar uma porta aberta sem perceber. Uma auditoria explícita, com checklist, é barata (um prompt) e pega justamente o que passou. É o "trust but verify" aplicado à segurança: não confie que ficou seguro — verifique.</p>
+
+        <h3 class="text-lg font-semibold text-rose-400 mb-3">Conceitos-chave</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Especialista</div><p class="text-xs text-neutral-400">Peça à IA o papel.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Checklist de 4</div><p class="text-xs text-neutral-400">Rotas, chaves, env, RLS.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Contexto limpo</div><p class="text-xs text-neutral-400">Audite com conversa fresca.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Corrigir e repetir</div><p class="text-xs text-neutral-400">Até a lista zerar.</p></div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:bg-rose-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 8 -->
+      <section id="topico-8" data-inema-topic="modulo-6-2#topico-8" class="mb-16">
+        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">8</span>
+            <h2 class="text-2xl font-bold">⚠️ App aberto = risco</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
+            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
+          </button>
+        </div>
+
+        <h3 class="text-lg font-semibold text-rose-400 mb-2">O que é</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-2-t8-p1">
+          Um <strong class="text-rose-400">app aberto</strong> — sem autenticação — é um risco financeiro concreto: qualquer pessoa com a URL pode disparar o seu workflow e <strong>consumir os seus tokens de IA</strong>. Como você paga pelo uso, o uso de estranhos vira a sua conta. Por isso, não deixe um app sem login rodando em produção por muito tempo: antes de compartilhar, adicione <strong>autenticação</strong> (Supabase) e <strong>limites de uso</strong>.
+        </p>
+
+        <div class="bg-dark-800 border border-rose-500/30 rounded-xl p-4 mb-6">
+          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 text-xs font-semibold mr-2">O que é?</span><strong>Autenticação</strong> — exigir login antes de usar o app. <strong>Limite de uso (rate limit / quota)</strong> — um teto de quantas vezes alguém pode chamar o app. <strong>Token de IA</strong> — a unidade de consumo que você paga ao provedor a cada chamada do modelo.</p>
+        </div>
+
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+          <h4 class="font-bold text-red-400 mb-2 flex items-center"><span class="mr-2">⚠️</span> A conta que chega no fim do mês</h4>
+          <p class="text-neutral-300 text-sm">Você publica um app legal, posta o link, vai dormir. Um bot acha a URL, dispara o workflow milhares de vezes, e cada disparo chama o modelo de IA. De manhã, a fatura do provedor explodiu — com uso que não foi seu. App aberto + chamada de IA paga = risco direto no seu bolso.</p>
+        </div>
+
+        <h3 class="text-lg font-semibold text-rose-400 mb-2">Por que aprender</h3>
+        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-2-t8-p2">Porque é o gatilho natural para o próximo módulo. Adicionar login com Supabase e limites de uso não é só segurança — é o primeiro passo de um <strong>modelo de negócio</strong>: se você vai controlar quem usa e quanto, está a um passo de cobrar por isso. Esse raciocínio motiva o modelo <strong>freemium com Stripe</strong> que você vê em 6.3.</p>
+
+        <h3 class="text-lg font-semibold text-rose-400 mb-3">Conceitos-chave</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">URL = acesso</div><p class="text-xs text-neutral-400">Quem tem o link, dispara.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Você paga o uso</div><p class="text-xs text-neutral-400">Tokens de estranhos viram sua conta.</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Autenticação</div><p class="text-xs text-neutral-400">Login antes de usar (Supabase).</p></div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Limites de uso</div><p class="text-xs text-neutral-400">Teto por usuário → freemium.</p></div>
+        </div>
+
+        <!-- Checagem leve -->
+        <div data-inema-check="modulo-6-2#q1" class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6">
+          <p class="inema-check__q font-medium mb-4">Fixando: <strong>onde NUNCA</strong> se deve colocar uma chave de API?</p>
+          <div class="inema-check-options inema-check__options space-y-2">
+            <button type="button" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0">No arquivo <code>.env</code> (que está no <code>.gitignore</code>).</button>
+            <button type="button" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1">No dashboard de Environment Variables da nuvem.</button>
+            <button type="button" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2">Colada no chat da IA ou commitada no GitHub.</button>
+          </div>
+          <div data-inema-check-feedback class="mt-4 text-sm" role="status" aria-live="polite"></div>
+        </div>
+
+        <div class="flex justify-start mt-8">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:bg-rose-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- RESUMO -->
+      <section class="mb-8">
+        <div class="bg-gradient-to-br from-rose-900/40 via-dark-800 to-dark-800 rounded-xl border border-rose-500/30 p-8">
+          <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📌</span> Resumo do Módulo</h2>
+          <div class="space-y-4 mb-8">
+            <div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-neutral-100">Variáveis de ambiente</strong><span class="text-neutral-400"> — o segredo mora fora do código e é injetado em runtime; o código nunca contém a chave.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-neutral-100">Local vs nuvem</strong><span class="text-neutral-400"> — .env na máquina, dashboard na nuvem; o Trigger.dev não lê seu .env — cadastre dev e prod.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-neutral-100">.env.example e process.env</strong><span class="text-neutral-400"> — template com nomes (seguro de commitar) + leitura em runtime, sem nada hard-coded.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-neutral-100">OAuth & refresh token</strong><span class="text-neutral-400"> — acesso delegado sem senha; refresh token renova sozinho; fallback via script no terminal.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-neutral-100">Regras de ouro</strong><span class="text-neutral-400"> — nunca no chat, nunca commitar o .env, rotacionar; chave = cartão de crédito.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-neutral-100">RLS no banco</strong><span class="text-neutral-400"> — regras no Supabase isolam dados por usuário mesmo com bug no frontend (defesa em profundidade).</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-neutral-100">Auditoria de segurança</strong><span class="text-neutral-400"> — a IA como especialista checa rotas, chaves, env e RLS; corrija o que falhar antes do deploy.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-neutral-100">App aberto = risco</strong><span class="text-neutral-400"> — sem login, qualquer um gasta seus tokens; adicione autenticação e limites de uso.</span></div></div>
+          </div>
+          <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+            <h3 class="font-semibold text-rose-400 mb-2">Próximo Módulo:</h3>
+            <p class="text-neutral-300">6.3 — Confiabilidade & Monetização</p>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="index.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← Voltar para Trilha</a>
+            <a href="modulo-6-3.html" class="flex-1 text-center px-6 py-3 bg-rose-600 text-white rounded-lg font-semibold hover:bg-rose-500 transition-colors">Próximo Módulo →</a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- TOC sticky + scrollspy -->
+    <aside class="hidden lg:block">
+      <nav data-inema-toc aria-label="Índice da página" class="sticky top-24 self-start">
+        <p class="text-sm text-neutral-400 mb-3">Seção <span data-inema-section-counter><span class="inema-toc-pos">1</span> de <span class="inema-toc-total">8</span></span></p>
+        <ol class="space-y-1.5 text-sm">
+          <li><a href="#topico-1" class="inema-toc-link text-neutral-400 hover:text-rose-400 block">1. Variáveis de ambiente</a></li>
+          <li><a href="#topico-2" class="inema-toc-link text-neutral-400 hover:text-rose-400 block">2. Local vs nuvem</a></li>
+          <li><a href="#topico-3" class="inema-toc-link text-neutral-400 hover:text-rose-400 block">3. .env.example / process.env</a></li>
+          <li><a href="#topico-4" class="inema-toc-link text-neutral-400 hover:text-rose-400 block">4. OAuth & refresh token</a></li>
+          <li><a href="#topico-5" class="inema-toc-link text-neutral-400 hover:text-rose-400 block">5. Regras de ouro</a></li>
+          <li><a href="#topico-6" class="inema-toc-link text-neutral-400 hover:text-rose-400 block">6. RLS — isolar dados</a></li>
+          <li><a href="#topico-7" class="inema-toc-link text-neutral-400 hover:text-rose-400 block">7. Auditoria de segurança</a></li>
+          <li><a href="#topico-8" class="inema-toc-link text-neutral-400 hover:text-rose-400 block">8. App aberto = risco</a></li>
+        </ol>
+      </nav>
+    </aside>
+
+  </div>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>Vibe Coding: Domínio Completo · Curso original <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 font-medium">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const htmlEl = document.documentElement;
+    if (htmlEl.classList.contains('dark')) { themeToggleLightIcon.classList.remove('hidden'); }
+    else { themeToggleDarkIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      htmlEl.classList.toggle('dark');
+      const isDark = htmlEl.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      if (window.INEMA && INEMA.setPref) { INEMA.setPref('theme', isDark ? 'inema-dark' : 'claro'); }
+    });
+  </script>
+
+  <script src="../../assets/learn.js"></script>
+  <script>
+    if (window.INEMA && typeof window.INEMA.init === 'function') {
+      window.INEMA.init();
+      if (window.INEMA.registerCheck) {
+        INEMA.registerCheck('modulo-6-2#q1', {
+          answer: 2,
+          explain: {
+            0: 'Não — o .env é justamente o lugar certo, desde que esteja no .gitignore. O segredo fica fora do código e nunca sobe.',
+            1: 'Não — o dashboard de Environment Variables é o lugar correto na nuvem; ele injeta o segredo em runtime, sem expô-lo.',
+            2: 'Isso. Chave no chat da IA ou commitada no GitHub é a falha clássica: uma vez exposta, considere-a vazada e rotacione na hora.'
+          }
+        });
+      }
+    }
+  </script>
+
+</body>
+</html>
