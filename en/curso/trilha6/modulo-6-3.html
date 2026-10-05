@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="vibe-coding-completo" name="inema-course"/>
+<!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
+<script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        } else {
+          var legacy = localStorage.getItem('theme');
+          if (legacy === 'light') p.theme = 'claro';
+          else if (legacy === 'dark') p.theme = 'inema-dark';
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'inema-dark': { dark: true,  attr: null,        cs: 'dark'  },
+        'claro':      { dark: false, attr: null,        cs: 'light' },
+        'sepia':      { dark: false, attr: 'sepia',     cs: 'light' },
+        'foco':       { dark: null,  attr: 'foco',      cs: null    },
+        'contraste':  { dark: true,  attr: 'contraste', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['inema-dark'];
+
+      if (t.dark === true) html.classList.add('dark');
+      else if (t.dark === false) html.classList.remove('dark');
+
+      if (t.attr) html.setAttribute('data-theme', t.attr);
+      else html.removeAttribute('data-theme');
+
+      html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark') ? 'dark' : 'light'));
+
+      html.setAttribute('data-font', p.font || 'inter');
+      html.setAttribute('data-accent', p.accent || 'emerald');
+
+      var s = html.style;
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--inema-font-scale', (scale / 100).toString());
+      s.setProperty('font-size', scale + '%');
+      s.setProperty('--measure', (+p.lineWidth || 68) + 'ch');
+      s.setProperty('--lh-body', (+p.leading || 1.7).toString());
+      var fam = p.font === 'system'
+        ? 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif'
+        : (p.font === 'leitura'
+          ? '"Atkinson Hyperlegible", "Inter", system-ui, sans-serif'
+          : '"Inter", system-ui, sans-serif');
+      s.setProperty('--font-body', fam);
+
+      var ACC = {
+        emerald: [152, 76, 45], blue: [217, 91, 60], purple: [258, 90, 66],
+        amber: [38, 92, 50], teal: [174, 72, 41], rose: [350, 89, 60]
+      };
+      var a = ACC[p.accent] || ACC.emerald;
+      s.setProperty('--accent-h', a[0] + '');
+      s.setProperty('--accent-s', a[1] + '%');
+      s.setProperty('--accent-l', a[2] + '%');
+      s.setProperty('--accent', 'hsl(' + a[0] + ' ' + a[1] + '% ' + a[2] + '%)');
+    } catch (err) {
+      try { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme = 'dark'; } catch (e) {}
+    }
+  })();
+  </script>
+<title>Module 6.3 · Reliability &amp; Monetization | Vibe Coding: Complete Mastery</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
+<script data-inema-manifest="" type="application/json">
+  {
+    "course": "vibe-coding-completo",
+    "tracks": [
+      { "n": "1", "title": "Fundamentos & Glossário", "modules": [
+        { "id": "1-1", "title": "A Mentalidade do Vibe Coding", "topics": 7, "href": "curso/trilha1/modulo-1-1.html" },
+        { "id": "1-2", "title": "O Ecossistema: Como as Peças se Encaixam", "topics": 6, "href": "curso/trilha1/modulo-1-2.html" },
+        { "id": "1-3", "title": "Glossário Essencial (Parte 1: IA, Claude Code, n8n)", "topics": 7, "href": "curso/trilha1/modulo-1-3.html" },
+        { "id": "1-4", "title": "Glossário Essencial (Parte 2: Agêntico, RAG, Deploy, Segurança)", "topics": 6, "href": "curso/trilha1/modulo-1-4.html" }
+      ]},
+      { "n": "2", "title": "Técnica: Arquitetura & Engenharia", "modules": [
+        { "id": "2-1", "title": "Engenharia de CLAUDE.md", "topics": 6, "href": "curso/trilha2/modulo-2-1.html" },
+        { "id": "2-2", "title": "O Framework WAT a Fundo", "topics": 7, "href": "curso/trilha2/modulo-2-2.html" },
+        { "id": "2-3", "title": "MCP por Dentro", "topics": 7, "href": "curso/trilha2/modulo-2-3.html" },
+        { "id": "2-4", "title": "Contexto & Tokens", "topics": 6, "href": "curso/trilha2/modulo-2-4.html" },
+        { "id": "2-5", "title": "RAG & Dados", "topics": 6, "href": "curso/trilha2/modulo-2-5.html" }
+      ]},
+      { "n": "3", "title": "Prompts & Padrões de Conversa", "modules": [
+        { "id": "3-1", "title": "Os Padrões de Prompting", "topics": 7, "href": "curso/trilha3/modulo-3-1.html" },
+        { "id": "3-2", "title": "O Ciclo Plan → Build → Troubleshoot → Optimize", "topics": 7, "href": "curso/trilha3/modulo-3-2.html" },
+        { "id": "3-3", "title": "Biblioteca de Prompts Prontos (copy-run)", "topics": 8, "href": "curso/trilha3/modulo-3-3.html" }
+      ]},
+      { "n": "4", "title": "Skills & Agentes", "modules": [
+        { "id": "4-1", "title": "Skills: Conceito & Anatomia", "topics": 7, "href": "curso/trilha4/modulo-4-1.html" },
+        { "id": "4-2", "title": "Construindo Skills na Prática", "topics": 7, "href": "curso/trilha4/modulo-4-2.html" },
+        { "id": "4-3", "title": "Agentes: Locais, Agendados & por Evento", "topics": 8, "href": "curso/trilha4/modulo-4-3.html" }
+      ]},
+      { "n": "5", "title": "Projetos Práticos (End-to-End)", "modules": [
+        { "id": "5-1", "title": "Projeto: Agente de Suporte por E-mail com RAG", "topics": 8, "href": "curso/trilha5/modulo-5-1.html" },
+        { "id": "5-2", "title": "Projeto: Agentes Hospedados (Agendado + Webhook)", "topics": 8, "href": "curso/trilha5/modulo-5-2.html" },
+        { "id": "5-3", "title": "Projeto: App Full-Stack (Lead Qualifier) + Frontend pra n8n", "topics": 8, "href": "curso/trilha5/modulo-5-3.html" }
+      ]},
+      { "n": "6", "title": "Produção, Deploy & Segurança", "modules": [
+        { "id": "6-1", "title": "GitHub & Trigger.dev", "topics": 7, "href": "curso/trilha6/modulo-6-1.html" },
+        { "id": "6-2", "title": "Secrets & Segurança", "topics": 8, "href": "curso/trilha6/modulo-6-2.html" },
+        { "id": "6-3", "title": "Confiabilidade & Monetização", "topics": 7, "href": "curso/trilha6/modulo-6-3.html" }
+      ]}
+    ]
+  }
+  </script>
+<link href="../../../assets/learn.css" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+    [id] { scroll-margin-top: 5rem; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - acento da trilha (rose, texto -800) + cores das outras trilhas no nav */
+    html:not(.dark) .text-rose-400 { color: #9f1239; }
+    html:not(.dark) .bg-rose-500\/20 { background-color: rgba(225, 29, 72, 0.12); }
+    html:not(.dark) .bg-rose-500\/10 { background-color: rgba(225, 29, 72, 0.08); }
+    html:not(.dark) .border-rose-500\/30 { border-color: rgba(225, 29, 72, 0.25); }
+    html:not(.dark) .hover\:bg-rose-500\/30:hover { background-color: rgba(225, 29, 72, 0.18); }
+    html:not(.dark) .hover\:bg-rose-500\/10:hover { background-color: rgba(225, 29, 72, 0.08); }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .group:hover .group-hover\:text-rose-400 { color: #9f1239; }
+    html:not(.dark) .hover\:border-rose-500\/30:hover { border-color: rgba(225, 29, 72, 0.25); }
+    html:not(.dark) .text-rose-300 { color: #be123c; }
+    html:not(.dark) .bg-rose-900\/20 { background-color: rgba(225, 29, 72, 0.08); }
+    /* nav: outras trilhas (hover only) — texto -800 */
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5, 150, 105, 0.08); }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37, 99, 235, 0.08); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124, 58, 237, 0.08); }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .hover\:bg-amber-500\/10:hover { background-color: rgba(217, 119, 6, 0.08); }
+    html:not(.dark) .hover\:text-teal-400:hover { color: #0d9488; }
+    html:not(.dark) .hover\:bg-teal-500\/10:hover { background-color: rgba(13, 148, 136, 0.08); }
+    /* verdes (✓) e vermelhos (✗) das grades */
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .text-emerald-300 { color: #047857; }
+    html:not(.dark) .bg-emerald-900\/20 { background-color: rgba(5, 150, 105, 0.08); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5, 150, 105, 0.25); }
+    html:not(.dark) .text-red-400 { color: #dc2626; }
+    html:not(.dark) .bg-red-900\/20 { background-color: rgba(220, 38, 38, 0.07); }
+    html:not(.dark) .border-red-500\/30 { border-color: rgba(220, 38, 38, 0.25); }
+
+    /* Light mode - remove gradientes + cores especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    /* Dark mode - bordas suavizadas */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* TOC scrollspy active link */
+    .inema-toc-link.is-active, [data-inema-toc] a.is-active { color: #fb7185; font-weight: 600; }
+    html:not(.dark) [data-inema-toc] a.is-active { color: #9f1239; }
+
+    /* code box (copy-run) */
+    .codebox pre { white-space: pre; }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
+    }
+  </style>
+<link href="https://inematds.github.io/vibe-coding-completo/curso/trilha6/modulo-6-3.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/en/curso/trilha6/modulo-6-3.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/es/curso/trilha6/modulo-6-3.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha6/modulo-6-3.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="modulo-6-3.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../../es/curso/trilha6/modulo-6-3.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-rose-600 focus:text-white focus:rounded-lg" href="#conteudo">Skip to content</a>
+<!-- NAVIGATION (T6 ativa) -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentals</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Technical</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Projects</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-rose-400 bg-rose-500/10" href="index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Production</span>
+</a>
+<button class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-inema-journey-open="" type="button">
+<span aria-hidden="true">◷</span><span>My journey</span>
+<span class="inema-journey-badge hidden" data-count="0" data-inema-journey-badge=""></span>
+</button>
+<button aria-label="Toggle light/dark theme" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20">
+<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+</svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav aria-label="Navigation track" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-rose-400" href="../../index.html">Start</a>
+<span>/</span>
+<a class="hover:text-rose-400" href="index.html">Track 6</a>
+<span>/</span>
+<span class="text-rose-400">Module 6.3</span>
+</div>
+</nav>
+<!-- HEADER DO MÓDULO -->
+<header class="bg-gradient-to-br from-rose-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-rose-500/20 text-rose-400 text-xs font-semibold rounded-full mb-4">MODULE 6.3</span>
+<h3 class="text-2xl font-bold mb-4">🛡️ Reliability &amp; Monetization</h3>
+<p class="text-lg text-neutral-400 max-w-3xl">The final mile: after the task is hosted and running on its own, AI is no longer watching to read errors and fix them. Here you close this <strong class="text-rose-300">agentic gap</strong> with reliability — meaningful logging, <code>try/catch</code> for external calls, retries with backoff, and alerts — and closes the money loop: turning the automation into a product that generates revenue through payments <strong class="text-rose-300">Stripe</strong>. The final leap from "just a workflow" to "an app that sells".</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-rose-400">7</div>
+<div class="text-xs text-neutral-400">Topics</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-rose-400">~55</div>
+<div class="text-xs text-neutral-400">Minutes</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-rose-400">Advanced</div>
+<div class="text-xs text-neutral-400">Level</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-rose-400">Practical</div>
+<div class="text-xs text-neutral-400">Type</div>
+</div>
+</div>
+<div aria-label="Module 6.3 progress" aria-valuemax="100" aria-valuemin="0" class="mt-6 max-w-2xl" data-inema-meter="modulo:6-3" role="progressbar">
+<div class="flex items-center justify-between mb-1 text-sm">
+<span class="text-neutral-400">Module progress</span>
+<span class="text-rose-400 font-semibold"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 of 7</span></span>
+</div>
+<div class="inema-bar h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-rose-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+</header>
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:grid lg:grid-cols-[1fr_220px] lg:gap-10">
+<main class="min-w-0" id="conteudo">
+<!-- intro box -->
+<div class="bg-rose-900/20 border border-rose-500/30 rounded-xl p-5 mb-10">
+<h2 class="text-base font-semibold text-rose-400 mb-2 flex items-center"><span class="mr-2">🛡️</span> Real production starts here</h2>
+<p class="text-neutral-300 text-sm">In modules 6.1 and 6.2, you put the code in the cloud (GitHub + Trigger.dev) and secured it (env vars, RLS, auditing). What’s missing is what separates a polished prototype from a product that can handle real life: <strong>when something fails on its own, you find out and have a way to fix it</strong> — and, as a bonus, it <strong>generates revenue</strong>. It’s the sum of reliability (topics 1 through 6) and monetization (topic 7).</p>
+</div>
+<!-- SVG FUTURISTA (visão geral) -->
+<section class="mb-12">
+<p class="text-neutral-300 mb-4 inema-prose leading-relaxed">Before the seven topics, take a look at what changes. In an interactive session, the AI reads the error and fixes it right away—a self-healing loop. But the task <strong>hosted</strong> runs without anyone watching: it executes, but doesn’t adapt. You recreate this loop with platform features (logs, retries, alerts) and better prompts; then close the revenue loop with Stripe.</p>
+<div class="rounded-2xl border border-rose-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="Comparison: in an interactive session, the AI reads the error and fixes it on its own in a closed loop; a hosted task, on the other hand, runs with no one watching, and a failure can go unnoticed—you recreate reliability with logs, try/catch, retries, and alerts, then monetize with Stripe, in the coordinating cloud shown in cyan" class="w-full h-auto" role="img" viewbox="0 0 1000 260">
+<defs>
+<lineargradient id="m63-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#fb7185"></stop><stop offset="1" stop-color="#f43f5e"></stop>
+</lineargradient>
+<filter height="180%" id="m63-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="32" id="m63-grid" patternunits="userSpaceOnUse" width="32">
+<circle cx="1.3" cy="1.3" fill="#f43f5e" opacity="0.12" r="1.3"></circle>
+</pattern>
+<marker id="m63-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#64748b"></path></marker>
+<marker id="m63-ahr" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fb7185"></path></marker>
+<marker id="m63-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m63-grid)" height="260" width="1000" x="0" y="0"></rect>
+<!-- nuvem coordenadora -->
+<ellipse cx="500" cy="32" fill="#0e1b26" rx="180" ry="22" stroke="#38bdf8" stroke-width="2"></ellipse>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="500" y="37">☁️ the task runs on its own in the cloud (without the AI watching)</text>
+<!-- linha de cima: sessão interativa (loop fechado) -->
+<text fill="#94a3b8" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="40" y="86">Interactive session — the loop heals itself</text>
+<rect fill="#1e293b" height="34" rx="9" stroke="#64748b" stroke-width="1.8" width="150" x="40" y="98"></rect><text fill="#cbd5e1" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="115" y="120">error</text>
+<g fill="none" opacity="0.7" stroke="#64748b" stroke-width="2"><path d="M190,115 L246,115" marker-end="url(#m63-ah)"></path></g>
+<rect fill="#1e293b" height="34" rx="9" stroke="#64748b" stroke-width="1.8" width="170" x="246" y="98"></rect><text fill="#cbd5e1" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="331" y="120">the AI reads and fixes it</text>
+<g fill="none" opacity="0.6" stroke="#64748b" stroke-width="2"><path d="M416,108 C480,88 480,142 420,128" marker-end="url(#m63-ah)"></path></g>
+<text fill="#7f8896" font-family="Inter,sans-serif" font-size="11" x="500" y="116">closed loop ✓</text>
+<!-- linha de baixo: tarefa hospedada (gap) + confiabilidade rose -->
+<text fill="#fb7185" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="40" y="174">Hosted — you recreate the loop with a platform + prompts</text>
+<g filter="url(#m63-glow)"><rect fill="#2a0e16" height="52" rx="13" stroke="url(#m63-grad)" stroke-width="2.5" width="170" x="40" y="186"></rect></g>
+<text fill="#fb7185" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="125" y="208">silent failure</text>
+<text fill="#fecdd3" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="125" y="225">(no one sees it)</text>
+<g fill="none" opacity="0.6" stroke="#fb7185" stroke-width="2"><path d="M210,212 L262,212" marker-end="url(#m63-ahr)"></path></g>
+<rect fill="#2a0e16" height="52" rx="13" stroke="#fb7185" stroke-width="2" width="190" x="262" y="186"></rect>
+<text fill="#fb7185" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="357" y="208">log · try/catch</text>
+<text fill="#fecdd3" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="357" y="225">retries · alerts</text>
+<g fill="none" opacity="0.6" stroke="#fb7185" stroke-width="2"><path d="M452,212 L504,212" marker-end="url(#m63-ahr)"></path></g>
+<rect fill="#2a0e16" height="52" rx="13" stroke="#fb7185" stroke-width="2" width="180" x="504" y="186"></rect>
+<text fill="#fb7185" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="594" y="208">you’re notified</text>
+<text fill="#fecdd3" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="594" y="225">and fix it + redeploy</text>
+<g fill="none" opacity="0.6" stroke="#38bdf8" stroke-width="2"><path d="M684,212 L736,212" marker-end="url(#m63-ahc)"></path></g>
+<rect fill="#0e1b26" height="52" rx="13" stroke="#38bdf8" stroke-width="2" width="224" x="736" y="186"></rect>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="848" y="208">💳 Stripe turns it into a product</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="848" y="225">free + pro = revenue</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500">Illustrative diagram — reliability recreates, with a platform and prompts, the healing loop you got for free in the interactive session; monetization closes the cycle by turning the workflow into a product.</p>
+</section>
+<!-- TÓPICO 1 -->
+<section class="mb-16" data-inema-topic="modulo-6-3#topico-1" id="topico-1">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🕳️ The agentic gap revisited</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>I have a question</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">What it is</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-3-t1-p1">
+          During development, you and the <strong class="text-rose-400">Claude Code</strong> work in a self-healing loop: the task runs, errors, and the AI <em>reads</em> the error right away and fixes it. But when the task is <strong>deployed</strong> and starts running on its own — on a schedule (cron) or triggered by an event (webhook) in the cloud — this loop disappears. The <strong class="text-rose-400">agentic gap</strong> is exactly this gap: the hosted task <em>runs</em>, but it doesn't adapt, and no one is reading the errors.
+        </p>
+<div class="bg-dark-800 border border-rose-500/30 rounded-xl p-4 mb-4">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 text-xs font-semibold mr-2">What is it?</span><strong>Agentic gap</strong> — the difference between the interactive session (AI is watching and correcting) and autonomous execution in the cloud (no one is watching). <strong>Silent failure</strong> — when a task breaks but no one is notified: it just “stops working,” and you find out later.</p>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m6-3-t1-p2">
+          In practical terms: you close the terminal, go to sleep, and at 7 a.m. cron triggers the task. If a source's API is down, the task can <strong>freeze and die</strong> — and since Claude Code is no longer monitoring, the failure goes unnoticed until someone complains. The solution isn’t to “hope for the best”: you close the gap with <strong>platform resources</strong> (retries, traces, alerts) and with <strong>better prompting</strong> (error handling and logging requested from the very first prompt).
+        </p>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">Why learn</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-3-t1-p3">Without closing the gap, “it ran in the demo” doesn’t mean “it runs in production.” An automation that fails silently is worse than none: you believe it’s taking care of something that stopped working days ago. Understanding the gap changes how you build—you start asking for robustness <strong>before</strong> of deployment, not after the incident.</p>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Practical tip</h3>
+<p class="text-neutral-300 text-sm">Before deploying any task, answer two questions: "What happens if API X goes down?" and "How will I know if this fails in the middle of the night?" If you can't answer both, it's not ready for production yet.</p>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-3">Key concepts</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Lost loop</div><p class="text-xs text-neutral-400">AI no longer reads the errors.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Executes ≠ adapts</div><p class="text-xs text-neutral-400">Runs, but doesn’t fix itself.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Platform</div><p class="text-xs text-neutral-400">Retries, traces, alerts.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Prompting</div><p class="text-xs text-neutral-400">Error and log from the start.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:bg-rose-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Mark as read</span><span class="inema-label-done hidden">Read</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 2 -->
+<section class="mb-16" data-inema-topic="modulo-6-3#topico-2" id="topico-2">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">📝 Meaningful Logging</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>I have a question</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">What it is</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-3-t2-p1">
+          O <strong class="text-rose-400">Trigger.dev</strong> gives you visibility (traces) and automatic retries, but it can only retry what <em>recognizes</em> how it fails — and you can only diagnose what the log tells you. Meaningful logging means asking AI for a <strong>clear log entry at each important step</strong>, with specific context: not “task failed,” but “Firecrawl returned 429 on source 3.” A vague log is useless; a specific log is actionable.
+        </p>
+<div class="bg-dark-800 border border-rose-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 text-xs font-semibold mr-2">What is it?</span><strong>Log</strong> — a line of text the task writes while it runs, recording what happened. <strong>429</strong> — HTTP code for “too many requests” (rate limit). A log that cites the code and which source failed tells <em>what</em> went wrong and <em>where</em>.</p>
+</div>
+<!-- SVG: log vago vs log específico -->
+<div class="rounded-2xl border border-rose-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="Two logs for the same failure: the vague log says only task failed and gives no clues, while the specific log says Firecrawl returned 429 for source 3, identifying the error code and which source failed and making the problem actionable" class="w-full h-auto" role="img" viewbox="0 0 1000 190">
+<defs>
+<pattern height="32" id="m63b-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#f43f5e" opacity="0.1" r="1.3"></circle></pattern>
+<marker id="m63b-ahr" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fb7185"></path></marker>
+<marker id="m63b-ahx" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#f87171"></path></marker>
+</defs>
+<rect fill="url(#m63b-grid)" height="190" width="1000" x="0" y="0"></rect>
+<rect fill="#1e293b" height="44" rx="11" stroke="#94a3b8" stroke-width="2" width="180" x="40" y="36"></rect>
+<text fill="#e2e8f0" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="130" y="63">the task fails</text>
+<g fill="none" opacity="0.6" stroke="#f87171" stroke-width="2"><path d="M220,52 C290,52 300,40 360,40" marker-end="url(#m63b-ahx)"></path></g>
+<rect fill="#2a0e0e" height="40" rx="10" stroke="#f87171" stroke-width="1.8" width="320" x="360" y="20"></rect><text fill="#fca5a5" font-family="monospace" font-size="13" x="380" y="45">✗ "task failed"</text>
+<text fill="#94a3b8" font-family="Inter,sans-serif" font-size="11" x="700" y="45">→ I don’t know anything</text>
+<g fill="none" opacity="0.7" stroke="#fb7185" stroke-width="2"><path d="M220,64 C290,64 300,118 360,118" marker-end="url(#m63b-ahr)"></path></g>
+<rect fill="#2a0e16" height="40" rx="10" stroke="#fb7185" stroke-width="1.8" width="430" x="360" y="98"></rect><text fill="#fecdd3" font-family="monospace" font-size="13" x="380" y="123">✓ “Firecrawl returned 429 from source 3”</text>
+<text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="11" x="360" y="160">→ I know the code (429), the source (3), and the service (Firecrawl): actionable</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mb-6">Illustrative diagram — the same failure, two logs. The specific one carries enough context for you (or the AI) to act without guessing.</p>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">Why learn</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m6-3-t2-p2">When something fails at 3 a.m., the log is all you'll have. A trace full of generic "ok" and "error" messages forces you to reproduce the problem from scratch; a trace with rich messages tells you in seconds which source went down, with which code, at which step. Asking for good logs <strong>from the very first prompt</strong> is cheaper than adding them after the incident.</p>
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-rose-400 font-semibold mb-1">🎯 Goal: <span class="text-neutral-300 font-normal">ask Claude Code for clear, specific logs at each significant step of the task.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">code / prompt (copy and run)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Revise os arquivos da task &lt;nome-da-task&gt; e adicione um log claro
+em cada passo significativo. Em vez de mensagens genéricas como
+"task failed", logue o contexto: serviço, código de status e qual item.
+
+Exemplos do que eu quero ver nos logs:
+  - "Firecrawl retornou 429 na fonte 3 (rate limit)"
+  - "Supabase: gravada linha parcial para lead &lt;id&gt; (1 fonte faltando)"
+  - "OpenAI ok: resumo gerado para &lt;empresa&gt; em 1.4s"
+
+Use o logger do Trigger.dev (logger.info / logger.warn / logger.error)
+para que apareçam no trace do dashboard.</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ How to verify: run the task in dev, open the trace in the Trigger.dev dashboard, and check that each step has a readable line with context — not just “ok”/“failed”.</p>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-3">Key concepts</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Specific</div><p class="text-xs text-neutral-400">Service, code, item.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">At each step</div><p class="text-xs text-neutral-400">Not just at the end.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Actionable</div><p class="text-xs text-neutral-400">You can act without guessing.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">In the trace</div><p class="text-xs text-neutral-400">Visible on the dashboard.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:bg-rose-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Mark as read</span><span class="inema-label-done hidden">Read</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 3 -->
+<section class="mb-16" data-inema-topic="modulo-6-3#topico-3" id="topico-3">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">🧯 try/catch in external calls</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>I have a question</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">What it is</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-3-t3-p1">
+          Every call to an external API can fail — the network goes down, the service returns an error, or the response comes in an unexpected format. The <strong class="text-rose-400">try/catch</strong> is the pattern that wraps this call so that, if it fails, the task <em>capture</em> the error instead of letting it die: you log the error with context, continue where possible, and only <strong>launches</strong> (stops permanently) on truly critical failures. That's what allows the task to write a <strong>partial row</strong> instead of breaking when a source goes down.
+        </p>
+<div class="bg-dark-800 border border-rose-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 text-xs font-semibold mr-2">What is it?</span><strong>try/catch</strong> — a code structure: the block <code>try</code> tries something risky; if it errors, the block <code>catch</code> takes over instead of letting the task get stuck. <strong>Partial line</strong> — save what worked (3 of 4 sources), noting what was missing instead of discarding everything.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ With try/catch (fails gracefully)</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Source 3 goes down → logs "429 from source 3" and <strong>continue</strong>.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Writes the row with 3 sources, marking the 4th as missing.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Only stop if something is missing <strong>critical</strong> (e.g., the database is down).</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ No try/catch (everything gets stuck)</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Source 3 goes down → the exception goes up and <strong>kills the entire task</strong>.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>You also lose the sources that had worked.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Silent failure: nothing is saved, and the error has no context.</span></li>
+</ul>
+</div>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">Why learn</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-3-t3-p2">There's a real case that proves the point: the <strong>Firecrawl</strong> returned <code>success:false</code> with the results under the key <code>web</code> instead of <code>data</code>. Without error handling, this would have broken the read and crashed the task. With the <code>try/catch</code> in place, the task detected the unexpected format, logged the issue, and <strong>didn’t freeze</strong> — saved what it could. Error handling isn’t a luxury: it’s what keeps the automation running when the outside world misbehaves.</p>
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-rose-400 font-semibold mb-1">🎯 Goal: <span class="text-neutral-300 font-normal">fail gracefully — wrap the external call in try/catch, log with context, and continue in noncritical cases.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">code / prompt (copy and run)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">// TypeScript — chamada a uma API externa dentro da task
+let dadosFonte = null;
+
+try {
+  const resp = await fetch(`https://api.&lt;servico&gt;.com/&lt;rota&gt;`, {
+    headers: { Authorization: `Bearer ${process.env.&lt;CHAVE&gt;}` },
+  });
+
+  if (!resp.ok) {
+    // falha não-crítica: loga COM contexto e continua
+    logger.warn(`&lt;Servico&gt; retornou ${resp.status} na fonte ${fonteId}`);
+  } else {
+    dadosFonte = await resp.json();
+  }
+} catch (err) {
+  // erro de rede/timeout: registra e segue sem essa fonte
+  logger.error(`Falha ao chamar &lt;Servico&gt; (fonte ${fonteId}): ${err.message}`);
+}
+
+// grava a linha mesmo parcial — não descarta o que deu certo
+await salvarLinha({ ...resto, fonte: dadosFonte ?? "faltando" });
+
+// só lança se faltar algo CRÍTICO (sem isso não há resultado)
+if (!dadoEssencial) throw new Error("Dado essencial ausente — abortando");</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ How to verify: simulate the failure (wrong key / source unavailable) and confirm in the trace that the task <strong>doesn’t freeze</strong> — it logs the warning and saves the partial line. Only a truly critical failure should stop the run.</p>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-3">Key concepts</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Capture</div><p class="text-xs text-neutral-400">catch prevents the task from dying.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Context</div><p class="text-xs text-neutral-400">Log the service and code.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Continue</div><p class="text-xs text-neutral-400">Writes a partial row.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Critical only</div><p class="text-xs text-neutral-400">throw only for the essentials.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:bg-rose-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Mark as read</span><span class="inema-label-done hidden">Read</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 4 -->
+<section class="mb-16" data-inema-topic="modulo-6-3#topico-4" id="topico-4">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">🔁 Retries with backoff (vs. logic bugs)</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>I have a question</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">What it is</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-3-t4-p1">
+          You configure <strong class="text-rose-400">retries</strong> in the task definition itself (e.g., up to 3 attempts, with <strong>exponential backoff</strong> starting in 30s). If the task fails for a temporary reason, Trigger.dev waits and tries again, doubling the interval each time. The golden rule: retries solve <strong>transient failures</strong> (timeout, rate limit, network instability) — but <strong>no</strong> fix logic bugs in your code.
+        </p>
+<div class="bg-dark-800 border border-rose-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 text-xs font-semibold mr-2">What is it?</span><strong>Retry</strong> — automatically try again after a failure. <strong>Exponential backoff</strong> — wait longer between each attempt (30s, then 60s, then 120s), giving the service time to recover and avoiding hammering it. <strong>Transient failure</strong> — a temporary error that tends to go away on its own.</p>
+</div>
+<!-- SVG: retry conserta transitória, não conserta bug -->
+<div class="rounded-2xl border border-rose-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="Two retry scenarios: with a transient failure like a 429 or timeout, the first attempt fails, waits 30 seconds with backoff, and the second attempt succeeds; with a logic bug, all three attempts fail the same way because the error is in the code, not the timing" class="w-full h-auto" role="img" viewbox="0 0 1000 200">
+<defs>
+<pattern height="32" id="m63c-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#f43f5e" opacity="0.1" r="1.3"></circle></pattern>
+<marker id="m63c-ahg" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"></path></marker>
+<marker id="m63c-ahx" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#f87171"></path></marker>
+</defs>
+<rect fill="url(#m63c-grid)" height="200" width="1000" x="0" y="0"></rect>
+<!-- transitória -->
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="40" y="42">Transient failure (429 / timeout) — retry fixes it</text>
+<rect fill="#2a0e0e" height="36" rx="9" stroke="#f87171" stroke-width="1.8" width="120" x="40" y="54"></rect><text fill="#fca5a5" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="100" y="77">attempt 1 ✗</text>
+<g fill="none" opacity="0.7" stroke="#34d399" stroke-width="2"><path d="M160,72 L226,72" marker-end="url(#m63c-ahg)"></path></g>
+<text fill="#7fd6b3" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="193" y="64">wait 30s</text>
+<rect fill="#0e2018" height="36" rx="9" stroke="#34d399" stroke-width="1.8" width="160" x="226" y="54"></rect><text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="306" y="77">attempt 2 ✓ works</text>
+<text fill="#7fd6b3" font-family="Inter,sans-serif" font-size="11" x="408" y="77">→ fixed itself</text>
+<!-- bug de lógica -->
+<text fill="#f87171" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="40" y="138">Logic bug — retry does NOT fix it</text>
+<rect fill="#2a0e0e" height="36" rx="9" stroke="#f87171" stroke-width="1.8" width="120" x="40" y="150"></rect><text fill="#fca5a5" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="100" y="173">attempt 1 ✗</text>
+<g fill="none" opacity="0.6" stroke="#f87171" stroke-width="2"><path d="M160,168 L196,168" marker-end="url(#m63c-ahx)"></path></g>
+<rect fill="#2a0e0e" height="36" rx="9" stroke="#f87171" stroke-width="1.8" width="120" x="196" y="150"></rect><text fill="#fca5a5" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="256" y="173">attempt 2 ✗</text>
+<g fill="none" opacity="0.6" stroke="#f87171" stroke-width="2"><path d="M316,168 L352,168" marker-end="url(#m63c-ahx)"></path></g>
+<rect fill="#2a0e0e" height="36" rx="9" stroke="#f87171" stroke-width="1.8" width="120" x="352" y="150"></rect><text fill="#fca5a5" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="412" y="173">attempt 3 ✗</text>
+<text fill="#f87171" font-family="Inter,sans-serif" font-size="11" x="494" y="173">→ the error is in the code: fix the bug</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mb-6">Illustrative diagram — if all 3 attempts fail the same way, the problem isn’t the timing: it’s the logic. Retrying a bug forever just burns resources.</p>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">Why learn</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-3-t4-p2">Knowing the difference helps you avoid two opposite mistakes: <strong>not have retries</strong> (a minor hiccup brings down a run that would have worked 30s later) and <strong>trust them too much</strong> (a logic bug gets retried forever, masking the real problem and wasting executions). If all three attempts fail with the same error, stop retrying and start debugging — the subject of topic 6.</p>
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-rose-400 font-semibold mb-1">🎯 Goal: <span class="text-neutral-300 font-normal">tolerate transient failures by configuring retries with exponential backoff on the task.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">code / prompt (copy and run)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">// trigger/&lt;sua-task&gt;.ts — configuração de retries
+export const minhaTask = task({
+  id: "&lt;id-da-task&gt;",
+  retry: {
+    maxAttempts: 3,            // até 3 tentativas
+    minTimeoutInMs: 30_000,    // backoff começa em 30s
+    factor: 2,                 // exponencial: 30s → 60s → 120s
+  },
+  run: async (payload) =&gt; {
+    // ... sua lógica aqui ...
+  },
+});</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ How to verify: Trigger a transient failure (rate limit) and check the trace to see Trigger.dev reschedule the attempt after ~30s and continue. If the SAME error repeats across all 3 attempts, it’s a logic bug — more retries won’t help; go debug it.</p>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-3">Key concepts</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">maxAttempts</div><p class="text-xs text-neutral-400">Number of attempts (e.g., 3).</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Backoff</div><p class="text-xs text-neutral-400">Interval increases (30s, 60s…).</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Temporary</div><p class="text-xs text-neutral-400">Retry is for the passenger.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Bug ≠ retry</div><p class="text-xs text-neutral-400">Same error 3 times = debug it.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:bg-rose-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Mark as read</span><span class="inema-label-done hidden">Read</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 5 -->
+<section class="mb-16" data-inema-topic="modulo-6-3#topico-5" id="topico-5">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">🔔 Alerts (email/Slack/webhook)</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>I have a question</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">What it is</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-3-t5-p1">
+          Logs and traces tell you what happened — <em>if</em> you’re going to look. <strong class="text-rose-400">Alerts</strong> turn that around: they come to you. In Trigger.dev, at <strong>Project Settings &gt; Alerts</strong>, you configure notifications by <strong>email</strong>, <strong>Slack</strong> or <strong>webhook</strong> triggered by deploy or run failures, with configurable environment and failure type. It takes less than two minutes to set up.
+        </p>
+<div class="bg-dark-800 border border-rose-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 text-xs font-semibold mr-2">What is it?</span><strong>Alert</strong> — an automatic notification when something goes wrong. <strong>Webhook</strong> — an address (URL) that receives a notification from the platform and can trigger another automation. An alert is the opposite of a log: instead of you going to the information, the information comes to you.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ With alerts</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>The overnight run fails → you get an email/Slack notification right away.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>You discover <strong>before</strong> for the end user to complain.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>The webhook can even open a ticket or notify a team channel.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ No alerts</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>The task breaks and sits idle for days without anyone noticing.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>You only find out when a customer tells you it “stopped working.”</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Trusts "going to check the dashboard"—and never checks at the right time.</span></li>
+</ul>
+</div>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">Why learn</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-3-t5-p2">This is the rule that closes the agentic gap in practice: <strong>every deployed task needs a failure alert</strong>. Without this, you’re betting that you’ll check the dashboard exactly when something goes wrong—which never happens. With alerts, the system contacts you; you replace "hope" with "a warning." Since it’s configurable by environment, keep production alerts on at all times.</p>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Practical tip</h3>
+<p class="text-neutral-300 text-sm">Add “configure failure alert” to your deployment checklist, alongside “check env vars.” Go to <strong>Project Settings &gt; Alerts</strong>, choose the channel (Slack is usually the most visible for teams), mark the environment <em>prod</em> and the failure types (run failed, deploy failed). Two minutes now can save days of dead tasks later.</p>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-3">Key concepts</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Channels</div><p class="text-xs text-neutral-400">Email, Slack, webhook.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Types</div><p class="text-xs text-neutral-400">Run failed, deploy failed.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">By environment</div><p class="text-xs text-neutral-400">Production always on.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Push, not pull</div><p class="text-xs text-neutral-400">The alert comes to you.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:bg-rose-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Mark as read</span><span class="inema-label-done hidden">Read</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 6 -->
+<section class="mb-16" data-inema-topic="modulo-6-3#topico-6" id="topico-6">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">🧑‍🔧 The human debugging loop</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>I have a question</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">What it is</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-3-t6-p1">
+          Claude still debugs — it just doesn’t <strong>automatically</strong> and more. In production, the healing loop exists, but with you in the middle: the task fails, the alert arrives, and you (the human) bridge the gap. Open the <strong>red trace</strong> in the dashboard, copy the error, paste it into Claude (“here’s the trace that failed: &lt;error&gt;, what’s wrong and how do I fix it?”), let Claude identify the fix, make the <strong>redeploy</strong> and test it. The trace + Claude provide a quick diagnosis; the human just needs to pass along the error.
+        </p>
+<div class="bg-dark-800 border border-rose-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 text-xs font-semibold mr-2">What is it?</span><strong>Trace</strong> — the step-by-step record of a run in the dashboard; a red/failed trace shows where execution broke. <strong>Redeploy</strong> — upload the corrected version of the code to the cloud again (commit → push → deploy) so the fix takes effect in production.</p>
+</div>
+<!-- TIMELINE: o loop humano de debug -->
+<div class="bg-dark-800/40 rounded-xl border border-dark-600 p-6 mb-3">
+<h4 class="font-semibold text-rose-400 mb-5">The human debugging loop, step by step</h4>
+<ol class="relative border-l-2 border-rose-500/40 ml-3 space-y-6">
+<li class="ml-6">
+<span class="absolute -left-[0.65rem] flex items-center justify-center w-5 h-5 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-400 text-xs font-bold">1</span>
+<p class="text-sm font-semibold text-neutral-100">Open the red trace</p>
+<p class="text-xs text-neutral-400">In the Trigger.dev dashboard, find the failed run (status failed) and open the trace to see which step broke.</p>
+</li>
+<li class="ml-6">
+<span class="absolute -left-[0.65rem] flex items-center justify-center w-5 h-5 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-400 text-xs font-bold">2</span>
+<p class="text-sm font-semibold text-neutral-100">Copy the error</p>
+<p class="text-xs text-neutral-400">Select the complete error message (including the stack/context your meaningful log captured).</p>
+</li>
+<li class="ml-6">
+<span class="absolute -left-[0.65rem] flex items-center justify-center w-5 h-5 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-400 text-xs font-bold">3</span>
+<p class="text-sm font-semibold text-neutral-100">Paste it into Claude and ask for a diagnosis</p>
+<p class="text-xs text-neutral-400">"Here's the trace that failed: &lt;paste the error&gt;. What's wrong, and how do I fix it?" — Claude reads the context and suggests a fix.</p>
+</li>
+<li class="ml-6">
+<span class="absolute -left-[0.65rem] flex items-center justify-center w-5 h-5 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-400 text-xs font-bold">4</span>
+<p class="text-sm font-semibold text-neutral-100">Apply the fix</p>
+<p class="text-xs text-neutral-400">Let Claude edit the code to apply the identified fix; review the change (trust but verify).</p>
+</li>
+<li class="ml-6">
+<span class="absolute -left-[0.65rem] flex items-center justify-center w-5 h-5 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-400 text-xs font-bold">5</span>
+<p class="text-sm font-semibold text-neutral-100">Redeploy</p>
+<p class="text-xs text-neutral-400">commit → push → deploy: the corrected version goes live in the cloud.</p>
+</li>
+<li class="ml-6">
+<span class="absolute -left-[0.65rem] flex items-center justify-center w-5 h-5 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-400 text-xs font-bold">6</span>
+<p class="text-sm font-semibold text-neutral-100">Test</p>
+<p class="text-xs text-neutral-400">Trigger the task again (or wait for the next cron) and confirm in the trace that it now passes in green.</p>
+</li>
+</ol>
+</div>
+<p class="text-xs text-neutral-500 mb-6">Illustrative timeline—the loop is the same as in the interactive session (error → diagnosis → fix → redeploy → test), but now <strong>you</strong> is what carries the error to Claude.</p>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">Why learn</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-3-t6-p2">This is where everything connects: the <strong>meaningful log</strong> (topic 2) makes the trace readable, while the <strong>alerts</strong> (topic 5) tell you to open that trace, and the <strong>retries</strong> (topic 4) already tell you whether it’s worth debugging (same error 3x = bug). The cycle is fast because the trace + Claude handle the heavy diagnostic work; your part is just the bridge. Mastering this loop is what keeps a hosted automation running for weeks.</p>
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-rose-400 font-semibold mb-1">🎯 Goal: <span class="text-neutral-300 font-normal">take the error from a failed trace and ask Claude to diagnose and fix it.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">code / prompt (copy and run)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Aqui está o trace que falhou:
+
+&lt;cole o erro completo copiado do dashboard do Trigger.dev&gt;
+
+Contexto: é a task &lt;nome-da-task&gt;, rodou via &lt;cron/webhook&gt; em produção.
+O que está errado e como conserto? Aplique o fix nos arquivos da task
+e me explique em uma frase a causa raiz.</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ How to verify: apply the proposed fix, redeploy (commit → push → deploy), and retest the task—confirm in the trace that it passes in green. If it fails again with the same error, paste the new trace and repeat.</p>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-3">Key concepts</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Red trace</div><p class="text-xs text-neutral-400">Where the run failed.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Copy and paste</div><p class="text-xs text-neutral-400">You bridge the error.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Claude diagnoses</div><p class="text-xs text-neutral-400">Reads the context, proposes the fix.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Redeploy + test</div><p class="text-xs text-neutral-400">Close the loop with a green status.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:bg-rose-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Mark as read</span><span class="inema-label-done hidden">Read</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 7 -->
+<section class="mb-16" data-inema-topic="modulo-6-3#topico-7" id="topico-7">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">7</span>
+<h2 class="text-2xl font-bold">💳 Monetization with Stripe</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>I have a question</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">What it is</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-3-t7-p1">
+          The step that turns the automation into a <strong class="text-rose-400">SaaS</strong>: add payments with <strong class="text-rose-400">Stripe</strong> in a model <strong>freemium</strong> — a limited free tier (e.g., 2 lead qualifications per day) and a paid pro tier (e.g., US$ 29/month, unlimited), all through <strong>Stripe Checkout</strong>. The motivation isn’t just making money: it’s <strong>limit usage</strong> so you don’t end up paying for users’ uncapped AI usage. That’s what completes the transition from “just a workflow” to “an app that generates revenue.”
+        </p>
+<div class="bg-dark-800 border border-rose-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 text-xs font-semibold mr-2">What is it?</span><strong>SaaS</strong> — software sold as a subscription. <strong>Freemium</strong> — free tier with limits + paid tier without limits. <strong>Stripe Checkout</strong> — Stripe's ready-made payment page. <strong>Webhook</strong> — an endpoint Stripe calls to notify your app that a payment occurred.</p>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m6-3-t7-p2">The good news: you don’t write the integration by hand. You describe the result, and the <strong class="text-rose-400">Claude Code</strong> implements — but <em>you</em> you need to create the accounts, copy the four keys, and run the migration. The sequence below is the manual part; Claude handles the code.</p>
+<!-- TIMELINE: setup do Stripe -->
+<div class="bg-dark-800/40 rounded-xl border border-dark-600 p-6 mb-3">
+<h4 class="font-semibold text-rose-400 mb-5">Stripe setup sequence</h4>
+<ol class="relative border-l-2 border-rose-500/40 ml-3 space-y-6">
+<li class="ml-6">
+<span class="absolute -left-[0.65rem] flex items-center justify-center w-5 h-5 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-400 text-xs font-bold">1</span>
+<p class="text-sm font-semibold text-neutral-100">Create the recurring product</p>
+<p class="text-xs text-neutral-400">In Stripe, create a recurring monthly product (e.g., Pro, US$ 29/month) and <strong>copy the price ID</strong> (starts with <code>price_…</code>).</p>
+</li>
+<li class="ml-6">
+<span class="absolute -left-[0.65rem] flex items-center justify-center w-5 h-5 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-400 text-xs font-bold">2</span>
+<p class="text-sm font-semibold text-neutral-100">Get the API keys</p>
+<p class="text-xs text-neutral-400">In Developers → API keys, copy the <strong>publishable key</strong> (<code>pk_…</code>) e a <strong>secret key</strong> (<code>sk_…</code>).</p>
+</li>
+<li class="ml-6">
+<span class="absolute -left-[0.65rem] flex items-center justify-center w-5 h-5 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-400 text-xs font-bold">3</span>
+<p class="text-sm font-semibold text-neutral-100">Create the webhook endpoint</p>
+<p class="text-xs text-neutral-400">Point to <code>.../api/stripe-webhook</code> listening <code>checkout.session.completed</code>, <code>customer.subscription.updated</code> e <code>customer.subscription.deleted</code>; <strong>copy the webhook secret</strong> (<code>whsec_…</code>).</p>
+</li>
+<li class="ml-6">
+<span class="absolute -left-[0.65rem] flex items-center justify-center w-5 h-5 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-400 text-xs font-bold">4</span>
+<p class="text-sm font-semibold text-neutral-100">Run the migration in Supabase</p>
+<p class="text-xs text-neutral-400">Run the migration SQL to create the table <code>subscriptions</code> in Supabase (stores who subscribed and the status).</p>
+</li>
+<li class="ml-6">
+<span class="absolute -left-[0.65rem] flex items-center justify-center w-5 h-5 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-400 text-xs font-bold">5</span>
+<p class="text-sm font-semibold text-neutral-100">Add the 4 keys in Vercel + redeploy</p>
+<p class="text-xs text-neutral-400">Add the four env vars (publishable, secret, price ID, webhook secret) in Vercel and redeploy for them to take effect in production.</p>
+</li>
+<li class="ml-6">
+<span class="absolute -left-[0.65rem] flex items-center justify-center w-5 h-5 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-400 text-xs font-bold">6</span>
+<p class="text-sm font-semibold text-neutral-100">Test with a test card</p>
+<p class="text-xs text-neutral-400">Use a Stripe test card (e.g., <code>4242 4242 4242 4242</code>) and confirm that the subscription shows as active.</p>
+</li>
+</ol>
+</div>
+<p class="text-xs text-neutral-500 mb-6">Illustrative timeline—four keys (publishable, secret, price ID, webhook secret), a new table, and a webhook endpoint: this is the framework for any subscription billing.</p>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">Why learn</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-3-t7-p3">Without a usage limit, each free user can trigger unlimited AI usage—and the bill lands in your lap. Freemium solves both sides: the free tier (2/day) is a showcase and cost safeguard; the pro tier (US$ 29/month unlimited) generates revenue. With that, what was a technical workflow becomes a <strong>product</strong> that holds up — the final leap in the learning path.</p>
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-rose-400 font-semibold mb-1">🎯 Goal: <span class="text-neutral-300 font-normal">ask Claude Code to integrate payments with a free tier and a pro tier via Stripe Checkout.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">code / prompt (copy and run)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Adicione pagamentos Stripe ao app com modelo freemium:
+
+  - Tier grátis: até 2 qualificações de lead por dia.
+  - Tier pro: US$ 29/mês, ilimitado, via Stripe Checkout.
+
+Use as env vars: STRIPE_PUBLISHABLE_KEY, STRIPE_SECRET_KEY,
+STRIPE_PRICE_ID, STRIPE_WEBHOOK_SECRET.
+Crie a rota /api/stripe-webhook escutando checkout.session.completed,
+customer.subscription.updated e customer.subscription.deleted,
+e atualize a tabela subscriptions no Supabase conforme o status.
+Bloqueie o uso acima do limite no tier grátis.</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ How to verify: open the <strong>pricing page</strong>, click Subscribe and complete the <strong>checkout with the test card</strong> (4242…). Check that the table <code>subscriptions</code> marked the user as pro and removes the 2/day limit for them.</p>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-3">Key concepts</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Freemium</div><p class="text-xs text-neutral-400">Limited free + paid pro.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">4 keys</div><p class="text-xs text-neutral-400">pk, sk, price ID, whsec.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Webhook</div><p class="text-xs text-neutral-400">Stripe notifies your app.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Becomes a product</div><p class="text-xs text-neutral-400">Workflow → recipe.</p></div>
+</div>
+<!-- Checagem leve -->
+<div class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6" data-inema-check="modulo-6-3#q1">
+<p class="inema-check__q font-medium mb-4">Wrapping up reliability: automatic retries solve <strong>which type</strong> of failure?</p>
+<div class="inema-check-options inema-check__options space-y-2">
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0" type="button">A logic bug in the code.</button>
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1" type="button">A transient/temporary API failure (e.g., timeout, 429).</button>
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2" type="button">An incorrect API key.</button>
+</div>
+<div aria-live="polite" class="mt-4 text-sm" data-inema-check-feedback="" role="status"></div>
+</div>
+<div class="flex justify-start mt-8">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:bg-rose-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Mark as read</span><span class="inema-label-done hidden">Read</span>
+</button>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-8">
+<div class="bg-gradient-to-br from-rose-900/40 via-dark-800 to-dark-800 rounded-xl border border-rose-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📌</span> Module Summary</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-neutral-100">Agentic gap</strong><span class="text-neutral-400"> — once hosted, the task runs but doesn’t adapt; you recreate the healing loop with the platform and prompts.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-neutral-100">Meaningful logging</strong><span class="text-neutral-400"> — a specific log ("429 at source 3"), not a generic one; it’s actionable and appears in the trace.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-neutral-100">try/catch for external calls</strong><span class="text-neutral-400"> — capture, log with context, continue; write a partial line and only throw on critical errors.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-neutral-100">Retries with backoff</strong><span class="text-neutral-400"> — up to 3 attempts with increasing intervals; they handle transient issues, not logic bugs.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-neutral-100">Alerts</strong><span class="text-neutral-400"> — email/Slack/webhook on failures; every deployed task needs one so you know before the user does.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-neutral-100">Human debugging loop</strong><span class="text-neutral-400"> — open the trace, copy the error, paste it into Claude, apply the fix, redeploy, and test.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-neutral-100">Monetization with Stripe</strong><span class="text-neutral-400"> — freemium (limited free + paid Pro) via Checkout; 4 keys, subscriptions table, and webhook generate revenue.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-rose-400 mb-2">Next:</h3>
+<p class="text-neutral-300">You completed Track 6 — Production, Deployment &amp; Security. From the mindset to a product that generates revenue: the complete Vibe Coding journey is finished.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="index.html">← Back to Track</a>
+<a class="flex-1 text-center px-6 py-3 bg-rose-600 text-white rounded-lg font-semibold hover:bg-rose-500 transition-colors" href="../../index.html">Course start →</a>
+</div>
+</div>
+</section>
+</main>
+<!-- TOC sticky + scrollspy -->
+<aside class="hidden lg:block">
+<nav aria-label="Page index" class="sticky top-24 self-start" data-inema-toc="">
+<p class="text-sm text-neutral-400 mb-3">Section <span data-inema-section-counter=""><span class="inema-toc-pos">1</span> of <span class="inema-toc-total">7</span></span></p>
+<ol class="space-y-1.5 text-sm">
+<li><a class="inema-toc-link text-neutral-400 hover:text-rose-400 block" href="#topico-1">1. The agentic gap revisited</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-rose-400 block" href="#topico-2">2. Meaningful logging</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-rose-400 block" href="#topico-3">3. try/catch for external services</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-rose-400 block" href="#topico-4">4. Retries with backoff</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-rose-400 block" href="#topico-5">5. Alerts</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-rose-400 block" href="#topico-6">6. Human debugging loop</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-rose-400 block" href="#topico-7">7. Monetization with Stripe</a></li>
+</ol>
+</nav>
+</aside>
+</div>
+<footer class="border-t border-dark-600 py-8 mt-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Vibe Coding: Complete Mastery · Original course <a class="text-sky-400 hover:text-sky-300 font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a> · 2026</p>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const htmlEl = document.documentElement;
+    if (htmlEl.classList.contains('dark')) { themeToggleLightIcon.classList.remove('hidden'); }
+    else { themeToggleDarkIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      htmlEl.classList.toggle('dark');
+      const isDark = htmlEl.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      if (window.INEMA && INEMA.setPref) { INEMA.setPref('theme', isDark ? 'inema-dark' : 'claro'); }
+    });
+  </script>
+<script src="../../../assets/learn.js"></script>
+<script>
+    if (window.INEMA && typeof window.INEMA.init === 'function') {
+      window.INEMA.init();
+      if (window.INEMA.registerCheck) {
+        INEMA.registerCheck('modulo-6-3#q1', {
+          answer: 1,
+          explain: {
+            0: 'Não. Um bug de lógica vai repetir o mesmo erro a cada tentativa — retry só vai martelá-lo para sempre. Esse caso pede depuração (tópico 6).',
+            1: 'Isso. Retries são feitos para problemas passageiros — timeout, 429, instabilidade de rede — que tendem a sumir após o backoff.',
+            2: 'Não. Uma chave de API errada falha sempre, não é transitória; retentar não ajuda. Corrija a env var.'
+          }
+        });
+      }
+    }
+  </script>
+</body>
+</html>

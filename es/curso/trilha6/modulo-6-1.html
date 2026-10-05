@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="vibe-coding-completo" name="inema-course"/>
+<!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
+<script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        } else {
+          var legacy = localStorage.getItem('theme');
+          if (legacy === 'light') p.theme = 'claro';
+          else if (legacy === 'dark') p.theme = 'inema-dark';
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'inema-dark': { dark: true,  attr: null,        cs: 'dark'  },
+        'claro':      { dark: false, attr: null,        cs: 'light' },
+        'sepia':      { dark: false, attr: 'sepia',     cs: 'light' },
+        'foco':       { dark: null,  attr: 'foco',      cs: null    },
+        'contraste':  { dark: true,  attr: 'contraste', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['inema-dark'];
+
+      if (t.dark === true) html.classList.add('dark');
+      else if (t.dark === false) html.classList.remove('dark');
+
+      if (t.attr) html.setAttribute('data-theme', t.attr);
+      else html.removeAttribute('data-theme');
+
+      html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark') ? 'dark' : 'light'));
+
+      html.setAttribute('data-font', p.font || 'inter');
+      html.setAttribute('data-accent', p.accent || 'emerald');
+
+      var s = html.style;
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--inema-font-scale', (scale / 100).toString());
+      s.setProperty('font-size', scale + '%');
+      s.setProperty('--measure', (+p.lineWidth || 68) + 'ch');
+      s.setProperty('--lh-body', (+p.leading || 1.7).toString());
+      var fam = p.font === 'system'
+        ? 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif'
+        : (p.font === 'leitura'
+          ? '"Atkinson Hyperlegible", "Inter", system-ui, sans-serif'
+          : '"Inter", system-ui, sans-serif');
+      s.setProperty('--font-body', fam);
+
+      var ACC = {
+        emerald: [152, 76, 45], blue: [217, 91, 60], purple: [258, 90, 66],
+        amber: [38, 92, 50], teal: [174, 72, 41], rose: [350, 89, 60]
+      };
+      var a = ACC[p.accent] || ACC.emerald;
+      s.setProperty('--accent-h', a[0] + '');
+      s.setProperty('--accent-s', a[1] + '%');
+      s.setProperty('--accent-l', a[2] + '%');
+      s.setProperty('--accent', 'hsl(' + a[0] + ' ' + a[1] + '% ' + a[2] + '%)');
+    } catch (err) {
+      try { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme = 'dark'; } catch (e) {}
+    }
+  })();
+  </script>
+<title>Módulo 6.1 · GitHub &amp; Trigger.dev | Vibe Coding: Dominio completo</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
+<script data-inema-manifest="" type="application/json">
+  {
+    "course": "vibe-coding-completo",
+    "tracks": [
+      { "n": "1", "title": "Fundamentos & Glossário", "modules": [
+        { "id": "1-1", "title": "A Mentalidade do Vibe Coding", "topics": 7, "href": "curso/trilha1/modulo-1-1.html" },
+        { "id": "1-2", "title": "O Ecossistema: Como as Peças se Encaixam", "topics": 6, "href": "curso/trilha1/modulo-1-2.html" },
+        { "id": "1-3", "title": "Glossário Essencial (Parte 1: IA, Claude Code, n8n)", "topics": 7, "href": "curso/trilha1/modulo-1-3.html" },
+        { "id": "1-4", "title": "Glossário Essencial (Parte 2: Agêntico, RAG, Deploy, Segurança)", "topics": 6, "href": "curso/trilha1/modulo-1-4.html" }
+      ]},
+      { "n": "2", "title": "Técnica: Arquitetura & Engenharia", "modules": [
+        { "id": "2-1", "title": "Engenharia de CLAUDE.md", "topics": 6, "href": "curso/trilha2/modulo-2-1.html" },
+        { "id": "2-2", "title": "O Framework WAT a Fundo", "topics": 7, "href": "curso/trilha2/modulo-2-2.html" },
+        { "id": "2-3", "title": "MCP por Dentro", "topics": 7, "href": "curso/trilha2/modulo-2-3.html" },
+        { "id": "2-4", "title": "Contexto & Tokens", "topics": 6, "href": "curso/trilha2/modulo-2-4.html" },
+        { "id": "2-5", "title": "RAG & Dados", "topics": 6, "href": "curso/trilha2/modulo-2-5.html" }
+      ]},
+      { "n": "3", "title": "Prompts & Padrões de Conversa", "modules": [
+        { "id": "3-1", "title": "Os Padrões de Prompting", "topics": 7, "href": "curso/trilha3/modulo-3-1.html" },
+        { "id": "3-2", "title": "O Ciclo Plan → Build → Troubleshoot → Optimize", "topics": 7, "href": "curso/trilha3/modulo-3-2.html" },
+        { "id": "3-3", "title": "Biblioteca de Prompts Prontos (copy-run)", "topics": 8, "href": "curso/trilha3/modulo-3-3.html" }
+      ]},
+      { "n": "4", "title": "Skills & Agentes", "modules": [
+        { "id": "4-1", "title": "Skills: Conceito & Anatomia", "topics": 7, "href": "curso/trilha4/modulo-4-1.html" },
+        { "id": "4-2", "title": "Construindo Skills na Prática", "topics": 7, "href": "curso/trilha4/modulo-4-2.html" },
+        { "id": "4-3", "title": "Agentes: Locais, Agendados & por Evento", "topics": 8, "href": "curso/trilha4/modulo-4-3.html" }
+      ]},
+      { "n": "5", "title": "Projetos Práticos (End-to-End)", "modules": [
+        { "id": "5-1", "title": "Projeto: Agente de Suporte por E-mail com RAG", "topics": 8, "href": "curso/trilha5/modulo-5-1.html" },
+        { "id": "5-2", "title": "Projeto: Agentes Hospedados (Agendado + Webhook)", "topics": 8, "href": "curso/trilha5/modulo-5-2.html" },
+        { "id": "5-3", "title": "Projeto: App Full-Stack (Lead Qualifier) + Frontend pra n8n", "topics": 8, "href": "curso/trilha5/modulo-5-3.html" }
+      ]},
+      { "n": "6", "title": "Produção, Deploy & Segurança", "modules": [
+        { "id": "6-1", "title": "GitHub & Trigger.dev", "topics": 7, "href": "curso/trilha6/modulo-6-1.html" },
+        { "id": "6-2", "title": "Secrets & Segurança", "topics": 8, "href": "curso/trilha6/modulo-6-2.html" },
+        { "id": "6-3", "title": "Confiabilidade & Monetização", "topics": 7, "href": "curso/trilha6/modulo-6-3.html" }
+      ]}
+    ]
+  }
+  </script>
+<link href="../../../assets/learn.css" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+    [id] { scroll-margin-top: 5rem; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - acento da trilha (rose, texto -800) + cores das outras trilhas no nav */
+    html:not(.dark) .text-rose-400 { color: #9f1239; }
+    html:not(.dark) .text-rose-300 { color: #be123c; }
+    html:not(.dark) .bg-rose-500\/20 { background-color: rgba(225, 29, 72, 0.12); }
+    html:not(.dark) .bg-rose-500\/10 { background-color: rgba(225, 29, 72, 0.08); }
+    html:not(.dark) .bg-rose-900\/20 { background-color: rgba(225, 29, 72, 0.08); }
+    html:not(.dark) .border-rose-500\/30 { border-color: rgba(225, 29, 72, 0.25); }
+    html:not(.dark) .hover\:bg-rose-500\/30:hover { background-color: rgba(225, 29, 72, 0.18); }
+    html:not(.dark) .hover\:bg-rose-500\/10:hover { background-color: rgba(225, 29, 72, 0.08); }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .group:hover .group-hover\:text-rose-400 { color: #9f1239; }
+    html:not(.dark) .hover\:border-rose-500\/30:hover { border-color: rgba(225, 29, 72, 0.25); }
+    /* nav: outras trilhas (hover only) — texto -800 */
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5, 150, 105, 0.08); }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37, 99, 235, 0.08); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124, 58, 237, 0.08); }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .hover\:bg-amber-500\/10:hover { background-color: rgba(217, 119, 6, 0.08); }
+    html:not(.dark) .hover\:text-teal-400:hover { color: #0d9488; }
+    html:not(.dark) .hover\:bg-teal-500\/10:hover { background-color: rgba(13, 148, 136, 0.08); }
+
+    /* Light mode - cores semânticas (emerald ✓ / red ✗) */
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .bg-emerald-900\/20 { background-color: rgba(5, 150, 105, 0.08); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5, 150, 105, 0.25); }
+    html:not(.dark) .text-red-400 { color: #dc2626; }
+    html:not(.dark) .bg-red-900\/20 { background-color: rgba(220, 38, 38, 0.07); }
+    html:not(.dark) .border-red-500\/30 { border-color: rgba(220, 38, 38, 0.25); }
+
+    /* Light mode - remove gradientes + cores especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    /* Dark mode - bordas suavizadas */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* TOC scrollspy active link */
+    .inema-toc-link.is-active, [data-inema-toc] a.is-active { color: #fb7185; font-weight: 600; }
+    html:not(.dark) [data-inema-toc] a.is-active { color: #9f1239; }
+
+    /* code box (copy-run) */
+    .codebox pre { white-space: pre; }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
+    }
+  </style>
+<link href="https://inematds.github.io/vibe-coding-completo/curso/trilha6/modulo-6-1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/en/curso/trilha6/modulo-6-1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/es/curso/trilha6/modulo-6-1.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha6/modulo-6-1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha6/modulo-6-1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="modulo-6-1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-rose-600 focus:text-white focus:rounded-lg" href="#conteudo">Saltar al contenido</a>
+<!-- NAVIGATION (T6 ativa) -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Técnica</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Proyectos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-rose-400 bg-rose-500/10" href="index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Producción</span>
+</a>
+<button class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-inema-journey-open="" type="button">
+<span aria-hidden="true">◷</span><span>Mi recorrido</span>
+<span class="inema-journey-badge hidden" data-count="0" data-inema-journey-badge=""></span>
+</button>
+<button aria-label="Alternar tema claro/oscuro" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20">
+<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+</svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav aria-label="Ruta de navegación" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-rose-400" href="../../index.html">Inicio</a>
+<span>/</span>
+<a class="hover:text-rose-400" href="index.html">Ruta 6</a>
+<span>/</span>
+<span class="text-rose-400">Módulo 6.1</span>
+</div>
+</nav>
+<!-- HEADER DO MÓDULO -->
+<header class="bg-gradient-to-br from-rose-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-rose-500/20 text-rose-400 text-xs font-semibold rounded-full mb-4">MÓDULO 6.1</span>
+<h3 class="text-2xl font-bold mb-4">🚀 GitHub y Trigger.dev</h3>
+<p class="text-lg text-neutral-400 max-w-3xl">El salto de «funcionó en mi máquina» a «se ejecuta solo en la nube». Aquí montas los dos pilares de una automatización alojada: el <strong class="text-rose-300">GitHub</strong>, donde vive el código y tiene historial, y el <strong class="text-rose-300">Trigger.dev</strong>, el motor que ejecuta tareas de forma confiable: sin timeout, con retries, traces y alertas. Como es un módulo <strong>práctico</strong>, cada paso viene con un comando o prompt para copiar y ejecutar.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-rose-400">7</div>
+<div class="text-xs text-neutral-400">Temas</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-rose-400">~55</div>
+<div class="text-xs text-neutral-400">Minutos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-rose-400">Avanzado</div>
+<div class="text-xs text-neutral-400">Nivel</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-rose-400">Práctico</div>
+<div class="text-xs text-neutral-400">Tipo</div>
+</div>
+</div>
+<div aria-label="Progreso del módulo 6.1" aria-valuemax="100" aria-valuemin="0" class="mt-6 max-w-2xl" data-inema-meter="modulo:6-1" role="progressbar">
+<div class="flex items-center justify-between mb-1 text-sm">
+<span class="text-neutral-400">Progreso del módulo</span>
+<span class="text-rose-400 font-semibold"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 7</span></span>
+</div>
+<div class="inema-bar h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-rose-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+</header>
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:grid lg:grid-cols-[1fr_220px] lg:gap-10">
+<main class="min-w-0" id="conteudo">
+<!-- Intro / como ler -->
+<div class="bg-rose-900/20 border border-rose-500/30 rounded-xl p-5 mb-10">
+<h2 class="text-base font-semibold text-rose-400 mb-2 flex items-center"><span class="mr-2">🛠️</span> Cómo usar este módulo</h2>
+<p class="text-neutral-300 text-sm">Este es el módulo donde el prototipo se convierte en producto. No necesitas escribir código: quien escribe el <strong>TypeScript</strong> é o <strong>Claude Code</strong>. Tu papel es entender los dos lugares: dónde se guarda el código (<strong>GitHub</strong>) y dónde se ejecuta por su cuenta (<strong>Trigger.dev</strong>) — y saber dar las instrucciones correctas. Los bloques «copia y ejecuta» están listos para pegar en la terminal o en el chat de la IA.</p>
+</div>
+<!-- SVG FUTURISTA (visão geral) -->
+<section class="mb-12">
+<p class="text-neutral-300 mb-4 inema-prose leading-relaxed">Antes de los siete temas, fija el diseño general. En tu máquina el agente sí funciona, pero solo mientras tu computadora está encendida. En producción, el código <strong>reside</strong> en GitHub (con historial) y <strong>se ejecuta</strong> en Trigger.dev (en la nube, en el horario programado), con la IA escribiendo y tú supervisando desde el dashboard.</p>
+<div class="rounded-2xl border border-rose-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="El pipeline de producción: en Claude Code iteras el código; un push lo envía a GitHub, donde queda con su historial; GitHub hace el deploy a Trigger.dev, la nube coordinadora que ejecuta la tarea según la agenda (cron), con retries, traces y alertas, sin depender de que tu máquina esté encendida" class="w-full h-auto" role="img" viewbox="0 0 1000 250">
+<defs>
+<lineargradient id="m61-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#fb7185"></stop><stop offset="1" stop-color="#f43f5e"></stop>
+</lineargradient>
+<filter height="180%" id="m61-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="32" id="m61-grid" patternunits="userSpaceOnUse" width="32">
+<circle cx="1.3" cy="1.3" fill="#f43f5e" opacity="0.12" r="1.3"></circle>
+</pattern>
+<marker id="m61-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fb7185"></path></marker>
+<marker id="m61-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m61-grid)" height="250" width="1000" x="0" y="0"></rect>
+<!-- nuvem coordenadora (ciano) no topo -->
+<ellipse cx="500" cy="40" fill="#0e1b26" rx="180" ry="26" stroke="#38bdf8" stroke-width="2"></ellipse>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="500" y="45">☁️ la nube ejecuta por ti — incluso con tu PC apagada</text>
+<g fill="none" opacity="0.5" stroke="#38bdf8" stroke-dasharray="4 4" stroke-width="1.6">
+<path d="M790,150 C840,150 860,110 760,72"></path>
+</g>
+<!-- Claude Code -->
+<g filter="url(#m61-glow)"><rect fill="#2a0e16" height="72" rx="16" stroke="url(#m61-grad)" stroke-width="2.5" width="200" x="40" y="120"></rect></g>
+<text fill="#fb7185" font-family="Inter,sans-serif" font-size="15" font-weight="700" text-anchor="middle" x="140" y="150">🤖 Claude Code</text>
+<text fill="#fecdd3" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="140" y="171">tú iteras · él escribe</text>
+<g fill="none" opacity="0.7" stroke="#fb7185" stroke-width="2"><path d="M240,156 L294,156" marker-end="url(#m61-ah)"></path></g>
+<text fill="#fda4af" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="267" y="146">push</text>
+<!-- GitHub -->
+<rect fill="#2a0e16" height="72" rx="16" stroke="#fb7185" stroke-width="2" width="200" x="294" y="120"></rect>
+<text fill="#fb7185" font-family="Inter,sans-serif" font-size="15" font-weight="700" text-anchor="middle" x="394" y="150">🐙 GitHub</text>
+<text fill="#fecdd3" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="394" y="171">dónde está el código</text>
+<g fill="none" opacity="0.7" stroke="#fb7185" stroke-width="2"><path d="M494,156 L548,156" marker-end="url(#m61-ah)"></path></g>
+<text fill="#fda4af" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="521" y="146">deploy</text>
+<!-- Trigger.dev -->
+<g filter="url(#m61-glow)"><rect fill="#0e1b26" height="72" rx="16" stroke="#38bdf8" stroke-width="2.5" width="220" x="548" y="120"></rect></g>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="15" font-weight="700" text-anchor="middle" x="658" y="150">⚙️ Trigger.dev</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="658" y="171">dónde se ejecuta el código</text>
+<g class="wf-a"><rect fill="#0e1b26" height="30" rx="8" stroke="#38bdf8" stroke-width="1.6" width="160" x="800" y="124"></rect><text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="880" y="144">cron · programación</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="30" rx="8" stroke="#38bdf8" stroke-width="1.6" width="160" x="800" y="160"></rect><text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="880" y="180">reintentos · trazas</text></g>
+<text fill="#9aa6b2" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="500" y="228">iterar en Claude Code → push (GitHub) → deploy (Trigger.dev) → se ejecuta solo según el calendario</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500">Diagrama ilustrativo — el ciclo de producción: iteras en Claude Code, el código se sube a GitHub y de ahí va a Trigger.dev, que lo ejecuta en la nube con confiabilidad. Los archivos más recientes de GitHub siempre están disponibles.</p>
+</section>
+<!-- TÓPICO 1 -->
+<section class="mb-16" data-inema-topic="modulo-6-1#topico-1" id="topico-1">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🐙 GitHub como almacenamiento de código</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-1-t1-p1">
+          O <strong class="text-rose-400">GitHub</strong> es almacenamiento de código en la nube. En vez de que tu proyecto viva solo en la carpeta de tu computadora, queda en un servidor al que se puede acceder desde cualquier lugar. La consecuencia práctica es grande: cuando llega el momento del <strong>deploy</strong>, la plataforma de alojamiento obtiene el código <em>de la nube</em>, no en tu computadora; así que puedes tener la PC apagada y la automatización seguirá funcionando.
+        </p>
+<div class="bg-dark-800 border border-rose-500/30 rounded-xl p-4 mb-4">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Repositorio (repo)</strong> — la carpeta de tu proyecto, con control de versiones, dentro de GitHub. <strong>Commit</strong> — una «instantánea» guardada con una descripción de lo que cambió. <strong>Push</strong> — el acto de enviar tus commits desde la máquina local a GitHub.</p>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m6-1-t1-p2">
+          Cada commit guarda un punto en el tiempo. Eso te da un <strong>historial completo</strong>: si un cambio lo rompe todo, vuelves a un commit anterior y recuperas lo que funcionaba. Para automatizaciones que manejan datos o dinero, esta red de seguridad no es un lujo — es lo que te permite hacer cambios sin miedo. Crea el repo como <strong>privado</strong> e inicialízalo con un README.
+        </p>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">Por qué aprender</h3>
+<div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+<p class="text-neutral-300 mb-3 inema-prose" data-inema-block="m6-1-t1-p3">GitHub es el requisito previo para el hosting. Las plataformas de deploy (incluido Trigger.dev) se integran directamente con el repo: subes el código y ellas se encargan del resto. Sin repo, no hay pipeline.</p>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-rose-400 mt-1">•</span><span><strong>Accesible desde cualquier lugar:</strong> el código no queda atado a una computadora.</span></li>
+<li class="flex items-start space-x-2"><span class="text-rose-400 mt-1">•</span><span><strong>Historial para revertir:</strong> vuelve a cualquier commit anterior en segundos.</span></li>
+<li class="flex items-start space-x-2"><span class="text-rose-400 mt-1">•</span><span><strong>Integra con deploy:</strong> la fuente de verdad de la que la nube obtiene el código.</span></li>
+</ul>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Repo</div><p class="text-xs text-neutral-400">Carpeta del proyecto en la nube.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Commit</div><p class="text-xs text-neutral-400">Snapshot con descripción.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Push</div><p class="text-xs text-neutral-400">Enviar a la nube.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Historial</div><p class="text-xs text-neutral-400">Revertir cuando se rompa.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:bg-rose-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 2 -->
+<section class="mb-16" data-inema-topic="modulo-6-1#topico-2" id="topico-2">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">🚫 gh CLI y .gitignore — el .env nunca se sube</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-1-t2-p1">
+          A <strong class="text-rose-400">GitHub CLI</strong> (el comando <code>gh</code>) es la herramienta de línea de comandos que te autentica en GitHub y conecta el proyecto al repo, todo desde la terminal y sin abrir el sitio. El <code>.gitignore</code> es un archivo de texto que enumera <strong>lo que nunca debe subirse</strong>. Y la regla de oro de todo este módulo: el <strong class="text-rose-400">.env</strong> (que guarda tus claves de API) <strong>jamás</strong> puede ir a GitHub.
+        </p>
+<div class="bg-dark-800 border border-rose-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>.env</strong> — archivo local con secretos (claves de API, tokens). <strong>.gitignore</strong> — lista de archivos/carpetas que Git ignora y nunca envía. Claude Code agrega el <code>.env</code> al <code>.gitignore</code> automáticamente — pero es tu deber revisarlo.</p>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-1-t2-p2">Un <code>.env</code> filtrado es un secreto expuesto. Los repositorios se rastrean todo el tiempo; una clave expuesta puede usarse en minutos — y tú pagas la cuenta. El <code>.gitignore</code> es tu primera línea de defensa. Usa un nombre de usuario profesional (aparece en enlaces públicos), mantén el repo <strong>privado</strong> y no te extrañes si el terminal pide permiso para ejecutar comandos varias veces: es el comportamiento normal de aprobación.</p>
+<!-- ✓ / ✗ grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Higiene de secretos</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Confirma que el <code>.env</code> aparece en el <code>.gitignore</code>.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Crea el repositorio como <strong>privado</strong>.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Inicializa con README para abrir el repo «vacío pero vivo».</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Receta para una filtración</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Hacer push antes de comprobar el <code>.gitignore</code>.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Crear el repo público «solo para probar».</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Pegar la clave de API directamente en el código (hard-code).</span></li>
+</ul>
+</div>
+</div>
+<!-- copy-run #1: gh auth + conectar repo -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-rose-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">autenticarse en GitHub y conectar el proyecto al repo desde la terminal.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt / comando (cópialo y ejecútalo)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"># 1) instalar a GitHub CLI (escolha o seu gerenciador)
+brew install gh          # macOS (Homebrew)
+winget install GitHub.cli  # Windows (WinGet)
+
+# 2) autenticar — responda: GitHub.com / HTTPS / login via web browser
+gh auth login
+# o terminal mostra um código de uso único; cole no navegador
+
+# 3) no Claude Code, em plan mode, peça (descreva o resultado):
+&gt; conecte este projeto a um repositório PRIVADO no GitHub chamado
+  &lt;meu-repo&gt;, inicialize com README e garanta que o .env esteja
+  listado no .gitignore antes de qualquer push</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Cómo verificar: abre el repo en GitHub y mira el <code>.gitignore</code> + el README presentes — y <strong>ninguno</strong> <code>.env</code> en la lista de archivos.</p>
+</div>
+<!-- copy-run #2: .gitignore snippet -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-rose-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">garantizar que el secreto nunca se suba: el <code>.env</code> enumerado en el <code>.gitignore</code>.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">archivo .gitignore (comprueba que exista)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"># .gitignore — o que o Git deve IGNORAR
+.env            # ← a regra de ouro: segredos nunca sobem
+.env.local
+node_modules/   # dependências (pesadas, reinstaláveis)
+.trigger/       # artefatos locais do Trigger.dev</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Cómo verificar: ejecuta <code>git status</code> — o <code>.env</code> <strong>no</strong> debe aparecer entre los archivos que se van a commitear.</p>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">gh auth login</div><p class="text-xs text-neutral-400">Se autentica mediante el navegador.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">.gitignore</div><p class="text-xs text-neutral-400">Lista lo que no se sube.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Repo privado</div><p class="text-xs text-neutral-400">Patrón para automatizaciones.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Secreto fuera</div><p class="text-xs text-neutral-400">El .env nunca va en el repo.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:bg-rose-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 3 -->
+<section class="mb-16" data-inema-topic="modulo-6-1#topico-3" id="topico-3">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">⚙️ Trigger.dev — sin timeout, con retries, traces y alertas</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-1-t3-p1">
+          O <strong class="text-rose-400">Trigger.dev</strong> es el motor de ejecución en la nube. Piensa en la diferencia entre un <em>nota adhesiva</em> pegado al monitor (que puedes olvidar, que desaparece cuando se apaga la PC) y un <strong>asistente confiable</strong> que ejecuta la tarea, vuelve a intentarlo si falla y te avisa del resultado. Trigger.dev es el asistente. Ejecuta tareas sin timeout, con <strong>reintentos automáticos</strong>, <strong>trace</strong> completo de cada paso y <strong>alertas</strong> de error.
+        </p>
+<div class="bg-dark-800 border border-rose-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Reintento</strong> — cuando la tarea falla (p. ej., se cayó Internet), se vuelve a intentar automáticamente. <strong>Trace</strong> — el registro paso a paso de lo que ocurrió durante la ejecución. <strong>Webhook</strong> — una dirección que activa la tarea cuando ocurre un evento externo.</p>
+</div>
+<!-- SVG conceitual: post-it vs assistente -->
+<div class="rounded-2xl border border-rose-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="Comparación: tu máquina es como una nota adhesiva que falla en silencio y desaparece cuando se apaga la PC; Trigger.dev es un asistente en la nube que ejecuta, vuelve a intentar automáticamente en caso de falla, registra el trace de cada paso y envía alertas" class="w-full h-auto" role="img" viewbox="0 0 1000 180">
+<defs>
+<pattern height="32" id="m61b-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#f43f5e" opacity="0.1" r="1.3"></circle></pattern>
+<marker id="m61b-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fb7185"></path></marker>
+<marker id="m61b-ahg" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#64748b"></path></marker>
+</defs>
+<rect fill="url(#m61b-grid)" height="180" width="1000" x="0" y="0"></rect>
+<text fill="#94a3b8" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="40" y="34">En tu máquina — nota adhesiva</text>
+<rect fill="#1e293b" height="44" rx="10" stroke="#64748b" stroke-width="1.8" width="200" x="40" y="48"></rect><text fill="#cbd5e1" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="140" y="75">se ejecuta solo con la PC encendida</text>
+<g fill="none" opacity="0.7" stroke="#64748b" stroke-width="2"><path d="M240,70 L300,70" marker-end="url(#m61b-ahg)"></path></g>
+<rect fill="#1e293b" height="44" rx="10" stroke="#64748b" stroke-width="1.8" width="150" x="300" y="48"></rect><text fill="#94a3b8" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="375" y="75">falla en silencio</text>
+<text fill="#fb7185" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="40" y="124">En Trigger.dev — asistente confiable</text>
+<rect fill="#2a0e16" height="34" rx="9" stroke="#fb7185" stroke-width="1.8" width="190" x="40" y="136"></rect><text fill="#fecdd3" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="135" y="158">ejecuta en la nube</text>
+<g fill="none" opacity="0.75" stroke="#fb7185" stroke-width="2"><path d="M230,153 L266,153" marker-end="url(#m61b-ah)"></path></g>
+<rect fill="#2a0e16" height="34" rx="9" stroke="#fb7185" stroke-width="1.8" width="150" x="266" y="136"></rect><text fill="#fecdd3" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="341" y="158">reintenta si falla</text>
+<g fill="none" opacity="0.75" stroke="#fb7185" stroke-width="2"><path d="M416,153 L452,153" marker-end="url(#m61b-ah)"></path></g>
+<rect fill="#2a0e16" height="34" rx="9" stroke="#fb7185" stroke-width="1.8" width="140" x="452" y="136"></rect><text fill="#fecdd3" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="522" y="158">trace de cada paso</text>
+<g fill="none" opacity="0.75" stroke="#fb7185" stroke-width="2"><path d="M592,153 L628,153" marker-end="url(#m61b-ah)"></path></g>
+<rect fill="#0e1b26" height="34" rx="9" stroke="#38bdf8" stroke-width="1.8" width="120" x="628" y="136"></rect><text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="688" y="158">alerta de error</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — Trigger.dev cierra la «brecha agéntica»: da visibilidad y robustez justo cuando la IA ya no está supervisando la ejecución.</p>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-1-t3-p2">En producción, nadie está supervisando la ejecución en tiempo real. Cuando el agente se ejecuta a las 7h de la mañana y algo sale mal, necesitas retry, log y alerta; si no, el error pasa desapercibido. Trigger.dev resuelve este <strong>"agentic gap"</strong>: el puente entre «funcionó en mi chat» y «funciona solo y me avisa». Se ejecuta <strong>TypeScript</strong> (no Python), pero eso no cambia nada para ti: Claude Code escribe el TypeScript y tu enfoque de vibe coding sigue igual.</p>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Consejo práctico</h3>
+<p class="text-neutral-300 text-sm">No te asustes con «es TypeScript». Nunca escribes TypeScript a mano: describes el resultado en portugués y Claude Code escribe el código. Trigger.dev es amigable con la IA mediante un <strong>servidor MCP oficial</strong>, entonces la IA gestiona tareas, revisa las ejecuciones y ajusta todo conversando contigo.</p>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Sin timeout</div><p class="text-xs text-neutral-400">Las tareas largas se ejecutan.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Reintento y traza</div><p class="text-xs text-neutral-400">Inténtalo de nuevo, registra todo.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">TypeScript</div><p class="text-xs text-neutral-400">La IA escribe por ti.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">dev vs prod</div><p class="text-xs text-neutral-400">Prueba y producción por separado.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:bg-rose-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 4 -->
+<section class="mb-16" data-inema-topic="modulo-6-1#topico-4" id="topico-4">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">🔌 Inicializar proyecto + MCP de Trigger.dev</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-1-t4-p1">
+          Inicializar el proyecto es la secuencia que conecta tu código con Trigger.dev. Te registras <strong>con la cuenta de GitHub</strong>, crea una organización y un <strong>proyecto</strong> (usa el mismo nombre del repo para no perderte), copia el <strong>Project ID</strong> e instala el <strong>MCP oficial</strong> de Trigger.dev en Claude Code. Después, dos comandos: el <code>init</code> crea la estructura, y el <code>dev</code> inicia el worker local que escucha en tu máquina.
+        </p>
+<div class="bg-dark-800 border border-rose-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Project ID</strong> — el identificador único de tu proyecto en Trigger.dev (en <em>Project Settings &gt; General</em>). <strong>MCP</strong> — el protocolo que proporciona herramientas a la IA; aquí, el MCP de Trigger.dev permite que Claude Code gestione tareas y runs. <strong>Worker local</strong> — el proceso que ejecuta las tasks en tu máquina durante el desarrollo.</p>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-5 mb-6">
+<h4 class="font-bold text-red-400 mb-2">⚠️ El error más común</h4>
+<p class="text-neutral-300 text-sm">Después de instalar <strong>cualquier</strong> MCP, <strong>reinicia Claude Code</strong>. Si no lo reinicias, la IA no ve las nuevas herramientas y parece que "el MCP no funciona". Reiniciarlo resuelve la gran mayoría de los casos.</p>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-1-t4-p2">Con el MCP instalado, gestionas el proyecto <strong>conversando</strong> — «crea una task que haga X», «muestra la última run» — sin memorizar comandos. Sin el MCP, terminas en la terminal y pierdes la fluidez del vibe-code. Siempre abre la carpeta del proyecto en <strong>VS Code</strong>, para que Claude Code pueda leer y editar los archivos mientras conversan. El <code>init</code> é <strong>interactivo</strong> y a veces hay que ejecutarlo directamente en el terminal.</p>
+<!-- copy-run #3: trigger.dev init + dev -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-rose-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">inicializar Trigger.dev en el proyecto y levantar el worker local.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">comando (copia y ejecuta en el terminal)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"># 1) cria trigger.config.ts + a pasta de tasks (interativo:
+#    cole o Project ID quando pedir &lt;seu-project-id&gt;)
+npx trigger.dev@latest init
+
+# 2) sobe o worker local — deixe rodando enquanto desenvolve
+npx trigger.dev@latest dev
+
+# (depois de instalar o MCP do Trigger.dev: REINICIE o Claude Code)</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Cómo verificar: abre el dashboard de Trigger.dev en el entorno <strong>dev</strong> — tu tarea debe <strong>aparecer en la lista</strong> en cuanto se conecte el worker.</p>
+</div>
+<!-- copy-run #4: plan-mode prompt -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-rose-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">en Claude Code (plan mode), preparar la carpeta del proyecto y conectar todo.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt para Claude Code (copia y pega)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">&gt; crie uma pasta de projeto, conecte ao repo &lt;meu-repo&gt; no GitHub
+  e prepare para Trigger.dev (gerenciador npm). Use o Project ID
+  &lt;seu-project-id&gt;, rode o init e confirme que o .env está no
+  .gitignore. Antes de executar, me mostre o plano.</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Cómo verificar: la carpeta local queda sincronizada con el repo, el <code>trigger.config.ts</code> existe y Claude Code puede listar sus tasks a través de MCP.</p>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Project ID</div><p class="text-xs text-neutral-400">En Settings &gt; General.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">init / dev</div><p class="text-xs text-neutral-400">Crea la estructura e inicia el worker.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Reiniciar</div><p class="text-xs text-neutral-400">Después de instalar cualquier MCP.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">VS Code</div><p class="text-xs text-neutral-400">Abre la carpeta para que la IA la gestione.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:bg-rose-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 5 -->
+<section class="mb-16" data-inema-topic="modulo-6-1#topico-5" id="topico-5">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">⏰ Cron (5 campos)</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-1-t5-p1">
+          O <strong class="text-rose-400">cron</strong> es el «despertador» de la automatización: un patrón de <strong>cinco campos</strong> que define cuándo se ejecuta la tarea. Los campos son, en orden: <strong>minuto</strong>, <strong>hora</strong>, <strong>día-del-mes</strong>, <strong>mes</strong> e <strong>día-de-la-semana</strong>. El ejemplo clásico es <code>0 7 * * *</code> = minuto 0, hora 7, todos los días — es decir, <strong>todos los días a las 7 de la mañana</strong>. El asterisco <code>*</code> significa «cualquier valor».
+        </p>
+<div class="bg-dark-800 border border-rose-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Cron</strong> — sintaxis estándar de programación de tareas, usada en servidores desde hace décadas. <code>*</code> = cualquiera; <code>*/5</code> = "cada 5". Algunos ajustes del nodo solo aceptan modos específicos: pedir "cada 5 minutos" puede convertirse en el cron <code>*/5 * * * *</code> entre bastidores.</p>
+</div>
+<!-- SVG teaching: os 5 campos do cron -->
+<div class="rounded-2xl border border-rose-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="Anatomía del cron 0 7 asterisco asterisco asterisco: el primer campo es el minuto (0), el segundo es la hora (7), el tercero es el día del mes (cualquiera), el cuarto es el mes (cualquiera) y el quinto es el día de la semana (cualquiera); el resultado es todos los días a las 7 de la mañana" class="w-full h-auto" role="img" viewbox="0 0 1000 210">
+<defs>
+<pattern height="32" id="m61c-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#f43f5e" opacity="0.1" r="1.3"></circle></pattern>
+<filter height="180%" id="m61c-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.6"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+</defs>
+<rect fill="url(#m61c-grid)" height="210" width="1000" x="0" y="0"></rect>
+<!-- os 5 valores -->
+<g filter="url(#m61c-glow)">
+<rect fill="#2a0e16" height="48" rx="10" stroke="#fb7185" stroke-width="2.2" width="100" x="120" y="40"></rect>
+<rect fill="#2a0e16" height="48" rx="10" stroke="#fb7185" stroke-width="2.2" width="100" x="240" y="40"></rect>
+<rect fill="#1e293b" height="48" rx="10" stroke="#64748b" stroke-width="1.8" width="100" x="360" y="40"></rect>
+<rect fill="#1e293b" height="48" rx="10" stroke="#64748b" stroke-width="1.8" width="100" x="480" y="40"></rect>
+<rect fill="#1e293b" height="48" rx="10" stroke="#64748b" stroke-width="1.8" width="100" x="600" y="40"></rect>
+</g>
+<text fill="#fecdd3" font-family="monospace" font-size="22" font-weight="700" text-anchor="middle" x="170" y="72">0</text>
+<text fill="#fecdd3" font-family="monospace" font-size="22" font-weight="700" text-anchor="middle" x="290" y="72">7</text>
+<text fill="#cbd5e1" font-family="monospace" font-size="22" font-weight="700" text-anchor="middle" x="410" y="72">*</text>
+<text fill="#cbd5e1" font-family="monospace" font-size="22" font-weight="700" text-anchor="middle" x="530" y="72">*</text>
+<text fill="#cbd5e1" font-family="monospace" font-size="22" font-weight="700" text-anchor="middle" x="650" y="72">*</text>
+<!-- rótulos -->
+<text fill="#fb7185" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="170" y="118">minuto</text>
+<text fill="#fb7185" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="290" y="118">hora</text>
+<text fill="#94a3b8" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="410" y="118">día-del-mes</text>
+<text fill="#94a3b8" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="530" y="118">mes</text>
+<text fill="#94a3b8" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="650" y="118">día-de-la-semana</text>
+<text fill="#9aa6b2" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="170" y="136">0–59</text>
+<text fill="#9aa6b2" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="290" y="136">0–23</text>
+<text fill="#9aa6b2" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="410" y="136">cualquier</text>
+<text fill="#9aa6b2" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="530" y="136">cualquier</text>
+<text fill="#9aa6b2" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="650" y="136">cualquier</text>
+<rect fill="#0e2018" height="36" rx="10" stroke="#34d399" stroke-width="1.8" width="580" x="120" y="160"></rect>
+<text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="410" y="183">= todos los días a las 7 h de la mañana</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — lee el cron de izquierda a derecha: minuto, hora, día del mes, mes, día de la semana. Los dos primeros campos fijan el horario; los tres asteriscos dicen «cualquier día».</p>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-1-t5-p2">El cron es lo que hace que la automatización se ejecute <strong>sin que estés presente</strong> — el salto de «aparecer y activar manualmente» a «ejecutarse solo en el momento adecuado». Saber leer los cinco campos te da control: puedes comprobar si el agente realmente se ejecutará cuando debe, en vez de cruzar los dedos.</p>
+<!-- copy-run #5: exemplos de cron -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-rose-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">leer y variar el patrón cron de 5 campos.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">expresiones cron (las partes &lt;variables&gt; cambian)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"># ordem dos campos:  minuto  hora  dia-do-mês  mês  dia-da-semana
+
+0 7 * * *      # todo dia às 7h da manhã (o clássico)
+*/5 * * * *    # a cada 5 minutos
+0 */2 * * *    # a cada 2 horas, no minuto 0
+30 8 * * 1     # toda segunda-feira às 8h30
+0 &lt;hora&gt; * * *  # todo dia na &lt;hora&gt; que você escolher (0–23)</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Cómo verificar: pídele a Claude Code «explica en portugués qué hace este cron» y comprueba que coincida con lo que quieres antes de programarlo.</p>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">5 campos</div><p class="text-xs text-neutral-400">min · hora · día · mes · semana.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">0 7 * * *</div><p class="text-xs text-neutral-400">Todos los días a las 7h.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">* = cualquier</div><p class="text-xs text-neutral-400">Sin restricciones en el campo.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">*/5 = cada 5</div><p class="text-xs text-neutral-400">Intervalo regular.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:bg-rose-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 6 -->
+<section class="mb-16" data-inema-topic="modulo-6-1#topico-6" id="topico-6">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">📊 Anatomía del dashboard</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-1-t6-p1">
+          El dashboard de Trigger.dev es tu <strong>ventana para producción</strong>. En él ves: la <strong>visión de la tarea</strong>, la lista de <strong>Runs</strong> (cada ejecución), los <strong>traces</strong> de cada run (cada línea = un paso), la <strong>timeline</strong>, los paneles de <strong>payload</strong> (lo que entró) y <strong>output</strong> (lo que salió), y las secciones de <strong>Schedules</strong>, <strong>Queues</strong> e <strong>Alerts</strong>. Todo esto en dos entornos: <strong>dev</strong> (prueba) y <strong>prod</strong> (en producción).
+        </p>
+<div class="bg-dark-800 border border-rose-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Run</strong> — una ejecución individual de la task. <strong>Payload</strong> — los datos de entrada de esa run. <strong>Output</strong> — el resultado producido. <strong>Trace</strong> — el paso a paso, útil para descubrir <em>dónde</em> falló.</p>
+</div>
+<!-- timeline vertical: ciclo dev -> prod -->
+<h3 class="text-lg font-semibold text-rose-400 mb-3">De la prueba a producción (cronología)</h3>
+<div class="relative pl-8 mb-8">
+<div aria-hidden="true" class="absolute left-3 top-2 bottom-2 w-px bg-rose-500/30"></div>
+<div class="relative mb-6">
+<span aria-hidden="true" class="absolute -left-[1.4rem] top-1 w-3 h-3 rounded-full bg-rose-500"></span>
+<p class="text-sm font-semibold text-rose-400">1. dev — tú pruebas</p>
+<p class="text-sm text-neutral-300">El worker local se conecta; activas la task manualmente y lees los traces hasta que esté lista.</p>
+</div>
+<div class="relative mb-6">
+<span aria-hidden="true" class="absolute -left-[1.4rem] top-1 w-3 h-3 rounded-full bg-rose-500"></span>
+<p class="text-sm font-semibold text-rose-400">2. deploy — sube a prod</p>
+<p class="text-sm text-neutral-300">El código pasa de GitHub a Trigger.dev; el entorno prod empieza a ejecutarse de verdad.</p>
+</div>
+<div class="relative mb-6">
+<span aria-hidden="true" class="absolute -left-[1.4rem] top-1 w-3 h-3 rounded-full bg-rose-500"></span>
+<p class="text-sm font-semibold text-rose-400">3. la agenda se activa — aparecen runs</p>
+<p class="text-sm text-neutral-300">A la hora del cron, aparecen nuevas runs en la lista; cada una con su payload y output.</p>
+</div>
+<div class="relative">
+<span aria-hidden="true" class="absolute -left-[1.4rem] top-1 w-3 h-3 rounded-full bg-rose-500"></span>
+<p class="text-sm font-semibold text-rose-400">4. tú supervisas — traces &amp; alertas</p>
+<p class="text-sm text-neutral-300">Si algo falla, llega una alerta y el trace muestra el paso culpable. El dashboard es tu puesto de observación.</p>
+</div>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-1-t6-p2">En producción, Claude Code ya no está supervisando la ejecución: el <strong>dashboard</strong> es donde ves lo que pasó. Saber leer runs y traces es lo que transforma «creo que se ejecutó» en «sé exactamente qué se ejecutó y dónde se atascó». Como el modelo es interpretativo, el <strong>output puede variar de una ejecución a otra</strong>: verifica el <em>resultado</em> (¿cumplió el objetivo?), no la redacción exacta.</p>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Consejo práctico</h3>
+<p class="text-neutral-300 text-sm">Prueba siempre en <strong>dev</strong> antes de habilitar en <strong>prod</strong>. Y recuerda el «trust but verify» de la Trilha 1: <strong>verde ≠ correcto</strong>. Una run puede terminar "en verde" (sin errores) y aun así haber producido el resultado equivocado: lee el output, no solo el estado.</p>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Runs</div><p class="text-xs text-neutral-400">Cada ejecución listada.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Trace</div><p class="text-xs text-neutral-400">Fila = un paso.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Payload/Output</div><p class="text-xs text-neutral-400">Lo que entró y salió.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">dev vs prod</div><p class="text-xs text-neutral-400">Prueba y luego libera.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:bg-rose-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 7 -->
+<section class="mb-16" data-inema-topic="modulo-6-1#topico-7" id="topico-7">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl">7</span>
+<h2 class="text-2xl font-bold">🎬 Deploy desde el primer prompt</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-1-t7-p1">
+          La disciplina final: <strong>construir pensando en el deploy desde el primer prompt</strong> — el "prompt inicial para gobernarlos a todos". En producción, la IA no está allí para corregir las cosas en el momento, así que lo que tú <em>no</em> lo que pediste en el prompt simplemente no viene gratis. Por eso, cada build para ejecutarse por sí solo necesita cuatro requisitos nuevos en tu forma de pedir.
+        </p>
+<div class="bg-dark-800 border border-rose-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Repository Secret</strong> — un secreto guardado en el propio GitHub (en <em>Settings &gt; Secrets and Variables &gt; Actions</em>) que el deploy usa sin exponer la clave. El <code>TRIGGER_ACCESS_TOKEN</code> es lo que autoriza a GitHub a publicar en Trigger.dev.</p>
+</div>
+<!-- ✓ / ✗ grid: os 4 requisitos de prompt -->
+<h3 class="text-lg font-semibold text-rose-400 mb-3">Los 4 requisitos para builds sin supervisión</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Pídelo en el prompt</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span><strong>Entradas fijas:</strong> la task recibe datos predecibles; no improvisa de dónde vienen.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span><strong>Salida estructurada:</strong> formato predecible (campos definidos), fácil de consumir.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span><strong>Tratamiento de errores:</strong> qué hacer cuando algo falla, incorporado desde el inicio.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span><strong>Log en cada paso:</strong> para que el trace cuente la historia después.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ No lo dejes para después</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>"Después agrego el manejo de errores" — en producción, "después" es demasiado tarde.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Salida suelta y libre que cambia de forma en cada run.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Sin logs: el trace queda mudo y no sabes qué pasó.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Esperar al horario para probar — actívalo manualmente primero.</span></li>
+</ul>
+</div>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m6-1-t7-p2">El pipeline completo conecta todo lo que viste: tú <strong>iterar en Claude Code</strong> → se puede <strong>push en GitHub</strong> → o <strong>GitHub implementa el deploy en Trigger.dev</strong>. Así, los archivos más recientes siempre están en línea, sin pasos manuales. Agrega el <code>TRIGGER_ACCESS_TOKEN</code> como Repository Secret en GitHub para que funcione el deploy automático y, después de publicar, <strong>activa la task manualmente</strong> para probar, en vez de esperar a la siguiente ventana del cron.</p>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Consejo práctico</h3>
+<p class="text-neutral-300 text-sm">En GitHub, ve a <strong>Settings &gt; Secrets and Variables &gt; Actions</strong> y registra el <code>TRIGGER_ACCESS_TOKEN</code> cómo <em>Repository Secret</em>. Es lo que permite que el push se convierta en deploy sin que pegues el token en ninguna parte del código.</p>
+</div>
+<h3 class="text-lg font-semibold text-rose-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Deploy desde el 1.º</div><p class="text-xs text-neutral-400">Piensa en producción desde el prompt.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">4 requisitos</div><p class="text-xs text-neutral-400">Entrada, salida, error, log.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Push → deploy</div><p class="text-xs text-neutral-400">GitHub publica en Trigger.dev.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-rose-400 font-semibold text-sm mb-1">Activar manualmente</div><p class="text-xs text-neutral-400">Prueba sin esperar al cron.</p></div>
+</div>
+<!-- Checagem leve -->
+<div class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6" data-inema-check="modulo-6-1#q1">
+<p class="inema-check__q font-medium mb-4">Fijando el cron: ¿qué expresión significa <strong>"todos los días a las 7 a. m."</strong>?</p>
+<div class="inema-check-options inema-check__options space-y-2">
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0" type="button"><code>7 * * * *</code></button>
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1" type="button"><code>0 7 * * *</code></button>
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2" type="button"><code>* * 7 * *</code></button>
+</div>
+<div aria-live="polite" class="mt-4 text-sm" data-inema-check-feedback="" role="status"></div>
+</div>
+<div class="flex justify-start mt-8">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:bg-rose-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-8">
+<div class="bg-gradient-to-br from-rose-900/40 via-dark-800 to-dark-800 rounded-xl border border-rose-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📌</span> Resumen del módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-neutral-100">GitHub = almacenamiento</strong><span class="text-neutral-400"> — el código vive en la nube, con historial; el deploy lo obtiene de allí, no de tu máquina.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-neutral-100">gh CLI &amp; .gitignore</strong><span class="text-neutral-400"> — autentícate con <code>gh auth login</code>; la regla de oro es el <code>.env</code> nunca subir.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-neutral-100">Trigger.dev = motor</strong><span class="text-neutral-400"> — se ejecuta sin timeout, con retries, traces y alertas; ejecuta el TypeScript que escribe la IA.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-neutral-100">init + MCP</strong><span class="text-neutral-400"> — copia el Project ID, instala el MCP oficial y <strong>reinicia</strong> Claude Code; <code>init</code> e <code>dev</code>.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-neutral-100">Cron (5 campos)</strong><span class="text-neutral-400"> — minuto · hora · día del mes · mes · día de la semana; <code>0 7 * * *</code> = todos los días a las 7 h.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-neutral-100">Dashboard</strong><span class="text-neutral-400"> — ejecuciones, trazas, payload/output, schedules y alertas; prueba en dev y publica en prod.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-rose-400 mt-1">✓</span><div><strong class="text-neutral-100">Deploy desde el 1.er prompt</strong><span class="text-neutral-400"> — inputs fijos, salida estructurada, error y log; push → deploy; ejecútalo manualmente para probar.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-rose-400 mb-2">Siguiente módulo:</h3>
+<p class="text-neutral-300">6.2 — Secrets y seguridad</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="index.html">← Volver a la ruta</a>
+<a class="flex-1 text-center px-6 py-3 bg-rose-600 text-white rounded-lg font-semibold hover:bg-rose-500 transition-colors" href="modulo-6-2.html">Siguiente módulo →</a>
+</div>
+</div>
+</section>
+</main>
+<!-- TOC sticky + scrollspy -->
+<aside class="hidden lg:block">
+<nav aria-label="Índice de la página" class="sticky top-24 self-start" data-inema-toc="">
+<p class="text-sm text-neutral-400 mb-3">Sección <span data-inema-section-counter=""><span class="inema-toc-pos">1</span> de <span class="inema-toc-total">7</span></span></p>
+<ol class="space-y-1.5 text-sm">
+<li><a class="inema-toc-link text-neutral-400 hover:text-rose-400 block" href="#topico-1">1. GitHub como almacenamiento</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-rose-400 block" href="#topico-2">2. gh CLI &amp; .gitignore</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-rose-400 block" href="#topico-3">3. Trigger.dev</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-rose-400 block" href="#topico-4">4. init + MCP</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-rose-400 block" href="#topico-5">5. Cron (5 campos)</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-rose-400 block" href="#topico-6">6. Dashboard</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-rose-400 block" href="#topico-7">7. Deploy desde el 1.er prompt</a></li>
+</ol>
+</nav>
+</aside>
+</div>
+<footer class="border-t border-dark-600 py-8 mt-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Vibe Coding: Dominio completo · Curso original <a class="text-sky-400 hover:text-sky-300 font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a> · 2026</p>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const htmlEl = document.documentElement;
+    if (htmlEl.classList.contains('dark')) { themeToggleLightIcon.classList.remove('hidden'); }
+    else { themeToggleDarkIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      htmlEl.classList.toggle('dark');
+      const isDark = htmlEl.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      if (window.INEMA && INEMA.setPref) { INEMA.setPref('theme', isDark ? 'inema-dark' : 'claro'); }
+    });
+  </script>
+<script src="../../../assets/learn.js"></script>
+<script>
+    if (window.INEMA && typeof window.INEMA.init === 'function') {
+      window.INEMA.init();
+      if (window.INEMA.registerCheck) {
+        INEMA.registerCheck('modulo-6-1#q1', {
+          answer: 1,
+          explain: {
+            0: 'Não. "7 * * * *" tem o minuto = 7 e a hora = qualquer — então roda no minuto 7 de TODA hora, não às 7h.',
+            1: 'Isso. "0 7 * * *" = minuto 0, hora 7, todo dia. É o clássico "todo dia às 7h da manhã".',
+            2: 'Não. "* * 7 * *" coloca o 7 no campo de dia-do-mês — roda no dia 7. Não faz sentido como "todo dia às 7h".'
+          }
+        });
+      }
+    }
+  </script>
+</body>
+</html>

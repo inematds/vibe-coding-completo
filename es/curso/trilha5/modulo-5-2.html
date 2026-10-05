@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="vibe-coding-completo" name="inema-course"/>
+<!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
+<script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        } else {
+          var legacy = localStorage.getItem('theme');
+          if (legacy === 'light') p.theme = 'claro';
+          else if (legacy === 'dark') p.theme = 'inema-dark';
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'inema-dark': { dark: true,  attr: null,        cs: 'dark'  },
+        'claro':      { dark: false, attr: null,        cs: 'light' },
+        'sepia':      { dark: false, attr: 'sepia',     cs: 'light' },
+        'foco':       { dark: null,  attr: 'foco',      cs: null    },
+        'contraste':  { dark: true,  attr: 'contraste', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['inema-dark'];
+
+      if (t.dark === true) html.classList.add('dark');
+      else if (t.dark === false) html.classList.remove('dark');
+
+      if (t.attr) html.setAttribute('data-theme', t.attr);
+      else html.removeAttribute('data-theme');
+
+      html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark') ? 'dark' : 'light'));
+
+      html.setAttribute('data-font', p.font || 'inter');
+      html.setAttribute('data-accent', p.accent || 'emerald');
+
+      var s = html.style;
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--inema-font-scale', (scale / 100).toString());
+      s.setProperty('font-size', scale + '%');
+      s.setProperty('--measure', (+p.lineWidth || 68) + 'ch');
+      s.setProperty('--lh-body', (+p.leading || 1.7).toString());
+      var fam = p.font === 'system'
+        ? 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif'
+        : (p.font === 'leitura'
+          ? '"Atkinson Hyperlegible", "Inter", system-ui, sans-serif'
+          : '"Inter", system-ui, sans-serif');
+      s.setProperty('--font-body', fam);
+
+      var ACC = {
+        emerald: [152, 76, 45], blue: [217, 91, 60], purple: [258, 90, 66],
+        amber: [38, 92, 50], teal: [174, 72, 41], rose: [350, 89, 60]
+      };
+      var a = ACC[p.accent] || ACC.emerald;
+      s.setProperty('--accent-h', a[0] + '');
+      s.setProperty('--accent-s', a[1] + '%');
+      s.setProperty('--accent-l', a[2] + '%');
+      s.setProperty('--accent', 'hsl(' + a[0] + ' ' + a[1] + '% ' + a[2] + '%)');
+    } catch (err) {
+      try { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme = 'dark'; } catch (e) {}
+    }
+  })();
+  </script>
+<title>Módulo 5.2 · Agentes alojados (programados + webhook) | Vibe Coding: Dominio completo</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
+<script data-inema-manifest="" type="application/json">
+  {
+    "course": "vibe-coding-completo",
+    "tracks": [
+      { "n": "1", "title": "Fundamentos & Glossário", "modules": [
+        { "id": "1-1", "title": "A Mentalidade do Vibe Coding", "topics": 7, "href": "curso/trilha1/modulo-1-1.html" },
+        { "id": "1-2", "title": "O Ecossistema: Como as Peças se Encaixam", "topics": 6, "href": "curso/trilha1/modulo-1-2.html" },
+        { "id": "1-3", "title": "Glossário Essencial (Parte 1: IA, Claude Code, n8n)", "topics": 7, "href": "curso/trilha1/modulo-1-3.html" },
+        { "id": "1-4", "title": "Glossário Essencial (Parte 2: Agêntico, RAG, Deploy, Segurança)", "topics": 6, "href": "curso/trilha1/modulo-1-4.html" }
+      ]},
+      { "n": "2", "title": "Técnica: Arquitetura & Engenharia", "modules": [
+        { "id": "2-1", "title": "Engenharia de CLAUDE.md", "topics": 6, "href": "curso/trilha2/modulo-2-1.html" },
+        { "id": "2-2", "title": "O Framework WAT a Fundo", "topics": 7, "href": "curso/trilha2/modulo-2-2.html" },
+        { "id": "2-3", "title": "MCP por Dentro", "topics": 7, "href": "curso/trilha2/modulo-2-3.html" },
+        { "id": "2-4", "title": "Contexto & Tokens", "topics": 6, "href": "curso/trilha2/modulo-2-4.html" },
+        { "id": "2-5", "title": "RAG & Dados", "topics": 6, "href": "curso/trilha2/modulo-2-5.html" }
+      ]},
+      { "n": "3", "title": "Prompts & Padrões de Conversa", "modules": [
+        { "id": "3-1", "title": "Os Padrões de Prompting", "topics": 7, "href": "curso/trilha3/modulo-3-1.html" },
+        { "id": "3-2", "title": "O Ciclo Plan → Build → Troubleshoot → Optimize", "topics": 7, "href": "curso/trilha3/modulo-3-2.html" },
+        { "id": "3-3", "title": "Biblioteca de Prompts Prontos (copy-run)", "topics": 8, "href": "curso/trilha3/modulo-3-3.html" }
+      ]},
+      { "n": "4", "title": "Skills & Agentes", "modules": [
+        { "id": "4-1", "title": "Skills: Conceito & Anatomia", "topics": 7, "href": "curso/trilha4/modulo-4-1.html" },
+        { "id": "4-2", "title": "Construindo Skills na Prática", "topics": 7, "href": "curso/trilha4/modulo-4-2.html" },
+        { "id": "4-3", "title": "Agentes: Locais, Agendados & por Evento", "topics": 8, "href": "curso/trilha4/modulo-4-3.html" }
+      ]},
+      { "n": "5", "title": "Projetos Práticos (End-to-End)", "modules": [
+        { "id": "5-1", "title": "Projeto: Agente de Suporte por E-mail com RAG", "topics": 8, "href": "curso/trilha5/modulo-5-1.html" },
+        { "id": "5-2", "title": "Projeto: Agentes Hospedados (Agendado + Webhook)", "topics": 8, "href": "curso/trilha5/modulo-5-2.html" },
+        { "id": "5-3", "title": "Projeto: App Full-Stack (Lead Qualifier) + Frontend pra n8n", "topics": 8, "href": "curso/trilha5/modulo-5-3.html" }
+      ]},
+      { "n": "6", "title": "Produção, Deploy & Segurança", "modules": [
+        { "id": "6-1", "title": "GitHub & Trigger.dev", "topics": 7, "href": "curso/trilha6/modulo-6-1.html" },
+        { "id": "6-2", "title": "Secrets & Segurança", "topics": 8, "href": "curso/trilha6/modulo-6-2.html" },
+        { "id": "6-3", "title": "Confiabilidade & Monetização", "topics": 7, "href": "curso/trilha6/modulo-6-3.html" }
+      ]}
+    ]
+  }
+  </script>
+<link href="../../../assets/learn.css" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+    [id] { scroll-margin-top: 5rem; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - acento (teal) + cores das outras trilhas no nav */
+    html:not(.dark) .text-teal-400 { color: #0d9488; }
+    html:not(.dark) .bg-teal-500\/20 { background-color: rgba(13, 148, 136, 0.12); }
+    html:not(.dark) .bg-teal-500\/10 { background-color: rgba(13, 148, 136, 0.08); }
+    html:not(.dark) .border-teal-500\/30 { border-color: rgba(13, 148, 136, 0.25); }
+    html:not(.dark) .hover\:bg-teal-500\/30:hover { background-color: rgba(13, 148, 136, 0.18); }
+    html:not(.dark) .hover\:bg-teal-500\/10:hover { background-color: rgba(13, 148, 136, 0.08); }
+    html:not(.dark) .hover\:text-teal-400:hover { color: #0d9488; }
+    html:not(.dark) .text-teal-300 { color: #0f766e; }
+    html:not(.dark) .bg-teal-900\/20 { background-color: rgba(13, 148, 136, 0.08); }
+    /* nav: outras trilhas (hover) — amber/rose com texto -800 */
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5, 150, 105, 0.08); }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37, 99, 235, 0.08); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124, 58, 237, 0.08); }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .hover\:bg-amber-500\/10:hover { background-color: rgba(217, 119, 6, 0.08); }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .hover\:bg-rose-500\/10:hover { background-color: rgba(225, 29, 72, 0.08); }
+    html:not(.dark) .text-red-400 { color: #dc2626; }
+    html:not(.dark) .bg-red-900\/20 { background-color: rgba(220, 38, 38, 0.07); }
+    html:not(.dark) .border-red-500\/30 { border-color: rgba(220, 38, 38, 0.25); }
+
+    /* Light mode - remove gradientes + cores especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    /* Dark mode - bordas suavizadas */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* TOC scrollspy active link */
+    .inema-toc-link.is-active, [data-inema-toc] a.is-active { color: #2dd4bf; font-weight: 600; }
+    html:not(.dark) [data-inema-toc] a.is-active { color: #0d9488; }
+
+    /* code box (copy-run) */
+    .codebox pre { white-space: pre-wrap; word-break: break-word; }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
+    }
+  </style>
+<link href="https://inematds.github.io/vibe-coding-completo/curso/trilha5/modulo-5-2.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/en/curso/trilha5/modulo-5-2.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/es/curso/trilha5/modulo-5-2.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha5/modulo-5-2.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha5/modulo-5-2.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="modulo-5-2.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-teal-600 focus:text-white focus:rounded-lg" href="#conteudo">Saltar al contenido</a>
+<!-- NAVIGATION (T5 ativa) -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Técnica</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-teal-400 bg-teal-500/10" href="index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Proyectos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Producción</span>
+</a>
+<button class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-inema-journey-open="" type="button">
+<span aria-hidden="true">◷</span><span>Mi recorrido</span>
+<span class="inema-journey-badge hidden" data-count="0" data-inema-journey-badge=""></span>
+</button>
+<button aria-label="Alternar tema claro/oscuro" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20">
+<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+</svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav aria-label="Ruta de navegación" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-teal-400" href="../../index.html">Inicio</a>
+<span>/</span>
+<a class="hover:text-teal-400" href="index.html">Ruta 5</a>
+<span>/</span>
+<span class="text-teal-400">Módulo 5.2</span>
+</div>
+</nav>
+<!-- HEADER DO MÓDULO -->
+<header class="bg-gradient-to-br from-teal-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-teal-500/20 text-teal-400 text-xs font-semibold rounded-full mb-4">MÓDULO 5.2</span>
+<h3 class="text-2xl font-bold mb-4">⏰ Proyecto: Agentes alojados (programado + webhook)</h3>
+<p class="text-lg text-neutral-400 max-w-3xl">Es hora de sacar al agente de tu máquina y llevarlo a la nube, donde se ejecuta por sí solo. Construyes <strong class="text-teal-300">dos</strong>: un <strong class="text-teal-300">programado</strong> (cron → búsqueda en la web con Firecrawl → síntesis → Google Sheets) y un <strong class="text-teal-300">por evento</strong> (el webhook recibe un payload → genera un .docx → lo guarda en Drive). En el camino enfrentas las dificultades reales de producción: OAuth refresh token (y el fallback desde la terminal), un debug que solo aparece en producción, auth Bearer, un formulario no-code y el deploy automático mediante GitHub.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-teal-400">8</div>
+<div class="text-xs text-neutral-400">Temas</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-teal-400">~75</div>
+<div class="text-xs text-neutral-400">Minutos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-teal-400">Práctico</div>
+<div class="text-xs text-neutral-400">Nivel</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-teal-400">Proyecto</div>
+<div class="text-xs text-neutral-400">Tipo</div>
+</div>
+</div>
+<div aria-label="Progreso del módulo 5.2" aria-valuemax="100" aria-valuemin="0" class="mt-6 max-w-2xl" data-inema-meter="modulo:5-2" role="progressbar">
+<div class="flex items-center justify-between mb-1 text-sm">
+<span class="text-neutral-400">Progreso del módulo</span>
+<span class="text-teal-400 font-semibold"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 8</span></span>
+</div>
+<div class="inema-bar h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-teal-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+</header>
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:grid lg:grid-cols-[1fr_220px] lg:gap-10">
+<main class="min-w-0" id="conteudo">
+<!-- Pré-requisitos / como usar -->
+<div class="bg-teal-900/20 border border-teal-500/30 rounded-xl p-5 mb-10">
+<h2 class="text-base font-semibold text-teal-400 mb-2 flex items-center"><span class="mr-2">🧰</span> Requisitos previos y cómo usarlo</h2>
+<p class="text-neutral-300 text-sm">Cada cuadro de abajo es un <strong>prompt o comando para copiar y ejecutar</strong>, con <strong>🎯 objetivo</strong> e <strong>✅ cómo verificar</strong>. Cambia lo que está entre <code class="text-teal-300">&lt;chaves&gt;</code>. Requisitos previos: repositorio conectado en GitHub, cuenta de Trigger.dev conectada, el <strong>MCP de Trigger.dev</strong> e o <strong>MCP de Firecrawl</strong> instalados en el asistente (reinicia después de instalar), proyecto inicializado y las env vars en el panel. Construye por capas: deploy → prueba manual → corregir → repetir.</p>
+</div>
+<!-- SVG FUTURISTA (visão geral, #29) -->
+<section class="mb-12">
+<p class="text-neutral-300 mb-4 inema-prose leading-relaxed">La diferencia entre este módulo y el anterior es <em>quién lo activa</em> el agente. Antes eras tú. Ahora hay dos activadores diferentes: uno <strong class="text-teal-400">reloj</strong> (cron, según el calendario) y una <strong class="text-teal-400">timbre</strong> (webhook, por evento). Ambos se ejecutan en la nube, sin que tú estés presente.</p>
+<div class="rounded-2xl border border-teal-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="Dos agentes alojados en la misma plataforma en la nube. El agente programado se activa con un reloj cron cada mañana, busca en la web con Firecrawl, sintetiza y escribe una fila en Google Sheets. El agente por webhook se activa con una solicitud externa con payload, genera un documento docx y lo guarda en Google Drive." class="w-full h-auto" role="img" viewbox="0 0 1000 270">
+<defs>
+<lineargradient id="m52-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#2dd4bf"></stop><stop offset="1" stop-color="#14b8a6"></stop></lineargradient>
+<filter height="180%" id="m52-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.6"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m52-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#14b8a6" opacity="0.1" r="1.3"></circle></pattern>
+<marker id="m52-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#2dd4bf"></path></marker>
+<marker id="m52-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m52-grid)" height="270" width="1000" x="0" y="0"></rect>
+<!-- coordenador (máquina = ciano) -->
+<g filter="url(#m52-glow)"><rect fill="#0e1b26" height="58" rx="14" stroke="#38bdf8" stroke-width="2.5" width="180" x="410" y="106"></rect></g>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="14" font-weight="700" text-anchor="middle" x="500" y="132">☁️ Plataforma en la nube</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="500" y="150">runs · traces · schedules</text>
+<!-- agente agendado (em cima) -->
+<text fill="#2dd4bf" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="40" y="34">Agente programado (cron — cada mañana)</text>
+<rect fill="#0c211f" height="38" rx="10" stroke="#2dd4bf" stroke-width="1.8" width="120" x="40" y="46"></rect><text fill="#9beadd" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="100" y="70">⏰ cron</text>
+<rect fill="#0c211f" height="38" rx="10" stroke="#2dd4bf" stroke-width="1.8" width="130" x="200" y="46"></rect><text fill="#9beadd" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="265" y="70">🔥 Firecrawl</text>
+<rect fill="#0c211f" height="38" rx="10" stroke="#2dd4bf" stroke-width="1.8" width="130" x="370" y="46"></rect><text fill="#9beadd" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="435" y="70">🧠 síntesis</text>
+<rect fill="#0c211f" height="38" rx="10" stroke="#2dd4bf" stroke-width="1.8" width="160" x="700" y="46"></rect><text fill="#9beadd" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="780" y="70">📊 Google Sheets</text>
+<g fill="none" opacity="0.6" stroke="#2dd4bf" stroke-width="2">
+<path d="M160,65 L196,65" marker-end="url(#m52-ah)"></path>
+<path d="M330,65 L366,65" marker-end="url(#m52-ah)"></path>
+<path d="M500,72 C540,72 480,118 484,118" marker-end="url(#m52-ah)"></path>
+<path d="M560,124 C640,124 660,70 696,68" marker-end="url(#m52-ah)"></path>
+</g>
+<!-- agente webhook (embaixo) -->
+<text fill="#38bdf8" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="40" y="206">Agente por webhook (evento — alguien "toca el timbre")</text>
+<rect fill="#0e1b26" height="38" rx="10" stroke="#38bdf8" stroke-width="1.8" width="150" x="40" y="218"></rect><text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="115" y="242">🔔 webhook+payload</text>
+<rect fill="#0e1b26" height="38" rx="10" stroke="#38bdf8" stroke-width="1.8" width="130" x="370" y="218"></rect><text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="435" y="242">📄 genera .docx</text>
+<rect fill="#0e1b26" height="38" rx="10" stroke="#38bdf8" stroke-width="1.8" width="160" x="700" y="218"></rect><text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="780" y="242">🗂️ Google Drive</text>
+<g fill="none" opacity="0.6" stroke="#38bdf8" stroke-width="2">
+<path d="M190,237 C300,237 360,200 410,165" marker-end="url(#m52-ahc)"></path>
+<path d="M500,160 C540,180 480,237 366,237" marker-end="url(#m52-ahc)"></path>
+<path d="M500,237 L696,237" marker-end="url(#m52-ahc)"></path>
+</g>
+</svg>
+</div>
+<p class="text-xs text-neutral-500">Diagrama ilustrativo — misma plataforma en la nube (el «coordinador» en cian), dos disparadores: el reloj activa el primero; una solicitud externa activa el segundo.</p>
+</section>
+<!-- TÓPICO 1 -->
+<section class="mb-16" data-inema-topic="modulo-5-2#topico-1" id="topico-1">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🔁 Agente de investigación programado</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m5-2-t1-p1">
+          El primer agente es una <strong class="text-teal-400">tarea programada</strong> que se ejecuta sola cada mañana: mediante un disparador <strong>cron</strong>, toma un tema fijo y busca contenido en la web con <strong class="text-teal-400">Firecrawl</strong>, sintetiza con la IA y registra una línea estructurada en el <strong>Google Sheets</strong> — sin que tú estés presente. Toda la tarea queda en un solo archivo, <code class="text-teal-300">morning-research.ts</code>, con el tema al principio (fácil de cambiar y versionar).
+        </p>
+<div class="bg-dark-800 border border-teal-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-teal-500/20 text-teal-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Cron</strong> — un programador con 5 campos (minuto, hora, día del mes, mes, día de la semana). Ej.: <code class="text-teal-300">0 8 * * *</code> = "todos los días a las 8 h". <strong>Firecrawl</strong> — una herramienta que busca y extrae contenido de páginas web en un formato limpio. <strong>Tarea (task)</strong> — una unidad de trabajo alojada que ejecuta la plataforma.</p>
+</div>
+<!-- CODE BOX 1: prereqs + MCP check -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-teal-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">confirmar que el MCP de Firecrawl esté disponible antes de planificar.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (cópialo y ejecútalo)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">¿Tienes acceso al MCP server de Firecrawl?
+Si no, configúralo: la clave está en mi archivo .env.</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Cómo verificar: la IA confirma que está configurado (o lo instala leyendo la clave de <code class="text-teal-300">.env</code>). <strong>Reinicia</strong> el asistente después de instalar cualquier MCP.</p>
+</div>
+<!-- CODE BOX 2: prompt cron -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-teal-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">planificar la tarea de investigación programada.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (cópialo y ejecútalo en Plan Mode)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Quero construir uma tarefa agendada que rode totalmente sozinha toda manhã.
+Ela pega um tópico fixo (&lt;tópico&gt;), busca na web com Firecrawl,
+sintetiza os achados e grava uma linha no Google Sheets.
+Sem perguntas no meio da execução, trate erros sem quebrar e
+registre log em cada passo. Me ajude a planejar isso.</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Cómo verificar: la hoja de cálculo debe tener una pestaña <code class="text-teal-300">Sheet1</code> con encabezado (fecha, tema, resumen, fuentes, estado). La tarea nace en un único archivo con el tema en la parte superior.</p>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m5-2-t1-p2">Este es el primer agente que «vive solo» — cierra el <strong>agentic gap</strong> entre ejecutar en local y estar en producción. Ten en cuenta que incorporas <strong>manejo de errores y log desde el primer prompt</strong>: un agente alojado no te tiene cerca para que lo arregles en el momento, así que la robustez se construye desde el inicio.</p>
+<h3 class="text-lg font-semibold text-teal-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Cron</div><p class="text-xs text-neutral-400">Agenda con 5 campos.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Firecrawl</div><p class="text-xs text-neutral-400">Búsqueda en la web.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Archivo único</div><p class="text-xs text-neutral-400">Tema en la parte superior, versionable.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Robusto desde el inicio</div><p class="text-xs text-neutral-400">Error + log en el primer prompt.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500/20 border border-teal-500/30 text-teal-400 hover:bg-teal-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 2 -->
+<section class="mb-16" data-inema-topic="modulo-5-2#topico-2" id="topico-2">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">🔐 OAuth refresh token (y la alternativa mediante terminal)</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m5-2-t2-p1">
+          En la nube no hay una ventana de inicio de sesión donde el agente pueda hacer clic. En su lugar, usa un <strong class="text-teal-400">refresh token</strong>: una credencial de larga duración que renueva automáticamente el acceso (access token). Para Google, necesitas cuatro valores en el <code class="text-teal-300">.env</code> y en el panel: <strong>client ID, client secret, refresh token</strong> e o <strong>sheet ID</strong>.
+        </p>
+<div class="bg-dark-800 border border-teal-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-teal-500/20 text-teal-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Access token</strong> — clave de acceso breve, que caduca en minutos. <strong>Refresh token</strong> — clave larga que intercambias por un nuevo access token sin iniciar sesión de nuevo. <strong>Sheet ID</strong> — el identificador de la hoja de cálculo, que aparece en la URL entre las barras después de <code class="text-teal-300">/d/</code>.</p>
+</div>
+<!-- CODE BOX 3: fallback terminal -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-teal-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">obtener el refresh token cuando falla el método mediante la interfaz.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt + comando (alternativa)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">O método pelo OAuth Playground deu "Access blocked: this app's request is invalid".
+Gere um script de terminal que use meu client ID e secret do .env para imprimir
+uma URL de autorização. Vou abrir no navegador, autorizar, e o terminal vai
+imprimir o refresh token. Aí eu colo no .env e nas env vars do painel.</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Cómo verificar: el terminal imprime una URL → autorizas en el navegador → imprime el refresh token. Pégalo en el <code class="text-teal-300">.env</code> <strong>e</strong> en las variables de entorno de la plataforma (dev y prod).</p>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🗺️</span> Dónde encontrar cada credencial</h3>
+<p class="text-neutral-300 text-sm">Client ID y secret: Google Cloud Console → APIs &amp; Services → Credentials (crea un OAuth2 client ID y un nuevo client secret). Sheet ID: en la URL de la hoja de cálculo, entre las barras después de <code class="text-teal-300">/d/</code>. Clave de Firecrawl: en el panel de firecrawl.dev → API Keys. <strong>Usa OAuth, no service account</strong> — dile esto a la IA para que ajuste los campos del <code class="text-teal-300">.env</code>.</p>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m5-2-t2-p2">El refresh token es la fricción clásica al alojar agentes, y el camino «oficial» (OAuth Playground) a veces simplemente falla. Conoce el <strong>fallback vía terminal</strong> desbloquea el deploy justo cuando más lo necesitas, en vez de dejarte atascado en una pantalla de error.</p>
+<h3 class="text-lg font-semibold text-teal-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Refresh token</div><p class="text-xs text-neutral-400">Renueva sin iniciar sesión.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">4 valores</div><p class="text-xs text-neutral-400">ID, secret, token, sheet.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Fallback</div><p class="text-xs text-neutral-400">Script de terminal.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">OAuth ≠ service acct</div><p class="text-xs text-neutral-400">Avísale a la IA.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500/20 border border-teal-500/30 text-teal-400 hover:bg-teal-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 3 -->
+<section class="mb-16" data-inema-topic="modulo-5-2#topico-3" id="topico-3">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">🐛 Error que solo aparece en producción</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m5-2-t3-p1">
+          Después del deploy, tú <strong>activa una prueba manual en el panel</strong> (no se puede esperar a la hora programada) y lee los traces en tiempo real. Los errores de producción tienen su propia realidad: en este proyecto, Firecrawl devolvió <code class="text-teal-300">success: false</code> pero <em>con</em> resultados — solo que bajo la propiedad <code class="text-teal-300">web</code> en lugar de <code class="text-teal-300">data</code>. El formato real de la respuesta difería de lo que el código suponía.
+        </p>
+<!-- SVG: loop humano de debug (#29) -->
+<div class="rounded-2xl border border-teal-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="El loop humano de depuración en producción: abre el trace rojo en el panel, copia el mensaje de error completo, pégalo en el asistente con contexto, este propone el fix, haces el redeploy y la tarea se vuelve a ejecutar; luego vuelves al trace para confirmar" class="w-full h-auto" role="img" viewbox="0 0 1000 160">
+<defs>
+<marker id="m52b-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#2dd4bf"></path></marker>
+</defs>
+<g font-family="Inter,sans-serif">
+<rect fill="#0c211f" height="44" rx="11" stroke="#f87171" stroke-width="2" width="150" x="30" y="58"></rect><text fill="#fca5a5" font-size="12" text-anchor="middle" x="105" y="78">trace rojo</text><text fill="#fca5a5" font-size="11" text-anchor="middle" x="105" y="93">(fallo en el run)</text>
+<rect fill="#0c211f" height="44" rx="11" stroke="#2dd4bf" stroke-width="2" width="150" x="232" y="58"></rect><text fill="#9beadd" font-size="12" text-anchor="middle" x="307" y="84">copia el error</text>
+<rect fill="#0e1b26" height="44" rx="11" stroke="#38bdf8" stroke-width="2" width="150" x="434" y="58"></rect><text fill="#bfe6ff" font-size="12" text-anchor="middle" x="509" y="78">La IA propone</text><text fill="#bfe6ff" font-size="11" text-anchor="middle" x="509" y="93">la corrección</text>
+<rect fill="#0c211f" height="44" rx="11" stroke="#2dd4bf" stroke-width="2" width="150" x="636" y="58"></rect><text fill="#9beadd" font-size="12" text-anchor="middle" x="711" y="84">redeploy</text>
+<rect fill="#0c211f" height="44" rx="11" stroke="#34d399" stroke-width="2" width="132" x="838" y="58"></rect><text fill="#9ee9c9" font-size="12" text-anchor="middle" x="904" y="84">vuelve a ejecutar ✓</text>
+</g>
+<g fill="none" opacity="0.6" stroke="#2dd4bf" stroke-width="2">
+<path d="M180,80 L228,80" marker-end="url(#m52b-ah)"></path>
+<path d="M382,80 L430,80" marker-end="url(#m52b-ah)"></path>
+<path d="M584,80 L632,80" marker-end="url(#m52b-ah)"></path>
+<path d="M786,80 L834,80" marker-end="url(#m52b-ah)"></path>
+</g>
+<path d="M904,102 C904,135 105,135 105,104" fill="none" marker-end="url(#m52b-ah)" opacity="0.5" stroke="#64748b" stroke-dasharray="5 4" stroke-width="1.6"></path>
+<text fill="#94a3b8" font-size="11" text-anchor="middle" x="500" y="150">si aún falla, vuelve al trace</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — el loop humano de depuración: trace → error → IA → fix → redeploy → vuelve a ejecutar. La pieza clave es copiar el error <em>completo</em> con contexto.</p>
+<!-- CODE BOX 4: devolver erro -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-teal-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">devolver el error de producción con contexto para que la IA lo corrija.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (cópialo y ejecútalo)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">O run falhou em produção. Aqui está o erro completo do trace:
+&lt;cole o erro do passo que ficou vermelho&gt;
+
+O Firecrawl retornou resultados, mas numa propriedade "web" em vez de "data",
+e success veio false. O formato da resposta do SDK difere do que assumimos.
+Corrija o parsing e me diga o comando de redeploy.</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Cómo verificar: después del redeploy, la plataforma vuelve a ejecutar y el run queda en verde (p. ej.: 8 resultados, estado success). <strong>Cuidado con las pistas falsas</strong>: aquí la sospecha inicial era la clave de prod, pero estaba bien: el error estaba en el formato.</p>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">✅</span> El manejo de errores demostró su valor</h3>
+<p class="text-neutral-300 text-sm">Incluso cuando Firecrawl falló, la tarea <strong>no se rompió</strong>: también guardó una <strong>fila parcial</strong> en Sheets (fecha, tema, resumen, sin fuentes, estado=parcial), exactamente lo que pidió el prompt. Es la prueba de que "trata los errores sin romper nada" compensa desde el primer prompt.</p>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m5-2-t3-p2">La producción es donde la teoría se encuentra con la realidad: los formatos de respuesta cambian, ocurren timeouts y desaparecen las env vars. La habilidad central no es «nunca equivocarse», es el <strong>ciclo humano de depuración</strong> — leer el trace, copiar el error completo (no un resumen tuyo), devolverlo con contexto y hacer el redeploy.</p>
+<h3 class="text-lg font-semibold text-teal-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Prueba manual</div><p class="text-xs text-neutral-400">No esperes al cron.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Error completo</div><p class="text-xs text-neutral-400">Copia todo, con contexto.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Pista falsa</div><p class="text-xs text-neutral-400">Confirma antes de culpar.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">No lo rompas</div><p class="text-xs text-neutral-400">Una línea parcial está bien.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500/20 border border-teal-500/30 text-teal-400 hover:bg-teal-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 4 -->
+<section class="mb-16" data-inema-topic="modulo-5-2#topico-4" id="topico-4">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">📄 Informe por webhook (payload → .docx → Drive)</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m5-2-t4-p1">
+          El segundo agente se activa mediante <strong class="text-teal-400">evento</strong>, no según el reloj. Recibe un <strong>payload</strong> JSON vía webhook (con los campos: nombre de la empresa, sector, objetivo, desafío), genera un informe en <strong>.docx</strong> y lo guarda en el <strong>Google Drive</strong>. La IA arma las secciones del informe (resumen ejecutivo, contexto del sector, desafíos) a partir de solo estos cuatro campos.
+        </p>
+<div class="bg-dark-800 border border-teal-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-teal-500/20 text-teal-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Payload</strong> — los datos que llegan junto con la solicitud al webhook (p. ej., <code class="text-teal-300">{ "company": "Acme", "industry": "Construção" }</code>). <strong>.docx</strong> — formato de documento de Word. <strong>Folder ID</strong> — el identificador de una carpeta de Drive, para organizar la salida (sin él, el archivo queda en la raíz).</p>
+</div>
+<!-- CODE BOX 5: prompt webhook -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-teal-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">planificar la tarea activada por webhook que genera el informe.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (cópialo y ejecútalo en Plan Mode)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Quero uma tarefa disparada por webhook (via um form / HTTP request).
+Ela recebe um payload JSON com os campos:
+&lt;nome da empresa, setor, objetivo, desafio&gt;
+Gera um relatório .docx e salva no Google Drive.
+Sem perguntas no meio, trate erros sem quebrar, registre log em cada passo.
+Me ajude a planejar.</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Cómo verificar: la tarea crea tipos para el payload y normaliza las etiquetas del form. Opcional: proporciona un <strong>ID de la carpeta</strong> de Drive para organizar la salida.</p>
+</div>
+<!-- CODE BOX 6: teste local -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-teal-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">probar localmente ANTES de conectar cualquier form.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (cópialo y ejecútalo)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Suba o dev server e teste a tarefa de relatório com este payload:
+{ "company": "&lt;Acme&gt;", "industry": "&lt;Construção&gt;",
+  "goal": "&lt;dobrar leads&gt;", "challenge": "&lt;ciclo de venda longo&gt;" }</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Cómo verificar: aparece el run, se genera el .docx y el archivo está en Drive; todo esto <strong>antes</strong> de conectar el formulario. Probar primero en local ahorra un ciclo de depuración.</p>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m5-2-t4-p2">Este agente enseña cómo activar <strong>por evento</strong>: responde a una solicitud externa, no a un reloj. Es el patrón que conecta cualquier fuente (formulario, otro sistema, un botón) con un agente que produce un artefacto — y la prueba local primero es la disciplina que evita depurar dos problemas (tu formulario y tu tarea) al mismo tiempo.</p>
+<h3 class="text-lg font-semibold text-teal-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Payload</div><p class="text-xs text-neutral-400">Datos del pedido.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Genera un artefacto</div><p class="text-xs text-neutral-400">.docx en Drive.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Folder ID</div><p class="text-xs text-neutral-400">Organiza la salida.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Prueba local primero</div><p class="text-xs text-neutral-400">Antes del formulario.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500/20 border border-teal-500/30 text-teal-400 hover:bg-teal-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 5 -->
+<section class="mb-16" data-inema-topic="modulo-5-2#topico-5" id="topico-5">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">🔔 Webhook como «timbre digital» + auth Bearer</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m5-2-t5-p1">
+          Un <strong class="text-teal-400">webhook</strong> es una «campanilla digital»: una URL que queda a la escucha de datos; cuando alguien la «toca» (hace una solicitud), activa la tarea y envía el payload. Como la URL se puede compartir (cabe en un sitio web, en un correo electrónico), la proteges con un encabezado <strong class="text-teal-400">Authorization: Bearer</strong> + tu clave secreta.
+        </p>
+<div class="bg-dark-800 border border-teal-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-teal-500/20 text-teal-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Header (encabezado)</strong> — información adicional que viaja con la solicitud. <strong>Bearer token</strong> — un esquema de autenticación donde la clave va en el header <code class="text-teal-300">Authorization: Bearer &lt;chave&gt;</code>; a quien no envía la clave correcta se le rechaza.</p>
+</div>
+<!-- CODE BOX 7: HTTP request config -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-teal-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">configurar el nodo HTTP Request de n8n para que active el timbre con auth.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">configuración del nodo (en n8n)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Method:        POST
+URL:           &lt;url-do-webhook-da-tarefa&gt;   (inclui o ID/nome da tarefa, ex.: webhook-report)
+Authentication: None        (a auth vai pelo header)
+Send Headers:  ON
+  Name:  Authorization
+  Value: Bearer &lt;sua-chave-secreta&gt;   ← "Bearer" + ESPAÇO + chave (do painel → API Keys → secret)
+Send Body:     ON  →  JSON
+  campo:  payload  →  { company, industry, goal, challenge }</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Cómo verificar: ten cuidado con el <strong>espacio después de "Bearer"</strong> (error común). Sin el token correcto, la tarea rechaza la solicitud. Con él, el run aparece en el panel con el payload visible.</p>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m5-2-t5-p2">La URL del webhook es pública por naturaleza: cualquiera que la descubra puede «tocar el timbre» y consumir tus recursos. El Bearer es el candado básico: sin la clave correcta, se rechaza la solicitud. Es la primera línea de seguridad de cualquier agente que acepta activaciones externas.</p>
+<h3 class="text-lg font-semibold text-teal-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">URL de activación</div><p class="text-xs text-neutral-400">El timbre digital.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">POST + payload</div><p class="text-xs text-neutral-400">Datos en el cuerpo.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Bearer</div><p class="text-xs text-neutral-400">Clave en el header.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">¡Espacio!</div><p class="text-xs text-neutral-400">"Bearer " + clave.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500/20 border border-teal-500/30 text-teal-400 hover:bg-teal-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 6 -->
+<section class="mb-16" data-inema-topic="modulo-5-2#topico-6" id="topico-6">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">📋 Formulario no-code → webhook</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m5-2-t6-p1">
+          Para darle un aspecto humano al agente, creas un <strong>formulario no-code</strong> que, al enviarse, hace la solicitud al webhook con el payload. En n8n son solo dos nodos: un <strong class="text-teal-400">Form Submission</strong> (los cuatro campos + enviar) y el <strong class="text-teal-400">Solicitud HTTP</strong> del tema anterior. La herramienta de form se puede cambiar: sirve cualquiera que acepte webhook/API.
+        </p>
+<div class="bg-dark-800 border border-teal-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-teal-500/20 text-teal-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>No-code</strong> — crear algo arrastrando bloques, sin escribir código. <strong>Form Submission trigger</strong> — un nodo que crea un formulario y activa el flujo cuando alguien lo envía.</p>
+</div>
+<!-- CODE BOX 8: teste do form -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-teal-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">conectar el formulario al webhook y hacer una prueba de extremo a extremo.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">pasos (en n8n)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">1. Form Submission trigger: 4 campos de texto (empresa, setor, objetivo, desafio) + enviar.
+2. HTTP Request: configurado como no tópico 5 (POST + Bearer + body payload).
+3. Mapeie cada campo do form para o payload.
+4. Execute o nó do form com dados de teste e confira o run no painel.
+5. Para o teste final: PUBLIQUE o form em produção e use a URL de produção.</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Cómo verificar: el run aparece en la plataforma con el payload del form y el informe llega a Drive. Atención: algunas herramientas de form fallan en la parte de API; si la tuya falla, cámbiala por n8n.</p>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m5-2-t6-p2">El form conecta a una persona real con el agente sin que tengas que escribir un frontend todavía; eso llega en el módulo 5.3. Es la forma más rápida de darle una interfaz a una automatización y comprobar el flujo de punta a punta con un envío real.</p>
+<h3 class="text-lg font-semibold text-teal-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Dos nodos</div><p class="text-xs text-neutral-400">Form + HTTP Request.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Mapear campos</div><p class="text-xs text-neutral-400">Form → payload.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Publicar</div><p class="text-xs text-neutral-400">URL de producción.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Intercambiable</div><p class="text-xs text-neutral-400">Cualquier form con API.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500/20 border border-teal-500/30 text-teal-400 hover:bg-teal-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 7 -->
+<section class="mb-16" data-inema-topic="modulo-5-2#topico-7" id="topico-7">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">7</span>
+<h2 class="text-2xl font-bold">🐙 Pipeline de GitHub → deploy automático</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m5-2-t7-p1">
+          En lugar de hacer deploy manual con cada cambio, conectas el repositorio <strong class="text-teal-400">GitHub</strong> a la plataforma de alojamiento: cada <code class="text-teal-300">push</code> activa el deploy automáticamente. Así, el código del repositorio es la fuente de la verdad e iterar con la IA ya publica la versión más reciente. La parte manual es un <strong>secret de repositorio</strong> que le da permiso a GitHub para hacer el deploy.
+        </p>
+<div class="bg-dark-800 border border-teal-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-teal-500/20 text-teal-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>commit / push</strong> — guardar una instantánea del código y enviarla a la nube. <strong>.gitignore</strong> — lista de archivos que Git debe ignorar (el <code class="text-teal-300">.env</code> NUNCA sube). <strong>Repository secret</strong> — un secreto guardado en GitHub, que usan las automatizaciones de deploy.</p>
+</div>
+<!-- CODE BOX 9: pipeline + secret -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-teal-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">hacer que cada push a GitHub publique automáticamente.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt + paso manual</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">[prompt] Configura el flujo para que, cuando itere contigo, el código
+se envíe a GitHub y GitHub haga el deploy automático en la plataforma.
+Confirma que .env está en .gitignore y crea un .env.example seguro.
+
+[paso manual en GitHub]
+Settings → Security → Secrets and Variables → Actions →
+Repository Secrets → New Repository Secret
+  Name:  TRIGGER_ACCESS_TOKEN
+  Value: <sua-chave-secreta-da-plataforma></sua-chave-secreta-da-plataforma></pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Cómo verificar: haz un pequeño cambio, haz push y comprueba que el deploy se ejecute automáticamente. El <code class="text-teal-300">.env</code> no puede aparecer en el repositorio (confirma que está en el <code class="text-teal-300">.gitignore</code>).</p>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m5-2-t7-p2">El deploy manual es un paso fácil de olvidar y de hacer mal. Automatizarlo significa que «lo que está en el repositorio es lo que está en línea» y que iterar consiste solo en conversar con la IA y hacer push. Es el hábito que diferencia un prototipo de un sistema mantenido. (La ruta 6 profundiza en GitHub y Trigger.dev.)</p>
+<h3 class="text-lg font-semibold text-teal-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Deploy on push</div><p class="text-xs text-neutral-400">Push = publica.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Fuente de la verdad</div><p class="text-xs text-neutral-400">El repo manda.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Repo secret</div><p class="text-xs text-neutral-400">Permite hacer el deploy.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">.gitignore</div><p class="text-xs text-neutral-400">.env nunca se sube.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500/20 border border-teal-500/30 text-teal-400 hover:bg-teal-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 8 -->
+<section class="mb-16" data-inema-topic="modulo-5-2#topico-8" id="topico-8">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">8</span>
+<h2 class="text-2xl font-bold">📊 Verificar las ejecuciones, los rastros y el schedule</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m5-2-t8-p1">
+          Como el agente funciona sin ti, el <strong>panel</strong> es cómo sabes que está funcionando correctamente. Aprende a leer: la lista de <strong class="text-teal-400">runs</strong> (ejecuciones), el <strong class="text-teal-400">trace</strong> de cada una (cada línea es un paso), las <strong class="text-teal-400">schedules</strong> (el cron activo + el próximo horario) y la separación <strong>dev vs prod</strong>. Revisa también la fila real que apareció en Sheets.
+        </p>
+<div class="bg-dark-800 border border-teal-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-teal-500/20 text-teal-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Run</strong> — una ejecución de la tarea. <strong>Trace</strong> — el paso a paso de esa ejecución (entradas, salidas, errores). <strong>Schedule</strong> — la regla cron que activa la tarea. <strong>dev vs prod</strong> — entorno de pruebas frente al entorno real; una tarea puede quedar por error solo en dev.</p>
+</div>
+<!-- CODE BOX 10: checklist final -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-teal-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">confirmar que los dos agentes están en buen estado y configurar alertas.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">lista de verificación + prompt de alertas</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">[ ] Em Schedules, a tarefa morning-research aparece com o cron (ex.: 0 8 * * *)
+    e o próximo horário (amanhã, 8h).
+[ ] O último run está verde; o trace mostra cada passo.
+[ ] A linha apareceu no Google Sheets / o .docx no Drive.
+[ ] A tarefa está em PROD, não só em dev.
+
+[prompt] Adicione retries com backoff exponencial (até 3, começando em 30s)
+para falhas transitórias, e configure um alerta por &lt;e-mail/Slack&gt; quando
+um run ou deploy falhar.</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Cómo verificar: el schedule muestra el próximo run; un run de prueba queda en verde; la alerta se activa en un run forzado a fallar. Recuerda: los retries resuelven fallos <strong>transitorias</strong>, no bugs de lógica.</p>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m5-2-t8-p2">La observabilidad es lo que hace confiable a un agente alojado: cuando no estás presente, runs, traces, schedules y alertas son tus ojos. Un error común es dejar la tarea solo en <strong>dev</strong> y creer que está en línea; siempre confirma el entorno. Y las alertas cierran el ciclo: solo actúas cuando algo realmente falla.</p>
+<!-- Checagem leve -->
+<div class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6" data-inema-check="modulo-5-2#q1">
+<p class="inema-check__q font-medium mb-4">Una llamada externa falla de vez en cuando por timeout, pero la lógica es correcta. ¿Cuál es la solución adecuada?</p>
+<div class="inema-check-options inema-check__options space-y-2">
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0" type="button">Reintentos con backoff exponencial (p. ej., hasta 3, comenzando en 30s).</button>
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1" type="button">Reescribir toda la lógica desde cero.</button>
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2" type="button">Ignorar: los timeouts no importan en producción.</button>
+</div>
+<div aria-live="polite" class="mt-4 text-sm" data-inema-check-feedback="" role="status"></div>
+</div>
+<div class="flex justify-start mt-8">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500/20 border border-teal-500/30 text-teal-400 hover:bg-teal-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-8">
+<div class="bg-gradient-to-br from-teal-900/40 via-dark-800 to-dark-800 rounded-xl border border-teal-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📌</span> Resumen del módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Agente programado</strong><span class="text-neutral-400"> — cron → Firecrawl → síntesis → Sheets, en un solo archivo, con error y log desde el 1.º prompt.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">OAuth refresh token</strong><span class="text-neutral-400"> — renueva el acceso por su cuenta; cuando falla la interfaz, el recurso alternativo es un script de terminal.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Debug en producción</strong><span class="text-neutral-400"> — prueba manual, lee el trace, copia el error completo; cuidado con las pistas falsas; no romper = línea parcial.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Agente por webhook</strong><span class="text-neutral-400"> — payload → .docx → Drive; prueba local antes de conectar el form.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Webhook + Bearer</strong><span class="text-neutral-400"> — la campanilla digital protegida por <code>Authorization: Bearer</code> (cuidado con el espacio).</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Form sin código</strong><span class="text-neutral-400"> — Form Submission + HTTP Request; publica y usa la URL de producción.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Deploy automático</strong><span class="text-neutral-400"> — GitHub → plataforma; secret del repositorio; el <code>.env</code> nunca se sube.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Observabilidad</strong><span class="text-neutral-400"> — ejecuciones, trazas, schedules, dev frente a prod, retries y alertas.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-teal-400 mb-2">Siguiente módulo:</h3>
+<p class="text-neutral-300">5.3 — App Full-Stack (Lead Qualifier) + Frontend para n8n: del agente al producto con interfaz, auth y pago.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="modulo-5-1.html">← Módulo anterior</a>
+<a class="flex-1 text-center px-6 py-3 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-500 transition-colors" href="modulo-5-3.html">Siguiente módulo →</a>
+</div>
+</div>
+</section>
+</main>
+<!-- TOC sticky + scrollspy -->
+<aside class="hidden lg:block">
+<nav aria-label="Índice de la página" class="sticky top-24 self-start" data-inema-toc="">
+<p class="text-sm text-neutral-400 mb-3">Sección <span data-inema-section-counter=""><span class="inema-toc-pos">1</span> de <span class="inema-toc-total">8</span></span></p>
+<ol class="space-y-1.5 text-sm">
+<li><a class="inema-toc-link text-neutral-400 hover:text-teal-400 block" href="#topico-1">1. Agente programado</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-teal-400 block" href="#topico-2">2. OAuth refresh token</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-teal-400 block" href="#topico-3">3. Debug en producción</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-teal-400 block" href="#topico-4">4. Informe por webhook</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-teal-400 block" href="#topico-5">5. Webhook + Bearer</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-teal-400 block" href="#topico-6">6. Formulario no-code</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-teal-400 block" href="#topico-7">7. GitHub → deploy</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-teal-400 block" href="#topico-8">8. Runs, traces, schedule</a></li>
+</ol>
+</nav>
+</aside>
+</div>
+<footer class="border-t border-dark-600 py-8 mt-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Vibe Coding: Dominio completo · Curso original <a class="text-sky-400 hover:text-sky-300 font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a> · 2026</p>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const htmlEl = document.documentElement;
+    if (htmlEl.classList.contains('dark')) { themeToggleLightIcon.classList.remove('hidden'); }
+    else { themeToggleDarkIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      htmlEl.classList.toggle('dark');
+      const isDark = htmlEl.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      if (window.INEMA && INEMA.setPref) { INEMA.setPref('theme', isDark ? 'inema-dark' : 'claro'); }
+    });
+  </script>
+<script src="../../../assets/learn.js"></script>
+<script>
+    if (window.INEMA && typeof window.INEMA.init === 'function') {
+      window.INEMA.init();
+      if (window.INEMA.registerCheck) {
+        INEMA.registerCheck('modulo-5-2#q1', {
+          answer: 0,
+          explain: {
+            0: 'Isso. Retries com backoff resolvem falhas transitórias (timeout, instabilidade) sem mexer na lógica que já está correta.',
+            1: 'Não. A lógica está certa — reescrever não resolve um timeout intermitente e ainda arrisca quebrar o que funciona.',
+            2: 'Não. Timeouts importam, sim; sem retries o run falha à toa. Mas eles não consertam bugs de lógica.'
+          }
+        });
+      }
+    }
+  </script>
+</body>
+</html>

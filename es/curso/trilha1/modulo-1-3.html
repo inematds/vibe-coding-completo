@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="vibe-coding-completo" name="inema-course"/>
+<!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
+<script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        } else {
+          var legacy = localStorage.getItem('theme');
+          if (legacy === 'light') p.theme = 'claro';
+          else if (legacy === 'dark') p.theme = 'inema-dark';
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'inema-dark': { dark: true,  attr: null,        cs: 'dark'  },
+        'claro':      { dark: false, attr: null,        cs: 'light' },
+        'sepia':      { dark: false, attr: 'sepia',     cs: 'light' },
+        'foco':       { dark: null,  attr: 'foco',      cs: null    },
+        'contraste':  { dark: true,  attr: 'contraste', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['inema-dark'];
+
+      if (t.dark === true) html.classList.add('dark');
+      else if (t.dark === false) html.classList.remove('dark');
+
+      if (t.attr) html.setAttribute('data-theme', t.attr);
+      else html.removeAttribute('data-theme');
+
+      html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark') ? 'dark' : 'light'));
+
+      html.setAttribute('data-font', p.font || 'inter');
+      html.setAttribute('data-accent', p.accent || 'emerald');
+
+      var s = html.style;
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--inema-font-scale', (scale / 100).toString());
+      s.setProperty('font-size', scale + '%');
+      s.setProperty('--measure', (+p.lineWidth || 68) + 'ch');
+      s.setProperty('--lh-body', (+p.leading || 1.7).toString());
+      var fam = p.font === 'system'
+        ? 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif'
+        : (p.font === 'leitura'
+          ? '"Atkinson Hyperlegible", "Inter", system-ui, sans-serif'
+          : '"Inter", system-ui, sans-serif');
+      s.setProperty('--font-body', fam);
+
+      var ACC = {
+        emerald: [152, 76, 45], blue: [217, 91, 60], purple: [258, 90, 66],
+        amber: [38, 92, 50], teal: [174, 72, 41], rose: [350, 89, 60]
+      };
+      var a = ACC[p.accent] || ACC.emerald;
+      s.setProperty('--accent-h', a[0] + '');
+      s.setProperty('--accent-s', a[1] + '%');
+      s.setProperty('--accent-l', a[2] + '%');
+      s.setProperty('--accent', 'hsl(' + a[0] + ' ' + a[1] + '% ' + a[2] + '%)');
+    } catch (err) {
+      try { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme = 'dark'; } catch (e) {}
+    }
+  })();
+  </script>
+<title>Módulo 1.3 · Glosario esencial (Parte 1: IA, Claude Code, n8n) | Vibe Coding: Dominio completo</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
+<script data-inema-manifest="" type="application/json">
+  {
+    "course": "vibe-coding-completo",
+    "tracks": [
+      { "n": "1", "title": "Fundamentos & Glossário", "modules": [
+        { "id": "1-1", "title": "A Mentalidade do Vibe Coding", "topics": 7, "href": "curso/trilha1/modulo-1-1.html" },
+        { "id": "1-2", "title": "O Ecossistema: Como as Peças se Encaixam", "topics": 6, "href": "curso/trilha1/modulo-1-2.html" },
+        { "id": "1-3", "title": "Glossário Essencial (Parte 1: IA, Claude Code, n8n)", "topics": 7, "href": "curso/trilha1/modulo-1-3.html" },
+        { "id": "1-4", "title": "Glossário Essencial (Parte 2: Agêntico, RAG, Deploy, Segurança)", "topics": 6, "href": "curso/trilha1/modulo-1-4.html" }
+      ]},
+      { "n": "2", "title": "Técnica: Arquitetura & Engenharia", "modules": [
+        { "id": "2-1", "title": "Engenharia de CLAUDE.md", "topics": 6, "href": "curso/trilha2/modulo-2-1.html" },
+        { "id": "2-2", "title": "O Framework WAT a Fundo", "topics": 7, "href": "curso/trilha2/modulo-2-2.html" },
+        { "id": "2-3", "title": "MCP por Dentro", "topics": 7, "href": "curso/trilha2/modulo-2-3.html" },
+        { "id": "2-4", "title": "Contexto & Tokens", "topics": 6, "href": "curso/trilha2/modulo-2-4.html" },
+        { "id": "2-5", "title": "RAG & Dados", "topics": 6, "href": "curso/trilha2/modulo-2-5.html" }
+      ]},
+      { "n": "3", "title": "Prompts & Padrões de Conversa", "modules": [
+        { "id": "3-1", "title": "Os Padrões de Prompting", "topics": 7, "href": "curso/trilha3/modulo-3-1.html" },
+        { "id": "3-2", "title": "O Ciclo Plan → Build → Troubleshoot → Optimize", "topics": 7, "href": "curso/trilha3/modulo-3-2.html" },
+        { "id": "3-3", "title": "Biblioteca de Prompts Prontos (copy-run)", "topics": 8, "href": "curso/trilha3/modulo-3-3.html" }
+      ]},
+      { "n": "4", "title": "Skills & Agentes", "modules": [
+        { "id": "4-1", "title": "Skills: Conceito & Anatomia", "topics": 7, "href": "curso/trilha4/modulo-4-1.html" },
+        { "id": "4-2", "title": "Construindo Skills na Prática", "topics": 7, "href": "curso/trilha4/modulo-4-2.html" },
+        { "id": "4-3", "title": "Agentes: Locais, Agendados & por Evento", "topics": 8, "href": "curso/trilha4/modulo-4-3.html" }
+      ]},
+      { "n": "5", "title": "Projetos Práticos (End-to-End)", "modules": [
+        { "id": "5-1", "title": "Projeto: Agente de Suporte por E-mail com RAG", "topics": 8, "href": "curso/trilha5/modulo-5-1.html" },
+        { "id": "5-2", "title": "Projeto: Agentes Hospedados (Agendado + Webhook)", "topics": 8, "href": "curso/trilha5/modulo-5-2.html" },
+        { "id": "5-3", "title": "Projeto: App Full-Stack (Lead Qualifier) + Frontend pra n8n", "topics": 8, "href": "curso/trilha5/modulo-5-3.html" }
+      ]},
+      { "n": "6", "title": "Produção, Deploy & Segurança", "modules": [
+        { "id": "6-1", "title": "GitHub & Trigger.dev", "topics": 7, "href": "curso/trilha6/modulo-6-1.html" },
+        { "id": "6-2", "title": "Secrets & Segurança", "topics": 8, "href": "curso/trilha6/modulo-6-2.html" },
+        { "id": "6-3", "title": "Confiabilidade & Monetização", "topics": 7, "href": "curso/trilha6/modulo-6-3.html" }
+      ]}
+    ]
+  }
+  </script>
+<link href="../../../assets/learn.css" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+    [id] { scroll-margin-top: 5rem; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - acento (emerald) + cores das outras trilhas no nav */
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .bg-emerald-500\/20 { background-color: rgba(5, 150, 105, 0.12); }
+    html:not(.dark) .bg-emerald-500\/10 { background-color: rgba(5, 150, 105, 0.08); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5, 150, 105, 0.25); }
+    html:not(.dark) .hover\:bg-emerald-500\/30:hover { background-color: rgba(5, 150, 105, 0.18); }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5, 150, 105, 0.08); }
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .text-emerald-300 { color: #047857; }
+    html:not(.dark) .bg-emerald-900\/20 { background-color: rgba(5, 150, 105, 0.08); }
+    /* nav: outras trilhas (hover) — amber/rose com texto -800 */
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37, 99, 235, 0.08); }
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .bg-blue-500\/20 { background-color: rgba(37, 99, 235, 0.12); }
+    html:not(.dark) .bg-blue-900\/20 { background-color: rgba(37, 99, 235, 0.08); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37, 99, 235, 0.25); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124, 58, 237, 0.08); }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .hover\:bg-amber-500\/10:hover { background-color: rgba(217, 119, 6, 0.08); }
+    html:not(.dark) .hover\:text-teal-400:hover { color: #0d9488; }
+    html:not(.dark) .hover\:bg-teal-500\/10:hover { background-color: rgba(13, 148, 136, 0.08); }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .hover\:bg-rose-500\/10:hover { background-color: rgba(225, 29, 72, 0.08); }
+    html:not(.dark) .text-red-400 { color: #dc2626; }
+    html:not(.dark) .bg-red-900\/20 { background-color: rgba(220, 38, 38, 0.07); }
+    html:not(.dark) .border-red-500\/30 { border-color: rgba(220, 38, 38, 0.25); }
+    html:not(.dark) .text-cyan-300 { color: #0e7490; }
+
+    /* Light mode - remove gradientes + cores especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    /* Dark mode - bordas suavizadas */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* TOC scrollspy active link */
+    .inema-toc-link.is-active, [data-inema-toc] a.is-active { color: #34d399; font-weight: 600; }
+    html:not(.dark) [data-inema-toc] a.is-active { color: #059669; }
+
+    /* code box (copy-run) */
+    .codebox pre { white-space: pre; }
+
+    /* glossário: lista de termos */
+    .gloss dt { font-weight: 700; }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
+    }
+  </style>
+<link href="https://inematds.github.io/vibe-coding-completo/curso/trilha1/modulo-1-3.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/en/curso/trilha1/modulo-1-3.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/es/curso/trilha1/modulo-1-3.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha1/modulo-1-3.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha1/modulo-1-3.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="modulo-1-3.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-emerald-600 focus:text-white focus:rounded-lg" href="#conteudo">Saltar al contenido</a>
+<!-- NAVIGATION (T1 ativa) -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10" href="index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Técnica</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Proyectos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Producción</span>
+</a>
+<button class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-inema-journey-open="" type="button">
+<span aria-hidden="true">◷</span><span>Mi recorrido</span>
+<span class="inema-journey-badge hidden" data-count="0" data-inema-journey-badge=""></span>
+</button>
+<button aria-label="Alternar tema claro/oscuro" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20">
+<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+</svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav aria-label="Ruta de navegación" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-emerald-400" href="../../index.html">Inicio</a>
+<span>/</span>
+<a class="hover:text-emerald-400" href="index.html">Ruta 1</a>
+<span>/</span>
+<span class="text-emerald-400">Módulo 1.3</span>
+</div>
+</nav>
+<!-- HEADER DO MÓDULO -->
+<header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4">MÓDULO 1.3</span>
+<h3 class="text-2xl font-bold mb-4">📖 Glosario esencial (Parte 1: IA, Claude Code, n8n)</h3>
+<p class="text-lg text-neutral-400 max-w-3xl">El diccionario de campo del vibe coding. Aquí cada tema es un <strong class="text-emerald-300">grupo de términos</strong> definido con un ejemplo concreto — desde los conceptos de IA hasta los modos del asistente, los archivos clave, MCP y los nodos de n8n. Consúltalo de principio a fin o ve directamente al grupo que necesitas. Nada de jerga sin explicar: todo viene con su traducción.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-emerald-400">7</div>
+<div class="text-xs text-neutral-400">Clusters</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-emerald-400">~50</div>
+<div class="text-xs text-neutral-400">Minutos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-emerald-400">Básico</div>
+<div class="text-xs text-neutral-400">Nivel</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-emerald-400">Glosario</div>
+<div class="text-xs text-neutral-400">Tipo</div>
+</div>
+</div>
+<div aria-label="Progreso del módulo 1.3" aria-valuemax="100" aria-valuemin="0" class="mt-6 max-w-2xl" data-inema-meter="modulo:1-3" role="progressbar">
+<div class="flex items-center justify-between mb-1 text-sm">
+<span class="text-neutral-400">Progreso del módulo</span>
+<span class="text-emerald-400 font-semibold"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 7</span></span>
+</div>
+<div class="inema-bar h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-emerald-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+</header>
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:grid lg:grid-cols-[1fr_220px] lg:gap-10">
+<main class="min-w-0" id="conteudo">
+<!-- Novo aqui? box (intro, #31) -->
+<div class="bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-5 mb-10">
+<h2 class="text-base font-semibold text-emerald-400 mb-2 flex items-center"><span class="mr-2">🌱</span> ¿Nuevo por aquí?</h2>
+<p class="text-neutral-300 text-sm">Este módulo es una <strong>referencia</strong>: no necesitas memorizarlo todo de una vez. Cada término viene con una definición breve <em>e</em> un ejemplo concreto, porque una definición sin ejemplo se recuerda menos. Usa el índice de la derecha para saltar al grupo que necesitas — y vuelve cada vez que encuentres una palabra nueva en las otras rutas.</p>
+</div>
+<!-- SVG FUTURISTA (visão geral, #29) -->
+<section class="mb-12">
+<p class="text-neutral-300 mb-4 inema-prose leading-relaxed">Los siete clusters siguen el flujo de quien está empezando: primero las ideas de IA, después cómo hablar con el asistente (modos), luego los archivos donde se configura todo, después cómo conectar herramientas (MCP) y, por último, n8n —desde lo básico hasta la IA— y los bloques de datos que alimentan las respuestas.</p>
+<div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="Los siete clusters del glosario en secuencia: conceptos de IA, modos del asistente, archivos clave, MCP, n8n básico, n8n con IA y datos; cada caja agrupa los términos de ese tema, conectados en fila desde el concepto hasta el dato" class="w-full h-auto" role="img" viewbox="0 0 1000 230">
+<defs>
+<lineargradient id="m13-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#34d399"></stop><stop offset="1" stop-color="#10b981"></stop>
+</lineargradient>
+<pattern height="32" id="m13-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#10b981" opacity="0.12" r="1.3"></circle></pattern>
+<marker id="m13-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"></path></marker>
+</defs>
+<rect fill="url(#m13-grid)" height="230" width="1000" x="0" y="0"></rect>
+<g class="wf-a"><rect fill="#0e2018" height="58" rx="12" stroke="url(#m13-grad)" stroke-width="2" width="135" x="30" y="40"></rect><text fill="#34d399" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="97" y="64">🧠 Conceptos</text><text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="97" y="82">de IA</text></g>
+<g fill="none" opacity="0.6" stroke="#34d399" stroke-width="2"><path d="M165,69 L195,69" marker-end="url(#m13-ah)"></path></g>
+<g class="wf-a"><rect fill="#0e2018" height="58" rx="12" stroke="url(#m13-grad)" stroke-width="2" width="135" x="195" y="40"></rect><text fill="#34d399" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="262" y="64">🎛️ Modos</text><text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="262" y="82">del asistente</text></g>
+<g fill="none" opacity="0.6" stroke="#34d399" stroke-width="2"><path d="M330,69 L360,69" marker-end="url(#m13-ah)"></path></g>
+<g class="wf-a"><rect fill="#0e2018" height="58" rx="12" stroke="url(#m13-grad)" stroke-width="2" width="135" x="360" y="40"></rect><text fill="#34d399" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="427" y="64">🗂️ Archivos</text><text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="427" y="82">-clave</text></g>
+<g fill="none" opacity="0.6" stroke="#34d399" stroke-width="2"><path d="M495,69 L525,69" marker-end="url(#m13-ah)"></path></g>
+<g class="wf-a"><rect fill="#0e2018" height="58" rx="12" stroke="url(#m13-grad)" stroke-width="2" width="135" x="525" y="40"></rect><text fill="#34d399" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="592" y="64">🔌 MCP</text><text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="592" y="82">herramientas</text></g>
+<g fill="none" opacity="0.6" stroke="#34d399" stroke-width="2"><path d="M592,98 L592,128" marker-end="url(#m13-ah)"></path></g>
+<g class="wf-a"><rect fill="#0e2018" height="58" rx="12" stroke="url(#m13-grad)" stroke-width="2" width="135" x="525" y="128"></rect><text fill="#34d399" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="592" y="152">🔗 n8n</text><text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="592" y="170">básico</text></g>
+<g fill="none" opacity="0.6" stroke="#34d399" stroke-width="2"><path d="M525,157 L495,157" marker-end="url(#m13-ah)"></path></g>
+<g class="wf-a"><rect fill="#0e2018" height="58" rx="12" stroke="url(#m13-grad)" stroke-width="2" width="135" x="360" y="128"></rect><text fill="#34d399" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="427" y="152">🤖 n8n</text><text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="427" y="170">con IA</text></g>
+<g fill="none" opacity="0.6" stroke="#34d399" stroke-width="2"><path d="M360,157 L330,157" marker-end="url(#m13-ah)"></path></g>
+<g class="wf-a"><rect fill="#0e1b26" height="58" rx="12" stroke="#38bdf8" stroke-width="2" width="135" x="195" y="128"></rect><text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="262" y="152">📊 Datos</text><text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="262" y="170">que alimentan las respuestas</text></g>
+</svg>
+</div>
+<p class="text-xs text-neutral-500">Diagrama ilustrativo — los grupos del glosario en orden de aprendizaje. Cada cuadro es un tema a continuación, con sus términos definidos.</p>
+</section>
+<!-- TÓPICO 1 -->
+<section class="mb-16" data-inema-topic="modulo-1-3#topico-1" id="topico-1">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🧠 Conceptos de IA</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-3-t1-p1">
+          Este grupo es el alfabeto de la IA. Antes que nada: <strong class="text-emerald-400">LLM</strong> (large language model, «modelo de lenguaje grande») es el tipo de IA que entiende y genera texto; es el «motor» detrás del asistente. Hablas con él por medio de un <strong class="text-emerald-400">prompt</strong>: el mensaje que escribes. Encima de cada conversación está el <strong class="text-emerald-400">system prompt</strong>, una instrucción de fondo (rol, contexto, reglas) que se aplica a toda la sesión.
+        </p>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-3-t1-p2">
+          Todo lo que el LLM «ve» en ese momento es el <strong class="text-emerald-400">contexto</strong> (o <strong class="text-emerald-400">context window</strong>, «ventana de contexto») — el espacio de memoria de la conversación. Ese espacio se mide en <strong class="text-emerald-400">tokens</strong>: fragmentos de palabras que cuenta la IA. Y hay un efecto que debes temer: el <strong class="text-emerald-400">context rot</strong> ("deterioro del contexto"), la caída de calidad cuando la ventana se llena de historial y el modelo empieza a equivocarse más.
+        </p>
+<!-- glossário inline (#31) -->
+<div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-5 mb-6 gloss">
+<p class="text-sm font-semibold text-emerald-400 mb-3"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">Glosario</span>Conceptos de IA</p>
+<dl class="space-y-3 text-sm text-neutral-300">
+<div><dt class="text-emerald-300">LLM</dt><dd>IA que entiende y genera texto. <em>Ej.: escribes "resume este correo" y te devuelve el resumen.</em></dd></div>
+<div><dt class="text-emerald-300">Prompt</dt><dd>El mensaje que envías. <em>Ej.: «crea un workflow que revise el correo electrónico cada 10 min».</em></dd></div>
+<div><dt class="text-emerald-300">System prompt</dt><dd>Instrucción de fondo de la sesión (rol, reglas). <em>Ej.: «eres mi asistente de workflows de n8n».</em></dd></div>
+<div><dt class="text-emerald-300">Contexto / context window</dt><dd>Todo lo que la IA ve ahora (la memoria de la conversación). <em>Ej.: los archivos y mensajes ya intercambiados.</em></dd></div>
+<div><dt class="text-emerald-300">Token</dt><dd>Fragmento de palabra que cuenta la IA; las conversaciones largas consumen más. <em>Ej.: «automatización» ≈ algunos tokens.</em></dd></div>
+<div><dt class="text-emerald-300">Context rot</dt><dd>Caída de calidad cuando la ventana se llena. <em>Ej.: después de mucho historial, la IA olvida una regla inicial.</em></dd></div>
+</dl>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-3-t1-p3">Estos seis términos explican <em>por qué</em> el asistente a veces «olvida» o se equivoca: la conversación creció, la ventana se llenó, el contexto se deterioró. Saberlo te da el reflejo correcto: iniciar sesiones enfocadas y limpiar el contexto antes de que baje la calidad (aprendes cómo hacerlo en los modos, más adelante).</p>
+<h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">LLM</div><p class="text-xs text-neutral-400">El motor que genera texto.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Prompt</div><p class="text-xs text-neutral-400">Tu mensaje.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Contexto</div><p class="text-xs text-neutral-400">La memoria de la conversación.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Token</div><p class="text-xs text-neutral-400">La unidad de lo que lee.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 2 -->
+<section class="mb-16" data-inema-topic="modulo-1-3#topico-2" id="topico-2">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">🎛️ Modos del asistente</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-3-t2-p1">
+          El asistente tiene <strong class="text-emerald-400">modos de permiso</strong> que controlan cuánto actúa por su cuenta. El <strong class="text-emerald-400">plan mode</strong> (modo de planificación) es donde investiga, hace preguntas y propone un plan <em>antes</em> de cambiar algo: primero tú lo apruebas. En el otro extremo, el <strong class="text-emerald-400">bypass permissions</strong> ("omitir permisos") le permite actuar sin pedir aprobación en cada paso: es rápido, pero dejas de ver lo que hace, así que úsalo con cuidado.
+        </p>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-3-t2-p2">
+          Para gestionar el contexto (que viste deteriorarse), hay dos comandos: <strong class="text-emerald-400"><code>/clear</code></strong> reinicia toda la conversación — úsalo al cambiar de tarea o cuando la calidad baje; <strong class="text-emerald-400"><code>/compact</code></strong> hace un resumen inteligente, conservando lo esencial y comprimiendo el resto; úsalo a mitad de una tarea cuando el contexto se hace extenso.
+        </p>
+<!-- glossário inline (#31) -->
+<div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-5 mb-6 gloss">
+<p class="text-sm font-semibold text-emerald-400 mb-3"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">Glosario</span>Modos y comandos</p>
+<dl class="space-y-3 text-sm text-neutral-300">
+<div><dt class="text-emerald-300">Plan mode (modo de planificación)</dt><dd>Investigación + preguntas + plan, antes de ejecutar. <em>Ej.: describes la meta y revisas su plan.</em></dd></div>
+<div><dt class="text-emerald-300">Permission modes (modos de permisos)</dt><dd>Cuánto actúa el asistente por su cuenta: preguntar antes, editar automáticamente, plan, auto. <em>Ej.: «preguntar antes de editar».</em></dd></div>
+<div><dt class="text-emerald-300">Bypass permissions</dt><dd>Omite la aprobación en cada paso; es veloz, pero pierdes visibilidad. <em>Ej.: activado para una compilación larga ya aprobada.</em></dd></div>
+<div><dt class="text-emerald-300"><code>/clear</code></dt><dd>Restablece la conversación desde cero. <em>Ej.: al cambiar de proyecto o cuando empieza a cometer errores.</em></dd></div>
+<div><dt class="text-emerald-300"><code>/compact</code></dt><dd>Resumen inteligente: conserva lo que importa. <em>Ej.: en medio de una tarea larga, cerca de ~70% del contexto.</em></dd></div>
+</dl>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-3-t2-p3">Estos comandos son tu «embrague». Empezar en plan mode evita que la IA construya algo equivocado; <code>/compact</code> e <code>/clear</code> mantienen la calidad alta y el costo de tokens bajo. La regla práctica: piensa en compactar cuando el contexto esté cerca del 70% y en limpiar al superar el 85% o al cambiar de tarea.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Buen uso de los modos</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Empezar en plan mode para tareas que no sean triviales.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span><code>/compact</code> a mitad de camino; <code>/clear</code> al cambiar de tarea.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Bypass solo después de aprobar el plan.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Qué evitar</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Bypass desde el inicio, sin ver qué hace.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Reutilizar una conversación sobrecargada para algo nuevo.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Insistir en un contexto degradado en vez de limpiarlo.</span></li>
+</ul>
+</div>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Plan mode</div><p class="text-xs text-neutral-400">Planifica antes de actuar.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Bypass</div><p class="text-xs text-neutral-400">Rápido, pero a ciegas.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">/clear</div><p class="text-xs text-neutral-400">Restablecimiento total.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">/compact</div><p class="text-xs text-neutral-400">Resumen inteligente.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 3 -->
+<section class="mb-16" data-inema-topic="modulo-1-3#topico-3" id="topico-3">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">🗂️ Archivos clave</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-3-t3-p1">
+          Un proyecto de vibe coding gira en torno a algunos archivos. El más importante es el <strong class="text-emerald-400">CLAUDE.md</strong>: un system prompt <em>persistente</em>, escrito en markdown, que define quién es el asistente, qué construyes y cuáles son tus preferencias; se lee en cada sesión. El <strong class="text-emerald-400"><code>.env</code></strong> guarda los secretos (claves de API), y el <strong class="text-emerald-400"><code>.gitignore</code></strong> enumera qué <em>nunca</em> debe subirse a la nube — y el <code>.env</code> siempre está en esta lista.
+        </p>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-3-t3-p2">
+          Para conectar herramientas, existe el <strong class="text-emerald-400"><code>.mcp.json</code></strong>: el archivo que registra los servidores MCP del proyecto (pero la clave en sí queda en el <code>.env</code>, nunca aquí). Y cuando empaquetas una instrucción reutilizable, se convierte en un <strong class="text-emerald-400">SKILL.md</strong> dentro de la carpeta de skills: el "manual" de esa skill.
+        </p>
+<!-- glossário inline (#31) -->
+<div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-5 mb-6 gloss">
+<p class="text-sm font-semibold text-emerald-400 mb-3"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">Glosario</span>Archivos del proyecto</p>
+<dl class="space-y-3 text-sm text-neutral-300">
+<div><dt class="text-emerald-300">CLAUDE.md</dt><dd>System prompt persistente en markdown (rol, contexto, reglas, estilo). <em>Ej.: «eres mi asistente de n8n; sé conciso».</em></dd></div>
+<div><dt class="text-emerald-300"><code>.env</code></dt><dd>Archivo de secretos (claves de API), fuera del código. <em>Ej.: la clave de n8n y la URL de la instancia están aquí.</em></dd></div>
+<div><dt class="text-emerald-300"><code>.gitignore</code></dt><dd>Lista de lo que no se sube a GitHub. <em>Ej.: el <code>.env</code> entra aquí para que la clave nunca se filtre.</em></dd></div>
+<div><dt class="text-emerald-300"><code>.mcp.json</code></dt><dd>Registro de los servidores MCP del proyecto (sin la clave). <em>Ej.: la entrada del server + un espacio reservado para una clave.</em></dd></div>
+<div><dt class="text-emerald-300">SKILL.md</dt><dd>El «manual» de una skill (nombre, descripción, argumentos, pasos). <em>Ej.: la skill <code>/rascunhar-email</code>.</em></dd></div>
+</dl>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-3-t3-p3">Conocer estos archivos es saber <em>dónde está cada cosa</em>: reglas de sesión en CLAUDE.md, secretos en el <code>.env</code>, herramientas en el <code>.mcp.json</code>, skills en SKILL.md. Eso evita el error más peligroso de los principiantes: pegar una clave de API en el lugar equivocado (en el chat o en el <code>.mcp.json</code>) y exponerla.</p>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Consejo práctico</h3>
+<p class="text-neutral-300 text-sm">Regla de oro de los secretos: la clave de API <strong>solo</strong> entra en el <code>.env</code> — nunca en el chat, nunca en el <code>.mcp.json</code>, nunca confirmada con commit. El <code>.gitignore</code> garantiza que el <code>.env</code> no la subas. Trata una clave como el acceso a una tarjeta de crédito.</p>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">CLAUDE.md</div><p class="text-xs text-neutral-400">Reglas para todas las sesiones.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">.env</div><p class="text-xs text-neutral-400">Solo aquí van los secretos.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">.gitignore</div><p class="text-xs text-neutral-400">Lo que no se despliega.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">.mcp.json</div><p class="text-xs text-neutral-400">Registra herramientas.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 4 -->
+<section class="mb-16" data-inema-topic="modulo-1-3#topico-4" id="topico-4">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">🔌 MCP</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-3-t4-p1">
+<strong class="text-emerald-400">MCP</strong> (Model Context Protocol) es el protocolo que conecta el asistente con herramientas externas. Quien proporciona esas herramientas es un <strong class="text-emerald-400">MCP server</strong> — un programita que expone un conjunto de acciones. Cada acción es una <strong class="text-emerald-400">tool (herramienta)</strong>: enviar correos, extraer datos de un sitio web, leer una base de datos. Una vez conectados, el asistente conoce todas las tools de ese server y decide cuál llamar.
+        </p>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-3-t4-p2">
+          No necesitas inventar servers desde cero: existe la <strong class="text-emerald-400">descubrimiento de servers</strong> — directorios de MCP y repositorios públicos donde se encuentran servidores listos por categoría (scraping web, bases de datos, documentos, comunicación). Para instalar, suele bastar con pedirle al asistente que lo configure y pegar la clave en el <code>.env</code> y reiniciar.
+        </p>
+<!-- glossário inline (#31) -->
+<div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-5 mb-6 gloss">
+<p class="text-sm font-semibold text-emerald-400 mb-3"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">Glosario</span>MCP y herramientas</p>
+<dl class="space-y-3 text-sm text-neutral-300">
+<div><dt class="text-emerald-300">MCP (Model Context Protocol)</dt><dd>El estándar que conecta el asistente con herramientas externas. <em>Ej.: conectar el asistente a tu n8n.</em></dd></div>
+<div><dt class="text-emerald-300">MCP server</dt><dd>El programa que expone las acciones de un servicio. <em>Ej.: un server de scraping web; un server de n8n.</em></dd></div>
+<div><dt class="text-emerald-300">Tool (herramienta)</dt><dd>Cada acción que ofrece el server. <em>Ej.: «enviar correo electrónico», «buscar mensajes», «crear workflow».</em></dd></div>
+<div><dt class="text-emerald-300">Descubrimiento de servers</dt><dd>Encontrar servers listos en directorios/repositorios. <em>Ej.: buscar "MCP server" + el nombre del servicio.</em></dd></div>
+<div><dt class="text-emerald-300">Project-level vs global</dt><dd>Dónde se configura el server. <em>Por proyecto es lo recomendado (más seguro).</em></dd></div>
+</dl>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-3-t4-p3">MCP es lo que transforma al asistente de «escritor de texto» en «hacedor de cosas en el mundo». Sin él, nada de enviar correos, rastrear la web o construir en n8n. Entender server × tool ayuda a pedir la herramienta adecuada y a recordar que cada server conectado consume contexto, así que desconecta los que no uses.</p>
+<h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Protocolo</div><p class="text-xs text-neutral-400">El idioma común.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Server</div><p class="text-xs text-neutral-400">Expone las acciones.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Tool</div><p class="text-xs text-neutral-400">Una acción.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Por proyecto</div><p class="text-xs text-neutral-400">Más seguro que global.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 5 -->
+<section class="mb-16" data-inema-topic="modulo-1-3#topico-5" id="topico-5">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">🔗 n8n básico</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-3-t5-p1">
+          En n8n, el bloque básico es el <strong class="text-emerald-400">nodo (node)</strong>: una cajita que hace un trabajo. Todo flujo empieza con un <strong class="text-emerald-400">trigger (disparador)</strong>: el nodo que activa el flujo — por horario, al llegar un correo o cuando ocurre un evento. Toda la secuencia de nodos, desde el disparador hasta la acción final, es el <strong class="text-emerald-400">workflow</strong>.
+        </p>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-3-t5-p2">
+          Para que un nodo acceda a una app (Gmail, Sheets…), necesita una <strong class="text-emerald-400">credential (credencial)</strong>: la autorización guardada en n8n. La forma más común de autorizar es el <strong class="text-emerald-400">OAuth2</strong> — un «inicio de sesión delegado» en el que accedes a tu cuenta de Google y concedes acceso, sin darle tu contraseña a n8n.
+        </p>
+<!-- SVG conceitual (#29) -->
+<div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="Un trigger activa el workflow; los siguientes nodos se ejecutan usando credenciales autorizadas mediante OAuth2 con la app externa" class="w-full h-auto" role="img" viewbox="0 0 1000 160">
+<defs>
+<pattern height="32" id="m13b-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#10b981" opacity="0.1" r="1.3"></circle></pattern>
+<marker id="m13b-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"></path></marker>
+<marker id="m13b-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m13b-grid)" height="160" width="1000" x="0" y="0"></rect>
+<g class="wf-a"><rect fill="#0e2018" height="50" rx="12" stroke="#34d399" stroke-width="2" width="160" x="40" y="44"></rect><text fill="#34d399" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="120" y="66">⚡ Trigger</text><text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="120" y="83">activa el workflow</text></g>
+<g fill="none" opacity="0.7" stroke="#34d399" stroke-width="2"><path d="M200,69 L240,69" marker-end="url(#m13b-ah)"></path></g>
+<g class="wf-a"><rect fill="#0e2018" height="50" rx="12" stroke="#34d399" stroke-width="2" width="160" x="240" y="44"></rect><text fill="#34d399" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="320" y="66">🔧 Nodo</text><text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="320" y="83">hace un trabajo</text></g>
+<g fill="none" opacity="0.7" stroke="#34d399" stroke-width="2"><path d="M400,69 L440,69" marker-end="url(#m13b-ah)"></path></g>
+<g class="wf-a"><rect fill="#0e2018" height="50" rx="12" stroke="#34d399" stroke-width="2" width="160" x="440" y="44"></rect><text fill="#34d399" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="520" y="66">📤 Acción</text><text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="520" y="83">guarda / envía</text></g>
+<g fill="none" opacity="0.6" stroke="#38bdf8" stroke-width="2"><path d="M520,94 C520,118 560,118 600,118" marker-end="url(#m13b-ahc)"></path></g>
+<rect fill="#0e1b26" height="40" rx="10" stroke="#38bdf8" stroke-width="1.8" width="180" x="600" y="100"></rect><text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="690" y="118">🔐 Credential (OAuth2)</text><text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="690" y="133">autoriza la app externa</text>
+<rect fill="#0e1b26" height="50" rx="12" stroke="#38bdf8" stroke-width="1.8" width="150" x="810" y="44"></rect><text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="885" y="73">📨 App (Gmail…)</text>
+<g fill="none" opacity="0.6" stroke="#38bdf8" stroke-width="2"><path d="M780,118 C830,118 860,100 880,96" marker-end="url(#m13b-ahc)"></path></g>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — el disparador inicia, los nodos ejecutan, y la credencial (autorizada mediante OAuth2) es lo que le da al nodo acceso a la app externa.</p>
+<!-- glossário inline (#31) -->
+<div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-5 mb-6 gloss">
+<p class="text-sm font-semibold text-emerald-400 mb-3"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">Glosario</span>Bloques de n8n</p>
+<dl class="space-y-3 text-sm text-neutral-300">
+<div><dt class="text-emerald-300">Nodo (node)</dt><dd>Una cajita que hace un trabajo. <em>Ej.: un nodo que lee Gmail; otro que guarda en una hoja de cálculo.</em></dd></div>
+<div><dt class="text-emerald-300">Trigger (disparador)</dt><dd>El nodo que activa el flujo. <em>Ej.: «cada 15 min» o «cuando llegue un correo electrónico».</em></dd></div>
+<div><dt class="text-emerald-300">Workflow</dt><dd>La secuencia completa de nodos. <em>Ej.: activador → filtro → acción → guarda.</em></dd></div>
+<div><dt class="text-emerald-300">Credential (credencial)</dt><dd>La autorización guardada para acceder a una app. <em>Ej.: la credencial de Gmail.</em></dd></div>
+<div><dt class="text-emerald-300">OAuth2</dt><dd>Inicio de sesión delegado: autorizas sin dar la contraseña. <em>Ej.: «iniciar sesión con Google» y conceder acceso.</em></dd></div>
+</dl>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-3-t5-p3">Estos cinco términos son el vocabulario mínimo para entender (y pedir) cualquier automatización. Hay un detalle que ahorra dolores de cabeza: el asistente construye los nodos, pero <strong>credenciales (OAuth2)</strong> tienes que configurarlo manualmente — es la parte que no hace por ti.</p>
+<h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Nodo</div><p class="text-xs text-neutral-400">Haz un trabajo.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Trigger</div><p class="text-xs text-neutral-400">Activa el flujo.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Credential</div><p class="text-xs text-neutral-400">Lo configuras manualmente.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">OAuth2</div><p class="text-xs text-neutral-400">Inicio de sesión sin dar la contraseña.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 6 -->
+<section class="mb-16" data-inema-topic="modulo-1-3#topico-6" id="topico-6">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">🤖 n8n con IA</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-3-t6-p1">
+          n8n tiene nodos que integran IA en el flujo. El <strong class="text-emerald-400">AI agent node</strong> es el nodo que se convierte en un miniagente: recibe una instrucción (system prompt), puede usar herramientas y responde con razonamiento. El <strong class="text-emerald-400">text classifier</strong> ("clasificador de texto") etiqueta una entrada en categorías —útil para <em>enrutar</em> antes de gastar en el agente caro (p. ej.: "¿esto es soporte técnico o no?").
+        </p>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-3-t6-p2">
+          Para lógica a medida existe el <strong class="text-emerald-400">code node</strong> ("nodo de código"): un nodo donde se ejecuta un pequeño fragmento de código (que escribe el asistente) para transformar datos: extraer un nombre, armar un texto, activar una señal. Y para decisiones simples de sí o no está el <strong class="text-emerald-400">IF node</strong>, que bifurca el flujo: si la condición es verdadera, sigue por un camino; si no, por otro.
+        </p>
+<!-- glossário inline (#31) -->
+<div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-5 mb-6 gloss">
+<p class="text-sm font-semibold text-emerald-400 mb-3"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">Glosario</span>Nodos de IA y lógica</p>
+<dl class="space-y-3 text-sm text-neutral-300">
+<div><dt class="text-emerald-300">AI agent node</dt><dd>Nodo que razona, usa herramientas y responde. <em>Ej.: lee la pregunta, consulta la base y redacta la respuesta.</em></dd></div>
+<div><dt class="text-emerald-300">Text classifier</dt><dd>Clasifica la entrada en categorías para enrutarla. <em>Ej.: «soporte» vs. «no relevante» — omite lo que no sea soporte.</em></dd></div>
+<div><dt class="text-emerald-300">Code node</dt><dd>Ejecuta un fragmento de código (escrito por el asistente) para transformar datos. <em>Ej.: extraer el nombre de una suscripción.</em></dd></div>
+<div><dt class="text-emerald-300">IF node</dt><dd>Divide el flujo según una condición de sí/no. <em>Ej.: «¿encontraste la política?» → si sí, redacta; si no, pide investigar.</em></dd></div>
+</dl>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-3-t6-p3">Combinar estos nodos es el corazón de un agente útil: el classifier filtra desde el principio (ahorra), el IF decide los caminos, el code node ajusta los datos y el AI agent hace el trabajo de pensar. Saber el papel de cada uno te ayuda a entender lo que configuró el asistente y a pedir mejoras específicas.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Buen diseño con estos nodos</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Clasificar pronto para no activar al agente innecesariamente.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Usar IF para manejar caminos (encontró / no encontró).</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Code node para extraer/transformar datos puntuales.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Señales de problemas</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Enviarle todo directamente al agente (caro y lento).</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Olvidar el camino «no» del IF (el flujo muere en silencio).</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Confiar en el "verde" sin revisar la salida real.</span></li>
+</ul>
+</div>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">AI agent</div><p class="text-xs text-neutral-400">Piensa y usa herramientas.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Classifier</div><p class="text-xs text-neutral-400">Clasifica y enruta.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Code node</div><p class="text-xs text-neutral-400">Transforma datos.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">IF node</div><p class="text-xs text-neutral-400">Divide el flujo.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 7 -->
+<section class="mb-16" data-inema-topic="modulo-1-3#topico-7" id="topico-7">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">7</span>
+<h2 class="text-2xl font-bold">📊 Datos</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-3-t7-p1">
+          Para que la IA responda con base en los <em>tus</em> documentos, necesitan convertirse en datos que se puedan consultar. El <strong class="text-emerald-400">vector store</strong> ("almacén de vectores") es una base de datos especial que guarda el significado de los textos para buscar por sentido, no solo por palabra exacta. Ese "significado en números" son los <strong class="text-emerald-400">embeddings</strong>: la representación numérica de un fragmento de texto.
+        </p>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-3-t7-p2">
+          Antes de almacenar, dos pasos preparan los documentos. El <strong class="text-emerald-400">document loader</strong> ("cargador de documentos") lee el archivo y extrae el texto. El <strong class="text-emerald-400">text splitter</strong> ("divisor de texto") divide ese texto en fragmentos del tamaño adecuado, porque buscar y recuperar funciona mejor con fragmentos que con un documento gigante completo.
+        </p>
+<!-- glossário inline (#31) -->
+<div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-5 mb-6 gloss">
+<p class="text-sm font-semibold text-emerald-400 mb-3"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">Glosario</span>Bloques de datos</p>
+<dl class="space-y-3 text-sm text-neutral-300">
+<div><dt class="text-emerald-300">Vector store</dt><dd>Base de datos que busca por significado, no por palabra exacta. <em>Ej.: encuentra la política de garantía incluso sin la palabra «garantía».</em></dd></div>
+<div><dt class="text-emerald-300">Embeddings</dt><dd>El significado de un texto convertido en números. <em>Ej.: los fragmentos parecidos quedan "cerca" en este espacio numérico.</em></dd></div>
+<div><dt class="text-emerald-300">Document loader</dt><dd>Lee el archivo y extrae el texto. <em>Ej.: abrir un PDF de políticas y extraer el contenido.</em></dd></div>
+<div><dt class="text-emerald-300">Text splitter</dt><dd>Divide el texto en fragmentos que se puedan buscar. <em>Ej.: dividir el PDF en fragmentos por sección.</em></dd></div>
+</dl>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-3-t7-p3">Estos cuatro bloques son la base de RAG (que verás en el módulo 1.4): en vez de que la IA «adivine», consulta tus documentos y responde con base en ellos — y se niega a inventar cuando el dato no está ahí. Es lo que distingue a un agente confiable de uno que alucina.</p>
+<!-- Checagem leve opcional -->
+<div class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6" data-inema-check="modulo-1-3#q1">
+<p class="inema-check__q font-medium mb-4">La ventana de contexto se llenó de historial y la IA empezó a equivocarse más. ¿Cómo se llama este efecto?</p>
+<div class="inema-check-options inema-check__options space-y-2">
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0" type="button">Embeddings: el significado se convirtió en números.</button>
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1" type="button">Context rot — el deterioro cuando la ventana se llena.</button>
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2" type="button">OAuth2 — el inicio de sesión delegado.</button>
+</div>
+<div aria-live="polite" class="mt-4 text-sm" data-inema-check-feedback="" role="status"></div>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-3 mt-8">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Vector store</div><p class="text-xs text-neutral-400">Busca por significado.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Embeddings</div><p class="text-xs text-neutral-400">Significado en números.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Loader</div><p class="text-xs text-neutral-400">Lee el documento.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Splitter</div><p class="text-xs text-neutral-400">Divídelo en fragmentos.</p></div>
+</div>
+<div class="flex justify-start mt-8">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-8">
+<div class="bg-gradient-to-br from-emerald-900/40 via-dark-800 to-dark-800 rounded-xl border border-emerald-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📌</span> Resumen del módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">Conceptos de IA</strong><span class="text-neutral-400"> — LLM, prompt, system prompt, contexto/ventana, token, context rot.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">Modos del asistente</strong><span class="text-neutral-400"> — modo plan, modos de permisos, bypass, <code>/clear</code>, <code>/compact</code>.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">Archivos clave</strong><span class="text-neutral-400"> — CLAUDE.md, <code>.env</code>, <code>.gitignore</code>, <code>.mcp.json</code>, SKILL.md.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">MCP</strong><span class="text-neutral-400"> — MCP, servidor MCP, tool, descubrimiento de servers, por proyecto vs. global.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">n8n básico</strong><span class="text-neutral-400"> — nodo, trigger, workflow, credential, OAuth2.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">n8n con IA + Datos</strong><span class="text-neutral-400"> — AI agent, classifier, code node, IF; vector store, embeddings, loader, splitter.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-emerald-400 mb-2">Siguiente módulo:</h3>
+<p class="text-neutral-300">1.4 — Glosario esencial (parte 2: agéntico, RAG, deploy, seguridad)</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="modulo-1-2.html">← Módulo anterior</a>
+<a class="flex-1 text-center px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors" href="modulo-1-4.html">Siguiente módulo →</a>
+</div>
+</div>
+</section>
+</main>
+<!-- TOC sticky + scrollspy -->
+<aside class="hidden lg:block">
+<nav aria-label="Índice de la página" class="sticky top-24 self-start" data-inema-toc="">
+<p class="text-sm text-neutral-400 mb-3">Sección <span data-inema-section-counter=""><span class="inema-toc-pos">1</span> de <span class="inema-toc-total">7</span></span></p>
+<ol class="space-y-1.5 text-sm">
+<li><a class="inema-toc-link text-neutral-400 hover:text-emerald-400 block" href="#topico-1">1. Conceptos de IA</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-emerald-400 block" href="#topico-2">2. Modos del asistente</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-emerald-400 block" href="#topico-3">3. Archivos clave</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-emerald-400 block" href="#topico-4">4. MCP</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-emerald-400 block" href="#topico-5">5. n8n básico</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-emerald-400 block" href="#topico-6">6. n8n con IA</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-emerald-400 block" href="#topico-7">7. Datos</a></li>
+</ol>
+</nav>
+</aside>
+</div>
+<footer class="border-t border-dark-600 py-8 mt-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Vibe Coding: Dominio completo · Curso original <a class="text-sky-400 hover:text-sky-300 font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a> · 2026</p>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const htmlEl = document.documentElement;
+    if (htmlEl.classList.contains('dark')) { themeToggleLightIcon.classList.remove('hidden'); }
+    else { themeToggleDarkIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      htmlEl.classList.toggle('dark');
+      const isDark = htmlEl.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      if (window.INEMA && INEMA.setPref) { INEMA.setPref('theme', isDark ? 'inema-dark' : 'claro'); }
+    });
+  </script>
+<script src="../../../assets/learn.js"></script>
+<script>
+    if (window.INEMA && typeof window.INEMA.init === 'function') {
+      window.INEMA.init();
+      if (window.INEMA.registerCheck) {
+        INEMA.registerCheck('modulo-1-3#q1', {
+          answer: 1,
+          explain: {
+            0: 'Não. Embeddings é o significado de texto virado números — outro cluster.',
+            1: 'Isso. Context rot é a degradação de qualidade quando a janela de contexto enche de histórico.',
+            2: 'Não. OAuth2 é o login delegado para autorizar apps — nada a ver com a janela de contexto.'
+          }
+        });
+      }
+    }
+  </script>
+</body>
+</html>

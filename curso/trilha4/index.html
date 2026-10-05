@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="dark">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="inema-course" content="vibe-coding-completo">
 
-  <!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
-  <script>
+<html class="dark" lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="vibe-coding-completo" name="inema-course"/>
+<!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
+<script>
   (function () {
     try {
       var html = document.documentElement;
@@ -74,10 +74,9 @@
     }
   })();
   </script>
-
-  <title>Trilha 4 · Skills & Agentes | Vibe Coding: Domínio Completo</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
+<title>Trilha 4 · Skills &amp; Agentes | Vibe Coding: Domínio Completo</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
@@ -90,10 +89,9 @@
       }
     }
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
-  <script type="application/json" data-inema-manifest>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
+<script data-inema-manifest="" type="application/json">
   {
     "course": "vibe-coding-completo",
     "tracks": [
@@ -133,10 +131,8 @@
     ]
   }
   </script>
-
-  <link rel="stylesheet" href="../../assets/learn.css">
-
-  <style>
+<link href="../../assets/learn.css" rel="stylesheet"/>
+<style>
     body { font-family: 'Inter', sans-serif; }
     .dark body { background-color: #111827; }
     .topic-explanation { display: none; }
@@ -204,569 +200,551 @@
       .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
     }
   </style>
-</head>
-<body class="bg-dark-900 text-neutral-100 min-h-screen">
-
-  <a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-amber-600 focus:text-white focus:rounded-lg" href="#conteudo">Pular para o conteúdo</a>
-
-  <!-- NAVIGATION (T4 ativa) -->
-  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-14">
-        <div class="flex items-center space-x-4">
-          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
-            <span class="text-2xl">⚡</span>
-            <span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
-          </a>
-          <span class="text-neutral-600">|</span>
-          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
-        </div>
-        <div class="flex items-center space-x-1 sm:space-x-2">
-          <a href="../trilha1/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
-            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
-          </a>
-          <a href="../trilha2/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
-            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Técnica</span>
-          </a>
-          <a href="../trilha3/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
-            <span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
-          </a>
-          <a href="index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-amber-400 bg-amber-500/10">
-            <span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
-          </a>
-          <a href="../trilha5/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors">
-            <span class="sm:hidden">T5</span><span class="hidden sm:inline">Projetos</span>
-          </a>
-          <a href="../trilha6/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors">
-            <span class="sm:hidden">T6</span><span class="hidden sm:inline">Produção</span>
-          </a>
-          <button type="button" data-inema-journey-open class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1">
-            <span aria-hidden="true">◷</span><span>Minha jornada</span>
-            <span class="inema-journey-badge hidden" data-inema-journey-badge data-count="0"></span>
-          </button>
-          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" aria-label="Alternar tema claro/escuro">
-            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-            </svg>
-            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <!-- HEADER DA TRILHA -->
-  <header class="bg-gradient-to-br from-amber-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <span class="inline-block px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-full mb-4">TRILHA 4</span>
-      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🟡 Skills & Agentes</h1>
-      <p class="text-lg text-neutral-400 max-w-3xl">
+<link href="https://inematds.github.io/vibe-coding-completo/curso/trilha4/" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/en/curso/trilha4/" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/es/curso/trilha4/" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="./" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">PT</a><a href="../../en/curso/trilha4/" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="../../es/curso/trilha4/" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-amber-600 focus:text-white focus:rounded-lg" href="#conteudo">Pular para o conteúdo</a>
+<!-- NAVIGATION (T4 ativa) -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Técnica</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-amber-400 bg-amber-500/10" href="index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Projetos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Produção</span>
+</a>
+<button class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-inema-journey-open="" type="button">
+<span aria-hidden="true">◷</span><span>Minha jornada</span>
+<span class="inema-journey-badge hidden" data-count="0" data-inema-journey-badge=""></span>
+</button>
+<button aria-label="Alternar tema claro/escuro" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20">
+<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+</svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- HEADER DA TRILHA -->
+<header class="bg-gradient-to-br from-amber-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-full mb-4">TRILHA 4</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🟡 Skills &amp; Agentes</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">
         Parar de reexplicar. Aqui você aprende a empacotar workflows em <strong class="text-amber-300">skills</strong> reutilizáveis (markdown chamável como slash command) e a construir <strong class="text-amber-300">agentes</strong> — locais sob demanda, agendados por cron e disparados por evento (webhook). Trilha fortemente prática: cada conceito vem com um bloco copy-run real (construir uma skill, escrever um SKILL.md, invocar um slash command, montar um agente).
       </p>
-      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-amber-400">3</div>
-          <div class="text-xs text-neutral-400">Módulos</div>
-        </div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-amber-400">22</div>
-          <div class="text-xs text-neutral-400">Tópicos</div>
-        </div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-amber-400">~3h</div>
-          <div class="text-xs text-neutral-400">Duração</div>
-        </div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-amber-400">Prático</div>
-          <div class="text-xs text-neutral-400">Nível</div>
-        </div>
-      </div>
-
-      <!-- progresso da trilha -->
-      <div class="mt-6 max-w-2xl" data-inema-meter="trilha:4" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso da trilha 4">
-        <div class="flex items-center justify-between mb-1 text-sm">
-          <span class="text-neutral-400">Progresso da trilha</span>
-          <span class="text-amber-400 font-semibold"><span data-inema-meter-pct>0%</span> · <span data-inema-meter-frac>0 de 22</span></span>
-        </div>
-        <div class="inema-bar h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-amber-500 rounded-full" data-inema-meter-fill style="width:0%"></div></div>
-      </div>
-    </div>
-  </header>
-
-  <main id="conteudo" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-
-    <img src="../../assets/img/hero-t4.png" alt="Banner da trilha de skills e agentes: blocos modulares e uma rede de agentes autônomos em âmbar" class="w-full h-auto rounded-2xl border border-amber-500/30 mb-8 shadow-lg shadow-amber-500/5" loading="lazy">
-
-    <!-- HERO SVG -->
-    <section class="mb-12">
-      <div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden">
-        <svg viewBox="0 0 1000 230" class="w-full h-auto" role="img" aria-label="O arco da trilha 4: primeiro você entende o que é uma skill e sua anatomia, depois constrói skills na prática como slash commands, e por fim sobe para agentes que rodam locais, agendados por cron ou disparados por webhook">
-          <defs>
-            <linearGradient id="t4-grad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#fbbf24"/><stop offset="1" stop-color="#f59e0b"/>
-            </linearGradient>
-            <filter id="t4-glow" x="-40%" y="-40%" width="180%" height="180%">
-              <feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-            <pattern id="t4-grid" width="32" height="32" patternUnits="userSpaceOnUse">
-              <circle cx="1.3" cy="1.3" r="1.3" fill="#f59e0b" opacity="0.12"/>
-            </pattern>
-            <marker id="t4-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fbbf24"/></marker>
-          </defs>
-          <rect x="0" y="0" width="1000" height="230" fill="url(#t4-grid)"/>
-          <g fill="none" stroke="#fbbf24" stroke-width="2" opacity="0.55">
-            <path d="M300,114 L344,114" marker-end="url(#t4-ah)"/>
-            <path d="M604,114 L648,114" marker-end="url(#t4-ah)"/>
-          </g>
-          <g filter="url(#t4-glow)"><rect x="40" y="78" width="260" height="74" rx="16" fill="#241a06" stroke="url(#t4-grad)" stroke-width="2.5"/></g>
-          <text x="170" y="110" text-anchor="middle" fill="#fbbf24" font-family="Inter,sans-serif" font-weight="600" font-size="16">Módulo 4.1</text>
-          <text x="170" y="132" text-anchor="middle" fill="#fcd9a0" font-family="Inter,sans-serif" font-size="12">Skills · conceito &amp; anatomia</text>
-
-          <rect x="344" y="78" width="260" height="74" rx="16" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/>
-          <text x="474" y="110" text-anchor="middle" fill="#bfe6ff" font-family="Inter,sans-serif" font-weight="600" font-size="16">Módulo 4.2</text>
-          <text x="474" y="132" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="12">Construindo skills na prática</text>
-
-          <rect x="648" y="78" width="312" height="74" rx="16" fill="#241a06" stroke="#fbbf24" stroke-width="2"/>
-          <text x="804" y="110" text-anchor="middle" fill="#fbbf24" font-family="Inter,sans-serif" font-weight="600" font-size="16">Módulo 4.3</text>
-          <text x="804" y="132" text-anchor="middle" fill="#fcd9a0" font-family="Inter,sans-serif" font-size="12">Agentes · local · agendado · evento</text>
-        </svg>
-      </div>
-      <p class="text-xs text-neutral-500 mt-2">O caminho da trilha 4: do conceito de skill (markdown chamável) ao build na prática, terminando nos agentes que decidem sozinhos e rodam sem você presente.</p>
-    </section>
-
-    <!-- MAPA DA TRILHA (OBRIGATORIO) -->
-    <section class="mb-12">
-      <h2 class="text-2xl font-bold mb-6">Mapa da trilha</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <a href="#modulo-4-1" class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-amber-500/30 p-5 transition-all">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-amber-400 font-bold text-sm">4.1</span>
-            <span class="text-xs text-neutral-500">~50 min</span>
-          </div>
-          <h3 class="font-semibold mb-1 group-hover:text-amber-400 transition-colors">📦 Skills: Conceito &amp; Anatomia</h3>
-          <p class="text-xs text-neutral-400">O que é, onde vive, anatomia do SKILL.md</p>
-        </a>
-        <a href="#modulo-4-2" class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-amber-500/30 p-5 transition-all">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-amber-400 font-bold text-sm">4.2</span>
-            <span class="text-xs text-neutral-500">~50 min</span>
-          </div>
-          <h3 class="font-semibold mb-1 group-hover:text-amber-400 transition-colors">🔨 Construindo Skills na Prática</h3>
-          <p class="text-xs text-neutral-400">/draft-email, doc→slides, design</p>
-        </a>
-        <a href="#modulo-4-3" class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-amber-500/30 p-5 transition-all">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-amber-400 font-bold text-sm">4.3</span>
-            <span class="text-xs text-neutral-500">~55 min</span>
-          </div>
-          <h3 class="font-semibold mb-1 group-hover:text-amber-400 transition-colors">🤖 Agentes: Local, Agendado &amp; Evento</h3>
-          <p class="text-xs text-neutral-400">Sob demanda, cron, webhook, agentic gap</p>
-        </a>
-      </div>
-    </section>
-
-    <h2 class="text-2xl font-bold mb-6">Conteúdo detalhado</h2>
-
-    <!-- MÓDULO 4.1 -->
-    <div id="modulo-4-1" data-inema-module="4-1" data-inema-track="4" class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
-      <img src="../../assets/img/thumb-4-1.png" alt="Ilustração do módulo 4.1" class="w-full h-32 sm:h-40 object-cover rounded-t-xl border-b border-amber-500/20" loading="lazy">
-      <div class="p-6 border-b border-dark-600">
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-amber-400 font-bold">4.1</span>
-          <span class="text-xs text-neutral-500">~50 min · 7 tópicos</span>
-        </div>
-        <h3 class="text-2xl font-bold mb-2">📦 Skills: Conceito &amp; Anatomia</h3>
-        <p class="text-neutral-400 text-sm">A skill é um workflow em markdown que você chama como slash command. Aqui: o que é, onde mora (<code>.claude/skills</code>), a anatomia do SKILL.md, como skills chamam tools, quando usar skill vs digitar, skills vs CLAUDE.md e como compartilhar/versionar.</p>
-        <div class="mt-3" data-inema-meter="modulo:4-1">
-          <div class="flex items-center justify-between mb-1 text-xs">
-            <span class="text-neutral-500">Progresso do módulo</span>
-            <span class="text-amber-400"><span data-inema-meter-pct>0%</span> · <span data-inema-meter-frac>0 de 7</span></span>
-          </div>
-          <div class="inema-bar h-1.5 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-amber-500 rounded-full" data-inema-meter-fill style="width:0%"></div></div>
-        </div>
-      </div>
-      <div class="divide-y divide-dark-600">
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t41-1" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
-            <span class="text-lg">📦</span>
-            <div><span class="font-medium">O que é uma skill</span><span class="text-neutral-500 text-sm ml-2">- Workflow em markdown, chamável</span></div>
-          </button>
-          <div id="t41-1" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Um arquivo markdown de instruções — conceitualmente a mesma coisa que um "workflow" (a camada W do WAT), só que guardado num diretório especial e exposto como slash command.</p></div>
-              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Para de reexplicar a mesma tarefa: o processo vira chamável e consistente.</p></div>
-              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Skill = workflow chamável; markdown; mesmo processo toda vez.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t41-2" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
-            <span class="text-lg">📁</span>
-            <div><span class="font-medium">Onde vivem as skills</span><span class="text-neutral-500 text-sm ml-2">- .claude/skills e o slash command</span></div>
-          </button>
-          <div id="t41-2" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Cada skill vive em sua própria pasta dentro de <code>.claude/skills</code>, com um arquivo markdown que a define; aí ela aparece como um slash command (ex.: <code>/draft-email</code>).</p></div>
-              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É como o agente "descobre" a skill e a expõe para você invocar.</p></div>
-              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Uma pasta por skill; slash commands viraram skills; descoberta automática.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t41-3" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
-            <span class="text-lg">🧬</span>
-            <div><span class="font-medium">Anatomia do SKILL.md</span><span class="text-neutral-500 text-sm ml-2">- Nome, descrição, argumentos, passos</span></div>
-          </button>
-          <div id="t41-3" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">O <code>SKILL.md</code> define nome, descrição (quando acionar), argumentos esperados e instruções passo a passo.</p></div>
-              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">A descrição é o que faz o agente saber QUANDO usar a skill; os argumentos são o que ele pede.</p></div>
-              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Nome; descrição-gatilho; argumentos; passos.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t41-4" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
-            <span class="text-lg">🔧</span>
-            <div><span class="font-medium">Skills podem chamar tools</span><span class="text-neutral-500 text-sm ml-2">- O WAT continua por baixo</span></div>
-          </button>
-          <div id="t41-4" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Uma skill ainda pode acionar tools (scripts Python: busca na web, raspagem, geração de documento) — o framework WAT permanece intacto por baixo.</p></div>
-              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Skill não é só texto: é um processo que executa trabalho real via tools.</p></div>
-              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Skill ≈ W; tools ≈ T; o agente decide quando rodar cada tool.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t41-5" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
-            <span class="text-lg">⚖️</span>
-            <div><span class="font-medium">Quando usar skill vs digitar</span><span class="text-neutral-500 text-sm ml-2">- Repetição e consistência vs one-off</span></div>
-          </button>
-          <div id="t41-5" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Use skill para workflows repetidos, quando a consistência importa, ou para instruções complexas/fáceis de esquecer. Para tarefa de uma frase ou experimento único, só digite — skill seria exagero.</p></div>
-              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Saber a hora de empacotar evita tanto o caos quanto o over-engineering.</p></div>
-              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Repetição → skill; one-off → digitar; consistência; compartilhar.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t41-6" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
-            <span class="text-lg">🪶</span>
-            <div><span class="font-medium">Skills vs CLAUDE.md</span><span class="text-neutral-500 text-sm ml-2">- Contexto sob demanda vs toda sessão</span></div>
-          </button>
-          <div id="t41-6" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">CLAUDE.md guarda só as regras de toda sessão (propósito, objetivo, framework); instruções por tarefa vão em skills, que carregam sob demanda só quando invocadas.</p></div>
-              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Jogar tudo no CLAUDE.md estoura a janela de contexto; skills economizam tokens.</p></div>
-              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Toda sessão vs sob demanda; 20-50 skills não incham; janela de contexto.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t41-7" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">7</span>
-            <span class="text-lg">🤝</span>
-            <div><span class="font-medium">Compartilhar e versionar</span><span class="text-neutral-500 text-sm ml-2">- Time e Git</span></div>
-          </button>
-          <div id="t41-7" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Como a skill é um arquivo na pasta do projeto, ela pode ser versionada no Git e compartilhada com o time — todo mundo ganha o mesmo processo confiável.</p></div>
-              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Skill battle-tested vira ativo da equipe, não conhecimento preso numa cabeça.</p></div>
-              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Arquivo = versionável; compartilhável; delegar-e-esquecer.</p></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
-        <a href="modulo-4-1.html" class="px-4 py-2 text-sm bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-colors">Ver Completo</a>
-      </div>
-    </div>
-
-    <!-- MÓDULO 4.2 -->
-    <div id="modulo-4-2" data-inema-module="4-2" data-inema-track="4" class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
-      <img src="../../assets/img/thumb-4-2.png" alt="Ilustração do módulo 4.2" class="w-full h-32 sm:h-40 object-cover rounded-t-xl border-b border-amber-500/20" loading="lazy">
-      <div class="p-6 border-b border-dark-600">
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-amber-400 font-bold">4.2</span>
-          <span class="text-xs text-neutral-500">~50 min · 7 tópicos</span>
-        </div>
-        <h3 class="text-2xl font-bold mb-2">🔨 Construindo Skills na Prática</h3>
-        <p class="text-neutral-400 text-sm">Mão na massa: pedir uma skill no formato oficial, construir e testar a skill "rascunhar e-mail" (<code>/draft-email</code>), invocar sem argumentos, reusar com contexto limpo, montar a skill "documento → slides", plugar uma skill de design pronta e montar a sua biblioteca de skills.</p>
-        <div class="mt-3" data-inema-meter="modulo:4-2">
-          <div class="flex items-center justify-between mb-1 text-xs">
-            <span class="text-neutral-500">Progresso do módulo</span>
-            <span class="text-amber-400"><span data-inema-meter-pct>0%</span> · <span data-inema-meter-frac>0 de 7</span></span>
-          </div>
-          <div class="inema-bar h-1.5 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-amber-500 rounded-full" data-inema-meter-fill style="width:0%"></div></div>
-        </div>
-      </div>
-      <div class="divide-y divide-dark-600">
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t42-1" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
-            <span class="text-lg">📝</span>
-            <div><span class="font-medium">Pedir uma skill no formato oficial</span><span class="text-neutral-500 text-sm ml-2">- Descreva e deixe o agente montar</span></div>
-          </button>
-          <div id="t42-1" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Você não precisa saber escrever skills: descreve o workflow (entradas, comportamento, onde salvar) e pede para o agente transformar num slash command seguindo o formato oficial.</p></div>
-              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Mesma mentalidade vibe coding: descreva o resultado, a IA gera a skill.</p></div>
-              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Formato oficial; Plan Mode; descrever entradas/saída.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t42-2" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
-            <span class="text-lg">✉️</span>
-            <div><span class="font-medium">Skill "rascunhar e-mail"</span><span class="text-neutral-500 text-sm ml-2">- /draft-email: build + teste</span></div>
-          </button>
-          <div id="t42-2" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">O primeiro build: uma skill que recebe bullets, destinatário e tom e escreve um e-mail polido, conciso e sem enrolação, salvando na pasta temporária. Vira o slash command <code>/draft-email</code>.</p></div>
-              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É o exemplo canônico de skill reutilizável de ponta a ponta.</p></div>
-              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Argumentos (bullets/destinatário/tom); SKILL.md; pasta temporária.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t42-3" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
-            <span class="text-lg">❓</span>
-            <div><span class="font-medium">Invocar sem argumentos</span><span class="text-neutral-500 text-sm ml-2">- A skill pergunta o que falta</span></div>
-          </button>
-          <div id="t42-3" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Chamar o slash command sem passar dados faz o agente perguntar pelas entradas que faltam (destinatário, tom, bullets) antes de rodar.</p></div>
-              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">A skill é robusta: nunca roda "no escuro"; coleta o necessário.</p></div>
-              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Coleta de inputs; argumentos faltantes; experiência guiada.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t42-4" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
-            <span class="text-lg">🔁</span>
-            <div><span class="font-medium">Reutilizar com contexto limpo</span><span class="text-neutral-500 text-sm ml-2">- /clear e chamar de novo</span></div>
-          </button>
-          <div id="t42-4" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Para reusar, você limpa a conversa (<code>/clear</code>) e chama o slash command de novo com novas entradas — saída fresca e consistente, seguindo sempre as mesmas regras.</p></div>
-              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Contexto limpo = runs previsíveis; a skill garante o mesmo padrão.</p></div>
-              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Limpar entre usos; consistência; modificar é só pedir.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t42-5" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
-            <span class="text-lg">📊</span>
-            <div><span class="font-medium">Skill "documento → slides"</span><span class="text-neutral-500 text-sm ml-2">- Ler doc, extrair pontos, gerar deck</span></div>
-          </button>
-          <div id="t42-5" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Uma segunda skill que lê um documento, extrai os pontos-chave e cria uma apresentação profissional — usando tools Python por baixo.</p></div>
-              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Mostra a skill resumindo conteúdo longo num deck estruturado, reusável.</p></div>
-              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Resumir → estruturar; tools de geração; iterar design.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t42-6" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
-            <span class="text-lg">🎨</span>
-            <div><span class="font-medium">Plugar uma skill de design pronta</span><span class="text-neutral-500 text-sm ml-2">- Subir a qualidade sem explicar</span></div>
-          </button>
-          <div id="t42-6" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Plugar uma skill de design já existente faz a qualidade visual subir sem você precisar descrever cada detalhe de design manualmente.</p></div>
-              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Skills se compõem: você empilha uma skill de design por cima do seu workflow.</p></div>
-              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Composição de skills; design skill; reuso de conhecimento pronto.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t42-7" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">7</span>
-            <span class="text-lg">📚</span>
-            <div><span class="font-medium">Biblioteca de skills do aluno</span><span class="text-neutral-500 text-sm ml-2">- Ideias prontas para montar</span></div>
-          </button>
-          <div id="t42-7" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Um catálogo de ideias de skill prontas para você montar: notas → ações, dados → PDF, e-mail, resumo de reunião, brief de pesquisa.</p></div>
-              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Te dá pontos de partida concretos para construir a sua própria biblioteca.</p></div>
-              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Catálogo; skills battle-tested; salvar o que funciona.</p></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
-        <a href="modulo-4-2.html" class="px-4 py-2 text-sm bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-colors">Ver Completo</a>
-      </div>
-    </div>
-
-    <!-- MÓDULO 4.3 -->
-    <div id="modulo-4-3" data-inema-module="4-3" data-inema-track="4" class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
-      <img src="../../assets/img/thumb-4-3.png" alt="Ilustração do módulo 4.3" class="w-full h-32 sm:h-40 object-cover rounded-t-xl border-b border-amber-500/20" loading="lazy">
-      <div class="p-6 border-b border-dark-600">
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-amber-400 font-bold">4.3</span>
-          <span class="text-xs text-neutral-500">~55 min · 8 tópicos</span>
-        </div>
-        <h3 class="text-2xl font-bold mb-2">🤖 Agentes: Locais, Agendados &amp; por Evento</h3>
-        <p class="text-neutral-400 text-sm">O salto para sistemas que decidem sozinhos: o que é um agente (raciocina, adapta, se auto-cura), agente local sob demanda, o loop de auto-melhoria, agente agendado (cron), agente por evento (webhook), o agentic gap, projetar para produção desde o 1º prompt, e quando um "agente" é só um script.</p>
-        <div class="mt-3" data-inema-meter="modulo:4-3">
-          <div class="flex items-center justify-between mb-1 text-xs">
-            <span class="text-neutral-500">Progresso do módulo</span>
-            <span class="text-amber-400"><span data-inema-meter-pct>0%</span> · <span data-inema-meter-frac>0 de 8</span></span>
-          </div>
-          <div class="inema-bar h-1.5 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-amber-500 rounded-full" data-inema-meter-fill style="width:0%"></div></div>
-        </div>
-      </div>
-      <div class="divide-y divide-dark-600">
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t43-1" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
-            <span class="text-lg">🤖</span>
-            <div><span class="font-medium">O que é um agente</span><span class="text-neutral-500 text-sm ml-2">- Raciocina, adapta, se auto-cura</span></div>
-          </button>
-          <div id="t43-1" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Diferente da automação tradicional (você liga cada passo), um agente recebe o resultado desejado e raciocina, adapta, faz perguntas e se auto-cura quando algo quebra.</p></div>
-              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É a fronteira entre "wire tudo na mão" e "diga o resultado".</p></div>
-              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Raciocina; adapta; auto-cura; não-determinístico.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t43-2" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
-            <span class="text-lg">🖥️</span>
-            <div><span class="font-medium">Agente sob demanda (local)</span><span class="text-neutral-500 text-sm ml-2">- Você dispara na sua máquina</span></div>
-          </button>
-          <div id="t43-2" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">O assistente como agente pessoal: pesquisa, monta arquivos, itera na saída e fica mais esperto a cada uso — tudo rodando local, sem deploy.</p></div>
-              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É a forma mais simples de agente; constrói intuição antes da nuvem.</p></div>
-              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Local; sob demanda; você assiste e aprende.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t43-3" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
-            <span class="text-lg">♻️</span>
-            <div><span class="font-medium">O loop de auto-melhoria na prática</span><span class="text-neutral-500 text-sm ml-2">- Errar → diagnosticar → consertar</span></div>
-          </button>
-          <div id="t43-3" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">O agente roda um workflow, bate num erro, diagnostica, conserta a tool e atualiza o workflow para o erro não voltar — runs ficam mais suaves e rápidos.</p></div>
-              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É o superpoder dos agentes locais — e exatamente o que some em produção.</p></div>
-              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Errar → consertar → atualizar; aprender com a falha; persistir o fix.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t43-4" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
-            <span class="text-lg">⏰</span>
-            <div><span class="font-medium">Agente agendado (cron)</span><span class="text-neutral-500 text-sm ml-2">- Anatomia: roda sozinho na hora marcada</span></div>
-          </button>
-          <div id="t43-4" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Um agente que roda sozinho na hora marcada por um padrão cron (5 campos; ex.: <code>0 7 * * *</code> = 7h todo dia) — pesquisa, sintetiza e grava o resultado, sem você presente.</p></div>
-              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É a primeira forma de agente que escala além de "quando você aparece".</p></div>
-              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Cron (5 campos); roda unattended; agenda.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t43-5" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
-            <span class="text-lg">🔔</span>
-            <div><span class="font-medium">Agente por evento (webhook)</span><span class="text-neutral-500 text-sm ml-2">- Anatomia: a campainha digital</span></div>
-          </button>
-          <div id="t43-5" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Um agente que acorda quando um webhook (uma URL que escuta dados) é chamado, recebendo um payload — uma "campainha digital" que dispara o trabalho.</p></div>
-              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É como um formulário, um app ou outro sistema dispara o seu agente.</p></div>
-              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Webhook = campainha; payload; auth Bearer.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t43-6" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
-            <span class="text-lg">🕳️</span>
-            <div><span class="font-medium">O agentic gap</span><span class="text-neutral-500 text-sm ml-2">- Sem auto-cura em produção</span></div>
-          </button>
-          <div id="t43-6" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Quando o agente roda na nuvem por agenda/evento, o assistente não está mais olhando para se auto-curar: o sistema roda mas não adapta sozinho — e uma falha pode passar despercebida.</p></div>
-              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É o risco central de produção; define como você projeta o agente.</p></div>
-              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Sem auto-cura; falha silenciosa; logs e alertas fecham o gap.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t43-7" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">7</span>
-            <span class="text-lg">🧱</span>
-            <div><span class="font-medium">Projetar para produção</span><span class="text-neutral-500 text-sm ml-2">- Inputs fixos, saída estruturada, erro & log</span></div>
-          </button>
-          <div id="t43-7" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">As quatro exigências do build unattended: inputs fixos, saída estruturada/previsível, tratamento de erro embutido e log em cada passo — tudo desde o 1º prompt.</p></div>
-              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Como o agente não vai se auto-curar, você projeta a robustez de saída.</p></div>
-              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Inputs fixos; saída estruturada; try/catch; logar tudo.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t43-8" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">8</span>
-            <span class="text-lg">📜</span>
-            <div><span class="font-medium">Quando um "agente" é só um script</span><span class="text-neutral-500 text-sm ml-2">- E tudo bem</span></div>
-          </button>
-          <div id="t43-8" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Nem todo automação precisa de raciocínio: se a tarefa é fixa e previsível, um script determinístico é mais barato e confiável que um agente — e isso é uma escolha válida.</p></div>
-              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Saber a diferença evita pagar por inteligência que você não precisa.</p></div>
-              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Determinístico vs agêntico; "boring is beautiful"; custo vs adaptação.</p></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
-        <a href="modulo-4-3.html" class="px-4 py-2 text-sm bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-colors">Ver Completo</a>
-      </div>
-    </div>
-
-    <!-- NAVEGAÇÃO ENTRE TRILHAS -->
-    <div class="flex flex-col sm:flex-row gap-4 mt-10">
-      <a href="../trilha3/index.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← Trilha 3: Prompts</a>
-      <a href="../trilha5/index.html" class="flex-1 text-center px-6 py-3 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-500 transition-colors">Trilha 5: Projetos →</a>
-    </div>
-
-  </main>
-
-  <footer class="border-t border-dark-600 py-8 mt-16">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
-      <p>Vibe Coding: Domínio Completo · Curso original <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 font-medium">INEMA.CLUB</a> · 2026</p>
-    </div>
-  </footer>
-
-  <script>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-amber-400">3</div>
+<div class="text-xs text-neutral-400">Módulos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-amber-400">22</div>
+<div class="text-xs text-neutral-400">Tópicos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-amber-400">~3h</div>
+<div class="text-xs text-neutral-400">Duração</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-amber-400">Prático</div>
+<div class="text-xs text-neutral-400">Nível</div>
+</div>
+</div>
+<!-- progresso da trilha -->
+<div aria-label="Progresso da trilha 4" aria-valuemax="100" aria-valuemin="0" class="mt-6 max-w-2xl" data-inema-meter="trilha:4" role="progressbar">
+<div class="flex items-center justify-between mb-1 text-sm">
+<span class="text-neutral-400">Progresso da trilha</span>
+<span class="text-amber-400 font-semibold"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 22</span></span>
+</div>
+<div class="inema-bar h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-amber-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12" id="conteudo">
+<img alt="Banner da trilha de skills e agentes: blocos modulares e uma rede de agentes autônomos em âmbar" class="w-full h-auto rounded-2xl border border-amber-500/30 mb-8 shadow-lg shadow-amber-500/5" loading="lazy" src="../../assets/img/hero-t4.png"/>
+<!-- HERO SVG -->
+<section class="mb-12">
+<div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden">
+<svg aria-label="O arco da trilha 4: primeiro você entende o que é uma skill e sua anatomia, depois constrói skills na prática como slash commands, e por fim sobe para agentes que rodam locais, agendados por cron ou disparados por webhook" class="w-full h-auto" role="img" viewbox="0 0 1000 230">
+<defs>
+<lineargradient id="t4-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#fbbf24"></stop><stop offset="1" stop-color="#f59e0b"></stop>
+</lineargradient>
+<filter height="180%" id="t4-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="32" id="t4-grid" patternunits="userSpaceOnUse" width="32">
+<circle cx="1.3" cy="1.3" fill="#f59e0b" opacity="0.12" r="1.3"></circle>
+</pattern>
+<marker id="t4-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fbbf24"></path></marker>
+</defs>
+<rect fill="url(#t4-grid)" height="230" width="1000" x="0" y="0"></rect>
+<g fill="none" opacity="0.55" stroke="#fbbf24" stroke-width="2">
+<path d="M300,114 L344,114" marker-end="url(#t4-ah)"></path>
+<path d="M604,114 L648,114" marker-end="url(#t4-ah)"></path>
+</g>
+<g filter="url(#t4-glow)"><rect fill="#241a06" height="74" rx="16" stroke="url(#t4-grad)" stroke-width="2.5" width="260" x="40" y="78"></rect></g>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="16" font-weight="600" text-anchor="middle" x="170" y="110">Módulo 4.1</text>
+<text fill="#fcd9a0" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="170" y="132">Skills · conceito &amp; anatomia</text>
+<rect fill="#0e1b26" height="74" rx="16" stroke="#38bdf8" stroke-width="2" width="260" x="344" y="78"></rect>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="16" font-weight="600" text-anchor="middle" x="474" y="110">Módulo 4.2</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="474" y="132">Construindo skills na prática</text>
+<rect fill="#241a06" height="74" rx="16" stroke="#fbbf24" stroke-width="2" width="312" x="648" y="78"></rect>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="16" font-weight="600" text-anchor="middle" x="804" y="110">Módulo 4.3</text>
+<text fill="#fcd9a0" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="804" y="132">Agentes · local · agendado · evento</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mt-2">O caminho da trilha 4: do conceito de skill (markdown chamável) ao build na prática, terminando nos agentes que decidem sozinhos e rodam sem você presente.</p>
+</section>
+<!-- MAPA DA TRILHA (OBRIGATORIO) -->
+<section class="mb-12">
+<h2 class="text-2xl font-bold mb-6">Mapa da trilha</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-amber-500/30 p-5 transition-all" href="#modulo-4-1">
+<div class="flex items-center justify-between mb-2">
+<span class="text-amber-400 font-bold text-sm">4.1</span>
+<span class="text-xs text-neutral-500">~50 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-amber-400 transition-colors">📦 Skills: Conceito &amp; Anatomia</h3>
+<p class="text-xs text-neutral-400">O que é, onde vive, anatomia do SKILL.md</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-amber-500/30 p-5 transition-all" href="#modulo-4-2">
+<div class="flex items-center justify-between mb-2">
+<span class="text-amber-400 font-bold text-sm">4.2</span>
+<span class="text-xs text-neutral-500">~50 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-amber-400 transition-colors">🔨 Construindo Skills na Prática</h3>
+<p class="text-xs text-neutral-400">/draft-email, doc→slides, design</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-amber-500/30 p-5 transition-all" href="#modulo-4-3">
+<div class="flex items-center justify-between mb-2">
+<span class="text-amber-400 font-bold text-sm">4.3</span>
+<span class="text-xs text-neutral-500">~55 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-amber-400 transition-colors">🤖 Agentes: Local, Agendado &amp; Evento</h3>
+<p class="text-xs text-neutral-400">Sob demanda, cron, webhook, agentic gap</p>
+</a>
+</div>
+</section>
+<h2 class="text-2xl font-bold mb-6">Conteúdo detalhado</h2>
+<!-- MÓDULO 4.1 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" data-inema-module="4-1" data-inema-track="4" id="modulo-4-1">
+<img alt="Ilustração do módulo 4.1" class="w-full h-32 sm:h-40 object-cover rounded-t-xl border-b border-amber-500/20" loading="lazy" src="../../assets/img/thumb-4-1.png"/>
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-amber-400 font-bold">4.1</span>
+<span class="text-xs text-neutral-500">~50 min · 7 tópicos</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">📦 Skills: Conceito &amp; Anatomia</h3>
+<p class="text-neutral-400 text-sm">A skill é um workflow em markdown que você chama como slash command. Aqui: o que é, onde mora (<code>.claude/skills</code>), a anatomia do SKILL.md, como skills chamam tools, quando usar skill vs digitar, skills vs CLAUDE.md e como compartilhar/versionar.</p>
+<div class="mt-3" data-inema-meter="modulo:4-1">
+<div class="flex items-center justify-between mb-1 text-xs">
+<span class="text-neutral-500">Progresso do módulo</span>
+<span class="text-amber-400"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 7</span></span>
+</div>
+<div class="inema-bar h-1.5 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-amber-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button aria-controls="t41-1" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">📦</span>
+<div><span class="font-medium">O que é uma skill</span><span class="text-neutral-500 text-sm ml-2">- Workflow em markdown, chamável</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t41-1">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Um arquivo markdown de instruções — conceitualmente a mesma coisa que um "workflow" (a camada W do WAT), só que guardado num diretório especial e exposto como slash command.</p></div>
+<div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Para de reexplicar a mesma tarefa: o processo vira chamável e consistente.</p></div>
+<div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Skill = workflow chamável; markdown; mesmo processo toda vez.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t41-2" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">📁</span>
+<div><span class="font-medium">Onde vivem as skills</span><span class="text-neutral-500 text-sm ml-2">- .claude/skills e o slash command</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t41-2">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Cada skill vive em sua própria pasta dentro de <code>.claude/skills</code>, com um arquivo markdown que a define; aí ela aparece como um slash command (ex.: <code>/draft-email</code>).</p></div>
+<div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É como o agente "descobre" a skill e a expõe para você invocar.</p></div>
+<div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Uma pasta por skill; slash commands viraram skills; descoberta automática.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t41-3" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">🧬</span>
+<div><span class="font-medium">Anatomia do SKILL.md</span><span class="text-neutral-500 text-sm ml-2">- Nome, descrição, argumentos, passos</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t41-3">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">O <code>SKILL.md</code> define nome, descrição (quando acionar), argumentos esperados e instruções passo a passo.</p></div>
+<div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">A descrição é o que faz o agente saber QUANDO usar a skill; os argumentos são o que ele pede.</p></div>
+<div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Nome; descrição-gatilho; argumentos; passos.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t41-4" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">🔧</span>
+<div><span class="font-medium">Skills podem chamar tools</span><span class="text-neutral-500 text-sm ml-2">- O WAT continua por baixo</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t41-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Uma skill ainda pode acionar tools (scripts Python: busca na web, raspagem, geração de documento) — o framework WAT permanece intacto por baixo.</p></div>
+<div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Skill não é só texto: é um processo que executa trabalho real via tools.</p></div>
+<div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Skill ≈ W; tools ≈ T; o agente decide quando rodar cada tool.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t41-5" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">⚖️</span>
+<div><span class="font-medium">Quando usar skill vs digitar</span><span class="text-neutral-500 text-sm ml-2">- Repetição e consistência vs one-off</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t41-5">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Use skill para workflows repetidos, quando a consistência importa, ou para instruções complexas/fáceis de esquecer. Para tarefa de uma frase ou experimento único, só digite — skill seria exagero.</p></div>
+<div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Saber a hora de empacotar evita tanto o caos quanto o over-engineering.</p></div>
+<div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Repetição → skill; one-off → digitar; consistência; compartilhar.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t41-6" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">🪶</span>
+<div><span class="font-medium">Skills vs CLAUDE.md</span><span class="text-neutral-500 text-sm ml-2">- Contexto sob demanda vs toda sessão</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t41-6">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">CLAUDE.md guarda só as regras de toda sessão (propósito, objetivo, framework); instruções por tarefa vão em skills, que carregam sob demanda só quando invocadas.</p></div>
+<div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Jogar tudo no CLAUDE.md estoura a janela de contexto; skills economizam tokens.</p></div>
+<div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Toda sessão vs sob demanda; 20-50 skills não incham; janela de contexto.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t41-7" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">7</span>
+<span class="text-lg">🤝</span>
+<div><span class="font-medium">Compartilhar e versionar</span><span class="text-neutral-500 text-sm ml-2">- Time e Git</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t41-7">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Como a skill é um arquivo na pasta do projeto, ela pode ser versionada no Git e compartilhada com o time — todo mundo ganha o mesmo processo confiável.</p></div>
+<div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Skill battle-tested vira ativo da equipe, não conhecimento preso numa cabeça.</p></div>
+<div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Arquivo = versionável; compartilhável; delegar-e-esquecer.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<a class="px-4 py-2 text-sm bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-colors" href="modulo-4-1.html">Ver Completo</a>
+</div>
+</div>
+<!-- MÓDULO 4.2 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" data-inema-module="4-2" data-inema-track="4" id="modulo-4-2">
+<img alt="Ilustração do módulo 4.2" class="w-full h-32 sm:h-40 object-cover rounded-t-xl border-b border-amber-500/20" loading="lazy" src="../../assets/img/thumb-4-2.png"/>
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-amber-400 font-bold">4.2</span>
+<span class="text-xs text-neutral-500">~50 min · 7 tópicos</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">🔨 Construindo Skills na Prática</h3>
+<p class="text-neutral-400 text-sm">Mão na massa: pedir uma skill no formato oficial, construir e testar a skill "rascunhar e-mail" (<code>/draft-email</code>), invocar sem argumentos, reusar com contexto limpo, montar a skill "documento → slides", plugar uma skill de design pronta e montar a sua biblioteca de skills.</p>
+<div class="mt-3" data-inema-meter="modulo:4-2">
+<div class="flex items-center justify-between mb-1 text-xs">
+<span class="text-neutral-500">Progresso do módulo</span>
+<span class="text-amber-400"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 7</span></span>
+</div>
+<div class="inema-bar h-1.5 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-amber-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button aria-controls="t42-1" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">📝</span>
+<div><span class="font-medium">Pedir uma skill no formato oficial</span><span class="text-neutral-500 text-sm ml-2">- Descreva e deixe o agente montar</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t42-1">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Você não precisa saber escrever skills: descreve o workflow (entradas, comportamento, onde salvar) e pede para o agente transformar num slash command seguindo o formato oficial.</p></div>
+<div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Mesma mentalidade vibe coding: descreva o resultado, a IA gera a skill.</p></div>
+<div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Formato oficial; Plan Mode; descrever entradas/saída.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t42-2" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">✉️</span>
+<div><span class="font-medium">Skill "rascunhar e-mail"</span><span class="text-neutral-500 text-sm ml-2">- /draft-email: build + teste</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t42-2">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">O primeiro build: uma skill que recebe bullets, destinatário e tom e escreve um e-mail polido, conciso e sem enrolação, salvando na pasta temporária. Vira o slash command <code>/draft-email</code>.</p></div>
+<div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É o exemplo canônico de skill reutilizável de ponta a ponta.</p></div>
+<div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Argumentos (bullets/destinatário/tom); SKILL.md; pasta temporária.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t42-3" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">❓</span>
+<div><span class="font-medium">Invocar sem argumentos</span><span class="text-neutral-500 text-sm ml-2">- A skill pergunta o que falta</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t42-3">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Chamar o slash command sem passar dados faz o agente perguntar pelas entradas que faltam (destinatário, tom, bullets) antes de rodar.</p></div>
+<div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">A skill é robusta: nunca roda "no escuro"; coleta o necessário.</p></div>
+<div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Coleta de inputs; argumentos faltantes; experiência guiada.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t42-4" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">🔁</span>
+<div><span class="font-medium">Reutilizar com contexto limpo</span><span class="text-neutral-500 text-sm ml-2">- /clear e chamar de novo</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t42-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Para reusar, você limpa a conversa (<code>/clear</code>) e chama o slash command de novo com novas entradas — saída fresca e consistente, seguindo sempre as mesmas regras.</p></div>
+<div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Contexto limpo = runs previsíveis; a skill garante o mesmo padrão.</p></div>
+<div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Limpar entre usos; consistência; modificar é só pedir.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t42-5" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">📊</span>
+<div><span class="font-medium">Skill "documento → slides"</span><span class="text-neutral-500 text-sm ml-2">- Ler doc, extrair pontos, gerar deck</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t42-5">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Uma segunda skill que lê um documento, extrai os pontos-chave e cria uma apresentação profissional — usando tools Python por baixo.</p></div>
+<div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Mostra a skill resumindo conteúdo longo num deck estruturado, reusável.</p></div>
+<div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Resumir → estruturar; tools de geração; iterar design.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t42-6" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">🎨</span>
+<div><span class="font-medium">Plugar uma skill de design pronta</span><span class="text-neutral-500 text-sm ml-2">- Subir a qualidade sem explicar</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t42-6">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Plugar uma skill de design já existente faz a qualidade visual subir sem você precisar descrever cada detalhe de design manualmente.</p></div>
+<div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Skills se compõem: você empilha uma skill de design por cima do seu workflow.</p></div>
+<div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Composição de skills; design skill; reuso de conhecimento pronto.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t42-7" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">7</span>
+<span class="text-lg">📚</span>
+<div><span class="font-medium">Biblioteca de skills do aluno</span><span class="text-neutral-500 text-sm ml-2">- Ideias prontas para montar</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t42-7">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Um catálogo de ideias de skill prontas para você montar: notas → ações, dados → PDF, e-mail, resumo de reunião, brief de pesquisa.</p></div>
+<div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Te dá pontos de partida concretos para construir a sua própria biblioteca.</p></div>
+<div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Catálogo; skills battle-tested; salvar o que funciona.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<a class="px-4 py-2 text-sm bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-colors" href="modulo-4-2.html">Ver Completo</a>
+</div>
+</div>
+<!-- MÓDULO 4.3 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" data-inema-module="4-3" data-inema-track="4" id="modulo-4-3">
+<img alt="Ilustração do módulo 4.3" class="w-full h-32 sm:h-40 object-cover rounded-t-xl border-b border-amber-500/20" loading="lazy" src="../../assets/img/thumb-4-3.png"/>
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-amber-400 font-bold">4.3</span>
+<span class="text-xs text-neutral-500">~55 min · 8 tópicos</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">🤖 Agentes: Locais, Agendados &amp; por Evento</h3>
+<p class="text-neutral-400 text-sm">O salto para sistemas que decidem sozinhos: o que é um agente (raciocina, adapta, se auto-cura), agente local sob demanda, o loop de auto-melhoria, agente agendado (cron), agente por evento (webhook), o agentic gap, projetar para produção desde o 1º prompt, e quando um "agente" é só um script.</p>
+<div class="mt-3" data-inema-meter="modulo:4-3">
+<div class="flex items-center justify-between mb-1 text-xs">
+<span class="text-neutral-500">Progresso do módulo</span>
+<span class="text-amber-400"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 8</span></span>
+</div>
+<div class="inema-bar h-1.5 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-amber-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button aria-controls="t43-1" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">🤖</span>
+<div><span class="font-medium">O que é um agente</span><span class="text-neutral-500 text-sm ml-2">- Raciocina, adapta, se auto-cura</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t43-1">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Diferente da automação tradicional (você liga cada passo), um agente recebe o resultado desejado e raciocina, adapta, faz perguntas e se auto-cura quando algo quebra.</p></div>
+<div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É a fronteira entre "wire tudo na mão" e "diga o resultado".</p></div>
+<div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Raciocina; adapta; auto-cura; não-determinístico.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t43-2" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">🖥️</span>
+<div><span class="font-medium">Agente sob demanda (local)</span><span class="text-neutral-500 text-sm ml-2">- Você dispara na sua máquina</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t43-2">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">O assistente como agente pessoal: pesquisa, monta arquivos, itera na saída e fica mais esperto a cada uso — tudo rodando local, sem deploy.</p></div>
+<div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É a forma mais simples de agente; constrói intuição antes da nuvem.</p></div>
+<div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Local; sob demanda; você assiste e aprende.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t43-3" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">♻️</span>
+<div><span class="font-medium">O loop de auto-melhoria na prática</span><span class="text-neutral-500 text-sm ml-2">- Errar → diagnosticar → consertar</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t43-3">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">O agente roda um workflow, bate num erro, diagnostica, conserta a tool e atualiza o workflow para o erro não voltar — runs ficam mais suaves e rápidos.</p></div>
+<div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É o superpoder dos agentes locais — e exatamente o que some em produção.</p></div>
+<div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Errar → consertar → atualizar; aprender com a falha; persistir o fix.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t43-4" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">⏰</span>
+<div><span class="font-medium">Agente agendado (cron)</span><span class="text-neutral-500 text-sm ml-2">- Anatomia: roda sozinho na hora marcada</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t43-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Um agente que roda sozinho na hora marcada por um padrão cron (5 campos; ex.: <code>0 7 * * *</code> = 7h todo dia) — pesquisa, sintetiza e grava o resultado, sem você presente.</p></div>
+<div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É a primeira forma de agente que escala além de "quando você aparece".</p></div>
+<div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Cron (5 campos); roda unattended; agenda.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t43-5" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">🔔</span>
+<div><span class="font-medium">Agente por evento (webhook)</span><span class="text-neutral-500 text-sm ml-2">- Anatomia: a campainha digital</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t43-5">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Um agente que acorda quando um webhook (uma URL que escuta dados) é chamado, recebendo um payload — uma "campainha digital" que dispara o trabalho.</p></div>
+<div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É como um formulário, um app ou outro sistema dispara o seu agente.</p></div>
+<div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Webhook = campainha; payload; auth Bearer.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t43-6" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">🕳️</span>
+<div><span class="font-medium">O agentic gap</span><span class="text-neutral-500 text-sm ml-2">- Sem auto-cura em produção</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t43-6">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Quando o agente roda na nuvem por agenda/evento, o assistente não está mais olhando para se auto-curar: o sistema roda mas não adapta sozinho — e uma falha pode passar despercebida.</p></div>
+<div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É o risco central de produção; define como você projeta o agente.</p></div>
+<div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Sem auto-cura; falha silenciosa; logs e alertas fecham o gap.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t43-7" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">7</span>
+<span class="text-lg">🧱</span>
+<div><span class="font-medium">Projetar para produção</span><span class="text-neutral-500 text-sm ml-2">- Inputs fixos, saída estruturada, erro &amp; log</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t43-7">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">As quatro exigências do build unattended: inputs fixos, saída estruturada/previsível, tratamento de erro embutido e log em cada passo — tudo desde o 1º prompt.</p></div>
+<div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Como o agente não vai se auto-curar, você projeta a robustez de saída.</p></div>
+<div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Inputs fixos; saída estruturada; try/catch; logar tudo.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t43-8" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">8</span>
+<span class="text-lg">📜</span>
+<div><span class="font-medium">Quando um "agente" é só um script</span><span class="text-neutral-500 text-sm ml-2">- E tudo bem</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t43-8">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Nem todo automação precisa de raciocínio: se a tarefa é fixa e previsível, um script determinístico é mais barato e confiável que um agente — e isso é uma escolha válida.</p></div>
+<div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Saber a diferença evita pagar por inteligência que você não precisa.</p></div>
+<div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Determinístico vs agêntico; "boring is beautiful"; custo vs adaptação.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<a class="px-4 py-2 text-sm bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-colors" href="modulo-4-3.html">Ver Completo</a>
+</div>
+</div>
+<!-- NAVEGAÇÃO ENTRE TRILHAS -->
+<div class="flex flex-col sm:flex-row gap-4 mt-10">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="../trilha3/index.html">← Trilha 3: Prompts</a>
+<a class="flex-1 text-center px-6 py-3 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-500 transition-colors" href="../trilha5/index.html">Trilha 5: Projetos →</a>
+</div>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Vibe Coding: Domínio Completo · Curso original <a class="text-sky-400 hover:text-sky-300 font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a> · 2026</p>
+</div>
+</footer>
+<script>
     function toggleTopic(button) {
       const topicItem = button.closest('.topic-item');
       const explanation = topicItem.querySelector('.topic-explanation');
@@ -798,11 +776,9 @@
       if (window.INEMA && INEMA.setPref) { INEMA.setPref('theme', isDark ? 'inema-dark' : 'claro'); }
     });
   </script>
-
-  <script src="../../assets/learn.js"></script>
-  <script>
+<script src="../../assets/learn.js"></script>
+<script>
     if (window.INEMA && typeof window.INEMA.init === 'function') { window.INEMA.init(); }
   </script>
-
 </body>
 </html>

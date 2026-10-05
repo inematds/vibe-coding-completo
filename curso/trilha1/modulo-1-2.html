@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="dark">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="inema-course" content="vibe-coding-completo">
 
-  <!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
-  <script>
+<html class="dark" lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="vibe-coding-completo" name="inema-course"/>
+<!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
+<script>
   (function () {
     try {
       var html = document.documentElement;
@@ -74,10 +74,9 @@
     }
   })();
   </script>
-
-  <title>Módulo 1.2 · O Ecossistema: Como as Peças se Encaixam | Vibe Coding: Domínio Completo</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
+<title>Módulo 1.2 · O Ecossistema: Como as Peças se Encaixam | Vibe Coding: Domínio Completo</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
@@ -90,10 +89,9 @@
       }
     }
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
-  <script type="application/json" data-inema-manifest>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
+<script data-inema-manifest="" type="application/json">
   {
     "course": "vibe-coding-completo",
     "tracks": [
@@ -133,10 +131,8 @@
     ]
   }
   </script>
-
-  <link rel="stylesheet" href="../../assets/learn.css">
-
-  <style>
+<link href="../../assets/learn.css" rel="stylesheet"/>
+<style>
     body { font-family: 'Inter', sans-serif; }
     .dark body { background-color: #111827; }
     .topic-explanation { display: none; }
@@ -217,586 +213,521 @@
       .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
     }
   </style>
-</head>
-<body class="bg-dark-900 text-neutral-100 min-h-screen">
-
-  <a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-emerald-600 focus:text-white focus:rounded-lg" href="#conteudo">Pular para o conteúdo</a>
-
-  <!-- NAVIGATION (T1 ativa) -->
-  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-14">
-        <div class="flex items-center space-x-4">
-          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
-            <span class="text-2xl">⚡</span>
-            <span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
-          </a>
-          <span class="text-neutral-600">|</span>
-          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
-        </div>
-        <div class="flex items-center space-x-1 sm:space-x-2">
-          <a href="index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10">
-            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
-          </a>
-          <a href="../trilha2/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
-            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Técnica</span>
-          </a>
-          <a href="../trilha3/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
-            <span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
-          </a>
-          <a href="../trilha4/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors">
-            <span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
-          </a>
-          <a href="../trilha5/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors">
-            <span class="sm:hidden">T5</span><span class="hidden sm:inline">Projetos</span>
-          </a>
-          <a href="../trilha6/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors">
-            <span class="sm:hidden">T6</span><span class="hidden sm:inline">Produção</span>
-          </a>
-          <button type="button" data-inema-journey-open class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1">
-            <span aria-hidden="true">◷</span><span>Minha jornada</span>
-            <span class="inema-journey-badge hidden" data-inema-journey-badge data-count="0"></span>
-          </button>
-          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" aria-label="Alternar tema claro/escuro">
-            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-            </svg>
-            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <!-- BREADCRUMB -->
-  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4" aria-label="Trilha de navegação">
-    <div class="flex items-center space-x-2 text-sm text-neutral-400">
-      <a href="../../index.html" class="hover:text-emerald-400">Início</a>
-      <span>/</span>
-      <a href="index.html" class="hover:text-emerald-400">Trilha 1</a>
-      <span>/</span>
-      <span class="text-emerald-400">Módulo 1.2</span>
-    </div>
-  </nav>
-
-  <!-- HEADER DO MÓDULO -->
-  <header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4">MÓDULO 1.2</span>
-      <h3 class="text-2xl font-bold mb-4">🧩 O Ecossistema: Como as Peças se Encaixam</h3>
-      <p class="text-lg text-neutral-400 max-w-3xl">Antes de construir qualquer coisa, é preciso ver o <strong class="text-emerald-300">mapa</strong>. Seis peças formam o ecossistema do vibe coding: o assistente de código, o n8n, o MCP, as skills/workflows, os agentes e a escolha entre rodar local ou hospedado. Aqui cada peça é definida na primeira aparição — e você sai entendendo <strong>quem faz o quê</strong> e como elas se conectam.</p>
-      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-emerald-400">6</div>
-          <div class="text-xs text-neutral-400">Tópicos</div>
-        </div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-emerald-400">~40</div>
-          <div class="text-xs text-neutral-400">Minutos</div>
-        </div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-emerald-400">Básico</div>
-          <div class="text-xs text-neutral-400">Nível</div>
-        </div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-emerald-400">Conceito</div>
-          <div class="text-xs text-neutral-400">Tipo</div>
-        </div>
-      </div>
-      <div class="mt-6 max-w-2xl" data-inema-meter="modulo:1-2" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso do módulo 1.2">
-        <div class="flex items-center justify-between mb-1 text-sm">
-          <span class="text-neutral-400">Progresso do módulo</span>
-          <span class="text-emerald-400 font-semibold"><span data-inema-meter-pct>0%</span> · <span data-inema-meter-frac>0 de 6</span></span>
-        </div>
-        <div class="inema-bar h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-emerald-500 rounded-full" data-inema-meter-fill style="width:0%"></div></div>
-      </div>
-    </div>
-  </header>
-
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:grid lg:grid-cols-[1fr_220px] lg:gap-10">
-
-    <main id="conteudo" class="min-w-0">
-
-      <!-- Novo aqui? box (intro, #31) -->
-      <div class="bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-5 mb-10">
-        <h2 class="text-base font-semibold text-emerald-400 mb-2 flex items-center"><span class="mr-2">🌱</span> Novo por aqui?</h2>
-        <p class="text-neutral-300 text-sm">Você vai ver nomes como <strong>assistente de código</strong>, <strong>n8n</strong>, <strong>MCP</strong>, <strong>skill</strong>, <strong>workflow</strong> e <strong>agente</strong>. Cada um é explicado num quadrinho "O que é X?" na primeira vez. Não decore: o objetivo é entender o <em>papel</em> de cada peça. Pense num time: tem o cérebro (assistente), a esteira de montagem (n8n), as tomadas que ligam apps externos (MCP), os manuais de procedimento (skills) e o funcionário autônomo (agente).</p>
-      </div>
-
-      <!-- SVG FUTURISTA (visão geral, #29) -->
-      <section class="mb-12">
-        <p class="text-neutral-300 mb-4 inema-prose leading-relaxed">Veja o ecossistema inteiro de uma vez. No centro está o <strong class="text-emerald-300">assistente de código</strong> — o cérebro que lê, escreve e decide. À volta dele estão as peças que ele comanda ou usa: o construtor visual (n8n), o protocolo que liga ferramentas externas (MCP), as instruções reutilizáveis (skills/workflows), e o resultado final que pode rodar na sua máquina ou sozinho na nuvem.</p>
-        <div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
-          <svg viewBox="0 0 1000 320" class="w-full h-auto" role="img" aria-label="Mapa do ecossistema: no centro, o assistente de código (cérebro coordenador em ciano) lê e escreve; ele aciona o n8n (construtor visual de workflows), usa o MCP para conectar ferramentas externas, lê skills e workflows em markdown como instruções, vira um agente quando decide sozinho, e entrega um resultado que pode rodar local na máquina ou hospedado na nuvem">
-            <defs>
-              <linearGradient id="m12-grad" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#34d399"/><stop offset="1" stop-color="#10b981"/>
-              </linearGradient>
-              <filter id="m12-glow" x="-40%" y="-40%" width="180%" height="180%">
-                <feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-              </filter>
-              <pattern id="m12-grid" width="32" height="32" patternUnits="userSpaceOnUse">
-                <circle cx="1.3" cy="1.3" r="1.3" fill="#10b981" opacity="0.12"/>
-              </pattern>
-              <marker id="m12-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"/></marker>
-              <marker id="m12-ahc" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"/></marker>
-            </defs>
-            <rect x="0" y="0" width="1000" height="320" fill="url(#m12-grid)"/>
-
-            <!-- centro: assistente (coordenador = ciano) -->
-            <g filter="url(#m12-glow)"><rect x="400" y="128" width="200" height="64" rx="16" fill="#0e1b26" stroke="#38bdf8" stroke-width="2.6"/></g>
-            <text x="500" y="156" text-anchor="middle" fill="#bfe6ff" font-family="Inter,sans-serif" font-weight="700" font-size="15">🧠 Assistente de código</text>
-            <text x="500" y="176" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11">o cérebro: lê · escreve · decide</text>
-
-            <!-- n8n (cima-esq) -->
-            <rect x="60" y="44" width="200" height="52" rx="13" fill="#0e2018" stroke="url(#m12-grad)" stroke-width="2"/>
-            <text x="160" y="68" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="13">🔗 n8n</text>
-            <text x="160" y="85" text-anchor="middle" fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10">construtor visual de workflows</text>
-            <g fill="none" stroke="#38bdf8" stroke-width="2" opacity="0.6"><path d="M260,92 C330,108 360,128 400,148" marker-end="url(#m12-ahc)"/></g>
-
-            <!-- MCP (cima-dir) -->
-            <rect x="740" y="44" width="200" height="52" rx="13" fill="#0e2018" stroke="url(#m12-grad)" stroke-width="2"/>
-            <text x="840" y="68" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="13">🔌 MCP</text>
-            <text x="840" y="85" text-anchor="middle" fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10">liga ferramentas externas</text>
-            <g fill="none" stroke="#38bdf8" stroke-width="2" opacity="0.6"><path d="M740,92 C670,108 640,128 600,148" marker-end="url(#m12-ahc)"/></g>
-
-            <!-- skills/workflows (baixo-esq) -->
-            <rect x="60" y="224" width="200" height="52" rx="13" fill="#0e2018" stroke="url(#m12-grad)" stroke-width="2"/>
-            <text x="160" y="248" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="13">📄 Skills / workflows</text>
-            <text x="160" y="265" text-anchor="middle" fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10">instruções reutilizáveis (markdown)</text>
-            <g fill="none" stroke="#38bdf8" stroke-width="2" opacity="0.6"><path d="M260,250 C330,232 360,202 400,178" marker-end="url(#m12-ahc)"/></g>
-
-            <!-- agente (baixo-centro) -->
-            <rect x="400" y="232" width="200" height="52" rx="13" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/>
-            <text x="500" y="256" text-anchor="middle" fill="#bfe6ff" font-family="Inter,sans-serif" font-weight="600" font-size="13">🤖 Agente</text>
-            <text x="500" y="273" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="10">quando o sistema decide sozinho</text>
-            <g fill="none" stroke="#38bdf8" stroke-width="2" opacity="0.6"><path d="M500,192 L500,230" marker-end="url(#m12-ahc)"/></g>
-
-            <!-- local vs hospedado (dir) -->
-            <g class="wf-a"><rect x="740" y="218" width="200" height="34" rx="9" fill="#0e2018" stroke="#34d399" stroke-width="2"/><text x="840" y="240" text-anchor="middle" fill="#9ee9c9" font-family="Inter,sans-serif" font-size="11">🖥️ roda local (sua máquina)</text></g>
-            <g class="wf-a"><rect x="740" y="260" width="200" height="34" rx="9" fill="#0e2018" stroke="#34d399" stroke-width="2"/><text x="840" y="282" text-anchor="middle" fill="#9ee9c9" font-family="Inter,sans-serif" font-size="11">☁️ roda hospedado (nuvem)</text></g>
-            <g fill="none" stroke="#34d399" stroke-width="2" opacity="0.6">
-              <path d="M600,168 C660,178 680,228 738,235" marker-end="url(#m12-ah)"/>
-              <path d="M600,180 C660,200 680,268 738,277" marker-end="url(#m12-ah)"/>
-            </g>
-          </svg>
-        </div>
-        <p class="text-xs text-neutral-500">Diagrama ilustrativo — o assistente (ciano) é o coordenador no centro; em volta, as peças que ele comanda ou usa; à direita, onde o resultado pode rodar. Você vai conhecer cada uma a seguir.</p>
-      </section>
-
-      <!-- TÓPICO 1 -->
-      <section id="topico-1" data-inema-topic="modulo-1-2#topico-1" class="mb-16">
-        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-          <div class="flex items-center space-x-4">
-            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">1</span>
-            <h2 class="text-2xl font-bold">🧠 O assistente de código</h2>
-          </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
-            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
-          </button>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-2">O que é</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-2-t1-p1">
+<link href="https://inematds.github.io/vibe-coding-completo/curso/trilha1/modulo-1-2.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/en/curso/trilha1/modulo-1-2.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/es/curso/trilha1/modulo-1-2.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="modulo-1-2.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">PT</a><a href="../../en/curso/trilha1/modulo-1-2.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="../../es/curso/trilha1/modulo-1-2.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-emerald-600 focus:text-white focus:rounded-lg" href="#conteudo">Pular para o conteúdo</a>
+<!-- NAVIGATION (T1 ativa) -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10" href="index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Técnica</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Projetos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Produção</span>
+</a>
+<button class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-inema-journey-open="" type="button">
+<span aria-hidden="true">◷</span><span>Minha jornada</span>
+<span class="inema-journey-badge hidden" data-count="0" data-inema-journey-badge=""></span>
+</button>
+<button aria-label="Alternar tema claro/escuro" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20">
+<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+</svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav aria-label="Trilha de navegação" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-emerald-400" href="../../index.html">Início</a>
+<span>/</span>
+<a class="hover:text-emerald-400" href="index.html">Trilha 1</a>
+<span>/</span>
+<span class="text-emerald-400">Módulo 1.2</span>
+</div>
+</nav>
+<!-- HEADER DO MÓDULO -->
+<header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4">MÓDULO 1.2</span>
+<h3 class="text-2xl font-bold mb-4">🧩 O Ecossistema: Como as Peças se Encaixam</h3>
+<p class="text-lg text-neutral-400 max-w-3xl">Antes de construir qualquer coisa, é preciso ver o <strong class="text-emerald-300">mapa</strong>. Seis peças formam o ecossistema do vibe coding: o assistente de código, o n8n, o MCP, as skills/workflows, os agentes e a escolha entre rodar local ou hospedado. Aqui cada peça é definida na primeira aparição — e você sai entendendo <strong>quem faz o quê</strong> e como elas se conectam.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-emerald-400">6</div>
+<div class="text-xs text-neutral-400">Tópicos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-emerald-400">~40</div>
+<div class="text-xs text-neutral-400">Minutos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-emerald-400">Básico</div>
+<div class="text-xs text-neutral-400">Nível</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-emerald-400">Conceito</div>
+<div class="text-xs text-neutral-400">Tipo</div>
+</div>
+</div>
+<div aria-label="Progresso do módulo 1.2" aria-valuemax="100" aria-valuemin="0" class="mt-6 max-w-2xl" data-inema-meter="modulo:1-2" role="progressbar">
+<div class="flex items-center justify-between mb-1 text-sm">
+<span class="text-neutral-400">Progresso do módulo</span>
+<span class="text-emerald-400 font-semibold"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 6</span></span>
+</div>
+<div class="inema-bar h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-emerald-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+</header>
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:grid lg:grid-cols-[1fr_220px] lg:gap-10">
+<main class="min-w-0" id="conteudo">
+<!-- Novo aqui? box (intro, #31) -->
+<div class="bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-5 mb-10">
+<h2 class="text-base font-semibold text-emerald-400 mb-2 flex items-center"><span class="mr-2">🌱</span> Novo por aqui?</h2>
+<p class="text-neutral-300 text-sm">Você vai ver nomes como <strong>assistente de código</strong>, <strong>n8n</strong>, <strong>MCP</strong>, <strong>skill</strong>, <strong>workflow</strong> e <strong>agente</strong>. Cada um é explicado num quadrinho "O que é X?" na primeira vez. Não decore: o objetivo é entender o <em>papel</em> de cada peça. Pense num time: tem o cérebro (assistente), a esteira de montagem (n8n), as tomadas que ligam apps externos (MCP), os manuais de procedimento (skills) e o funcionário autônomo (agente).</p>
+</div>
+<!-- SVG FUTURISTA (visão geral, #29) -->
+<section class="mb-12">
+<p class="text-neutral-300 mb-4 inema-prose leading-relaxed">Veja o ecossistema inteiro de uma vez. No centro está o <strong class="text-emerald-300">assistente de código</strong> — o cérebro que lê, escreve e decide. À volta dele estão as peças que ele comanda ou usa: o construtor visual (n8n), o protocolo que liga ferramentas externas (MCP), as instruções reutilizáveis (skills/workflows), e o resultado final que pode rodar na sua máquina ou sozinho na nuvem.</p>
+<div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="Mapa do ecossistema: no centro, o assistente de código (cérebro coordenador em ciano) lê e escreve; ele aciona o n8n (construtor visual de workflows), usa o MCP para conectar ferramentas externas, lê skills e workflows em markdown como instruções, vira um agente quando decide sozinho, e entrega um resultado que pode rodar local na máquina ou hospedado na nuvem" class="w-full h-auto" role="img" viewbox="0 0 1000 320">
+<defs>
+<lineargradient id="m12-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#34d399"></stop><stop offset="1" stop-color="#10b981"></stop>
+</lineargradient>
+<filter height="180%" id="m12-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="2"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="32" id="m12-grid" patternunits="userSpaceOnUse" width="32">
+<circle cx="1.3" cy="1.3" fill="#10b981" opacity="0.12" r="1.3"></circle>
+</pattern>
+<marker id="m12-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"></path></marker>
+<marker id="m12-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m12-grid)" height="320" width="1000" x="0" y="0"></rect>
+<!-- centro: assistente (coordenador = ciano) -->
+<g filter="url(#m12-glow)"><rect fill="#0e1b26" height="64" rx="16" stroke="#38bdf8" stroke-width="2.6" width="200" x="400" y="128"></rect></g>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="15" font-weight="700" text-anchor="middle" x="500" y="156">🧠 Assistente de código</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="500" y="176">o cérebro: lê · escreve · decide</text>
+<!-- n8n (cima-esq) -->
+<rect fill="#0e2018" height="52" rx="13" stroke="url(#m12-grad)" stroke-width="2" width="200" x="60" y="44"></rect>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="160" y="68">🔗 n8n</text>
+<text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="160" y="85">construtor visual de workflows</text>
+<g fill="none" opacity="0.6" stroke="#38bdf8" stroke-width="2"><path d="M260,92 C330,108 360,128 400,148" marker-end="url(#m12-ahc)"></path></g>
+<!-- MCP (cima-dir) -->
+<rect fill="#0e2018" height="52" rx="13" stroke="url(#m12-grad)" stroke-width="2" width="200" x="740" y="44"></rect>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="840" y="68">🔌 MCP</text>
+<text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="840" y="85">liga ferramentas externas</text>
+<g fill="none" opacity="0.6" stroke="#38bdf8" stroke-width="2"><path d="M740,92 C670,108 640,128 600,148" marker-end="url(#m12-ahc)"></path></g>
+<!-- skills/workflows (baixo-esq) -->
+<rect fill="#0e2018" height="52" rx="13" stroke="url(#m12-grad)" stroke-width="2" width="200" x="60" y="224"></rect>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="160" y="248">📄 Skills / workflows</text>
+<text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="160" y="265">instruções reutilizáveis (markdown)</text>
+<g fill="none" opacity="0.6" stroke="#38bdf8" stroke-width="2"><path d="M260,250 C330,232 360,202 400,178" marker-end="url(#m12-ahc)"></path></g>
+<!-- agente (baixo-centro) -->
+<rect fill="#0e1b26" height="52" rx="13" stroke="#38bdf8" stroke-width="2" width="200" x="400" y="232"></rect>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="500" y="256">🤖 Agente</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="500" y="273">quando o sistema decide sozinho</text>
+<g fill="none" opacity="0.6" stroke="#38bdf8" stroke-width="2"><path d="M500,192 L500,230" marker-end="url(#m12-ahc)"></path></g>
+<!-- local vs hospedado (dir) -->
+<g class="wf-a"><rect fill="#0e2018" height="34" rx="9" stroke="#34d399" stroke-width="2" width="200" x="740" y="218"></rect><text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="840" y="240">🖥️ roda local (sua máquina)</text></g>
+<g class="wf-a"><rect fill="#0e2018" height="34" rx="9" stroke="#34d399" stroke-width="2" width="200" x="740" y="260"></rect><text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="840" y="282">☁️ roda hospedado (nuvem)</text></g>
+<g fill="none" opacity="0.6" stroke="#34d399" stroke-width="2">
+<path d="M600,168 C660,178 680,228 738,235" marker-end="url(#m12-ah)"></path>
+<path d="M600,180 C660,200 680,268 738,277" marker-end="url(#m12-ah)"></path>
+</g>
+</svg>
+</div>
+<p class="text-xs text-neutral-500">Diagrama ilustrativo — o assistente (ciano) é o coordenador no centro; em volta, as peças que ele comanda ou usa; à direita, onde o resultado pode rodar. Você vai conhecer cada uma a seguir.</p>
+</section>
+<!-- TÓPICO 1 -->
+<section class="mb-16" data-inema-topic="modulo-1-2#topico-1" id="topico-1">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🧠 O assistente de código</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tenho dúvida</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">O que é</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-2-t1-p1">
           O <strong class="text-emerald-400">assistente de código</strong> é o cérebro do ecossistema: uma <strong>IA</strong> que vive dentro do seu editor de texto e sabe fazer quatro coisas concretas — <strong>ler</strong> os arquivos do seu projeto, <strong>escrever e editar</strong> código, <strong>rodar comandos</strong> no terminal e <strong>conectar ferramentas externas</strong> via MCP. É com ele que você conversa em linguagem natural; tudo o mais (n8n, skills, agentes) ou é comandado por ele ou alimenta o trabalho dele.
         </p>
-
-        <!-- glossário inline (#31) -->
-        <div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-4 mb-4">
-          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">O que é?</span><strong>Editor de texto (editor de código)</strong> — o programa onde o assistente vive e onde os arquivos do projeto ficam visíveis (painel de chat, explorador de arquivos à esquerda, terminal embaixo). <strong>Terminal</strong> — a janela onde se digitam comandos para o computador; o assistente pode usá-la por você.</p>
-        </div>
-
-        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-2-t1-p2">
+<!-- glossário inline (#31) -->
+<div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-4 mb-4">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">O que é?</span><strong>Editor de texto (editor de código)</strong> — o programa onde o assistente vive e onde os arquivos do projeto ficam visíveis (painel de chat, explorador de arquivos à esquerda, terminal embaixo). <strong>Terminal</strong> — a janela onde se digitam comandos para o computador; o assistente pode usá-la por você.</p>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-2-t1-p2">
           Uma disciplina importante já aqui: <strong>uma pasta por projeto</strong>. Você abre só a pasta dedicada daquele projeto — nunca uma pasta-raiz com vários projetos dentro. Assim o assistente vê só o que importa, e não se confunde nem mistura contextos. Há ainda <strong>modos de permissão</strong> (perguntar antes de editar, editar automaticamente, modo plano…) que controlam o quanto o assistente age por conta própria.
         </p>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-2">Por que aprender</h3>
-        <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
-          <p class="text-neutral-300 mb-3 inema-prose" data-inema-block="m1-2-t1-p3">Entender o assistente como <strong>coordenador</strong> muda tudo: você para de procurar "qual botão aperto" e passa a pensar "qual resultado descrevo". Ele é a peça que transforma a sua frase em arquivos, comandos e conexões reais.</p>
-          <ul class="space-y-2 text-neutral-300">
-            <li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span><strong>Lê e escreve:</strong> enxerga seus arquivos e cria/edita o que for preciso.</span></li>
-            <li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span><strong>Roda comandos:</strong> instala coisas, executa scripts — sem você decorar comandos.</span></li>
-            <li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span><strong>Conecta o resto:</strong> via MCP, ganha acesso a apps e serviços externos.</span></li>
-          </ul>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceitos-chave</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Cérebro</div><p class="text-xs text-neutral-400">Coordena todas as peças.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Quatro poderes</div><p class="text-xs text-neutral-400">Ler, escrever, rodar, conectar.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">1 pasta/projeto</div><p class="text-xs text-neutral-400">Abra só a pasta dedicada.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Modos de permissão</div><p class="text-xs text-neutral-400">Controlam o quanto ele age.</p></div>
-        </div>
-
-        <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- TÓPICO 2 -->
-      <section id="topico-2" data-inema-topic="modulo-1-2#topico-2" class="mb-16">
-        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-          <div class="flex items-center space-x-4">
-            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">2</span>
-            <h2 class="text-2xl font-bold">🔗 n8n — o construtor visual</h2>
-          </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
-            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
-          </button>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-2">O que é</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-2-t2-p1">
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">Por que aprender</h3>
+<div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+<p class="text-neutral-300 mb-3 inema-prose" data-inema-block="m1-2-t1-p3">Entender o assistente como <strong>coordenador</strong> muda tudo: você para de procurar "qual botão aperto" e passa a pensar "qual resultado descrevo". Ele é a peça que transforma a sua frase em arquivos, comandos e conexões reais.</p>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span><strong>Lê e escreve:</strong> enxerga seus arquivos e cria/edita o que for preciso.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span><strong>Roda comandos:</strong> instala coisas, executa scripts — sem você decorar comandos.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span><strong>Conecta o resto:</strong> via MCP, ganha acesso a apps e serviços externos.</span></li>
+</ul>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceitos-chave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Cérebro</div><p class="text-xs text-neutral-400">Coordena todas as peças.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Quatro poderes</div><p class="text-xs text-neutral-400">Ler, escrever, rodar, conectar.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">1 pasta/projeto</div><p class="text-xs text-neutral-400">Abra só a pasta dedicada.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Modos de permissão</div><p class="text-xs text-neutral-400">Controlam o quanto ele age.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 2 -->
+<section class="mb-16" data-inema-topic="modulo-1-2#topico-2" id="topico-2">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">🔗 n8n — o construtor visual</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tenho dúvida</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">O que é</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-2-t2-p1">
           O <strong class="text-emerald-400">n8n</strong> é um construtor <strong>visual</strong> de <strong class="text-emerald-400">workflows</strong> (fluxos de automação) do tipo low/no-code: em vez de escrever código, você liga <strong class="text-emerald-400">nós</strong> (nodes) numa tela, e cada nó faz uma coisa — ler um e-mail, filtrar, chamar uma API, gravar numa planilha. Conectando os nós, você cria automações que ligam apps, dados, IA e serviços externos.
         </p>
-
-        <div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-4 mb-4">
-          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">O que é?</span><strong>Workflow (fluxo)</strong> — uma sequência de passos automatizados, do gatilho à ação. <strong>Nó (node)</strong> — cada caixinha do fluxo, com um trabalho só. <strong>Low/no-code</strong> — construir com pouca ou nenhuma escrita de código, ligando blocos visuais.</p>
-        </div>
-
-        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-2-t2-p2">
+<div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-4 mb-4">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">O que é?</span><strong>Workflow (fluxo)</strong> — uma sequência de passos automatizados, do gatilho à ação. <strong>Nó (node)</strong> — cada caixinha do fluxo, com um trabalho só. <strong>Low/no-code</strong> — construir com pouca ou nenhuma escrita de código, ligando blocos visuais.</p>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-2-t2-p2">
           Construir n8n na mão é poderoso, mas trabalhoso e propenso a erro — uma única configuração errada num nó é difícil de achar. É exatamente aí que o assistente entra: conectado ao seu n8n, ele <strong>lê, cria, modifica, testa e depura</strong> os workflows por você. O n8n vira a "esteira de montagem" determinística; o assistente vira quem a monta e a conserta.
         </p>
-
-        <!-- SVG conceitual (#29) -->
-        <div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
-          <svg viewBox="0 0 1000 170" class="w-full h-auto" role="img" aria-label="Um workflow no n8n é uma fila de nós conectados: um gatilho dispara, um filtro decide, uma ação executa, e o resultado é gravado — cada nó faz um trabalho e passa adiante">
-            <defs>
-              <pattern id="m12b-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#10b981" opacity="0.1"/></pattern>
-              <marker id="m12b-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"/></marker>
-            </defs>
-            <rect x="0" y="0" width="1000" height="170" fill="url(#m12b-grid)"/>
-            <text x="40" y="40" fill="#34d399" font-family="Inter,sans-serif" font-size="13" font-weight="600">Um workflow = nós ligados em sequência</text>
-            <g class="wf-a"><rect x="40" y="64" width="170" height="56" rx="13" fill="#0e2018" stroke="#34d399" stroke-width="2"/><text x="125" y="89" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="13">⚡ Gatilho</text><text x="125" y="107" text-anchor="middle" fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10">chega um e-mail</text></g>
-            <g fill="none" stroke="#34d399" stroke-width="2" opacity="0.7"><path d="M210,92 L250,92" marker-end="url(#m12b-ah)"/></g>
-            <g class="wf-a"><rect x="250" y="64" width="170" height="56" rx="13" fill="#0e2018" stroke="#34d399" stroke-width="2"/><text x="335" y="89" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="13">🔀 Filtro</text><text x="335" y="107" text-anchor="middle" fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10">é urgente?</text></g>
-            <g fill="none" stroke="#34d399" stroke-width="2" opacity="0.7"><path d="M420,92 L460,92" marker-end="url(#m12b-ah)"/></g>
-            <g class="wf-a"><rect x="460" y="64" width="170" height="56" rx="13" fill="#0e2018" stroke="#34d399" stroke-width="2"/><text x="545" y="89" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="13">🛠️ Ação</text><text x="545" y="107" text-anchor="middle" fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10">monta a resposta</text></g>
-            <g fill="none" stroke="#34d399" stroke-width="2" opacity="0.7"><path d="M630,92 L670,92" marker-end="url(#m12b-ah)"/></g>
-            <g class="wf-a"><rect x="670" y="64" width="170" height="56" rx="13" fill="#0e2018" stroke="#34d399" stroke-width="2"/><text x="755" y="89" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="13">💾 Grava</text><text x="755" y="107" text-anchor="middle" fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10">numa planilha</text></g>
-          </svg>
-        </div>
-        <p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — cada nó tem um trabalho e passa o resultado ao próximo. O assistente liga e ajusta esses nós por você.</p>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-2">Por que aprender</h3>
-        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-2-t2-p3">O n8n é onde muitas automações "moram". Saber que ele é <strong>determinístico</strong> (a mesma entrada gera a mesma saída) e <strong>visual</strong> ajuda a entender por que ele é confiável para tarefas repetitivas — e por que combinar n8n (a esteira previsível) com IA (o cérebro flexível) é tão potente.</p>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceitos-chave</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Visual</div><p class="text-xs text-neutral-400">Liga blocos numa tela.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Nós</div><p class="text-xs text-neutral-400">Cada um faz uma coisa.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Conecta apps</div><p class="text-xs text-neutral-400">E-mail, planilhas, APIs, IA.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">O assistente monta</div><p class="text-xs text-neutral-400">Cria, testa e depura por você.</p></div>
-        </div>
-
-        <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- TÓPICO 3 -->
-      <section id="topico-3" data-inema-topic="modulo-1-2#topico-3" class="mb-16">
-        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-          <div class="flex items-center space-x-4">
-            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">3</span>
-            <h2 class="text-2xl font-bold">🔌 MCP — o protocolo das ferramentas</h2>
-          </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
-            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
-          </button>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-2">O que é</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-2-t3-p1">
-          <strong class="text-emerald-400">MCP</strong> (Model Context Protocol, "protocolo de contexto do modelo") é o padrão que dá <strong>ferramentas externas</strong> ao assistente. Pense numa tomada universal: uma única conexão (um <strong class="text-emerald-400">MCP server</strong>) expõe um conjunto inteiro de ações. Por exemplo, um server de e-mail expõe "enviar", "rascunhar", "buscar mensagens" — e o assistente decide sozinho qual ação chamar, quando, e com quais parâmetros.
+<!-- SVG conceitual (#29) -->
+<div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="Um workflow no n8n é uma fila de nós conectados: um gatilho dispara, um filtro decide, uma ação executa, e o resultado é gravado — cada nó faz um trabalho e passa adiante" class="w-full h-auto" role="img" viewbox="0 0 1000 170">
+<defs>
+<pattern height="32" id="m12b-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#10b981" opacity="0.1" r="1.3"></circle></pattern>
+<marker id="m12b-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"></path></marker>
+</defs>
+<rect fill="url(#m12b-grid)" height="170" width="1000" x="0" y="0"></rect>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="40" y="40">Um workflow = nós ligados em sequência</text>
+<g class="wf-a"><rect fill="#0e2018" height="56" rx="13" stroke="#34d399" stroke-width="2" width="170" x="40" y="64"></rect><text fill="#34d399" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="125" y="89">⚡ Gatilho</text><text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="125" y="107">chega um e-mail</text></g>
+<g fill="none" opacity="0.7" stroke="#34d399" stroke-width="2"><path d="M210,92 L250,92" marker-end="url(#m12b-ah)"></path></g>
+<g class="wf-a"><rect fill="#0e2018" height="56" rx="13" stroke="#34d399" stroke-width="2" width="170" x="250" y="64"></rect><text fill="#34d399" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="335" y="89">🔀 Filtro</text><text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="335" y="107">é urgente?</text></g>
+<g fill="none" opacity="0.7" stroke="#34d399" stroke-width="2"><path d="M420,92 L460,92" marker-end="url(#m12b-ah)"></path></g>
+<g class="wf-a"><rect fill="#0e2018" height="56" rx="13" stroke="#34d399" stroke-width="2" width="170" x="460" y="64"></rect><text fill="#34d399" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="545" y="89">🛠️ Ação</text><text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="545" y="107">monta a resposta</text></g>
+<g fill="none" opacity="0.7" stroke="#34d399" stroke-width="2"><path d="M630,92 L670,92" marker-end="url(#m12b-ah)"></path></g>
+<g class="wf-a"><rect fill="#0e2018" height="56" rx="13" stroke="#34d399" stroke-width="2" width="170" x="670" y="64"></rect><text fill="#34d399" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="755" y="89">💾 Grava</text><text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="755" y="107">numa planilha</text></g>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — cada nó tem um trabalho e passa o resultado ao próximo. O assistente liga e ajusta esses nós por você.</p>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">Por que aprender</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-2-t2-p3">O n8n é onde muitas automações "moram". Saber que ele é <strong>determinístico</strong> (a mesma entrada gera a mesma saída) e <strong>visual</strong> ajuda a entender por que ele é confiável para tarefas repetitivas — e por que combinar n8n (a esteira previsível) com IA (o cérebro flexível) é tão potente.</p>
+<h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceitos-chave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Visual</div><p class="text-xs text-neutral-400">Liga blocos numa tela.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Nós</div><p class="text-xs text-neutral-400">Cada um faz uma coisa.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Conecta apps</div><p class="text-xs text-neutral-400">E-mail, planilhas, APIs, IA.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">O assistente monta</div><p class="text-xs text-neutral-400">Cria, testa e depura por você.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 3 -->
+<section class="mb-16" data-inema-topic="modulo-1-2#topico-3" id="topico-3">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">🔌 MCP — o protocolo das ferramentas</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tenho dúvida</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">O que é</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-2-t3-p1">
+<strong class="text-emerald-400">MCP</strong> (Model Context Protocol, "protocolo de contexto do modelo") é o padrão que dá <strong>ferramentas externas</strong> ao assistente. Pense numa tomada universal: uma única conexão (um <strong class="text-emerald-400">MCP server</strong>) expõe um conjunto inteiro de ações. Por exemplo, um server de e-mail expõe "enviar", "rascunhar", "buscar mensagens" — e o assistente decide sozinho qual ação chamar, quando, e com quais parâmetros.
         </p>
-
-        <div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-4 mb-6">
-          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">O que é?</span><strong>Protocolo</strong> — um "idioma" combinado para duas coisas conversarem. <strong>MCP server</strong> — o programinha que liga o assistente a um serviço externo (e-mail, banco de dados, raspador de sites…). <strong>Ferramenta (tool)</strong> — cada ação que esse server oferece. <strong>API</strong> — a "porta de entrada" de um serviço para outros programas falarem com ele.</p>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-2">Por que aprender</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-2-t3-p2">Sem MCP, o assistente só sabe o que está dentro do editor. Com MCP, ele alcança o mundo: raspar a web, ler um banco de dados, criar documentos, mandar mensagens. É o MCP que permite, por exemplo, conectar o assistente ao seu n8n para ele construir workflows ali dentro. Descobrir e instalar servers (via diretórios ou repositórios) abre o leque de tarefas.</p>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
-            <h4 class="font-bold text-emerald-400 mb-4">✓ O que o MCP faz</h4>
-            <ul class="space-y-3 text-neutral-300 text-sm">
-              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Expõe muitas ferramentas por uma só conexão.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>O assistente escolhe sozinho a ação e os parâmetros.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Conecta categorias: web, bancos, documentos, comunicação.</span></li>
-            </ul>
-          </div>
-          <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
-            <h4 class="font-bold text-red-400 mb-4">✗ O que evitar</h4>
-            <ul class="space-y-3 text-neutral-300 text-sm">
-              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Colar chave de API no chat (ela vai no <code class="text-cyan-300">.env</code>, não na conversa).</span></li>
-              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Deixar muitos servers ligados sem usar (gasta contexto).</span></li>
-              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Configurar global quando o certo é por projeto.</span></li>
-            </ul>
-          </div>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceitos-chave</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Tomada universal</div><p class="text-xs text-neutral-400">Uma conexão, muitas ações.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Server</div><p class="text-xs text-neutral-400">Liga o assistente ao serviço.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Tools</div><p class="text-xs text-neutral-400">As ações disponíveis.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Decisão da IA</div><p class="text-xs text-neutral-400">Ela escolhe qual usar.</p></div>
-        </div>
-
-        <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- TÓPICO 4 -->
-      <section id="topico-4" data-inema-topic="modulo-1-2#topico-4" class="mb-16">
-        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-          <div class="flex items-center space-x-4">
-            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">4</span>
-            <h2 class="text-2xl font-bold">📄 Skills & workflows</h2>
-          </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
-            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
-          </button>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-2">O que é</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-2-t4-p1">
-          <strong class="text-emerald-400">Workflows</strong> e <strong class="text-emerald-400">skills</strong> são, no fundo, a mesma coisa: <strong>instruções reutilizáveis escritas em markdown</strong> (texto simples com títulos, listas e negrito). Funcionam como um manual de procedimento (SOP) que diz ao assistente o que fazer, passo a passo. A diferença é só onde vivem e como são chamadas: uma <strong>skill</strong> mora numa pasta especial e vira um comando rápido (<strong>slash command</strong>, ex.: <code class="text-cyan-300">/rascunhar-email</code>) que você invoca sob demanda.
+<div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">O que é?</span><strong>Protocolo</strong> — um "idioma" combinado para duas coisas conversarem. <strong>MCP server</strong> — o programinha que liga o assistente a um serviço externo (e-mail, banco de dados, raspador de sites…). <strong>Ferramenta (tool)</strong> — cada ação que esse server oferece. <strong>API</strong> — a "porta de entrada" de um serviço para outros programas falarem com ele.</p>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">Por que aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-2-t3-p2">Sem MCP, o assistente só sabe o que está dentro do editor. Com MCP, ele alcança o mundo: raspar a web, ler um banco de dados, criar documentos, mandar mensagens. É o MCP que permite, por exemplo, conectar o assistente ao seu n8n para ele construir workflows ali dentro. Descobrir e instalar servers (via diretórios ou repositórios) abre o leque de tarefas.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ O que o MCP faz</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Expõe muitas ferramentas por uma só conexão.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>O assistente escolhe sozinho a ação e os parâmetros.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Conecta categorias: web, bancos, documentos, comunicação.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ O que evitar</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Colar chave de API no chat (ela vai no <code class="text-cyan-300">.env</code>, não na conversa).</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Deixar muitos servers ligados sem usar (gasta contexto).</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Configurar global quando o certo é por projeto.</span></li>
+</ul>
+</div>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceitos-chave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Tomada universal</div><p class="text-xs text-neutral-400">Uma conexão, muitas ações.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Server</div><p class="text-xs text-neutral-400">Liga o assistente ao serviço.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Tools</div><p class="text-xs text-neutral-400">As ações disponíveis.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Decisão da IA</div><p class="text-xs text-neutral-400">Ela escolhe qual usar.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 4 -->
+<section class="mb-16" data-inema-topic="modulo-1-2#topico-4" id="topico-4">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">📄 Skills &amp; workflows</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tenho dúvida</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">O que é</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-2-t4-p1">
+<strong class="text-emerald-400">Workflows</strong> e <strong class="text-emerald-400">skills</strong> são, no fundo, a mesma coisa: <strong>instruções reutilizáveis escritas em markdown</strong> (texto simples com títulos, listas e negrito). Funcionam como um manual de procedimento (SOP) que diz ao assistente o que fazer, passo a passo. A diferença é só onde vivem e como são chamadas: uma <strong>skill</strong> mora numa pasta especial e vira um comando rápido (<strong>slash command</strong>, ex.: <code class="text-cyan-300">/rascunhar-email</code>) que você invoca sob demanda.
         </p>
-
-        <div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-4 mb-6">
-          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">O que é?</span><strong>Markdown</strong> — um jeito simples de formatar texto (com <code class="text-cyan-300">#</code> para títulos, <code class="text-cyan-300">-</code> para listas). <strong>SOP</strong> — "procedimento operacional padrão", um manual de como fazer uma tarefa. <strong>Slash command</strong> — um atalho escrito com barra (<code class="text-cyan-300">/</code>) que dispara uma skill.</p>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-2">Por que aprender</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-2-t4-p2">Skills te poupam de reexplicar a mesma tarefa toda vez. Elas trazem <strong>consistência</strong> (mesmo processo sempre), <strong>economia</strong> (carregam só quando chamadas, não pesam o contexto à toa), e <strong>compartilhamento</strong> (a equipe usa a mesma). E, como uma skill pode chamar ferramentas (scripts que fazem o trabalho), o sistema de instruções + ferramentas continua intacto por baixo.</p>
-
-        <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
-          <h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Dica prática</h3>
-          <p class="text-neutral-300 text-sm">Use uma <strong>skill</strong> quando a tarefa se repete, exige consistência ou tem passos fáceis de esquecer. Para algo de uma vez só, ou tão simples que cabe numa frase, é melhor só <strong>digitar</strong> — uma skill seria exagero.</p>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceitos-chave</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Markdown</div><p class="text-xs text-neutral-400">Instruções em texto simples.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Reutilizável</div><p class="text-xs text-neutral-400">Não reexplique toda vez.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Slash command</div><p class="text-xs text-neutral-400">Invoca sob demanda.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Chama tools</div><p class="text-xs text-neutral-400">Pode acionar scripts.</p></div>
-        </div>
-
-        <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- TÓPICO 5 -->
-      <section id="topico-5" data-inema-topic="modulo-1-2#topico-5" class="mb-16">
-        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-          <div class="flex items-center space-x-4">
-            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">5</span>
-            <h2 class="text-2xl font-bold">🤖 Agentes — quando o sistema decide</h2>
-          </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
-            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
-          </button>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-2">O que é</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-2-t5-p1">
+<div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">O que é?</span><strong>Markdown</strong> — um jeito simples de formatar texto (com <code class="text-cyan-300">#</code> para títulos, <code class="text-cyan-300">-</code> para listas). <strong>SOP</strong> — "procedimento operacional padrão", um manual de como fazer uma tarefa. <strong>Slash command</strong> — um atalho escrito com barra (<code class="text-cyan-300">/</code>) que dispara uma skill.</p>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">Por que aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-2-t4-p2">Skills te poupam de reexplicar a mesma tarefa toda vez. Elas trazem <strong>consistência</strong> (mesmo processo sempre), <strong>economia</strong> (carregam só quando chamadas, não pesam o contexto à toa), e <strong>compartilhamento</strong> (a equipe usa a mesma). E, como uma skill pode chamar ferramentas (scripts que fazem o trabalho), o sistema de instruções + ferramentas continua intacto por baixo.</p>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Dica prática</h3>
+<p class="text-neutral-300 text-sm">Use uma <strong>skill</strong> quando a tarefa se repete, exige consistência ou tem passos fáceis de esquecer. Para algo de uma vez só, ou tão simples que cabe numa frase, é melhor só <strong>digitar</strong> — uma skill seria exagero.</p>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceitos-chave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Markdown</div><p class="text-xs text-neutral-400">Instruções em texto simples.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Reutilizável</div><p class="text-xs text-neutral-400">Não reexplique toda vez.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Slash command</div><p class="text-xs text-neutral-400">Invoca sob demanda.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Chama tools</div><p class="text-xs text-neutral-400">Pode acionar scripts.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 5 -->
+<section class="mb-16" data-inema-topic="modulo-1-2#topico-5" id="topico-5">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">🤖 Agentes — quando o sistema decide</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tenho dúvida</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">O que é</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-2-t5-p1">
           Um <strong class="text-emerald-400">agente</strong> é o que surge quando o sistema deixa de só "executar passos fixos" e passa a <strong>decidir sozinho</strong>. Numa automação tradicional, você fia cada passo e, se quebra, você conserta. Num <strong class="text-emerald-400">workflow agêntico</strong>, você diz o <strong>resultado</strong> que quer e o agente raciocina, se adapta, faz perguntas de esclarecimento e até se auto-corrige quando algo falha.
         </p>
-
-        <div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-4 mb-6">
-          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">O que é?</span><strong>Agêntico</strong> — comportamento de quem raciocina e escolhe o caminho, em vez de seguir um roteiro fixo. <strong>Auto-cura (self-healing)</strong> — quando o agente erra, diagnostica e conserta sozinho durante a sessão. <strong>Determinístico × não-determinístico</strong> — automação tradicional é previsível; o agente é flexível e pode variar.</p>
-        </div>
-
-        <!-- SVG conceitual (#29) -->
-        <div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
-          <svg viewBox="0 0 1000 180" class="w-full h-auto" role="img" aria-label="Automação tradicional segue passos fixos e, se quebra, fica parada; o agente recebe um objetivo, raciocina, escolhe o caminho e, ao errar, diagnostica e se auto-corrige, voltando ao objetivo">
-            <defs>
-              <linearGradient id="m12c-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#34d399"/><stop offset="1" stop-color="#10b981"/></linearGradient>
-              <pattern id="m12c-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#10b981" opacity="0.1"/></pattern>
-              <filter id="m12c-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-              <marker id="m12c-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"/></marker>
-              <marker id="m12c-ahg" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#64748b"/></marker>
-            </defs>
-            <rect x="0" y="0" width="1000" height="180" fill="url(#m12c-grid)"/>
-            <text x="40" y="34" fill="#94a3b8" font-family="Inter,sans-serif" font-size="12" font-weight="600">Tradicional — passos fixos</text>
-            <rect x="40" y="44" width="120" height="32" rx="8" fill="#1e293b" stroke="#64748b" stroke-width="1.8"/><text x="100" y="65" text-anchor="middle" fill="#cbd5e1" font-family="Inter,sans-serif" font-size="11">passo fixo</text>
-            <g fill="none" stroke="#64748b" stroke-width="2" opacity="0.7"><path d="M160,60 L200,60" marker-end="url(#m12c-ahg)"/></g>
-            <rect x="200" y="44" width="120" height="32" rx="8" fill="#1e293b" stroke="#64748b" stroke-width="1.8"/><text x="260" y="65" text-anchor="middle" fill="#cbd5e1" font-family="Inter,sans-serif" font-size="11">passo fixo</text>
-            <g fill="none" stroke="#64748b" stroke-width="2" opacity="0.7"><path d="M320,60 L360,60" marker-end="url(#m12c-ahg)"/></g>
-            <rect x="360" y="44" width="150" height="32" rx="8" fill="#2a1414" stroke="#dc2626" stroke-width="1.8"/><text x="435" y="65" text-anchor="middle" fill="#fca5a5" font-family="Inter,sans-serif" font-size="11">quebrou → parou</text>
-
-            <text x="40" y="116" fill="#34d399" font-family="Inter,sans-serif" font-size="12" font-weight="600">Agêntico — raciocina e se auto-corrige</text>
-            <g filter="url(#m12c-glow)"><rect x="40" y="126" width="150" height="36" rx="10" fill="#0e1b26" stroke="#38bdf8" stroke-width="2.2"/></g>
-            <text x="115" y="149" text-anchor="middle" fill="#bfe6ff" font-family="Inter,sans-serif" font-weight="600" font-size="12">🎯 objetivo</text>
-            <g fill="none" stroke="#38bdf8" stroke-width="2" opacity="0.7"><path d="M190,144 L230,144" marker-end="url(#m12c-ah)"/></g>
-            <rect x="230" y="126" width="170" height="36" rx="10" fill="#0e1b26" stroke="#38bdf8" stroke-width="1.8"/><text x="315" y="149" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11">raciocina · escolhe</text>
-            <g fill="none" stroke="#38bdf8" stroke-width="2" opacity="0.7"><path d="M400,144 L440,144" marker-end="url(#m12c-ah)"/></g>
-            <rect x="440" y="126" width="170" height="36" rx="10" fill="#0e2018" stroke="#34d399" stroke-width="1.8"/><text x="525" y="149" text-anchor="middle" fill="#9ee9c9" font-family="Inter,sans-serif" font-size="11">erra → diagnostica</text>
-            <g fill="none" stroke="#34d399" stroke-width="2" opacity="0.7"><path d="M610,138 C660,124 700,124 720,140" marker-end="url(#m12c-ah)"/></g>
-            <text x="668" y="118" text-anchor="middle" fill="#7fd6b3" font-family="Inter,sans-serif" font-size="10">auto-corrige</text>
-            <rect x="720" y="126" width="160" height="36" rx="10" fill="#0e1b26" stroke="#38bdf8" stroke-width="1.8"/><text x="800" y="149" text-anchor="middle" fill="#bfe6ff" font-family="Inter,sans-serif" font-size="11">✅ entrega</text>
-          </svg>
-        </div>
-        <p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — a diferença está na linha de baixo: o agente não trava no erro; ele diagnostica e segue até o objetivo.</p>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-2">Por que aprender</h3>
-        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-2-t5-p2">Entender o que é um agente evita dois enganos: achar que toda IA "decide sozinha" (nem sempre), e achar que automação fixa é "burra" (ela é confiável de propósito). A analogia ajuda: contratar um desenvolvedor experiente (agente) é diferente de seguir uma receita à risca (automação tradicional). Você escolhe a peça certa para cada tarefa.</p>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceitos-chave</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Decide sozinho</div><p class="text-xs text-neutral-400">Raciocina sobre o caminho.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Se adapta</div><p class="text-xs text-neutral-400">Faz perguntas, ajusta.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Auto-cura</div><p class="text-xs text-neutral-400">Erra, diagnostica, conserta.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Resultado &gt; passos</div><p class="text-xs text-neutral-400">Você diz o "o quê".</p></div>
-        </div>
-
-        <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- TÓPICO 6 -->
-      <section id="topico-6" data-inema-topic="modulo-1-2#topico-6" class="mb-16">
-        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-          <div class="flex items-center space-x-4">
-            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">6</span>
-            <h2 class="text-2xl font-bold">🖥️☁️ Local vs hospedado</h2>
-          </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
-            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
-          </button>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-2">O que é</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-2-t6-p1">
+<div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">O que é?</span><strong>Agêntico</strong> — comportamento de quem raciocina e escolhe o caminho, em vez de seguir um roteiro fixo. <strong>Auto-cura (self-healing)</strong> — quando o agente erra, diagnostica e conserta sozinho durante a sessão. <strong>Determinístico × não-determinístico</strong> — automação tradicional é previsível; o agente é flexível e pode variar.</p>
+</div>
+<!-- SVG conceitual (#29) -->
+<div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="Automação tradicional segue passos fixos e, se quebra, fica parada; o agente recebe um objetivo, raciocina, escolhe o caminho e, ao errar, diagnostica e se auto-corrige, voltando ao objetivo" class="w-full h-auto" role="img" viewbox="0 0 1000 180">
+<defs>
+<lineargradient id="m12c-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#34d399"></stop><stop offset="1" stop-color="#10b981"></stop></lineargradient>
+<pattern height="32" id="m12c-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#10b981" opacity="0.1" r="1.3"></circle></pattern>
+<filter height="180%" id="m12c-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.6"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<marker id="m12c-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+<marker id="m12c-ahg" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#64748b"></path></marker>
+</defs>
+<rect fill="url(#m12c-grid)" height="180" width="1000" x="0" y="0"></rect>
+<text fill="#94a3b8" font-family="Inter,sans-serif" font-size="12" font-weight="600" x="40" y="34">Tradicional — passos fixos</text>
+<rect fill="#1e293b" height="32" rx="8" stroke="#64748b" stroke-width="1.8" width="120" x="40" y="44"></rect><text fill="#cbd5e1" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="100" y="65">passo fixo</text>
+<g fill="none" opacity="0.7" stroke="#64748b" stroke-width="2"><path d="M160,60 L200,60" marker-end="url(#m12c-ahg)"></path></g>
+<rect fill="#1e293b" height="32" rx="8" stroke="#64748b" stroke-width="1.8" width="120" x="200" y="44"></rect><text fill="#cbd5e1" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="260" y="65">passo fixo</text>
+<g fill="none" opacity="0.7" stroke="#64748b" stroke-width="2"><path d="M320,60 L360,60" marker-end="url(#m12c-ahg)"></path></g>
+<rect fill="#2a1414" height="32" rx="8" stroke="#dc2626" stroke-width="1.8" width="150" x="360" y="44"></rect><text fill="#fca5a5" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="435" y="65">quebrou → parou</text>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="12" font-weight="600" x="40" y="116">Agêntico — raciocina e se auto-corrige</text>
+<g filter="url(#m12c-glow)"><rect fill="#0e1b26" height="36" rx="10" stroke="#38bdf8" stroke-width="2.2" width="150" x="40" y="126"></rect></g>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="115" y="149">🎯 objetivo</text>
+<g fill="none" opacity="0.7" stroke="#38bdf8" stroke-width="2"><path d="M190,144 L230,144" marker-end="url(#m12c-ah)"></path></g>
+<rect fill="#0e1b26" height="36" rx="10" stroke="#38bdf8" stroke-width="1.8" width="170" x="230" y="126"></rect><text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="315" y="149">raciocina · escolhe</text>
+<g fill="none" opacity="0.7" stroke="#38bdf8" stroke-width="2"><path d="M400,144 L440,144" marker-end="url(#m12c-ah)"></path></g>
+<rect fill="#0e2018" height="36" rx="10" stroke="#34d399" stroke-width="1.8" width="170" x="440" y="126"></rect><text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="525" y="149">erra → diagnostica</text>
+<g fill="none" opacity="0.7" stroke="#34d399" stroke-width="2"><path d="M610,138 C660,124 700,124 720,140" marker-end="url(#m12c-ah)"></path></g>
+<text fill="#7fd6b3" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="668" y="118">auto-corrige</text>
+<rect fill="#0e1b26" height="36" rx="10" stroke="#38bdf8" stroke-width="1.8" width="160" x="720" y="126"></rect><text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="800" y="149">✅ entrega</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — a diferença está na linha de baixo: o agente não trava no erro; ele diagnostica e segue até o objetivo.</p>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">Por que aprender</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-2-t5-p2">Entender o que é um agente evita dois enganos: achar que toda IA "decide sozinha" (nem sempre), e achar que automação fixa é "burra" (ela é confiável de propósito). A analogia ajuda: contratar um desenvolvedor experiente (agente) é diferente de seguir uma receita à risca (automação tradicional). Você escolhe a peça certa para cada tarefa.</p>
+<h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceitos-chave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Decide sozinho</div><p class="text-xs text-neutral-400">Raciocina sobre o caminho.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Se adapta</div><p class="text-xs text-neutral-400">Faz perguntas, ajusta.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Auto-cura</div><p class="text-xs text-neutral-400">Erra, diagnostica, conserta.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Resultado &gt; passos</div><p class="text-xs text-neutral-400">Você diz o "o quê".</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 6 -->
+<section class="mb-16" data-inema-topic="modulo-1-2#topico-6" id="topico-6">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">🖥️☁️ Local vs hospedado</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tenho dúvida</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">O que é</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-2-t6-p1">
           A última peça é uma escolha: <strong class="text-emerald-400">rodar local</strong> ou <strong class="text-emerald-400">rodar hospedado</strong>. <strong>Local</strong> = na sua máquina: você abre o assistente, dispara o trabalho e ele roda ali, com você presente. <strong>Hospedado</strong> = na nuvem: o código é colocado num serviço que o executa <strong>sozinho</strong>, na internet, num horário marcado ou em resposta a um evento — sem ninguém para apertar o botão.
         </p>
-
-        <div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-4 mb-6">
-          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">O que é?</span><strong>Hospedar (deploy)</strong> — colocar o código para rodar num servidor na internet, não na sua máquina. <strong>Cron (agendamento)</strong> — um relógio que dispara a tarefa num horário (ex.: 7h todo dia). <strong>Webhook</strong> — uma "campainha digital": uma URL que, ao receber dados, acorda a tarefa.</p>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-2">Por que aprender</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-2-t6-p2">Local é ótimo para aprender e construir: você vê tudo acontecer e constrói intuição. Mas automação disparada por humano só escala na velocidade de uma pessoa aparecer. Hospedar é o que faz a automação trabalhar enquanto você dorme. O preço é o <strong>agentic gap</strong>: na nuvem o assistente não está olhando para se auto-curar, então confiabilidade (logs, tratamento de erro, alertas) passa a ser sua responsabilidade desde o início.</p>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
-            <h4 class="font-bold text-emerald-400 mb-4">🖥️ Local — sua máquina</h4>
-            <ul class="space-y-3 text-neutral-300 text-sm">
-              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Você dispara e acompanha em tempo real.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>O assistente se auto-cura na hora.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Ideal para aprender e prototipar.</span></li>
-            </ul>
-          </div>
-          <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
-            <h4 class="font-bold text-emerald-400 mb-4">☁️ Hospedado — a nuvem</h4>
-            <ul class="space-y-3 text-neutral-300 text-sm">
-              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Roda sozinho: por agenda (cron) ou por evento (webhook).</span></li>
-              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Escala sem você estar presente.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-red-400">!</span><span>Exige logs, tratamento de erro e alertas (agentic gap).</span></li>
-            </ul>
-          </div>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceitos-chave</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Local</div><p class="text-xs text-neutral-400">Na sua máquina, com você.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Hospedado</div><p class="text-xs text-neutral-400">Na nuvem, sozinho.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Cron / webhook</div><p class="text-xs text-neutral-400">Por agenda ou por evento.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Agentic gap</div><p class="text-xs text-neutral-400">Sem auto-cura na nuvem.</p></div>
-        </div>
-
-        <!-- Checagem leve opcional -->
-        <div data-inema-check="modulo-1-2#q1" class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6">
-          <p class="inema-check__q font-medium mb-4">No ecossistema, quem é o <strong>coordenador</strong> que lê arquivos, escreve, roda comandos e aciona as outras peças?</p>
-          <div class="inema-check-options inema-check__options space-y-2">
-            <button type="button" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0">O n8n — porque ele liga os nós numa tela.</button>
-            <button type="button" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1">O assistente de código — o cérebro que comanda e usa as demais peças.</button>
-            <button type="button" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2">O MCP — porque ele expõe muitas ferramentas.</button>
-          </div>
-          <div data-inema-check-feedback class="mt-4 text-sm" role="status" aria-live="polite"></div>
-        </div>
-
-        <div class="flex justify-start mt-8">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- RESUMO -->
-      <section class="mb-8">
-        <div class="bg-gradient-to-br from-emerald-900/40 via-dark-800 to-dark-800 rounded-xl border border-emerald-500/30 p-8">
-          <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📌</span> Resumo do Módulo</h2>
-          <div class="space-y-4 mb-8">
-            <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">Assistente de código</strong><span class="text-neutral-400"> — o cérebro: lê, escreve, roda comandos e conecta o resto; uma pasta por projeto.</span></div></div>
-            <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">n8n</strong><span class="text-neutral-400"> — construtor visual de workflows: nós ligados que automatizam apps e dados.</span></div></div>
-            <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">MCP</strong><span class="text-neutral-400"> — a tomada universal que dá ferramentas externas ao assistente.</span></div></div>
-            <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">Skills & workflows</strong><span class="text-neutral-400"> — instruções reutilizáveis em markdown; skill vira slash command.</span></div></div>
-            <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">Agentes</strong><span class="text-neutral-400"> — quando o sistema decide sozinho, se adapta e se auto-cura.</span></div></div>
-            <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">Local vs hospedado</strong><span class="text-neutral-400"> — rodar na sua máquina vs rodar sozinho na nuvem (e o agentic gap).</span></div></div>
-          </div>
-          <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
-            <h3 class="font-semibold text-emerald-400 mb-2">Próximo Módulo:</h3>
-            <p class="text-neutral-300">1.3 — Glossário Essencial (Parte 1: IA, Claude Code, n8n)</p>
-          </div>
-          <div class="flex flex-col sm:flex-row gap-4">
-            <a href="modulo-1-1.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← Módulo Anterior</a>
-            <a href="modulo-1-3.html" class="flex-1 text-center px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors">Próximo Módulo →</a>
-          </div>
-        </div>
-      </section>
-
-    </main>
-
-    <!-- TOC sticky + scrollspy -->
-    <aside class="hidden lg:block">
-      <nav data-inema-toc aria-label="Índice da página" class="sticky top-24 self-start">
-        <p class="text-sm text-neutral-400 mb-3">Seção <span data-inema-section-counter><span class="inema-toc-pos">1</span> de <span class="inema-toc-total">6</span></span></p>
-        <ol class="space-y-1.5 text-sm">
-          <li><a href="#topico-1" class="inema-toc-link text-neutral-400 hover:text-emerald-400 block">1. Assistente de código</a></li>
-          <li><a href="#topico-2" class="inema-toc-link text-neutral-400 hover:text-emerald-400 block">2. n8n</a></li>
-          <li><a href="#topico-3" class="inema-toc-link text-neutral-400 hover:text-emerald-400 block">3. MCP</a></li>
-          <li><a href="#topico-4" class="inema-toc-link text-neutral-400 hover:text-emerald-400 block">4. Skills & workflows</a></li>
-          <li><a href="#topico-5" class="inema-toc-link text-neutral-400 hover:text-emerald-400 block">5. Agentes</a></li>
-          <li><a href="#topico-6" class="inema-toc-link text-neutral-400 hover:text-emerald-400 block">6. Local vs hospedado</a></li>
-        </ol>
-      </nav>
-    </aside>
-
-  </div>
-
-  <footer class="border-t border-dark-600 py-8 mt-8">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
-      <p>Vibe Coding: Domínio Completo · Curso original <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 font-medium">INEMA.CLUB</a> · 2026</p>
-    </div>
-  </footer>
-
-  <script>
+<div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">O que é?</span><strong>Hospedar (deploy)</strong> — colocar o código para rodar num servidor na internet, não na sua máquina. <strong>Cron (agendamento)</strong> — um relógio que dispara a tarefa num horário (ex.: 7h todo dia). <strong>Webhook</strong> — uma "campainha digital": uma URL que, ao receber dados, acorda a tarefa.</p>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">Por que aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-2-t6-p2">Local é ótimo para aprender e construir: você vê tudo acontecer e constrói intuição. Mas automação disparada por humano só escala na velocidade de uma pessoa aparecer. Hospedar é o que faz a automação trabalhar enquanto você dorme. O preço é o <strong>agentic gap</strong>: na nuvem o assistente não está olhando para se auto-curar, então confiabilidade (logs, tratamento de erro, alertas) passa a ser sua responsabilidade desde o início.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">🖥️ Local — sua máquina</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Você dispara e acompanha em tempo real.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>O assistente se auto-cura na hora.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Ideal para aprender e prototipar.</span></li>
+</ul>
+</div>
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">☁️ Hospedado — a nuvem</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Roda sozinho: por agenda (cron) ou por evento (webhook).</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Escala sem você estar presente.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">!</span><span>Exige logs, tratamento de erro e alertas (agentic gap).</span></li>
+</ul>
+</div>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceitos-chave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Local</div><p class="text-xs text-neutral-400">Na sua máquina, com você.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Hospedado</div><p class="text-xs text-neutral-400">Na nuvem, sozinho.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Cron / webhook</div><p class="text-xs text-neutral-400">Por agenda ou por evento.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Agentic gap</div><p class="text-xs text-neutral-400">Sem auto-cura na nuvem.</p></div>
+</div>
+<!-- Checagem leve opcional -->
+<div class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6" data-inema-check="modulo-1-2#q1">
+<p class="inema-check__q font-medium mb-4">No ecossistema, quem é o <strong>coordenador</strong> que lê arquivos, escreve, roda comandos e aciona as outras peças?</p>
+<div class="inema-check-options inema-check__options space-y-2">
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0" type="button">O n8n — porque ele liga os nós numa tela.</button>
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1" type="button">O assistente de código — o cérebro que comanda e usa as demais peças.</button>
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2" type="button">O MCP — porque ele expõe muitas ferramentas.</button>
+</div>
+<div aria-live="polite" class="mt-4 text-sm" data-inema-check-feedback="" role="status"></div>
+</div>
+<div class="flex justify-start mt-8">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+</button>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-8">
+<div class="bg-gradient-to-br from-emerald-900/40 via-dark-800 to-dark-800 rounded-xl border border-emerald-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📌</span> Resumo do Módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">Assistente de código</strong><span class="text-neutral-400"> — o cérebro: lê, escreve, roda comandos e conecta o resto; uma pasta por projeto.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">n8n</strong><span class="text-neutral-400"> — construtor visual de workflows: nós ligados que automatizam apps e dados.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">MCP</strong><span class="text-neutral-400"> — a tomada universal que dá ferramentas externas ao assistente.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">Skills &amp; workflows</strong><span class="text-neutral-400"> — instruções reutilizáveis em markdown; skill vira slash command.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">Agentes</strong><span class="text-neutral-400"> — quando o sistema decide sozinho, se adapta e se auto-cura.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">Local vs hospedado</strong><span class="text-neutral-400"> — rodar na sua máquina vs rodar sozinho na nuvem (e o agentic gap).</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-emerald-400 mb-2">Próximo Módulo:</h3>
+<p class="text-neutral-300">1.3 — Glossário Essencial (Parte 1: IA, Claude Code, n8n)</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="modulo-1-1.html">← Módulo Anterior</a>
+<a class="flex-1 text-center px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors" href="modulo-1-3.html">Próximo Módulo →</a>
+</div>
+</div>
+</section>
+</main>
+<!-- TOC sticky + scrollspy -->
+<aside class="hidden lg:block">
+<nav aria-label="Índice da página" class="sticky top-24 self-start" data-inema-toc="">
+<p class="text-sm text-neutral-400 mb-3">Seção <span data-inema-section-counter=""><span class="inema-toc-pos">1</span> de <span class="inema-toc-total">6</span></span></p>
+<ol class="space-y-1.5 text-sm">
+<li><a class="inema-toc-link text-neutral-400 hover:text-emerald-400 block" href="#topico-1">1. Assistente de código</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-emerald-400 block" href="#topico-2">2. n8n</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-emerald-400 block" href="#topico-3">3. MCP</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-emerald-400 block" href="#topico-4">4. Skills &amp; workflows</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-emerald-400 block" href="#topico-5">5. Agentes</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-emerald-400 block" href="#topico-6">6. Local vs hospedado</a></li>
+</ol>
+</nav>
+</aside>
+</div>
+<footer class="border-t border-dark-600 py-8 mt-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Vibe Coding: Domínio Completo · Curso original <a class="text-sky-400 hover:text-sky-300 font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a> · 2026</p>
+</div>
+</footer>
+<script>
     const themeToggle = document.getElementById('theme-toggle');
     const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
     const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
@@ -812,9 +743,8 @@
       if (window.INEMA && INEMA.setPref) { INEMA.setPref('theme', isDark ? 'inema-dark' : 'claro'); }
     });
   </script>
-
-  <script src="../../assets/learn.js"></script>
-  <script>
+<script src="../../assets/learn.js"></script>
+<script>
     if (window.INEMA && typeof window.INEMA.init === 'function') {
       window.INEMA.init();
       if (window.INEMA.registerCheck) {
@@ -829,6 +759,5 @@
       }
     }
   </script>
-
 </body>
 </html>

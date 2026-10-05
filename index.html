@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="dark">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="inema-course" content="vibe-coding-completo">
 
-  <!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
-  <script>
+<html class="dark" lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="vibe-coding-completo" name="inema-course"/>
+<!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
+<script>
   (function () {
     try {
       var html = document.documentElement;
@@ -74,10 +74,9 @@
     }
   })();
   </script>
-
-  <title>Vibe Coding: Domínio Completo | INEMA.CLUB</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
+<title>Vibe Coding: Domínio Completo | INEMA.CLUB</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
@@ -90,10 +89,9 @@
       }
     }
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
-  <script type="application/json" data-inema-manifest>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
+<script data-inema-manifest="" type="application/json">
   {
     "course": "vibe-coding-completo",
     "tracks": [
@@ -133,11 +131,9 @@
     ]
   }
   </script>
-
-  <!-- learn.css (camada de aprendizagem) depois do CSS base -->
-  <link rel="stylesheet" href="./assets/learn.css">
-
-  <style>
+<!-- learn.css (camada de aprendizagem) depois do CSS base -->
+<link href="./assets/learn.css" rel="stylesheet"/>
+<style>
     body { font-family: 'Inter', sans-serif; }
     .dark body { background-color: #111827; }
     [id] { scroll-margin-top: 5rem; }
@@ -239,331 +235,306 @@
       .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
     }
   </style>
-</head>
-<body class="bg-dark-900 text-neutral-100 min-h-screen">
-
-  <a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-emerald-600 focus:text-white focus:rounded-lg" href="#conteudo">Pular para o conteúdo</a>
-
-  <!-- NAVIGATION (landing: nenhuma trilha ativa) -->
-  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-14">
-        <div class="flex items-center space-x-4">
-          <a href="./index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
-            <span class="text-2xl">⚡</span>
-            <span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
-          </a>
-          <span class="text-neutral-600">|</span>
-          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
-        </div>
-
-        <div class="flex items-center space-x-1 sm:space-x-2">
-          <a href="curso/trilha1/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
-            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
-          </a>
-          <a href="curso/trilha2/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
-            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Técnica</span>
-          </a>
-          <a href="curso/trilha3/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
-            <span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
-          </a>
-          <a href="curso/trilha4/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors">
-            <span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
-          </a>
-          <a href="curso/trilha5/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors">
-            <span class="sm:hidden">T5</span><span class="hidden sm:inline">Projetos</span>
-          </a>
-          <a href="curso/trilha6/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors">
-            <span class="sm:hidden">T6</span><span class="hidden sm:inline">Produção</span>
-          </a>
-
-          <button type="button" data-inema-journey-open class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1">
-            <span aria-hidden="true">◷</span><span>Minha jornada</span>
-            <span class="inema-journey-badge hidden" data-inema-journey-badge data-count="0"></span>
-          </button>
-
-          <button type="button" data-inema-appearance-toggle="[data-inema-appearance]" aria-expanded="false" class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors">
-            <span aria-hidden="true">◑</span><span>Aparência</span>
-          </button>
-
-          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" aria-label="Alternar tema claro/escuro">
-            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-            </svg>
-            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Painel de aparência -->
-    <div data-inema-appearance class="inema-appearance-pop hidden absolute right-4 mt-1 z-50 w-72 p-4 rounded-xl bg-dark-800 border border-dark-600 shadow-xl space-y-3">
-      <div>
-        <p class="text-xs text-neutral-400 mb-2">Tema</p>
-        <div class="inema-segment grid grid-cols-2 gap-1.5">
-          <button data-inema-set-theme="inema-dark" class="px-2 py-1.5 text-xs rounded-lg bg-dark-700 hover:bg-dark-600">Escuro</button>
-          <button data-inema-set-theme="claro" class="px-2 py-1.5 text-xs rounded-lg bg-dark-700 hover:bg-dark-600">Claro</button>
-          <button data-inema-set-theme="sepia" class="px-2 py-1.5 text-xs rounded-lg bg-dark-700 hover:bg-dark-600">Sépia</button>
-          <button data-inema-set-theme="foco" class="px-2 py-1.5 text-xs rounded-lg bg-dark-700 hover:bg-dark-600">Foco</button>
-          <button data-inema-set-theme="contraste" class="col-span-2 px-2 py-1.5 text-xs rounded-lg bg-dark-700 hover:bg-dark-600">Alto contraste</button>
-        </div>
-      </div>
-      <div>
-        <p class="text-xs text-neutral-400 mb-2">Tamanho do texto</p>
-        <div class="inema-segment grid grid-cols-3 gap-1.5">
-          <button data-inema-set-fontscale="100" class="px-2 py-1.5 text-xs rounded-lg bg-dark-700 hover:bg-dark-600">A</button>
-          <button data-inema-set-fontscale="112" class="px-2 py-1.5 text-sm rounded-lg bg-dark-700 hover:bg-dark-600">A+</button>
-          <button data-inema-set-fontscale="125" class="px-2 py-1.5 text-base rounded-lg bg-dark-700 hover:bg-dark-600">A++</button>
-        </div>
-      </div>
-      <div>
-        <p class="text-xs text-neutral-400 mb-2">Entrelinha</p>
-        <div class="inema-segment grid grid-cols-2 gap-1.5">
-          <button data-inema-set-leading="1.45" class="px-2 py-1.5 text-xs rounded-lg bg-dark-700 hover:bg-dark-600">Compacto</button>
-          <button data-inema-set-leading="1.7" class="px-2 py-1.5 text-xs rounded-lg bg-dark-700 hover:bg-dark-600">Confortável</button>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <main id="conteudo" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-
-    <!-- HERO -->
-    <header class="py-16 sm:py-20">
-      <span class="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full mb-5 border border-primary/30">CURSO INEMA.CLUB · 6 TRILHAS · 21 MÓDULOS</span>
-      <h1 class="text-4xl sm:text-5xl font-bold mb-5 leading-tight">Vibe Coding: Domínio Completo</h1>
-      <p class="text-lg sm:text-xl text-neutral-300 max-w-3xl leading-relaxed">
+<link href="https://inematds.github.io/vibe-coding-completo/" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/en/" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/es/" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="./" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">PT</a><a href="en/" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="es/" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-emerald-600 focus:text-white focus:rounded-lg" href="#conteudo">Pular para o conteúdo</a>
+<!-- NAVIGATION (landing: nenhuma trilha ativa) -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="./index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="curso/trilha1/index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="curso/trilha2/index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Técnica</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="curso/trilha3/index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="curso/trilha4/index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="curso/trilha5/index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Projetos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="curso/trilha6/index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Produção</span>
+</a>
+<button class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-inema-journey-open="" type="button">
+<span aria-hidden="true">◷</span><span>Minha jornada</span>
+<span class="inema-journey-badge hidden" data-count="0" data-inema-journey-badge=""></span>
+</button>
+<button aria-expanded="false" class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors" data-inema-appearance-toggle="[data-inema-appearance]" type="button">
+<span aria-hidden="true">◑</span><span>Aparência</span>
+</button>
+<button aria-label="Alternar tema claro/escuro" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20">
+<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+</svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+<!-- Painel de aparência -->
+<div class="inema-appearance-pop hidden absolute right-4 mt-1 z-50 w-72 p-4 rounded-xl bg-dark-800 border border-dark-600 shadow-xl space-y-3" data-inema-appearance="">
+<div>
+<p class="text-xs text-neutral-400 mb-2">Tema</p>
+<div class="inema-segment grid grid-cols-2 gap-1.5">
+<button class="px-2 py-1.5 text-xs rounded-lg bg-dark-700 hover:bg-dark-600" data-inema-set-theme="inema-dark">Escuro</button>
+<button class="px-2 py-1.5 text-xs rounded-lg bg-dark-700 hover:bg-dark-600" data-inema-set-theme="claro">Claro</button>
+<button class="px-2 py-1.5 text-xs rounded-lg bg-dark-700 hover:bg-dark-600" data-inema-set-theme="sepia">Sépia</button>
+<button class="px-2 py-1.5 text-xs rounded-lg bg-dark-700 hover:bg-dark-600" data-inema-set-theme="foco">Foco</button>
+<button class="col-span-2 px-2 py-1.5 text-xs rounded-lg bg-dark-700 hover:bg-dark-600" data-inema-set-theme="contraste">Alto contraste</button>
+</div>
+</div>
+<div>
+<p class="text-xs text-neutral-400 mb-2">Tamanho do texto</p>
+<div class="inema-segment grid grid-cols-3 gap-1.5">
+<button class="px-2 py-1.5 text-xs rounded-lg bg-dark-700 hover:bg-dark-600" data-inema-set-fontscale="100">A</button>
+<button class="px-2 py-1.5 text-sm rounded-lg bg-dark-700 hover:bg-dark-600" data-inema-set-fontscale="112">A+</button>
+<button class="px-2 py-1.5 text-base rounded-lg bg-dark-700 hover:bg-dark-600" data-inema-set-fontscale="125">A++</button>
+</div>
+</div>
+<div>
+<p class="text-xs text-neutral-400 mb-2">Entrelinha</p>
+<div class="inema-segment grid grid-cols-2 gap-1.5">
+<button class="px-2 py-1.5 text-xs rounded-lg bg-dark-700 hover:bg-dark-600" data-inema-set-leading="1.45">Compacto</button>
+<button class="px-2 py-1.5 text-xs rounded-lg bg-dark-700 hover:bg-dark-600" data-inema-set-leading="1.7">Confortável</button>
+</div>
+</div>
+</div>
+</nav>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8" id="conteudo">
+<!-- HERO -->
+<header class="py-16 sm:py-20">
+<span class="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full mb-5 border border-primary/30">CURSO INEMA.CLUB · 6 TRILHAS · 21 MÓDULOS</span>
+<h1 class="text-4xl sm:text-5xl font-bold mb-5 leading-tight">Vibe Coding: Domínio Completo</h1>
+<p class="text-lg sm:text-xl text-neutral-300 max-w-3xl leading-relaxed">
         De zero a <strong class="text-emerald-400">agentes de IA</strong> em produção — <strong class="text-blue-400">fundamentos</strong>, <strong class="text-purple-400">técnica</strong> e <strong class="text-teal-400">prática</strong>. Você descreve o resultado em linguagem natural; a IA cuida da implementação. Cada trilha é uma porta de entrada independente.
       </p>
-
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-10 max-w-3xl">
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600">
-          <div class="text-2xl font-bold text-emerald-400">6</div>
-          <div class="text-xs text-neutral-400">Trilhas</div>
-        </div>
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600">
-          <div class="text-2xl font-bold text-blue-400">21</div>
-          <div class="text-xs text-neutral-400">Módulos</div>
-        </div>
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600">
-          <div class="text-2xl font-bold text-purple-400">~148</div>
-          <div class="text-xs text-neutral-400">Tópicos</div>
-        </div>
-        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600">
-          <div class="text-2xl font-bold text-amber-400">0→Prod</div>
-          <div class="text-xs text-neutral-400">Arco</div>
-        </div>
-      </div>
-
-      <!-- Progresso do curso + continuar -->
-      <div class="mt-10 max-w-3xl bg-dark-800 rounded-xl border border-dark-600 p-6">
-        <div class="flex items-center gap-6 flex-wrap">
-          <div data-inema-meter="curso" class="inema-ring flex items-center gap-3" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso do curso">
-            <svg viewBox="0 0 36 36" class="w-16 h-16 -rotate-90" aria-hidden="true">
-              <circle cx="18" cy="18" r="16" fill="none" stroke="#374151" stroke-width="3"></circle>
-              <circle data-inema-ring cx="18" cy="18" r="16" fill="none" stroke="#34d399" stroke-width="3" stroke-linecap="round" stroke-dasharray="100" stroke-dashoffset="100" pathLength="100"></circle>
-            </svg>
-            <div>
-              <div class="inema-ring__value text-2xl font-bold text-emerald-400" data-inema-meter-pct>0%</div>
-              <div class="text-xs text-neutral-400" data-inema-meter-frac>0 de 0</div>
-            </div>
-          </div>
-          <div class="flex-1 min-w-[200px]">
-            <p class="text-sm text-neutral-300 mb-3">Seu progresso fica salvo neste navegador. Marque cada seção como lida enquanto avança — entre por qualquer trilha.</p>
-            <div class="flex flex-wrap gap-3">
-              <button type="button" data-inema-journey-open class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold transition-colors">
-                <span aria-hidden="true">◷</span> Minha jornada
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-10 max-w-3xl">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600">
+<div class="text-2xl font-bold text-emerald-400">6</div>
+<div class="text-xs text-neutral-400">Trilhas</div>
+</div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600">
+<div class="text-2xl font-bold text-blue-400">21</div>
+<div class="text-xs text-neutral-400">Módulos</div>
+</div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600">
+<div class="text-2xl font-bold text-purple-400">~148</div>
+<div class="text-xs text-neutral-400">Tópicos</div>
+</div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600">
+<div class="text-2xl font-bold text-amber-400">0→Prod</div>
+<div class="text-xs text-neutral-400">Arco</div>
+</div>
+</div>
+<!-- Progresso do curso + continuar -->
+<div class="mt-10 max-w-3xl bg-dark-800 rounded-xl border border-dark-600 p-6">
+<div class="flex items-center gap-6 flex-wrap">
+<div aria-label="Progresso do curso" aria-valuemax="100" aria-valuemin="0" class="inema-ring flex items-center gap-3" data-inema-meter="curso" role="progressbar">
+<svg aria-hidden="true" class="w-16 h-16 -rotate-90" viewbox="0 0 36 36">
+<circle cx="18" cy="18" fill="none" r="16" stroke="#374151" stroke-width="3"></circle>
+<circle cx="18" cy="18" data-inema-ring="" fill="none" pathlength="100" r="16" stroke="#34d399" stroke-dasharray="100" stroke-dashoffset="100" stroke-linecap="round" stroke-width="3"></circle>
+</svg>
+<div>
+<div class="inema-ring__value text-2xl font-bold text-emerald-400" data-inema-meter-pct="">0%</div>
+<div class="text-xs text-neutral-400" data-inema-meter-frac="">0 de 0</div>
+</div>
+</div>
+<div class="flex-1 min-w-[200px]">
+<p class="text-sm text-neutral-300 mb-3">Seu progresso fica salvo neste navegador. Marque cada seção como lida enquanto avança — entre por qualquer trilha.</p>
+<div class="flex flex-wrap gap-3">
+<button class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold transition-colors" data-inema-journey-open="" type="button">
+<span aria-hidden="true">◷</span> Minha jornada
               </button>
-              <button type="button" id="continuar-btn" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-dark-700 hover:bg-dark-600 text-neutral-200 text-sm font-semibold transition-colors">
-                <span aria-hidden="true">▸</span> Continuar de onde parei
+<button class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-dark-700 hover:bg-dark-600 text-neutral-200 text-sm font-semibold transition-colors" id="continuar-btn" type="button">
+<span aria-hidden="true">▸</span> Continuar de onde parei
               </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <img src="./assets/img/hero-landing.png" alt="Banner do curso: uma rede neural e linhas de código convergindo num núcleo de agente de IA — do conceito à produção" class="w-full h-auto rounded-2xl border border-primary-500/30 mb-8 shadow-lg shadow-primary-500/5" loading="lazy">
-
-    <!-- HERO SVG -->
-    <section class="mb-16">
-      <div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden">
-        <svg viewBox="0 0 1000 240" class="w-full h-auto" role="img" aria-label="Você descreve um resultado em linguagem natural; a IA planeja, constrói, depura e otimiza, entregando um workflow, um agente ou um app rodando em produção">
-          <defs>
-            <linearGradient id="land-grad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#34d399"/><stop offset="1" stop-color="#10b981"/>
-            </linearGradient>
-            <filter id="land-glow" x="-40%" y="-40%" width="180%" height="180%">
-              <feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-            <pattern id="land-grid" width="32" height="32" patternUnits="userSpaceOnUse">
-              <circle cx="1.3" cy="1.3" r="1.3" fill="#10b981" opacity="0.12"/>
-            </pattern>
-            <marker id="land-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"/></marker>
-            <marker id="land-ahc" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"/></marker>
-          </defs>
-          <rect x="0" y="0" width="1000" height="240" fill="url(#land-grid)"/>
-          <g fill="none" stroke="#34d399" stroke-width="2" opacity="0.6">
-            <path d="M206,120 C300,120 320,38 452,38" marker-end="url(#land-ah)"/>
-            <path d="M206,120 C300,120 320,79 452,79" marker-end="url(#land-ah)"/>
-            <path d="M206,120 L452,120" marker-end="url(#land-ah)"/>
-            <path d="M206,120 C300,120 320,161 452,161" marker-end="url(#land-ah)"/>
-          </g>
-          <g fill="none" stroke="#38bdf8" stroke-width="2" opacity="0.5">
-            <path d="M588,38  C700,38 720,120 800,120" marker-end="url(#land-ahc)"/>
-            <path d="M588,79  C700,79 720,120 800,120" marker-end="url(#land-ahc)"/>
-            <path d="M588,120 L800,120" marker-end="url(#land-ahc)"/>
-            <path d="M588,161 C700,161 720,120 800,120" marker-end="url(#land-ahc)"/>
-          </g>
-          <g filter="url(#land-glow)"><rect x="40" y="88" width="166" height="64" rx="14" fill="#0e2018" stroke="url(#land-grad)" stroke-width="2.5"/></g>
-          <text x="123" y="114" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="18">Você fala</text>
-          <text x="123" y="135" text-anchor="middle" fill="#9ee9c9" font-family="Inter,sans-serif" font-size="12">linguagem natural</text>
-          <g font-family="Inter,sans-serif" font-size="13" font-weight="600">
-            <g class="wf-a"><rect x="452" y="22"  width="136" height="32" rx="9" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/><text x="520" y="43"  text-anchor="middle" fill="#bfe6ff">planeja</text></g>
-            <g class="wf-a"><rect x="452" y="63"  width="136" height="32" rx="9" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/><text x="520" y="84"  text-anchor="middle" fill="#bfe6ff">constrói</text></g>
-            <g class="wf-a"><rect x="452" y="104" width="136" height="32" rx="9" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/><text x="520" y="125" text-anchor="middle" fill="#bfe6ff">depura</text></g>
-            <g class="wf-a"><rect x="452" y="145" width="136" height="32" rx="9" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/><text x="520" y="166" text-anchor="middle" fill="#bfe6ff">otimiza</text></g>
-          </g>
-          <g filter="url(#land-glow)"><rect x="800" y="84" width="166" height="72" rx="14" fill="#0e2018" stroke="url(#land-grad)" stroke-width="2.5"/></g>
-          <text x="883" y="114" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="16">Workflow · Agente · App</text>
-          <text x="883" y="135" text-anchor="middle" fill="#9ee9c9" font-family="Inter,sans-serif" font-size="12">em produção</text>
-        </svg>
-      </div>
-      <p class="text-xs text-neutral-500 mt-2">O fluxo do vibe coding: a sua descrição vira um plano, o plano vira código, o código é depurado e otimizado — e o resultado vai para produção.</p>
-    </section>
-
-    <!-- O QUE É -->
-    <section class="mb-16">
-      <h2 class="text-2xl font-bold mb-6">O que é o Vibe Coding: Domínio Completo</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
-          <div class="text-3xl mb-3">🗣️</div>
-          <h3 class="text-lg font-semibold mb-2">Você descreve, a IA constrói</h3>
-          <p class="text-neutral-400 text-sm">Em vez de aprender a mecânica de cada nó ou linha de código, você descreve o resultado desejado. A IA seleciona ferramentas, configura e depura. Você é o gerente; a IA é o desenvolvedor.</p>
-        </div>
-        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
-          <div class="text-3xl mb-3">🧭</div>
-          <h3 class="text-lg font-semibold mb-2">Seis portas de entrada</h3>
-          <p class="text-neutral-400 text-sm">Entre pela teoria (T1), pela técnica (T2), pelos prompts (T3), pelas skills e agentes (T4), pelos projetos (T5) ou pela produção (T6). As trilhas são independentes mas se referenciam.</p>
-        </div>
-        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
-          <div class="text-3xl mb-3">🚀</div>
-          <h3 class="text-lg font-semibold mb-2">Do conceito à produção</h3>
-          <p class="text-neutral-400 text-sm">Sai entendendo cada termo, dominando a técnica, com uma biblioteca de prompts e skills pronta, e construindo agentes e apps reais que rodam sozinhos na nuvem — com segurança e monetização.</p>
-        </div>
-      </div>
-      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mt-6">
-        <h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Para quem é</h3>
-        <p class="text-neutral-300 text-sm">Do iniciante total (entra por T1) a quem já constrói e quer dominar técnica e agentes (entra por T2/T4). Pré-requisitos: um computador, contas gratuitas nas ferramentas e vontade de iterar. <strong>Nenhum conhecimento prévio de programação</strong> — em módulos de fundamento, cada termo técnico é definido na primeira aparição.</p>
-      </div>
-    </section>
-
-    <!-- TRILHAS GRID -->
-    <section class="mb-16">
-      <h2 class="text-2xl font-bold mb-2">As 6 trilhas</h2>
-      <p class="text-neutral-400 mb-6">O arco: Entender → Dominar a técnica → Conversar bem → Reutilizar via skills/agentes → Construir de ponta a ponta → Colocar em produção com segurança.</p>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-        <a href="curso/trilha1/index.html" class="group bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 rounded-xl border border-dark-600 hover:border-emerald-500/30 p-6 transition-all">
-          <div class="flex items-center justify-between mb-3">
-            <span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full">TRILHA 1 · Emerald</span>
-            <span class="text-xs text-neutral-500">4 módulos · 26 tópicos</span>
-          </div>
-          <h3 class="text-xl font-bold mb-2 group-hover:text-emerald-400 transition-colors">🟢 Fundamentos & Glossário</h3>
-          <p class="text-neutral-400 text-sm mb-4">A base conceitual e a linguagem: a mentalidade do vibe coding, como o ecossistema se encaixa e um glossário A–Z que define cada termo com exemplo.</p>
-          <div data-inema-meter="trilha:1" class="flex items-center gap-3" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso da trilha 1">
-            <div class="inema-bar flex-1 h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-emerald-500 rounded-full" data-inema-meter-fill style="width:0%"></div></div>
-            <span class="text-xs text-neutral-400" data-inema-meter-frac>0 de 26</span>
-          </div>
-          <span class="inline-block mt-4 text-emerald-400 text-sm font-semibold group-hover:translate-x-1 transition-transform">Ver trilha →</span>
-        </a>
-
-        <a href="curso/trilha2/index.html" class="group bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 rounded-xl border border-dark-600 hover:border-blue-500/30 p-6 transition-all">
-          <div class="flex items-center justify-between mb-3">
-            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full">TRILHA 2 · Blue</span>
-            <span class="text-xs text-neutral-500">5 módulos · 32 tópicos</span>
-          </div>
-          <h3 class="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors">🔵 Técnica: Arquitetura & Engenharia</h3>
-          <p class="text-neutral-400 text-sm mb-4">Abrir o capô: engenharia de CLAUDE.md, o framework WAT a fundo, MCP por dentro, contexto/tokens e RAG & dados — a disciplina que separa "funcionou" de "confiável".</p>
-          <div data-inema-meter="trilha:2" class="flex items-center gap-3" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso da trilha 2">
-            <div class="inema-bar flex-1 h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-blue-500 rounded-full" data-inema-meter-fill style="width:0%"></div></div>
-            <span class="text-xs text-neutral-400" data-inema-meter-frac>0 de 32</span>
-          </div>
-          <span class="inline-block mt-4 text-blue-400 text-sm font-semibold group-hover:translate-x-1 transition-transform">Ver trilha →</span>
-        </a>
-
-        <a href="curso/trilha3/index.html" class="group bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 rounded-xl border border-dark-600 hover:border-purple-500/30 p-6 transition-all">
-          <div class="flex items-center justify-between mb-3">
-            <span class="px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full">TRILHA 3 · Purple</span>
-            <span class="text-xs text-neutral-500">3 módulos · 22 tópicos</span>
-          </div>
-          <h3 class="text-xl font-bold mb-2 group-hover:text-purple-400 transition-colors">🟣 Prompts & Padrões de Conversa</h3>
-          <p class="text-neutral-400 text-sm mb-4">A arte do prompt e uma biblioteca de prompts prontos (copy-run): padrões, o ciclo de quatro fases e prompts reais que você copia, roda e verifica.</p>
-          <div data-inema-meter="trilha:3" class="flex items-center gap-3" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso da trilha 3">
-            <div class="inema-bar flex-1 h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-purple-500 rounded-full" data-inema-meter-fill style="width:0%"></div></div>
-            <span class="text-xs text-neutral-400" data-inema-meter-frac>0 de 22</span>
-          </div>
-          <span class="inline-block mt-4 text-purple-400 text-sm font-semibold group-hover:translate-x-1 transition-transform">Ver trilha →</span>
-        </a>
-
-        <a href="curso/trilha4/index.html" class="group bg-gradient-to-br from-amber-900/30 via-dark-800 to-dark-800 rounded-xl border border-dark-600 hover:border-amber-500/30 p-6 transition-all">
-          <div class="flex items-center justify-between mb-3">
-            <span class="px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-full">TRILHA 4 · Amber</span>
-            <span class="text-xs text-neutral-500">3 módulos · 22 tópicos</span>
-          </div>
-          <h3 class="text-xl font-bold mb-2 group-hover:text-amber-400 transition-colors">🟡 Skills & Agentes</h3>
-          <p class="text-neutral-400 text-sm mb-4">Parar de reexplicar: empacotar workflows em skills reutilizáveis e construir agentes — locais, agendados e por evento. Copy-run pesado.</p>
-          <div data-inema-meter="trilha:4" class="flex items-center gap-3" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso da trilha 4">
-            <div class="inema-bar flex-1 h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-amber-500 rounded-full" data-inema-meter-fill style="width:0%"></div></div>
-            <span class="text-xs text-neutral-400" data-inema-meter-frac>0 de 22</span>
-          </div>
-          <span class="inline-block mt-4 text-amber-400 text-sm font-semibold group-hover:translate-x-1 transition-transform">Ver trilha →</span>
-        </a>
-
-        <a href="curso/trilha5/index.html" class="group bg-gradient-to-br from-teal-900/30 via-dark-800 to-dark-800 rounded-xl border border-dark-600 hover:border-teal-500/30 p-6 transition-all">
-          <div class="flex items-center justify-between mb-3">
-            <span class="px-3 py-1 bg-teal-500/20 text-teal-400 text-xs font-semibold rounded-full">TRILHA 5 · Teal</span>
-            <span class="text-xs text-neutral-500">3 módulos · 24 tópicos</span>
-          </div>
-          <h3 class="text-xl font-bold mb-2 group-hover:text-teal-400 transition-colors">🟦 Projetos Práticos (End-to-End)</h3>
-          <p class="text-neutral-400 text-sm mb-4">Construir de ponta a ponta com os prompts reais: agente de suporte com RAG, agentes hospedados (agendado + webhook) e um app full-stack com auth e pagamento.</p>
-          <div data-inema-meter="trilha:5" class="flex items-center gap-3" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso da trilha 5">
-            <div class="inema-bar flex-1 h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-teal-500 rounded-full" data-inema-meter-fill style="width:0%"></div></div>
-            <span class="text-xs text-neutral-400" data-inema-meter-frac>0 de 24</span>
-          </div>
-          <span class="inline-block mt-4 text-teal-400 text-sm font-semibold group-hover:translate-x-1 transition-transform">Ver trilha →</span>
-        </a>
-
-        <a href="curso/trilha6/index.html" class="group bg-gradient-to-br from-rose-900/30 via-dark-800 to-dark-800 rounded-xl border border-dark-600 hover:border-rose-500/30 p-6 transition-all">
-          <div class="flex items-center justify-between mb-3">
-            <span class="px-3 py-1 bg-rose-500/20 text-rose-400 text-xs font-semibold rounded-full">TRILHA 6 · Rose</span>
-            <span class="text-xs text-neutral-500">3 módulos · 22 tópicos</span>
-          </div>
-          <h3 class="text-xl font-bold mb-2 group-hover:text-rose-400 transition-colors">🌹 Produção, Deploy & Segurança</h3>
-          <p class="text-neutral-400 text-sm mb-4">A engenharia de produção: hospedar com GitHub & Trigger.dev, gerir secrets e segurança, e dar confiabilidade e monetização ao que você construiu.</p>
-          <div data-inema-meter="trilha:6" class="flex items-center gap-3" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso da trilha 6">
-            <div class="inema-bar flex-1 h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-rose-500 rounded-full" data-inema-meter-fill style="width:0%"></div></div>
-            <span class="text-xs text-neutral-400" data-inema-meter-frac>0 de 22</span>
-          </div>
-          <span class="inline-block mt-4 text-rose-400 text-sm font-semibold group-hover:translate-x-1 transition-transform">Ver trilha →</span>
-        </a>
-
-      </div>
-    </section>
-
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="border-t border-dark-600 py-8 mt-8">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
-      <p>Vibe Coding: Domínio Completo · Curso original <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 font-medium">INEMA.CLUB</a> · 2026</p>
-    </div>
-  </footer>
-
-  <!-- SCRIPTS — núcleo v1 -->
-  <script>
+</div>
+</div>
+</div>
+</div>
+</header>
+<img alt="Banner do curso: uma rede neural e linhas de código convergindo num núcleo de agente de IA — do conceito à produção" class="w-full h-auto rounded-2xl border border-primary-500/30 mb-8 shadow-lg shadow-primary-500/5" loading="lazy" src="./assets/img/hero-landing.png"/>
+<!-- HERO SVG -->
+<section class="mb-16">
+<div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden">
+<svg aria-label="Você descreve um resultado em linguagem natural; a IA planeja, constrói, depura e otimiza, entregando um workflow, um agente ou um app rodando em produção" class="w-full h-auto" role="img" viewbox="0 0 1000 240">
+<defs>
+<lineargradient id="land-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#34d399"></stop><stop offset="1" stop-color="#10b981"></stop>
+</lineargradient>
+<filter height="180%" id="land-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="32" id="land-grid" patternunits="userSpaceOnUse" width="32">
+<circle cx="1.3" cy="1.3" fill="#10b981" opacity="0.12" r="1.3"></circle>
+</pattern>
+<marker id="land-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"></path></marker>
+<marker id="land-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#land-grid)" height="240" width="1000" x="0" y="0"></rect>
+<g fill="none" opacity="0.6" stroke="#34d399" stroke-width="2">
+<path d="M206,120 C300,120 320,38 452,38" marker-end="url(#land-ah)"></path>
+<path d="M206,120 C300,120 320,79 452,79" marker-end="url(#land-ah)"></path>
+<path d="M206,120 L452,120" marker-end="url(#land-ah)"></path>
+<path d="M206,120 C300,120 320,161 452,161" marker-end="url(#land-ah)"></path>
+</g>
+<g fill="none" opacity="0.5" stroke="#38bdf8" stroke-width="2">
+<path d="M588,38  C700,38 720,120 800,120" marker-end="url(#land-ahc)"></path>
+<path d="M588,79  C700,79 720,120 800,120" marker-end="url(#land-ahc)"></path>
+<path d="M588,120 L800,120" marker-end="url(#land-ahc)"></path>
+<path d="M588,161 C700,161 720,120 800,120" marker-end="url(#land-ahc)"></path>
+</g>
+<g filter="url(#land-glow)"><rect fill="#0e2018" height="64" rx="14" stroke="url(#land-grad)" stroke-width="2.5" width="166" x="40" y="88"></rect></g>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="18" font-weight="600" text-anchor="middle" x="123" y="114">Você fala</text>
+<text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="123" y="135">linguagem natural</text>
+<g font-family="Inter,sans-serif" font-size="13" font-weight="600">
+<g class="wf-a"><rect fill="#0e1b26" height="32" rx="9" stroke="#38bdf8" stroke-width="2" width="136" x="452" y="22"></rect><text fill="#bfe6ff" text-anchor="middle" x="520" y="43">planeja</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="32" rx="9" stroke="#38bdf8" stroke-width="2" width="136" x="452" y="63"></rect><text fill="#bfe6ff" text-anchor="middle" x="520" y="84">constrói</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="32" rx="9" stroke="#38bdf8" stroke-width="2" width="136" x="452" y="104"></rect><text fill="#bfe6ff" text-anchor="middle" x="520" y="125">depura</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="32" rx="9" stroke="#38bdf8" stroke-width="2" width="136" x="452" y="145"></rect><text fill="#bfe6ff" text-anchor="middle" x="520" y="166">otimiza</text></g>
+</g>
+<g filter="url(#land-glow)"><rect fill="#0e2018" height="72" rx="14" stroke="url(#land-grad)" stroke-width="2.5" width="166" x="800" y="84"></rect></g>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="16" font-weight="600" text-anchor="middle" x="883" y="114">Workflow · Agente · App</text>
+<text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="883" y="135">em produção</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mt-2">O fluxo do vibe coding: a sua descrição vira um plano, o plano vira código, o código é depurado e otimizado — e o resultado vai para produção.</p>
+</section>
+<!-- O QUE É -->
+<section class="mb-16">
+<h2 class="text-2xl font-bold mb-6">O que é o Vibe Coding: Domínio Completo</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<div class="text-3xl mb-3">🗣️</div>
+<h3 class="text-lg font-semibold mb-2">Você descreve, a IA constrói</h3>
+<p class="text-neutral-400 text-sm">Em vez de aprender a mecânica de cada nó ou linha de código, você descreve o resultado desejado. A IA seleciona ferramentas, configura e depura. Você é o gerente; a IA é o desenvolvedor.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<div class="text-3xl mb-3">🧭</div>
+<h3 class="text-lg font-semibold mb-2">Seis portas de entrada</h3>
+<p class="text-neutral-400 text-sm">Entre pela teoria (T1), pela técnica (T2), pelos prompts (T3), pelas skills e agentes (T4), pelos projetos (T5) ou pela produção (T6). As trilhas são independentes mas se referenciam.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<div class="text-3xl mb-3">🚀</div>
+<h3 class="text-lg font-semibold mb-2">Do conceito à produção</h3>
+<p class="text-neutral-400 text-sm">Sai entendendo cada termo, dominando a técnica, com uma biblioteca de prompts e skills pronta, e construindo agentes e apps reais que rodam sozinhos na nuvem — com segurança e monetização.</p>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mt-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Para quem é</h3>
+<p class="text-neutral-300 text-sm">Do iniciante total (entra por T1) a quem já constrói e quer dominar técnica e agentes (entra por T2/T4). Pré-requisitos: um computador, contas gratuitas nas ferramentas e vontade de iterar. <strong>Nenhum conhecimento prévio de programação</strong> — em módulos de fundamento, cada termo técnico é definido na primeira aparição.</p>
+</div>
+</section>
+<!-- TRILHAS GRID -->
+<section class="mb-16">
+<h2 class="text-2xl font-bold mb-2">As 6 trilhas</h2>
+<p class="text-neutral-400 mb-6">O arco: Entender → Dominar a técnica → Conversar bem → Reutilizar via skills/agentes → Construir de ponta a ponta → Colocar em produção com segurança.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<a class="group bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 rounded-xl border border-dark-600 hover:border-emerald-500/30 p-6 transition-all" href="curso/trilha1/index.html">
+<div class="flex items-center justify-between mb-3">
+<span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full">TRILHA 1 · Emerald</span>
+<span class="text-xs text-neutral-500">4 módulos · 26 tópicos</span>
+</div>
+<h3 class="text-xl font-bold mb-2 group-hover:text-emerald-400 transition-colors">🟢 Fundamentos &amp; Glossário</h3>
+<p class="text-neutral-400 text-sm mb-4">A base conceitual e a linguagem: a mentalidade do vibe coding, como o ecossistema se encaixa e um glossário A–Z que define cada termo com exemplo.</p>
+<div aria-label="Progresso da trilha 1" aria-valuemax="100" aria-valuemin="0" class="flex items-center gap-3" data-inema-meter="trilha:1" role="progressbar">
+<div class="inema-bar flex-1 h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-emerald-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+<span class="text-xs text-neutral-400" data-inema-meter-frac="">0 de 26</span>
+</div>
+<span class="inline-block mt-4 text-emerald-400 text-sm font-semibold group-hover:translate-x-1 transition-transform">Ver trilha →</span>
+</a>
+<a class="group bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 rounded-xl border border-dark-600 hover:border-blue-500/30 p-6 transition-all" href="curso/trilha2/index.html">
+<div class="flex items-center justify-between mb-3">
+<span class="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full">TRILHA 2 · Blue</span>
+<span class="text-xs text-neutral-500">5 módulos · 32 tópicos</span>
+</div>
+<h3 class="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors">🔵 Técnica: Arquitetura &amp; Engenharia</h3>
+<p class="text-neutral-400 text-sm mb-4">Abrir o capô: engenharia de CLAUDE.md, o framework WAT a fundo, MCP por dentro, contexto/tokens e RAG &amp; dados — a disciplina que separa "funcionou" de "confiável".</p>
+<div aria-label="Progresso da trilha 2" aria-valuemax="100" aria-valuemin="0" class="flex items-center gap-3" data-inema-meter="trilha:2" role="progressbar">
+<div class="inema-bar flex-1 h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-blue-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+<span class="text-xs text-neutral-400" data-inema-meter-frac="">0 de 32</span>
+</div>
+<span class="inline-block mt-4 text-blue-400 text-sm font-semibold group-hover:translate-x-1 transition-transform">Ver trilha →</span>
+</a>
+<a class="group bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 rounded-xl border border-dark-600 hover:border-purple-500/30 p-6 transition-all" href="curso/trilha3/index.html">
+<div class="flex items-center justify-between mb-3">
+<span class="px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full">TRILHA 3 · Purple</span>
+<span class="text-xs text-neutral-500">3 módulos · 22 tópicos</span>
+</div>
+<h3 class="text-xl font-bold mb-2 group-hover:text-purple-400 transition-colors">🟣 Prompts &amp; Padrões de Conversa</h3>
+<p class="text-neutral-400 text-sm mb-4">A arte do prompt e uma biblioteca de prompts prontos (copy-run): padrões, o ciclo de quatro fases e prompts reais que você copia, roda e verifica.</p>
+<div aria-label="Progresso da trilha 3" aria-valuemax="100" aria-valuemin="0" class="flex items-center gap-3" data-inema-meter="trilha:3" role="progressbar">
+<div class="inema-bar flex-1 h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-purple-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+<span class="text-xs text-neutral-400" data-inema-meter-frac="">0 de 22</span>
+</div>
+<span class="inline-block mt-4 text-purple-400 text-sm font-semibold group-hover:translate-x-1 transition-transform">Ver trilha →</span>
+</a>
+<a class="group bg-gradient-to-br from-amber-900/30 via-dark-800 to-dark-800 rounded-xl border border-dark-600 hover:border-amber-500/30 p-6 transition-all" href="curso/trilha4/index.html">
+<div class="flex items-center justify-between mb-3">
+<span class="px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-full">TRILHA 4 · Amber</span>
+<span class="text-xs text-neutral-500">3 módulos · 22 tópicos</span>
+</div>
+<h3 class="text-xl font-bold mb-2 group-hover:text-amber-400 transition-colors">🟡 Skills &amp; Agentes</h3>
+<p class="text-neutral-400 text-sm mb-4">Parar de reexplicar: empacotar workflows em skills reutilizáveis e construir agentes — locais, agendados e por evento. Copy-run pesado.</p>
+<div aria-label="Progresso da trilha 4" aria-valuemax="100" aria-valuemin="0" class="flex items-center gap-3" data-inema-meter="trilha:4" role="progressbar">
+<div class="inema-bar flex-1 h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-amber-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+<span class="text-xs text-neutral-400" data-inema-meter-frac="">0 de 22</span>
+</div>
+<span class="inline-block mt-4 text-amber-400 text-sm font-semibold group-hover:translate-x-1 transition-transform">Ver trilha →</span>
+</a>
+<a class="group bg-gradient-to-br from-teal-900/30 via-dark-800 to-dark-800 rounded-xl border border-dark-600 hover:border-teal-500/30 p-6 transition-all" href="curso/trilha5/index.html">
+<div class="flex items-center justify-between mb-3">
+<span class="px-3 py-1 bg-teal-500/20 text-teal-400 text-xs font-semibold rounded-full">TRILHA 5 · Teal</span>
+<span class="text-xs text-neutral-500">3 módulos · 24 tópicos</span>
+</div>
+<h3 class="text-xl font-bold mb-2 group-hover:text-teal-400 transition-colors">🟦 Projetos Práticos (End-to-End)</h3>
+<p class="text-neutral-400 text-sm mb-4">Construir de ponta a ponta com os prompts reais: agente de suporte com RAG, agentes hospedados (agendado + webhook) e um app full-stack com auth e pagamento.</p>
+<div aria-label="Progresso da trilha 5" aria-valuemax="100" aria-valuemin="0" class="flex items-center gap-3" data-inema-meter="trilha:5" role="progressbar">
+<div class="inema-bar flex-1 h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-teal-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+<span class="text-xs text-neutral-400" data-inema-meter-frac="">0 de 24</span>
+</div>
+<span class="inline-block mt-4 text-teal-400 text-sm font-semibold group-hover:translate-x-1 transition-transform">Ver trilha →</span>
+</a>
+<a class="group bg-gradient-to-br from-rose-900/30 via-dark-800 to-dark-800 rounded-xl border border-dark-600 hover:border-rose-500/30 p-6 transition-all" href="curso/trilha6/index.html">
+<div class="flex items-center justify-between mb-3">
+<span class="px-3 py-1 bg-rose-500/20 text-rose-400 text-xs font-semibold rounded-full">TRILHA 6 · Rose</span>
+<span class="text-xs text-neutral-500">3 módulos · 22 tópicos</span>
+</div>
+<h3 class="text-xl font-bold mb-2 group-hover:text-rose-400 transition-colors">🌹 Produção, Deploy &amp; Segurança</h3>
+<p class="text-neutral-400 text-sm mb-4">A engenharia de produção: hospedar com GitHub &amp; Trigger.dev, gerir secrets e segurança, e dar confiabilidade e monetização ao que você construiu.</p>
+<div aria-label="Progresso da trilha 6" aria-valuemax="100" aria-valuemin="0" class="flex items-center gap-3" data-inema-meter="trilha:6" role="progressbar">
+<div class="inema-bar flex-1 h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-rose-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+<span class="text-xs text-neutral-400" data-inema-meter-frac="">0 de 22</span>
+</div>
+<span class="inline-block mt-4 text-rose-400 text-sm font-semibold group-hover:translate-x-1 transition-transform">Ver trilha →</span>
+</a>
+</div>
+</section>
+</main>
+<!-- FOOTER -->
+<footer class="border-t border-dark-600 py-8 mt-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Vibe Coding: Domínio Completo · Curso original <a class="text-sky-400 hover:text-sky-300 font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a> · 2026</p>
+</div>
+</footer>
+<!-- SCRIPTS — núcleo v1 -->
+<script>
     const themeToggle = document.getElementById('theme-toggle');
     const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
     const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
@@ -590,12 +561,10 @@
       window.location.href = 'curso/trilha1/modulo-1-1.html';
     });
   </script>
-
-  <!-- learn.js + init por último -->
-  <script src="./assets/learn.js"></script>
-  <script>
+<!-- learn.js + init por último -->
+<script src="./assets/learn.js"></script>
+<script>
     if (window.INEMA && typeof window.INEMA.init === 'function') { window.INEMA.init(); }
   </script>
-
 </body>
 </html>

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="dark">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="inema-course" content="vibe-coding-completo">
 
-  <!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
-  <script>
+<html class="dark" lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="vibe-coding-completo" name="inema-course"/>
+<!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
+<script>
   (function () {
     try {
       var html = document.documentElement;
@@ -74,10 +74,9 @@
     }
   })();
   </script>
-
-  <title>Módulo 1.4 · Glossário Essencial (Parte 2: Agêntico, RAG, Deploy, Segurança) | Vibe Coding: Domínio Completo</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
+<title>Módulo 1.4 · Glossário Essencial (Parte 2: Agêntico, RAG, Deploy, Segurança) | Vibe Coding: Domínio Completo</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
@@ -90,10 +89,9 @@
       }
     }
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
-  <script type="application/json" data-inema-manifest>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
+<script data-inema-manifest="" type="application/json">
   {
     "course": "vibe-coding-completo",
     "tracks": [
@@ -133,10 +131,8 @@
     ]
   }
   </script>
-
-  <link rel="stylesheet" href="../../assets/learn.css">
-
-  <style>
+<link href="../../assets/learn.css" rel="stylesheet"/>
+<style>
     body { font-family: 'Inter', sans-serif; }
     .dark body { background-color: #111827; }
     .topic-explanation { display: none; }
@@ -220,599 +216,537 @@
       .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
     }
   </style>
-</head>
-<body class="bg-dark-900 text-neutral-100 min-h-screen">
-
-  <a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-emerald-600 focus:text-white focus:rounded-lg" href="#conteudo">Pular para o conteúdo</a>
-
-  <!-- NAVIGATION (T1 ativa) -->
-  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-14">
-        <div class="flex items-center space-x-4">
-          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
-            <span class="text-2xl">⚡</span>
-            <span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
-          </a>
-          <span class="text-neutral-600">|</span>
-          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
-        </div>
-        <div class="flex items-center space-x-1 sm:space-x-2">
-          <a href="index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10">
-            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
-          </a>
-          <a href="../trilha2/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
-            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Técnica</span>
-          </a>
-          <a href="../trilha3/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
-            <span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
-          </a>
-          <a href="../trilha4/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors">
-            <span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
-          </a>
-          <a href="../trilha5/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors">
-            <span class="sm:hidden">T5</span><span class="hidden sm:inline">Projetos</span>
-          </a>
-          <a href="../trilha6/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors">
-            <span class="sm:hidden">T6</span><span class="hidden sm:inline">Produção</span>
-          </a>
-          <button type="button" data-inema-journey-open class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1">
-            <span aria-hidden="true">◷</span><span>Minha jornada</span>
-            <span class="inema-journey-badge hidden" data-inema-journey-badge data-count="0"></span>
-          </button>
-          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" aria-label="Alternar tema claro/escuro">
-            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-            </svg>
-            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <!-- BREADCRUMB -->
-  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4" aria-label="Trilha de navegação">
-    <div class="flex items-center space-x-2 text-sm text-neutral-400">
-      <a href="../../index.html" class="hover:text-emerald-400">Início</a>
-      <span>/</span>
-      <a href="index.html" class="hover:text-emerald-400">Trilha 1</a>
-      <span>/</span>
-      <span class="text-emerald-400">Módulo 1.4</span>
-    </div>
-  </nav>
-
-  <!-- HEADER DO MÓDULO -->
-  <header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4">MÓDULO 1.4</span>
-      <h3 class="text-2xl font-bold mb-4">📚 Glossário Essencial (Parte 2: Agêntico, RAG, Deploy, Segurança)</h3>
-      <p class="text-lg text-neutral-400 max-w-3xl">A segunda metade do dicionário — agora os termos de quem coloca o agente <strong class="text-emerald-300">no mundo</strong>: vocabulário agêntico, RAG, versionamento na nuvem, execução hospedada, app/frontend e segurança & pagamento. Como na Parte 1, cada termo vem definido com exemplo concreto. É o que você vai reencontrar nas trilhas de projetos e produção.</p>
-      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-emerald-400">6</div>
-          <div class="text-xs text-neutral-400">Clusters</div>
-        </div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-emerald-400">~50</div>
-          <div class="text-xs text-neutral-400">Minutos</div>
-        </div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-emerald-400">Básico</div>
-          <div class="text-xs text-neutral-400">Nível</div>
-        </div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-emerald-400">Glossário</div>
-          <div class="text-xs text-neutral-400">Tipo</div>
-        </div>
-      </div>
-      <div class="mt-6 max-w-2xl" data-inema-meter="modulo:1-4" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso do módulo 1.4">
-        <div class="flex items-center justify-between mb-1 text-sm">
-          <span class="text-neutral-400">Progresso do módulo</span>
-          <span class="text-emerald-400 font-semibold"><span data-inema-meter-pct>0%</span> · <span data-inema-meter-frac>0 de 6</span></span>
-        </div>
-        <div class="inema-bar h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-emerald-500 rounded-full" data-inema-meter-fill style="width:0%"></div></div>
-      </div>
-    </div>
-  </header>
-
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:grid lg:grid-cols-[1fr_220px] lg:gap-10">
-
-    <main id="conteudo" class="min-w-0">
-
-      <!-- Novo aqui? box (intro, #31) -->
-      <div class="bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-5 mb-10">
-        <h2 class="text-base font-semibold text-emerald-400 mb-2 flex items-center"><span class="mr-2">🌱</span> Novo por aqui?</h2>
-        <p class="text-neutral-300 text-sm">Esta é a continuação do glossário do módulo 1.3 — agora com os termos de produção. Mesmo formato: definição curta + exemplo concreto, sem jargão órfão. Nomes de ferramentas (GitHub, Trigger.dev, Vercel, Supabase, Stripe) aparecem porque são o vocabulário real — cada um é explicado na primeira vez. Use o índice à direita para pular ao cluster que você precisa.</p>
-      </div>
-
-      <!-- SVG FUTURISTA (visão geral, #29) -->
-      <section class="mb-12">
-        <p class="text-neutral-300 mb-4 inema-prose leading-relaxed">Os seis clusters seguem o caminho de "tirar da sua máquina e botar no mundo": primeiro a linguagem do que é <strong class="text-emerald-300">agêntico</strong>, depois como a IA responde com seus dados (<strong class="text-emerald-300">RAG</strong>), onde o código mora (versionamento), como ele roda sozinho (execução hospedada), como vira um site (app/frontend) e como se protege e cobra (segurança & pagamento).</p>
-        <div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
-          <svg viewBox="0 0 1000 200" class="w-full h-auto" role="img" aria-label="Os seis clusters da Parte 2 em sequência: vocabulário agêntico, RAG, versionamento na nuvem, execução hospedada, app e frontend, e segurança e pagamento; cada caixa agrupa os termos daquele tema, do conceito agêntico até proteger e monetizar">
-            <defs>
-              <linearGradient id="m14-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#34d399"/><stop offset="1" stop-color="#10b981"/></linearGradient>
-              <pattern id="m14-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#10b981" opacity="0.12"/></pattern>
-              <marker id="m14-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"/></marker>
-            </defs>
-            <rect x="0" y="0" width="1000" height="200" fill="url(#m14-grid)"/>
-            <g class="wf-a"><rect x="30" y="36" width="150" height="56" rx="12" fill="#0e2018" stroke="url(#m14-grad)" stroke-width="2"/><text x="105" y="60" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="12">🧬 Agêntico</text><text x="105" y="78" text-anchor="middle" fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10">WAT · auto-melhoria</text></g>
-            <g fill="none" stroke="#34d399" stroke-width="2" opacity="0.6"><path d="M180,64 L210,64" marker-end="url(#m14-ah)"/></g>
-            <g class="wf-a"><rect x="210" y="36" width="150" height="56" rx="12" fill="#0e2018" stroke="url(#m14-grad)" stroke-width="2"/><text x="285" y="60" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="12">🔎 RAG</text><text x="285" y="78" text-anchor="middle" fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10">responde com seus dados</text></g>
-            <g fill="none" stroke="#34d399" stroke-width="2" opacity="0.6"><path d="M360,64 L390,64" marker-end="url(#m14-ah)"/></g>
-            <g class="wf-a"><rect x="390" y="36" width="150" height="56" rx="12" fill="#0e2018" stroke="url(#m14-grad)" stroke-width="2"/><text x="465" y="60" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="12">🐙 Versionamento</text><text x="465" y="78" text-anchor="middle" fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10">onde o código mora</text></g>
-            <g fill="none" stroke="#34d399" stroke-width="2" opacity="0.6"><path d="M540,64 L570,64" marker-end="url(#m14-ah)"/></g>
-            <g class="wf-a"><rect x="570" y="36" width="150" height="56" rx="12" fill="#0e2018" stroke="url(#m14-grad)" stroke-width="2"/><text x="645" y="60" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="12">☁️ Hospedado</text><text x="645" y="78" text-anchor="middle" fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10">roda sozinho</text></g>
-            <g fill="none" stroke="#34d399" stroke-width="2" opacity="0.6"><path d="M645,92 C645,108 480,112 465,116" marker-end="url(#m14-ah)"/></g>
-            <g class="wf-a"><rect x="390" y="116" width="150" height="56" rx="12" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/><text x="465" y="140" text-anchor="middle" fill="#bfe6ff" font-family="Inter,sans-serif" font-weight="600" font-size="12">🖥️ App / frontend</text><text x="465" y="158" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="10">vira um site usável</text></g>
-            <g fill="none" stroke="#34d399" stroke-width="2" opacity="0.6"><path d="M390,144 L360,144" marker-end="url(#m14-ah)"/></g>
-            <g class="wf-a"><rect x="210" y="116" width="150" height="56" rx="12" fill="#0e2018" stroke="url(#m14-grad)" stroke-width="2"/><text x="285" y="140" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="12">🔐 Segurança</text><text x="285" y="158" text-anchor="middle" fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10">protege &amp; monetiza</text></g>
-          </svg>
-        </div>
-        <p class="text-xs text-neutral-500">Diagrama ilustrativo — a Parte 2 do glossário, do conceito agêntico até proteger e cobrar. Cada caixa é um tópico abaixo.</p>
-      </section>
-
-      <!-- TÓPICO 1 -->
-      <section id="topico-1" data-inema-topic="modulo-1-4#topico-1" class="mb-16">
-        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-          <div class="flex items-center space-x-4">
-            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">1</span>
-            <h2 class="text-2xl font-bold">🧬 Agêntico</h2>
-          </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
-            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
-          </button>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-2">O que é</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-4-t1-p1">
+<link href="https://inematds.github.io/vibe-coding-completo/curso/trilha1/modulo-1-4.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/en/curso/trilha1/modulo-1-4.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/es/curso/trilha1/modulo-1-4.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="modulo-1-4.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">PT</a><a href="../../en/curso/trilha1/modulo-1-4.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="../../es/curso/trilha1/modulo-1-4.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-emerald-600 focus:text-white focus:rounded-lg" href="#conteudo">Pular para o conteúdo</a>
+<!-- NAVIGATION (T1 ativa) -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10" href="index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Técnica</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Projetos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Produção</span>
+</a>
+<button class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-inema-journey-open="" type="button">
+<span aria-hidden="true">◷</span><span>Minha jornada</span>
+<span class="inema-journey-badge hidden" data-count="0" data-inema-journey-badge=""></span>
+</button>
+<button aria-label="Alternar tema claro/escuro" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20">
+<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+</svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav aria-label="Trilha de navegação" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-emerald-400" href="../../index.html">Início</a>
+<span>/</span>
+<a class="hover:text-emerald-400" href="index.html">Trilha 1</a>
+<span>/</span>
+<span class="text-emerald-400">Módulo 1.4</span>
+</div>
+</nav>
+<!-- HEADER DO MÓDULO -->
+<header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4">MÓDULO 1.4</span>
+<h3 class="text-2xl font-bold mb-4">📚 Glossário Essencial (Parte 2: Agêntico, RAG, Deploy, Segurança)</h3>
+<p class="text-lg text-neutral-400 max-w-3xl">A segunda metade do dicionário — agora os termos de quem coloca o agente <strong class="text-emerald-300">no mundo</strong>: vocabulário agêntico, RAG, versionamento na nuvem, execução hospedada, app/frontend e segurança &amp; pagamento. Como na Parte 1, cada termo vem definido com exemplo concreto. É o que você vai reencontrar nas trilhas de projetos e produção.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-emerald-400">6</div>
+<div class="text-xs text-neutral-400">Clusters</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-emerald-400">~50</div>
+<div class="text-xs text-neutral-400">Minutos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-emerald-400">Básico</div>
+<div class="text-xs text-neutral-400">Nível</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-emerald-400">Glossário</div>
+<div class="text-xs text-neutral-400">Tipo</div>
+</div>
+</div>
+<div aria-label="Progresso do módulo 1.4" aria-valuemax="100" aria-valuemin="0" class="mt-6 max-w-2xl" data-inema-meter="modulo:1-4" role="progressbar">
+<div class="flex items-center justify-between mb-1 text-sm">
+<span class="text-neutral-400">Progresso do módulo</span>
+<span class="text-emerald-400 font-semibold"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 6</span></span>
+</div>
+<div class="inema-bar h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-emerald-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+</header>
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:grid lg:grid-cols-[1fr_220px] lg:gap-10">
+<main class="min-w-0" id="conteudo">
+<!-- Novo aqui? box (intro, #31) -->
+<div class="bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-5 mb-10">
+<h2 class="text-base font-semibold text-emerald-400 mb-2 flex items-center"><span class="mr-2">🌱</span> Novo por aqui?</h2>
+<p class="text-neutral-300 text-sm">Esta é a continuação do glossário do módulo 1.3 — agora com os termos de produção. Mesmo formato: definição curta + exemplo concreto, sem jargão órfão. Nomes de ferramentas (GitHub, Trigger.dev, Vercel, Supabase, Stripe) aparecem porque são o vocabulário real — cada um é explicado na primeira vez. Use o índice à direita para pular ao cluster que você precisa.</p>
+</div>
+<!-- SVG FUTURISTA (visão geral, #29) -->
+<section class="mb-12">
+<p class="text-neutral-300 mb-4 inema-prose leading-relaxed">Os seis clusters seguem o caminho de "tirar da sua máquina e botar no mundo": primeiro a linguagem do que é <strong class="text-emerald-300">agêntico</strong>, depois como a IA responde com seus dados (<strong class="text-emerald-300">RAG</strong>), onde o código mora (versionamento), como ele roda sozinho (execução hospedada), como vira um site (app/frontend) e como se protege e cobra (segurança &amp; pagamento).</p>
+<div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="Os seis clusters da Parte 2 em sequência: vocabulário agêntico, RAG, versionamento na nuvem, execução hospedada, app e frontend, e segurança e pagamento; cada caixa agrupa os termos daquele tema, do conceito agêntico até proteger e monetizar" class="w-full h-auto" role="img" viewbox="0 0 1000 200">
+<defs>
+<lineargradient id="m14-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#34d399"></stop><stop offset="1" stop-color="#10b981"></stop></lineargradient>
+<pattern height="32" id="m14-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#10b981" opacity="0.12" r="1.3"></circle></pattern>
+<marker id="m14-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"></path></marker>
+</defs>
+<rect fill="url(#m14-grid)" height="200" width="1000" x="0" y="0"></rect>
+<g class="wf-a"><rect fill="#0e2018" height="56" rx="12" stroke="url(#m14-grad)" stroke-width="2" width="150" x="30" y="36"></rect><text fill="#34d399" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="105" y="60">🧬 Agêntico</text><text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="105" y="78">WAT · auto-melhoria</text></g>
+<g fill="none" opacity="0.6" stroke="#34d399" stroke-width="2"><path d="M180,64 L210,64" marker-end="url(#m14-ah)"></path></g>
+<g class="wf-a"><rect fill="#0e2018" height="56" rx="12" stroke="url(#m14-grad)" stroke-width="2" width="150" x="210" y="36"></rect><text fill="#34d399" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="285" y="60">🔎 RAG</text><text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="285" y="78">responde com seus dados</text></g>
+<g fill="none" opacity="0.6" stroke="#34d399" stroke-width="2"><path d="M360,64 L390,64" marker-end="url(#m14-ah)"></path></g>
+<g class="wf-a"><rect fill="#0e2018" height="56" rx="12" stroke="url(#m14-grad)" stroke-width="2" width="150" x="390" y="36"></rect><text fill="#34d399" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="465" y="60">🐙 Versionamento</text><text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="465" y="78">onde o código mora</text></g>
+<g fill="none" opacity="0.6" stroke="#34d399" stroke-width="2"><path d="M540,64 L570,64" marker-end="url(#m14-ah)"></path></g>
+<g class="wf-a"><rect fill="#0e2018" height="56" rx="12" stroke="url(#m14-grad)" stroke-width="2" width="150" x="570" y="36"></rect><text fill="#34d399" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="645" y="60">☁️ Hospedado</text><text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="645" y="78">roda sozinho</text></g>
+<g fill="none" opacity="0.6" stroke="#34d399" stroke-width="2"><path d="M645,92 C645,108 480,112 465,116" marker-end="url(#m14-ah)"></path></g>
+<g class="wf-a"><rect fill="#0e1b26" height="56" rx="12" stroke="#38bdf8" stroke-width="2" width="150" x="390" y="116"></rect><text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="465" y="140">🖥️ App / frontend</text><text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="465" y="158">vira um site usável</text></g>
+<g fill="none" opacity="0.6" stroke="#34d399" stroke-width="2"><path d="M390,144 L360,144" marker-end="url(#m14-ah)"></path></g>
+<g class="wf-a"><rect fill="#0e2018" height="56" rx="12" stroke="url(#m14-grad)" stroke-width="2" width="150" x="210" y="116"></rect><text fill="#34d399" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="285" y="140">🔐 Segurança</text><text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="285" y="158">protege &amp; monetiza</text></g>
+</svg>
+</div>
+<p class="text-xs text-neutral-500">Diagrama ilustrativo — a Parte 2 do glossário, do conceito agêntico até proteger e cobrar. Cada caixa é um tópico abaixo.</p>
+</section>
+<!-- TÓPICO 1 -->
+<section class="mb-16" data-inema-topic="modulo-1-4#topico-1" id="topico-1">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🧬 Agêntico</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tenho dúvida</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">O que é</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-4-t1-p1">
           Um <strong class="text-emerald-400">agente</strong> é um sistema que recebe um objetivo e <em>raciocina, se adapta e se auto-corrige</em> para alcançá-lo — em vez de seguir passos fixos. <strong class="text-emerald-400">Agêntico</strong> é o adjetivo: descreve esse comportamento de "decidir o caminho". Para construir agentes de forma organizada existe o <strong class="text-emerald-400">WAT</strong> (Workflows / Agent / Tools): <strong>W</strong> são as instruções em markdown (o "manual"), <strong>A</strong> é o agente coordenador (o "cérebro"), <strong>T</strong> são as ferramentas/scripts que fazem o trabalho.
         </p>
-
-        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-4-t1-p2">
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-4-t1-p2">
           O que torna o agente poderoso é o <strong class="text-emerald-400">loop de auto-melhoria</strong>: ele roda, bate num erro, diagnostica, conserta a ferramenta e atualiza o manual — para o erro não voltar. Mas há uma armadilha: o <strong class="text-emerald-400">agentic gap</strong> ("lacuna agêntica") — quando o agente roda sozinho na nuvem, ninguém está olhando para se auto-curar, então a confiabilidade vira responsabilidade sua.
         </p>
-
-        <!-- SVG conceitual (#29) -->
-        <div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
-          <svg viewBox="0 0 1000 180" class="w-full h-auto" role="img" aria-label="O framework WAT: as instruções em markdown (W) alimentam o agente coordenador (A) em ciano, que aciona ferramentas (T); o loop de auto-melhoria volta do erro para corrigir a ferramenta e atualizar a instrução">
-            <defs>
-              <linearGradient id="m14a-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#34d399"/><stop offset="1" stop-color="#10b981"/></linearGradient>
-              <pattern id="m14a-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#10b981" opacity="0.1"/></pattern>
-              <filter id="m14a-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-              <marker id="m14a-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"/></marker>
-              <marker id="m14a-ahc" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"/></marker>
-            </defs>
-            <rect x="0" y="0" width="1000" height="180" fill="url(#m14a-grid)"/>
-            <rect x="40" y="64" width="180" height="52" rx="13" fill="#0e2018" stroke="url(#m14a-grad)" stroke-width="2"/><text x="130" y="88" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="13">📄 W — Workflows</text><text x="130" y="105" text-anchor="middle" fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10">instruções (markdown)</text>
-            <g fill="none" stroke="#38bdf8" stroke-width="2" opacity="0.7"><path d="M220,90 L300,90" marker-end="url(#m14a-ahc)"/></g>
-            <g filter="url(#m14a-glow)"><rect x="300" y="60" width="200" height="60" rx="14" fill="#0e1b26" stroke="#38bdf8" stroke-width="2.4"/></g>
-            <text x="400" y="86" text-anchor="middle" fill="#bfe6ff" font-family="Inter,sans-serif" font-weight="700" font-size="14">🤖 A — Agent</text><text x="400" y="106" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11">coordena e decide</text>
-            <g fill="none" stroke="#34d399" stroke-width="2" opacity="0.7"><path d="M500,90 L580,90" marker-end="url(#m14a-ah)"/></g>
-            <rect x="580" y="64" width="180" height="52" rx="13" fill="#0e2018" stroke="url(#m14a-grad)" stroke-width="2"/><text x="670" y="88" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="13">🔧 T — Tools</text><text x="670" y="105" text-anchor="middle" fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10">scripts que executam</text>
-            <g fill="none" stroke="#34d399" stroke-width="2" opacity="0.7" stroke-dasharray="5 4"><path d="M670,116 C670,150 400,156 400,124" marker-end="url(#m14a-ah)"/></g>
-            <text x="535" y="170" text-anchor="middle" fill="#7fd6b3" font-family="Inter,sans-serif" font-size="11">loop de auto-melhoria: erra → conserta a tool → atualiza o workflow</text>
-          </svg>
-        </div>
-        <p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — W alimenta A (ciano), que aciona T; a linha tracejada é o loop de auto-melhoria que fecha o ciclo.</p>
-
-        <!-- glossário inline (#31) -->
-        <div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-5 mb-6 gloss">
-          <p class="text-sm font-semibold text-emerald-400 mb-3"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">Glossário</span>Vocabulário agêntico</p>
-          <dl class="space-y-3 text-sm text-neutral-300">
-            <div><dt class="text-emerald-300">Agente</dt><dd>Sistema que raciocina, adapta e se auto-cura rumo a um objetivo. <em>Ex.: pesquisa um tema e entrega um relatório sozinho.</em></dd></div>
-            <div><dt class="text-emerald-300">Agêntico</dt><dd>O comportamento de decidir o caminho, não seguir roteiro fixo. <em>Ex.: ele escolhe quais ferramentas usar.</em></dd></div>
-            <div><dt class="text-emerald-300">WAT (Workflows / Agent / Tools)</dt><dd>Estrutura: instruções + coordenador + scripts. <em>Ex.: W diz o que fazer, A decide, T executa.</em></dd></div>
-            <div><dt class="text-emerald-300">Loop de auto-melhoria</dt><dd>Errar → diagnosticar → consertar a tool → atualizar o workflow. <em>Ex.: o erro não volta na próxima execução.</em></dd></div>
-            <div><dt class="text-emerald-300">Agentic gap</dt><dd>Na nuvem, ninguém está olhando para auto-curar. <em>Ex.: uma falha pode passar despercebida — exige logs e alertas.</em></dd></div>
-          </dl>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-2">Por que aprender</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-4-t1-p3">Essas palavras explicam a diferença entre "rodou na minha frente" e "roda sozinho com segurança". O loop de auto-melhoria é o que faz o agente ficar melhor com o uso; o agentic gap é o motivo de você ter que pensar em confiabilidade <strong>desde o primeiro prompt</strong> quando vai hospedar.</p>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceitos-chave</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Agente</div><p class="text-xs text-neutral-400">Raciocina e se adapta.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">WAT</div><p class="text-xs text-neutral-400">Workflows, Agent, Tools.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Auto-melhoria</div><p class="text-xs text-neutral-400">O erro não volta.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Agentic gap</div><p class="text-xs text-neutral-400">Sem auto-cura na nuvem.</p></div>
-        </div>
-
-        <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- TÓPICO 2 -->
-      <section id="topico-2" data-inema-topic="modulo-1-4#topico-2" class="mb-16">
-        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-          <div class="flex items-center space-x-4">
-            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">2</span>
-            <h2 class="text-2xl font-bold">🔎 RAG</h2>
-          </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
-            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
-          </button>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-2">O que é</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-4-t2-p1">
-          <strong class="text-emerald-400">RAG</strong> (Retrieval-Augmented Generation, "geração aumentada por recuperação") é a técnica de fazer a IA <em>buscar</em> a informação certa nos seus documentos antes de responder — em vez de chutar pela memória. Os documentos formam a <strong class="text-emerald-400">knowledge base</strong> ("base de conhecimento"). O ato de procurar e trazer o trecho relevante é o <strong class="text-emerald-400">retrieval</strong> ("recuperação").
+<!-- SVG conceitual (#29) -->
+<div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="O framework WAT: as instruções em markdown (W) alimentam o agente coordenador (A) em ciano, que aciona ferramentas (T); o loop de auto-melhoria volta do erro para corrigir a ferramenta e atualizar a instrução" class="w-full h-auto" role="img" viewbox="0 0 1000 180">
+<defs>
+<lineargradient id="m14a-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#34d399"></stop><stop offset="1" stop-color="#10b981"></stop></lineargradient>
+<pattern height="32" id="m14a-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#10b981" opacity="0.1" r="1.3"></circle></pattern>
+<filter height="180%" id="m14a-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<marker id="m14a-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"></path></marker>
+<marker id="m14a-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m14a-grid)" height="180" width="1000" x="0" y="0"></rect>
+<rect fill="#0e2018" height="52" rx="13" stroke="url(#m14a-grad)" stroke-width="2" width="180" x="40" y="64"></rect><text fill="#34d399" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="130" y="88">📄 W — Workflows</text><text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="130" y="105">instruções (markdown)</text>
+<g fill="none" opacity="0.7" stroke="#38bdf8" stroke-width="2"><path d="M220,90 L300,90" marker-end="url(#m14a-ahc)"></path></g>
+<g filter="url(#m14a-glow)"><rect fill="#0e1b26" height="60" rx="14" stroke="#38bdf8" stroke-width="2.4" width="200" x="300" y="60"></rect></g>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="14" font-weight="700" text-anchor="middle" x="400" y="86">🤖 A — Agent</text><text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="400" y="106">coordena e decide</text>
+<g fill="none" opacity="0.7" stroke="#34d399" stroke-width="2"><path d="M500,90 L580,90" marker-end="url(#m14a-ah)"></path></g>
+<rect fill="#0e2018" height="52" rx="13" stroke="url(#m14a-grad)" stroke-width="2" width="180" x="580" y="64"></rect><text fill="#34d399" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="670" y="88">🔧 T — Tools</text><text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="670" y="105">scripts que executam</text>
+<g fill="none" opacity="0.7" stroke="#34d399" stroke-dasharray="5 4" stroke-width="2"><path d="M670,116 C670,150 400,156 400,124" marker-end="url(#m14a-ah)"></path></g>
+<text fill="#7fd6b3" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="535" y="170">loop de auto-melhoria: erra → conserta a tool → atualiza o workflow</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — W alimenta A (ciano), que aciona T; a linha tracejada é o loop de auto-melhoria que fecha o ciclo.</p>
+<!-- glossário inline (#31) -->
+<div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-5 mb-6 gloss">
+<p class="text-sm font-semibold text-emerald-400 mb-3"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">Glossário</span>Vocabulário agêntico</p>
+<dl class="space-y-3 text-sm text-neutral-300">
+<div><dt class="text-emerald-300">Agente</dt><dd>Sistema que raciocina, adapta e se auto-cura rumo a um objetivo. <em>Ex.: pesquisa um tema e entrega um relatório sozinho.</em></dd></div>
+<div><dt class="text-emerald-300">Agêntico</dt><dd>O comportamento de decidir o caminho, não seguir roteiro fixo. <em>Ex.: ele escolhe quais ferramentas usar.</em></dd></div>
+<div><dt class="text-emerald-300">WAT (Workflows / Agent / Tools)</dt><dd>Estrutura: instruções + coordenador + scripts. <em>Ex.: W diz o que fazer, A decide, T executa.</em></dd></div>
+<div><dt class="text-emerald-300">Loop de auto-melhoria</dt><dd>Errar → diagnosticar → consertar a tool → atualizar o workflow. <em>Ex.: o erro não volta na próxima execução.</em></dd></div>
+<div><dt class="text-emerald-300">Agentic gap</dt><dd>Na nuvem, ninguém está olhando para auto-curar. <em>Ex.: uma falha pode passar despercebida — exige logs e alertas.</em></dd></div>
+</dl>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">Por que aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-4-t1-p3">Essas palavras explicam a diferença entre "rodou na minha frente" e "roda sozinho com segurança". O loop de auto-melhoria é o que faz o agente ficar melhor com o uso; o agentic gap é o motivo de você ter que pensar em confiabilidade <strong>desde o primeiro prompt</strong> quando vai hospedar.</p>
+<h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceitos-chave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Agente</div><p class="text-xs text-neutral-400">Raciocina e se adapta.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">WAT</div><p class="text-xs text-neutral-400">Workflows, Agent, Tools.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Auto-melhoria</div><p class="text-xs text-neutral-400">O erro não volta.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Agentic gap</div><p class="text-xs text-neutral-400">Sem auto-cura na nuvem.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 2 -->
+<section class="mb-16" data-inema-topic="modulo-1-4#topico-2" id="topico-2">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">🔎 RAG</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tenho dúvida</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">O que é</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-4-t2-p1">
+<strong class="text-emerald-400">RAG</strong> (Retrieval-Augmented Generation, "geração aumentada por recuperação") é a técnica de fazer a IA <em>buscar</em> a informação certa nos seus documentos antes de responder — em vez de chutar pela memória. Os documentos formam a <strong class="text-emerald-400">knowledge base</strong> ("base de conhecimento"). O ato de procurar e trazer o trecho relevante é o <strong class="text-emerald-400">retrieval</strong> ("recuperação").
         </p>
-
-        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-4-t2-p2">
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-4-t2-p2">
           Para o agente saber o quanto pode confiar no que achou, ele pode emitir um <strong class="text-emerald-400">confidence score</strong> ("nota de confiança"): alta, média ou baixa, conforme o quão bem a base bateu com a pergunta. Se a confiança é baixa (ou não achou nada), o agente <strong>recusa inventar</strong> e cai num plano B educado ("vou pesquisar e retorno") — o oposto de alucinar.
         </p>
-
-        <!-- glossário inline (#31) -->
-        <div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-5 mb-6 gloss">
-          <p class="text-sm font-semibold text-emerald-400 mb-3"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">Glossário</span>RAG &amp; recuperação</p>
-          <dl class="space-y-3 text-sm text-neutral-300">
-            <div><dt class="text-emerald-300">RAG</dt><dd>A IA busca nos seus docs antes de responder. <em>Ex.: cita a política de troca em vez de inventar um prazo.</em></dd></div>
-            <div><dt class="text-emerald-300">Knowledge base</dt><dd>O conjunto de documentos que a IA consulta. <em>Ex.: o PDF de políticas + o FAQ da loja.</em></dd></div>
-            <div><dt class="text-emerald-300">Retrieval (recuperação)</dt><dd>Procurar e trazer o trecho relevante. <em>Ex.: achar a seção de garantia para responder sobre TV.</em></dd></div>
-            <div><dt class="text-emerald-300">Confidence score</dt><dd>Quão bem a base bateu (alta/média/baixa). <em>Ex.: baixa → não responde, encaminha para pesquisa.</em></dd></div>
-          </dl>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-2">Por que aprender</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-4-t2-p3">RAG é o que transforma um chatbot genérico num agente que responde sobre o <em>seu</em> negócio com fatos verificáveis. E o confidence score é a peça de segurança: ele faz o agente dizer "não sei" em vez de mentir com confiança — exatamente o comportamento que você verifica no "trust but verify".</p>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
-            <h4 class="font-bold text-emerald-400 mb-4">✓ RAG bem feito</h4>
-            <ul class="space-y-3 text-neutral-300 text-sm">
-              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Responde citando os seus documentos.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Emite confidence score e usa fallback quando baixa.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Recusa inventar o que não está na base.</span></li>
-            </ul>
-          </div>
-          <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
-            <h4 class="font-bold text-red-400 mb-4">✗ Sinais de RAG ruim</h4>
-            <ul class="space-y-3 text-neutral-300 text-sm">
-              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Inventar prazos/números que não estão nos docs.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Responder com confiança mesmo sem achar nada.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Ignorar a nota de confiança (sem plano B).</span></li>
-            </ul>
-          </div>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceitos-chave</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">RAG</div><p class="text-xs text-neutral-400">Buscar antes de responder.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Knowledge base</div><p class="text-xs text-neutral-400">Seus documentos.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Retrieval</div><p class="text-xs text-neutral-400">Trazer o trecho certo.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Confiança</div><p class="text-xs text-neutral-400">Não sabe? não inventa.</p></div>
-        </div>
-
-        <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- TÓPICO 3 -->
-      <section id="topico-3" data-inema-topic="modulo-1-4#topico-3" class="mb-16">
-        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-          <div class="flex items-center space-x-4">
-            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">3</span>
-            <h2 class="text-2xl font-bold">🐙 Versionamento na nuvem</h2>
-          </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
-            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
-          </button>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-2">O que é</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-4-t3-p1">
-          <strong class="text-emerald-400">GitHub</strong> é um armazenamento de código na nuvem: o lugar onde o código mora, acessível de qualquer máquina, com histórico completo para voltar atrás. Cada projeto fica num <strong class="text-emerald-400">repo (repositório)</strong> — a pasta do projeto dentro do GitHub. Você salva mudanças em <strong class="text-emerald-400">commits</strong> (fotografias do projeto com uma descrição) e envia esses commits para a nuvem com um <strong class="text-emerald-400">push</strong>.
+<!-- glossário inline (#31) -->
+<div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-5 mb-6 gloss">
+<p class="text-sm font-semibold text-emerald-400 mb-3"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">Glossário</span>RAG &amp; recuperação</p>
+<dl class="space-y-3 text-sm text-neutral-300">
+<div><dt class="text-emerald-300">RAG</dt><dd>A IA busca nos seus docs antes de responder. <em>Ex.: cita a política de troca em vez de inventar um prazo.</em></dd></div>
+<div><dt class="text-emerald-300">Knowledge base</dt><dd>O conjunto de documentos que a IA consulta. <em>Ex.: o PDF de políticas + o FAQ da loja.</em></dd></div>
+<div><dt class="text-emerald-300">Retrieval (recuperação)</dt><dd>Procurar e trazer o trecho relevante. <em>Ex.: achar a seção de garantia para responder sobre TV.</em></dd></div>
+<div><dt class="text-emerald-300">Confidence score</dt><dd>Quão bem a base bateu (alta/média/baixa). <em>Ex.: baixa → não responde, encaminha para pesquisa.</em></dd></div>
+</dl>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">Por que aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-4-t2-p3">RAG é o que transforma um chatbot genérico num agente que responde sobre o <em>seu</em> negócio com fatos verificáveis. E o confidence score é a peça de segurança: ele faz o agente dizer "não sei" em vez de mentir com confiança — exatamente o comportamento que você verifica no "trust but verify".</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ RAG bem feito</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Responde citando os seus documentos.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Emite confidence score e usa fallback quando baixa.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Recusa inventar o que não está na base.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Sinais de RAG ruim</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Inventar prazos/números que não estão nos docs.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Responder com confiança mesmo sem achar nada.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Ignorar a nota de confiança (sem plano B).</span></li>
+</ul>
+</div>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceitos-chave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">RAG</div><p class="text-xs text-neutral-400">Buscar antes de responder.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Knowledge base</div><p class="text-xs text-neutral-400">Seus documentos.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Retrieval</div><p class="text-xs text-neutral-400">Trazer o trecho certo.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Confiança</div><p class="text-xs text-neutral-400">Não sabe? não inventa.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 3 -->
+<section class="mb-16" data-inema-topic="modulo-1-4#topico-3" id="topico-3">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">🐙 Versionamento na nuvem</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tenho dúvida</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">O que é</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-4-t3-p1">
+<strong class="text-emerald-400">GitHub</strong> é um armazenamento de código na nuvem: o lugar onde o código mora, acessível de qualquer máquina, com histórico completo para voltar atrás. Cada projeto fica num <strong class="text-emerald-400">repo (repositório)</strong> — a pasta do projeto dentro do GitHub. Você salva mudanças em <strong class="text-emerald-400">commits</strong> (fotografias do projeto com uma descrição) e envia esses commits para a nuvem com um <strong class="text-emerald-400">push</strong>.
         </p>
-
-        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-4-t3-p2">
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-4-t3-p2">
           Para o assistente operar o GitHub pelo terminal, usa-se a <strong class="text-emerald-400">gh CLI</strong> ("interface de linha de comando do GitHub"): a ferramenta que conecta sua máquina à sua conta. E lembre da regra de ouro: o <code class="text-cyan-300">.env</code> (com as chaves) <strong>nunca</strong> entra num commit — o <code>.gitignore</code> garante isso.
         </p>
-
-        <!-- glossário inline (#31) -->
-        <div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-5 mb-6 gloss">
-          <p class="text-sm font-semibold text-emerald-400 mb-3"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">Glossário</span>Git &amp; nuvem</p>
-          <dl class="space-y-3 text-sm text-neutral-300">
-            <div><dt class="text-emerald-300">GitHub</dt><dd>Armazenamento de código na nuvem, com histórico. <em>Ex.: o deploy puxa o código de lá, não da sua máquina.</em></dd></div>
-            <div><dt class="text-emerald-300">Repo (repositório)</dt><dd>A pasta do projeto dentro do GitHub. <em>Ex.: um repo privado chamado "automacoes".</em></dd></div>
-            <div><dt class="text-emerald-300">Commit</dt><dd>Uma foto salva do projeto com uma descrição. <em>Ex.: "adiciona tratamento de erro no nó X".</em></dd></div>
-            <div><dt class="text-emerald-300">Push</dt><dd>Enviar os commits locais para o GitHub. <em>Ex.: "push" depois de iterar no código.</em></dd></div>
-            <div><dt class="text-emerald-300">gh CLI</dt><dd>A ferramenta de linha de comando do GitHub. <em>Ex.: o assistente a usa para conectar e enviar.</em></dd></div>
-          </dl>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-2">Por que aprender</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-4-t3-p3">GitHub é a base de tudo que roda hospedado: o código precisa estar na nuvem para um serviço de execução puxá-lo e rodar. O histórico de commits também é seu seguro — se algo quebra, você volta para uma versão que funcionava. E entender commit/push/repo te deixa acompanhar o que o assistente faz, em vez de só aprovar às cegas.</p>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceitos-chave</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">GitHub</div><p class="text-xs text-neutral-400">Código na nuvem.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Repo</div><p class="text-xs text-neutral-400">A pasta do projeto.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Commit / push</div><p class="text-xs text-neutral-400">Salvar e enviar.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">.env fora</div><p class="text-xs text-neutral-400">Segredo nunca sobe.</p></div>
-        </div>
-
-        <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- TÓPICO 4 -->
-      <section id="topico-4" data-inema-topic="modulo-1-4#topico-4" class="mb-16">
-        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-          <div class="flex items-center space-x-4">
-            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">4</span>
-            <h2 class="text-2xl font-bold">☁️ Execução hospedada</h2>
-          </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
-            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
-          </button>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-2">O que é</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-4-t4-p1">
-          <strong class="text-emerald-400">Trigger.dev</strong> é um motor de execução na nuvem: roda suas tarefas de forma confiável, sem timeout, com retries e logs — como um assistente que faz o trabalho na hora certa. Ele dispara tarefas por <strong class="text-emerald-400">cron</strong> (um relógio de agendamento — um padrão de 5 campos como <code class="text-cyan-300">0 7 * * *</code> = "7h todo dia") ou por <strong class="text-emerald-400">webhook</strong> (uma "campainha digital": uma URL que, ao receber dados, acorda a tarefa).
+<!-- glossário inline (#31) -->
+<div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-5 mb-6 gloss">
+<p class="text-sm font-semibold text-emerald-400 mb-3"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">Glossário</span>Git &amp; nuvem</p>
+<dl class="space-y-3 text-sm text-neutral-300">
+<div><dt class="text-emerald-300">GitHub</dt><dd>Armazenamento de código na nuvem, com histórico. <em>Ex.: o deploy puxa o código de lá, não da sua máquina.</em></dd></div>
+<div><dt class="text-emerald-300">Repo (repositório)</dt><dd>A pasta do projeto dentro do GitHub. <em>Ex.: um repo privado chamado "automacoes".</em></dd></div>
+<div><dt class="text-emerald-300">Commit</dt><dd>Uma foto salva do projeto com uma descrição. <em>Ex.: "adiciona tratamento de erro no nó X".</em></dd></div>
+<div><dt class="text-emerald-300">Push</dt><dd>Enviar os commits locais para o GitHub. <em>Ex.: "push" depois de iterar no código.</em></dd></div>
+<div><dt class="text-emerald-300">gh CLI</dt><dd>A ferramenta de linha de comando do GitHub. <em>Ex.: o assistente a usa para conectar e enviar.</em></dd></div>
+</dl>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">Por que aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-4-t3-p3">GitHub é a base de tudo que roda hospedado: o código precisa estar na nuvem para um serviço de execução puxá-lo e rodar. O histórico de commits também é seu seguro — se algo quebra, você volta para uma versão que funcionava. E entender commit/push/repo te deixa acompanhar o que o assistente faz, em vez de só aprovar às cegas.</p>
+<h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceitos-chave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">GitHub</div><p class="text-xs text-neutral-400">Código na nuvem.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Repo</div><p class="text-xs text-neutral-400">A pasta do projeto.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Commit / push</div><p class="text-xs text-neutral-400">Salvar e enviar.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">.env fora</div><p class="text-xs text-neutral-400">Segredo nunca sobe.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 4 -->
+<section class="mb-16" data-inema-topic="modulo-1-4#topico-4" id="topico-4">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">☁️ Execução hospedada</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tenho dúvida</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">O que é</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-4-t4-p1">
+<strong class="text-emerald-400">Trigger.dev</strong> é um motor de execução na nuvem: roda suas tarefas de forma confiável, sem timeout, com retries e logs — como um assistente que faz o trabalho na hora certa. Ele dispara tarefas por <strong class="text-emerald-400">cron</strong> (um relógio de agendamento — um padrão de 5 campos como <code class="text-cyan-300">0 7 * * *</code> = "7h todo dia") ou por <strong class="text-emerald-400">webhook</strong> (uma "campainha digital": uma URL que, ao receber dados, acorda a tarefa).
         </p>
-
-        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-4-t4-p2">
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-4-t4-p2">
           Os dados que chegam pelo webhook são o <strong class="text-emerald-400">payload</strong> ("carga"). Você constrói e testa num ambiente de <strong class="text-emerald-400">dev (desenvolvimento)</strong> antes de promover para <strong class="text-emerald-400">prod (produção)</strong>, o ao-vivo. Cada execução deixa um <strong class="text-emerald-400">trace</strong> (rastro passo a passo); falhas podem disparar <strong class="text-emerald-400">retries</strong> (novas tentativas) e <strong class="text-emerald-400">alerts</strong> (avisos por e-mail/Slack).
         </p>
-
-        <!-- glossário inline (#31) -->
-        <div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-5 mb-6 gloss">
-          <p class="text-sm font-semibold text-emerald-400 mb-3"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">Glossário</span>Execução na nuvem</p>
-          <dl class="space-y-3 text-sm text-neutral-300">
-            <div><dt class="text-emerald-300">Trigger.dev</dt><dd>Motor de execução na nuvem (sem timeout, com retries e logs). <em>Ex.: roda a tarefa às 8h todo dia.</em></dd></div>
-            <div><dt class="text-emerald-300">Cron</dt><dd>Agendamento por relógio, 5 campos. <em>Ex.: <code>0 7 * * *</code> = 7h diariamente.</em></dd></div>
-            <div><dt class="text-emerald-300">Webhook</dt><dd>URL que acorda a tarefa ao receber dados. <em>Ex.: um formulário envia dados e dispara o relatório.</em></dd></div>
-            <div><dt class="text-emerald-300">Payload</dt><dd>Os dados que chegam pelo webhook. <em>Ex.: nome da empresa, setor, objetivo num JSON.</em></dd></div>
-            <div><dt class="text-emerald-300">Dev vs prod</dt><dd>Ambiente de teste vs ambiente ao-vivo. <em>Ex.: testar em dev, promover para prod.</em></dd></div>
-            <div><dt class="text-emerald-300">Trace · retry · alert</dt><dd>Rastro da execução, novas tentativas, avisos de falha. <em>Ex.: 3 retries com espera; alerta por e-mail.</em></dd></div>
-          </dl>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-2">Por que aprender</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-4-t4-p3">Este é o vocabulário que fecha o agentic gap. Sem ninguém olhando, são os <strong>traces</strong> que te mostram o que aconteceu, os <strong>retries</strong> que resolvem falhas passageiras e os <strong>alerts</strong> que te avisam antes do usuário. Cuidado: retry conserta erro temporário (de rede/tempo), não bug de lógica — saber a diferença evita "tentar de novo" para sempre.</p>
-
-        <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
-          <h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Dica prática</h3>
-          <p class="text-neutral-300 text-sm">Construa e teste sempre em <strong>dev</strong>; só promova para <strong>prod</strong> quando estiver pronto. E configure <strong>alertas de falha</strong> em toda tarefa hospedada — assim você descobre que algo quebrou antes que um usuário descubra por você.</p>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceitos-chave</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Trigger.dev</div><p class="text-xs text-neutral-400">Motor de execução.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Cron / webhook</div><p class="text-xs text-neutral-400">Por agenda ou evento.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Dev → prod</div><p class="text-xs text-neutral-400">Teste, depois ao-vivo.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Trace/retry/alert</div><p class="text-xs text-neutral-400">Visibilidade na nuvem.</p></div>
-        </div>
-
-        <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- TÓPICO 5 -->
-      <section id="topico-5" data-inema-topic="modulo-1-4#topico-5" class="mb-16">
-        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-          <div class="flex items-center space-x-4">
-            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">5</span>
-            <h2 class="text-2xl font-bold">🖥️ App / Frontend</h2>
-          </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
-            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
-          </button>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-2">O que é</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-4-t5-p1">
+<!-- glossário inline (#31) -->
+<div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-5 mb-6 gloss">
+<p class="text-sm font-semibold text-emerald-400 mb-3"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">Glossário</span>Execução na nuvem</p>
+<dl class="space-y-3 text-sm text-neutral-300">
+<div><dt class="text-emerald-300">Trigger.dev</dt><dd>Motor de execução na nuvem (sem timeout, com retries e logs). <em>Ex.: roda a tarefa às 8h todo dia.</em></dd></div>
+<div><dt class="text-emerald-300">Cron</dt><dd>Agendamento por relógio, 5 campos. <em>Ex.: <code>0 7 * * *</code> = 7h diariamente.</em></dd></div>
+<div><dt class="text-emerald-300">Webhook</dt><dd>URL que acorda a tarefa ao receber dados. <em>Ex.: um formulário envia dados e dispara o relatório.</em></dd></div>
+<div><dt class="text-emerald-300">Payload</dt><dd>Os dados que chegam pelo webhook. <em>Ex.: nome da empresa, setor, objetivo num JSON.</em></dd></div>
+<div><dt class="text-emerald-300">Dev vs prod</dt><dd>Ambiente de teste vs ambiente ao-vivo. <em>Ex.: testar em dev, promover para prod.</em></dd></div>
+<div><dt class="text-emerald-300">Trace · retry · alert</dt><dd>Rastro da execução, novas tentativas, avisos de falha. <em>Ex.: 3 retries com espera; alerta por e-mail.</em></dd></div>
+</dl>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">Por que aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-4-t4-p3">Este é o vocabulário que fecha o agentic gap. Sem ninguém olhando, são os <strong>traces</strong> que te mostram o que aconteceu, os <strong>retries</strong> que resolvem falhas passageiras e os <strong>alerts</strong> que te avisam antes do usuário. Cuidado: retry conserta erro temporário (de rede/tempo), não bug de lógica — saber a diferença evita "tentar de novo" para sempre.</p>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Dica prática</h3>
+<p class="text-neutral-300 text-sm">Construa e teste sempre em <strong>dev</strong>; só promova para <strong>prod</strong> quando estiver pronto. E configure <strong>alertas de falha</strong> em toda tarefa hospedada — assim você descobre que algo quebrou antes que um usuário descubra por você.</p>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceitos-chave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Trigger.dev</div><p class="text-xs text-neutral-400">Motor de execução.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Cron / webhook</div><p class="text-xs text-neutral-400">Por agenda ou evento.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Dev → prod</div><p class="text-xs text-neutral-400">Teste, depois ao-vivo.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Trace/retry/alert</div><p class="text-xs text-neutral-400">Visibilidade na nuvem.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 5 -->
+<section class="mb-16" data-inema-topic="modulo-1-4#topico-5" id="topico-5">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">🖥️ App / Frontend</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tenho dúvida</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">O que é</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-4-t5-p1">
           O <strong class="text-emerald-400">frontend</strong> é tudo o que o usuário vê e toca: botões, formulários, textos, layout — roda no navegador da pessoa. O <strong class="text-emerald-400">backend</strong> é o que roda no servidor: a lógica, as chamadas de API, o banco de dados — invisível ao usuário. Os dois conversam num ciclo de <strong class="text-emerald-400">request/response</strong> ("pedido/resposta"): o usuário clica → um pedido vai ao servidor → ele processa → a resposta volta → a tela atualiza.
         </p>
-
-        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-4-t5-p2">
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-4-t5-p2">
           Para publicar um frontend na internet usa-se a <strong class="text-emerald-400">Vercel</strong>: um serviço de hospedagem de sites — você dá um push no GitHub e ele coloca o site no ar, acessível de qualquer lugar. E os segredos do app (como a chave que liga o frontend ao backend) ficam em <strong class="text-emerald-400">env vars</strong> (variáveis de ambiente): valores injetados em tempo de execução, fora do código.
         </p>
-
-        <!-- SVG conceitual (#29) -->
-        <div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
-          <svg viewBox="0 0 1000 160" class="w-full h-auto" role="img" aria-label="O ciclo request response: o usuário no frontend envia um pedido ao backend no servidor, que processa a lógica e devolve a resposta que atualiza a tela">
-            <defs>
-              <pattern id="m14b-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#10b981" opacity="0.1"/></pattern>
-              <marker id="m14b-ahc" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"/></marker>
-              <marker id="m14b-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"/></marker>
-            </defs>
-            <rect x="0" y="0" width="1000" height="160" fill="url(#m14b-grid)"/>
-            <rect x="60" y="54" width="240" height="56" rx="14" fill="#0e2018" stroke="#34d399" stroke-width="2.2"/><text x="180" y="80" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="700" font-size="14">🖥️ Frontend</text><text x="180" y="99" text-anchor="middle" fill="#9ee9c9" font-family="Inter,sans-serif" font-size="11">o que o usuário vê (navegador)</text>
-            <rect x="700" y="54" width="240" height="56" rx="14" fill="#0e1b26" stroke="#38bdf8" stroke-width="2.2"/><text x="820" y="80" text-anchor="middle" fill="#bfe6ff" font-family="Inter,sans-serif" font-weight="700" font-size="14">⚙️ Backend</text><text x="820" y="99" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11">lógica · API · banco (servidor)</text>
-            <g fill="none" stroke="#34d399" stroke-width="2.2" opacity="0.85"><path d="M300,72 L698,72" marker-end="url(#m14b-ah)"/></g>
-            <text x="500" y="62" text-anchor="middle" fill="#7fd6b3" font-family="Inter,sans-serif" font-size="12">request (pedido) →</text>
-            <g fill="none" stroke="#38bdf8" stroke-width="2.2" opacity="0.85"><path d="M700,96 L302,96" marker-end="url(#m14b-ahc)"/></g>
-            <text x="500" y="116" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="12">← response (resposta) atualiza a tela</text>
-          </svg>
-        </div>
-        <p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — o frontend (emerald) pede, o backend (ciano) processa e responde. Esse vai-e-volta é o ciclo request/response.</p>
-
-        <!-- glossário inline (#31) -->
-        <div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-5 mb-6 gloss">
-          <p class="text-sm font-semibold text-emerald-400 mb-3"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">Glossário</span>App &amp; web</p>
-          <dl class="space-y-3 text-sm text-neutral-300">
-            <div><dt class="text-emerald-300">Frontend</dt><dd>O que o usuário vê e toca, no navegador. <em>Ex.: o formulário e o resultado na tela.</em></dd></div>
-            <div><dt class="text-emerald-300">Backend</dt><dd>A lógica no servidor (API, banco). <em>Ex.: a IA que analisa e calcula a nota do lead.</em></dd></div>
-            <div><dt class="text-emerald-300">Request / response</dt><dd>Pedido vai, resposta volta, tela atualiza. <em>Ex.: clica "gerar" → recebe a análise.</em></dd></div>
-            <div><dt class="text-emerald-300">Vercel</dt><dd>Hospedagem de sites; push no GitHub publica. <em>Ex.: o frontend fica acessível por uma URL.</em></dd></div>
-            <div><dt class="text-emerald-300">Env var (variável de ambiente)</dt><dd>Segredo injetado em runtime, fora do código. <em>Ex.: a chave que liga o frontend ao backend.</em></dd></div>
-          </dl>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-2">Por que aprender</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-4-t5-p3">A separação frontend/backend é o modelo mental que destrava entender qualquer app. É também o que conecta seu workflow ao mundo: trocando o gatilho de formulário por um webhook, qualquer pessoa com a URL pode usar sua automação por um site bonito — frontend na Vercel falando com o backend.</p>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceitos-chave</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Frontend</div><p class="text-xs text-neutral-400">O que se vê.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Backend</div><p class="text-xs text-neutral-400">A lógica no servidor.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Vercel</div><p class="text-xs text-neutral-400">Publica o site.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Env var</div><p class="text-xs text-neutral-400">Segredo em runtime.</p></div>
-        </div>
-
-        <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- TÓPICO 6 -->
-      <section id="topico-6" data-inema-topic="modulo-1-4#topico-6" class="mb-16">
-        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-          <div class="flex items-center space-x-4">
-            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">6</span>
-            <h2 class="text-2xl font-bold">🔐 Segurança & pagamento</h2>
-          </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
-            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
-          </button>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-2">O que é</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-4-t6-p1">
+<!-- SVG conceitual (#29) -->
+<div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="O ciclo request response: o usuário no frontend envia um pedido ao backend no servidor, que processa a lógica e devolve a resposta que atualiza a tela" class="w-full h-auto" role="img" viewbox="0 0 1000 160">
+<defs>
+<pattern height="32" id="m14b-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#10b981" opacity="0.1" r="1.3"></circle></pattern>
+<marker id="m14b-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+<marker id="m14b-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"></path></marker>
+</defs>
+<rect fill="url(#m14b-grid)" height="160" width="1000" x="0" y="0"></rect>
+<rect fill="#0e2018" height="56" rx="14" stroke="#34d399" stroke-width="2.2" width="240" x="60" y="54"></rect><text fill="#34d399" font-family="Inter,sans-serif" font-size="14" font-weight="700" text-anchor="middle" x="180" y="80">🖥️ Frontend</text><text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="180" y="99">o que o usuário vê (navegador)</text>
+<rect fill="#0e1b26" height="56" rx="14" stroke="#38bdf8" stroke-width="2.2" width="240" x="700" y="54"></rect><text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="14" font-weight="700" text-anchor="middle" x="820" y="80">⚙️ Backend</text><text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="820" y="99">lógica · API · banco (servidor)</text>
+<g fill="none" opacity="0.85" stroke="#34d399" stroke-width="2.2"><path d="M300,72 L698,72" marker-end="url(#m14b-ah)"></path></g>
+<text fill="#7fd6b3" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="500" y="62">request (pedido) →</text>
+<g fill="none" opacity="0.85" stroke="#38bdf8" stroke-width="2.2"><path d="M700,96 L302,96" marker-end="url(#m14b-ahc)"></path></g>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="500" y="116">← response (resposta) atualiza a tela</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — o frontend (emerald) pede, o backend (ciano) processa e responde. Esse vai-e-volta é o ciclo request/response.</p>
+<!-- glossário inline (#31) -->
+<div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-5 mb-6 gloss">
+<p class="text-sm font-semibold text-emerald-400 mb-3"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">Glossário</span>App &amp; web</p>
+<dl class="space-y-3 text-sm text-neutral-300">
+<div><dt class="text-emerald-300">Frontend</dt><dd>O que o usuário vê e toca, no navegador. <em>Ex.: o formulário e o resultado na tela.</em></dd></div>
+<div><dt class="text-emerald-300">Backend</dt><dd>A lógica no servidor (API, banco). <em>Ex.: a IA que analisa e calcula a nota do lead.</em></dd></div>
+<div><dt class="text-emerald-300">Request / response</dt><dd>Pedido vai, resposta volta, tela atualiza. <em>Ex.: clica "gerar" → recebe a análise.</em></dd></div>
+<div><dt class="text-emerald-300">Vercel</dt><dd>Hospedagem de sites; push no GitHub publica. <em>Ex.: o frontend fica acessível por uma URL.</em></dd></div>
+<div><dt class="text-emerald-300">Env var (variável de ambiente)</dt><dd>Segredo injetado em runtime, fora do código. <em>Ex.: a chave que liga o frontend ao backend.</em></dd></div>
+</dl>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">Por que aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-4-t5-p3">A separação frontend/backend é o modelo mental que destrava entender qualquer app. É também o que conecta seu workflow ao mundo: trocando o gatilho de formulário por um webhook, qualquer pessoa com a URL pode usar sua automação por um site bonito — frontend na Vercel falando com o backend.</p>
+<h3 class="text-lg font-semibold text-emerald-400 mb-3">Conceitos-chave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Frontend</div><p class="text-xs text-neutral-400">O que se vê.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Backend</div><p class="text-xs text-neutral-400">A lógica no servidor.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Vercel</div><p class="text-xs text-neutral-400">Publica o site.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Env var</div><p class="text-xs text-neutral-400">Segredo em runtime.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 6 -->
+<section class="mb-16" data-inema-topic="modulo-1-4#topico-6" id="topico-6">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">🔐 Segurança &amp; pagamento</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tenho dúvida</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">O que é</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-4-t6-p1">
           Quando o app tem usuários, você precisa proteger dados e cobrar. O <strong class="text-emerald-400">Supabase</strong> é um serviço de banco de dados + login (autenticação). Dentro dele, o <strong class="text-emerald-400">RLS</strong> (Row-Level Security, "segurança por linha") são regras que vivem <em>no próprio banco</em> para que um usuário nunca veja os dados de outro — uma camada extra, mesmo se houver bug no frontend. Mudanças na estrutura do banco são <strong class="text-emerald-400">migrations</strong> (scripts que criam/alteram tabelas).
         </p>
-
-        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-4-t6-p2">
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m1-4-t6-p2">
           Para receber pagamentos há o <strong class="text-emerald-400">Stripe</strong>. O usuário paga numa página de <strong class="text-emerald-400">checkout</strong> ("finalizar compra"); cada plano tem um <strong class="text-emerald-400">price ID</strong> (o identificador do preço). O Stripe avisa seu app sobre eventos (assinou, cancelou) por webhook, validado por um <strong class="text-emerald-400">webhook secret</strong> (a senha que confirma que o aviso veio mesmo do Stripe). Um modelo comum é o <strong class="text-emerald-400">freemium</strong>: um nível grátis limitado + um pago ilimitado.
         </p>
-
-        <!-- glossário inline (#31) -->
-        <div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-5 mb-6 gloss">
-          <p class="text-sm font-semibold text-emerald-400 mb-3"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">Glossário</span>Segurança &amp; pagamento</p>
-          <dl class="space-y-3 text-sm text-neutral-300">
-            <div><dt class="text-emerald-300">Supabase</dt><dd>Banco de dados + login (autenticação). <em>Ex.: guarda os usuários e os dados de cada um.</em></dd></div>
-            <div><dt class="text-emerald-300">RLS (Row-Level Security)</dt><dd>Regras no banco que isolam os dados por usuário. <em>Ex.: ninguém vê os leads de outra pessoa.</em></dd></div>
-            <div><dt class="text-emerald-300">Migration</dt><dd>Script que cria/altera tabelas no banco. <em>Ex.: criar a tabela "assinaturas".</em></dd></div>
-            <div><dt class="text-emerald-300">Stripe</dt><dd>Serviço de pagamentos. <em>Ex.: cobra a assinatura mensal do plano pro.</em></dd></div>
-            <div><dt class="text-emerald-300">Checkout / price ID</dt><dd>Página de pagamento / identificador do preço. <em>Ex.: o checkout do plano "$29/mês".</em></dd></div>
-            <div><dt class="text-emerald-300">Webhook secret / freemium</dt><dd>Senha que valida o aviso do Stripe / modelo grátis+pago. <em>Ex.: confirma "assinou" e libera o ilimitado.</em></dd></div>
-          </dl>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-2">Por que aprender</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-4-t6-p3">Estes termos fecham o ciclo "ideia → app que dá dinheiro com segurança". Sem autenticação e RLS, qualquer um com a URL usa (e gasta) seu app; sem RLS, um bug pode vazar dados de um usuário para outro. E o freemium com Stripe é o que transforma um workflow num produto que se paga.</p>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
-            <h4 class="font-bold text-emerald-400 mb-4">✓ App protegido</h4>
-            <ul class="space-y-3 text-neutral-300 text-sm">
-              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Autenticação (Supabase) + RLS isolando dados.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Segredos só em env vars; webhook secret validando.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Auditoria de segurança antes de ir ao ar.</span></li>
-            </ul>
-          </div>
-          <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
-            <h4 class="font-bold text-red-400 mb-4">✗ App em risco</h4>
-            <ul class="space-y-3 text-neutral-300 text-sm">
-              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>App aberto: alguém gasta seus tokens de IA.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>RLS desligado: dados de um usuário vazam para outro.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Chave exposta no frontend ou commitada.</span></li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Checagem leve opcional -->
-        <div data-inema-check="modulo-1-4#q1" class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6">
-          <p class="inema-check__q font-medium mb-4">Seu app tem login, mas você quer garantir que <strong>um usuário nunca veja os dados de outro</strong>, mesmo com um bug no frontend. Qual peça resolve isso?</p>
-          <div class="inema-check-options inema-check__options space-y-2">
-            <button type="button" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0">O cron — porque agenda quando o dado é lido.</button>
-            <button type="button" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1">O RLS — regras no próprio banco que isolam os dados por usuário.</button>
-            <button type="button" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2">O price ID — porque identifica o plano do usuário.</button>
-          </div>
-          <div data-inema-check-feedback class="mt-4 text-sm" role="status" aria-live="polite"></div>
-        </div>
-
-        <h3 class="text-lg font-semibold text-emerald-400 mb-3 mt-8">Conceitos-chave</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Supabase</div><p class="text-xs text-neutral-400">Banco + login.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">RLS</div><p class="text-xs text-neutral-400">Isola dados no banco.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Stripe</div><p class="text-xs text-neutral-400">Recebe pagamentos.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Freemium</div><p class="text-xs text-neutral-400">Grátis + pago.</p></div>
-        </div>
-
-        <div class="flex justify-start mt-8">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- RESUMO -->
-      <section class="mb-8">
-        <div class="bg-gradient-to-br from-emerald-900/40 via-dark-800 to-dark-800 rounded-xl border border-emerald-500/30 p-8">
-          <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📌</span> Resumo do Módulo</h2>
-          <div class="space-y-4 mb-8">
-            <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">Agêntico</strong><span class="text-neutral-400"> — agente, agêntico, WAT, loop de auto-melhoria, agentic gap.</span></div></div>
-            <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">RAG</strong><span class="text-neutral-400"> — RAG, knowledge base, retrieval, confidence score (não inventa).</span></div></div>
-            <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">Versionamento na nuvem</strong><span class="text-neutral-400"> — GitHub, repo, commit, push, gh CLI (o <code>.env</code> nunca sobe).</span></div></div>
-            <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">Execução hospedada</strong><span class="text-neutral-400"> — Trigger.dev, cron, webhook, payload, dev vs prod, trace, retry, alert.</span></div></div>
-            <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">App / Frontend</strong><span class="text-neutral-400"> — frontend, backend, request/response, Vercel, env var.</span></div></div>
-            <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">Segurança & pagamento</strong><span class="text-neutral-400"> — Supabase, RLS, migration, Stripe, checkout, price ID, webhook secret, freemium.</span></div></div>
-          </div>
-          <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
-            <h3 class="font-semibold text-emerald-400 mb-2">Você concluiu a Trilha 1!</h3>
-            <p class="text-neutral-300">Base conceitual e glossário no bolso. A seguir, escolha por onde aprofundar: T2 (técnica), T3 (prompts), T4 (skills & agentes), T5 (projetos) ou T6 (produção).</p>
-          </div>
-          <div class="flex flex-col sm:flex-row gap-4">
-            <a href="modulo-1-3.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← Módulo Anterior</a>
-            <a href="index.html" class="flex-1 text-center px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors">Voltar para a Trilha →</a>
-          </div>
-        </div>
-      </section>
-
-    </main>
-
-    <!-- TOC sticky + scrollspy -->
-    <aside class="hidden lg:block">
-      <nav data-inema-toc aria-label="Índice da página" class="sticky top-24 self-start">
-        <p class="text-sm text-neutral-400 mb-3">Seção <span data-inema-section-counter><span class="inema-toc-pos">1</span> de <span class="inema-toc-total">6</span></span></p>
-        <ol class="space-y-1.5 text-sm">
-          <li><a href="#topico-1" class="inema-toc-link text-neutral-400 hover:text-emerald-400 block">1. Agêntico</a></li>
-          <li><a href="#topico-2" class="inema-toc-link text-neutral-400 hover:text-emerald-400 block">2. RAG</a></li>
-          <li><a href="#topico-3" class="inema-toc-link text-neutral-400 hover:text-emerald-400 block">3. Versionamento</a></li>
-          <li><a href="#topico-4" class="inema-toc-link text-neutral-400 hover:text-emerald-400 block">4. Execução hospedada</a></li>
-          <li><a href="#topico-5" class="inema-toc-link text-neutral-400 hover:text-emerald-400 block">5. App / Frontend</a></li>
-          <li><a href="#topico-6" class="inema-toc-link text-neutral-400 hover:text-emerald-400 block">6. Segurança & pagamento</a></li>
-        </ol>
-      </nav>
-    </aside>
-
-  </div>
-
-  <footer class="border-t border-dark-600 py-8 mt-8">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
-      <p>Vibe Coding: Domínio Completo · Curso original <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 font-medium">INEMA.CLUB</a> · 2026</p>
-    </div>
-  </footer>
-
-  <script>
+<!-- glossário inline (#31) -->
+<div class="bg-dark-800 border border-emerald-500/30 rounded-xl p-5 mb-6 gloss">
+<p class="text-sm font-semibold text-emerald-400 mb-3"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-semibold mr-2">Glossário</span>Segurança &amp; pagamento</p>
+<dl class="space-y-3 text-sm text-neutral-300">
+<div><dt class="text-emerald-300">Supabase</dt><dd>Banco de dados + login (autenticação). <em>Ex.: guarda os usuários e os dados de cada um.</em></dd></div>
+<div><dt class="text-emerald-300">RLS (Row-Level Security)</dt><dd>Regras no banco que isolam os dados por usuário. <em>Ex.: ninguém vê os leads de outra pessoa.</em></dd></div>
+<div><dt class="text-emerald-300">Migration</dt><dd>Script que cria/altera tabelas no banco. <em>Ex.: criar a tabela "assinaturas".</em></dd></div>
+<div><dt class="text-emerald-300">Stripe</dt><dd>Serviço de pagamentos. <em>Ex.: cobra a assinatura mensal do plano pro.</em></dd></div>
+<div><dt class="text-emerald-300">Checkout / price ID</dt><dd>Página de pagamento / identificador do preço. <em>Ex.: o checkout do plano "$29/mês".</em></dd></div>
+<div><dt class="text-emerald-300">Webhook secret / freemium</dt><dd>Senha que valida o aviso do Stripe / modelo grátis+pago. <em>Ex.: confirma "assinou" e libera o ilimitado.</em></dd></div>
+</dl>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-2">Por que aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m1-4-t6-p3">Estes termos fecham o ciclo "ideia → app que dá dinheiro com segurança". Sem autenticação e RLS, qualquer um com a URL usa (e gasta) seu app; sem RLS, um bug pode vazar dados de um usuário para outro. E o freemium com Stripe é o que transforma um workflow num produto que se paga.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ App protegido</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Autenticação (Supabase) + RLS isolando dados.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Segredos só em env vars; webhook secret validando.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Auditoria de segurança antes de ir ao ar.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ App em risco</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>App aberto: alguém gasta seus tokens de IA.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>RLS desligado: dados de um usuário vazam para outro.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Chave exposta no frontend ou commitada.</span></li>
+</ul>
+</div>
+</div>
+<!-- Checagem leve opcional -->
+<div class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6" data-inema-check="modulo-1-4#q1">
+<p class="inema-check__q font-medium mb-4">Seu app tem login, mas você quer garantir que <strong>um usuário nunca veja os dados de outro</strong>, mesmo com um bug no frontend. Qual peça resolve isso?</p>
+<div class="inema-check-options inema-check__options space-y-2">
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0" type="button">O cron — porque agenda quando o dado é lido.</button>
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1" type="button">O RLS — regras no próprio banco que isolam os dados por usuário.</button>
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2" type="button">O price ID — porque identifica o plano do usuário.</button>
+</div>
+<div aria-live="polite" class="mt-4 text-sm" data-inema-check-feedback="" role="status"></div>
+</div>
+<h3 class="text-lg font-semibold text-emerald-400 mb-3 mt-8">Conceitos-chave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Supabase</div><p class="text-xs text-neutral-400">Banco + login.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">RLS</div><p class="text-xs text-neutral-400">Isola dados no banco.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Stripe</div><p class="text-xs text-neutral-400">Recebe pagamentos.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Freemium</div><p class="text-xs text-neutral-400">Grátis + pago.</p></div>
+</div>
+<div class="flex justify-start mt-8">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+</button>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-8">
+<div class="bg-gradient-to-br from-emerald-900/40 via-dark-800 to-dark-800 rounded-xl border border-emerald-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📌</span> Resumo do Módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">Agêntico</strong><span class="text-neutral-400"> — agente, agêntico, WAT, loop de auto-melhoria, agentic gap.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">RAG</strong><span class="text-neutral-400"> — RAG, knowledge base, retrieval, confidence score (não inventa).</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">Versionamento na nuvem</strong><span class="text-neutral-400"> — GitHub, repo, commit, push, gh CLI (o <code>.env</code> nunca sobe).</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">Execução hospedada</strong><span class="text-neutral-400"> — Trigger.dev, cron, webhook, payload, dev vs prod, trace, retry, alert.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">App / Frontend</strong><span class="text-neutral-400"> — frontend, backend, request/response, Vercel, env var.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">Segurança &amp; pagamento</strong><span class="text-neutral-400"> — Supabase, RLS, migration, Stripe, checkout, price ID, webhook secret, freemium.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-emerald-400 mb-2">Você concluiu a Trilha 1!</h3>
+<p class="text-neutral-300">Base conceitual e glossário no bolso. A seguir, escolha por onde aprofundar: T2 (técnica), T3 (prompts), T4 (skills &amp; agentes), T5 (projetos) ou T6 (produção).</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="modulo-1-3.html">← Módulo Anterior</a>
+<a class="flex-1 text-center px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors" href="index.html">Voltar para a Trilha →</a>
+</div>
+</div>
+</section>
+</main>
+<!-- TOC sticky + scrollspy -->
+<aside class="hidden lg:block">
+<nav aria-label="Índice da página" class="sticky top-24 self-start" data-inema-toc="">
+<p class="text-sm text-neutral-400 mb-3">Seção <span data-inema-section-counter=""><span class="inema-toc-pos">1</span> de <span class="inema-toc-total">6</span></span></p>
+<ol class="space-y-1.5 text-sm">
+<li><a class="inema-toc-link text-neutral-400 hover:text-emerald-400 block" href="#topico-1">1. Agêntico</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-emerald-400 block" href="#topico-2">2. RAG</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-emerald-400 block" href="#topico-3">3. Versionamento</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-emerald-400 block" href="#topico-4">4. Execução hospedada</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-emerald-400 block" href="#topico-5">5. App / Frontend</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-emerald-400 block" href="#topico-6">6. Segurança &amp; pagamento</a></li>
+</ol>
+</nav>
+</aside>
+</div>
+<footer class="border-t border-dark-600 py-8 mt-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Vibe Coding: Domínio Completo · Curso original <a class="text-sky-400 hover:text-sky-300 font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a> · 2026</p>
+</div>
+</footer>
+<script>
     const themeToggle = document.getElementById('theme-toggle');
     const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
     const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
@@ -828,9 +762,8 @@
       if (window.INEMA && INEMA.setPref) { INEMA.setPref('theme', isDark ? 'inema-dark' : 'claro'); }
     });
   </script>
-
-  <script src="../../assets/learn.js"></script>
-  <script>
+<script src="../../assets/learn.js"></script>
+<script>
     if (window.INEMA && typeof window.INEMA.init === 'function') {
       window.INEMA.init();
       if (window.INEMA.registerCheck) {
@@ -845,6 +778,5 @@
       }
     }
   </script>
-
 </body>
 </html>

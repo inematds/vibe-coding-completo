@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="vibe-coding-completo" name="inema-course"/>
+<!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
+<script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        } else {
+          var legacy = localStorage.getItem('theme');
+          if (legacy === 'light') p.theme = 'claro';
+          else if (legacy === 'dark') p.theme = 'inema-dark';
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'inema-dark': { dark: true,  attr: null,        cs: 'dark'  },
+        'claro':      { dark: false, attr: null,        cs: 'light' },
+        'sepia':      { dark: false, attr: 'sepia',     cs: 'light' },
+        'foco':       { dark: null,  attr: 'foco',      cs: null    },
+        'contraste':  { dark: true,  attr: 'contraste', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['inema-dark'];
+
+      if (t.dark === true) html.classList.add('dark');
+      else if (t.dark === false) html.classList.remove('dark');
+
+      if (t.attr) html.setAttribute('data-theme', t.attr);
+      else html.removeAttribute('data-theme');
+
+      html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark') ? 'dark' : 'light'));
+
+      html.setAttribute('data-font', p.font || 'inter');
+      html.setAttribute('data-accent', p.accent || 'emerald');
+
+      var s = html.style;
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--inema-font-scale', (scale / 100).toString());
+      s.setProperty('font-size', scale + '%');
+      s.setProperty('--measure', (+p.lineWidth || 68) + 'ch');
+      s.setProperty('--lh-body', (+p.leading || 1.7).toString());
+      var fam = p.font === 'system'
+        ? 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif'
+        : (p.font === 'leitura'
+          ? '"Atkinson Hyperlegible", "Inter", system-ui, sans-serif'
+          : '"Inter", system-ui, sans-serif');
+      s.setProperty('--font-body', fam);
+
+      var ACC = {
+        emerald: [152, 76, 45], blue: [217, 91, 60], purple: [258, 90, 66],
+        amber: [38, 92, 50], teal: [174, 72, 41], rose: [350, 89, 60]
+      };
+      var a = ACC[p.accent] || ACC.emerald;
+      s.setProperty('--accent-h', a[0] + '');
+      s.setProperty('--accent-s', a[1] + '%');
+      s.setProperty('--accent-l', a[2] + '%');
+      s.setProperty('--accent', 'hsl(' + a[0] + ' ' + a[1] + '% ' + a[2] + '%)');
+    } catch (err) {
+      try { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme = 'dark'; } catch (e) {}
+    }
+  })();
+  </script>
+<title>Módulo 2.1 · Ingeniería de CLAUDE.md | Vibe Coding: Dominio completo</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
+<script data-inema-manifest="" type="application/json">
+  {
+    "course": "vibe-coding-completo",
+    "tracks": [
+      { "n": "1", "title": "Fundamentos & Glossário", "modules": [
+        { "id": "1-1", "title": "A Mentalidade do Vibe Coding", "topics": 7, "href": "curso/trilha1/modulo-1-1.html" },
+        { "id": "1-2", "title": "O Ecossistema: Como as Peças se Encaixam", "topics": 6, "href": "curso/trilha1/modulo-1-2.html" },
+        { "id": "1-3", "title": "Glossário Essencial (Parte 1: IA, Claude Code, n8n)", "topics": 7, "href": "curso/trilha1/modulo-1-3.html" },
+        { "id": "1-4", "title": "Glossário Essencial (Parte 2: Agêntico, RAG, Deploy, Segurança)", "topics": 6, "href": "curso/trilha1/modulo-1-4.html" }
+      ]},
+      { "n": "2", "title": "Técnica: Arquitetura & Engenharia", "modules": [
+        { "id": "2-1", "title": "Engenharia de CLAUDE.md", "topics": 6, "href": "curso/trilha2/modulo-2-1.html" },
+        { "id": "2-2", "title": "O Framework WAT a Fundo", "topics": 7, "href": "curso/trilha2/modulo-2-2.html" },
+        { "id": "2-3", "title": "MCP por Dentro", "topics": 7, "href": "curso/trilha2/modulo-2-3.html" },
+        { "id": "2-4", "title": "Contexto & Tokens", "topics": 6, "href": "curso/trilha2/modulo-2-4.html" },
+        { "id": "2-5", "title": "RAG & Dados", "topics": 6, "href": "curso/trilha2/modulo-2-5.html" }
+      ]},
+      { "n": "3", "title": "Prompts & Padrões de Conversa", "modules": [
+        { "id": "3-1", "title": "Os Padrões de Prompting", "topics": 7, "href": "curso/trilha3/modulo-3-1.html" },
+        { "id": "3-2", "title": "O Ciclo Plan → Build → Troubleshoot → Optimize", "topics": 7, "href": "curso/trilha3/modulo-3-2.html" },
+        { "id": "3-3", "title": "Biblioteca de Prompts Prontos (copy-run)", "topics": 8, "href": "curso/trilha3/modulo-3-3.html" }
+      ]},
+      { "n": "4", "title": "Skills & Agentes", "modules": [
+        { "id": "4-1", "title": "Skills: Conceito & Anatomia", "topics": 7, "href": "curso/trilha4/modulo-4-1.html" },
+        { "id": "4-2", "title": "Construindo Skills na Prática", "topics": 7, "href": "curso/trilha4/modulo-4-2.html" },
+        { "id": "4-3", "title": "Agentes: Locais, Agendados & por Evento", "topics": 8, "href": "curso/trilha4/modulo-4-3.html" }
+      ]},
+      { "n": "5", "title": "Projetos Práticos (End-to-End)", "modules": [
+        { "id": "5-1", "title": "Projeto: Agente de Suporte por E-mail com RAG", "topics": 8, "href": "curso/trilha5/modulo-5-1.html" },
+        { "id": "5-2", "title": "Projeto: Agentes Hospedados (Agendado + Webhook)", "topics": 8, "href": "curso/trilha5/modulo-5-2.html" },
+        { "id": "5-3", "title": "Projeto: App Full-Stack (Lead Qualifier) + Frontend pra n8n", "topics": 8, "href": "curso/trilha5/modulo-5-3.html" }
+      ]},
+      { "n": "6", "title": "Produção, Deploy & Segurança", "modules": [
+        { "id": "6-1", "title": "GitHub & Trigger.dev", "topics": 7, "href": "curso/trilha6/modulo-6-1.html" },
+        { "id": "6-2", "title": "Secrets & Segurança", "topics": 8, "href": "curso/trilha6/modulo-6-2.html" },
+        { "id": "6-3", "title": "Confiabilidade & Monetização", "topics": 7, "href": "curso/trilha6/modulo-6-3.html" }
+      ]}
+    ]
+  }
+  </script>
+<link href="../../../assets/learn.css" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+    [id] { scroll-margin-top: 5rem; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - acento (blue) + cores das outras trilhas no nav */
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .bg-blue-500\/20 { background-color: rgba(37, 99, 235, 0.12); }
+    html:not(.dark) .bg-blue-500\/10 { background-color: rgba(37, 99, 235, 0.08); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37, 99, 235, 0.25); }
+    html:not(.dark) .hover\:bg-blue-500\/30:hover { background-color: rgba(37, 99, 235, 0.18); }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37, 99, 235, 0.08); }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .text-blue-300 { color: #1d4ed8; }
+    html:not(.dark) .bg-blue-900\/20 { background-color: rgba(37, 99, 235, 0.08); }
+    /* nav: outras trilhas (hover) — emerald/purple/amber/teal/rose */
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5, 150, 105, 0.08); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124, 58, 237, 0.08); }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .hover\:bg-amber-500\/10:hover { background-color: rgba(217, 119, 6, 0.08); }
+    html:not(.dark) .hover\:text-teal-400:hover { color: #0d9488; }
+    html:not(.dark) .hover\:bg-teal-500\/10:hover { background-color: rgba(13, 148, 136, 0.08); }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .hover\:bg-rose-500\/10:hover { background-color: rgba(225, 29, 72, 0.08); }
+    html:not(.dark) .text-red-400 { color: #dc2626; }
+    html:not(.dark) .bg-red-900\/20 { background-color: rgba(220, 38, 38, 0.07); }
+    html:not(.dark) .border-red-500\/30 { border-color: rgba(220, 38, 38, 0.25); }
+
+    /* Light mode - remove gradientes + cores especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    /* Dark mode - bordas suavizadas */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* TOC scrollspy active link */
+    .inema-toc-link.is-active, [data-inema-toc] a.is-active { color: #60a5fa; font-weight: 600; }
+    html:not(.dark) [data-inema-toc] a.is-active { color: #2563eb; }
+
+    /* code box (copy-run) */
+    .codebox pre { white-space: pre; }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
+    }
+  </style>
+<link href="https://inematds.github.io/vibe-coding-completo/curso/trilha2/modulo-2-1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/en/curso/trilha2/modulo-2-1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/es/curso/trilha2/modulo-2-1.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha2/modulo-2-1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha2/modulo-2-1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="modulo-2-1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-blue-600 focus:text-white focus:rounded-lg" href="#conteudo">Saltar al contenido</a>
+<!-- NAVIGATION (T2 ativa) -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10" href="index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Técnica</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Proyectos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Producción</span>
+</a>
+<button class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-inema-journey-open="" type="button">
+<span aria-hidden="true">◷</span><span>Mi recorrido</span>
+<span class="inema-journey-badge hidden" data-count="0" data-inema-journey-badge=""></span>
+</button>
+<button aria-label="Alternar tema claro/oscuro" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20">
+<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+</svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav aria-label="Ruta de navegación" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-blue-400" href="../../index.html">Inicio</a>
+<span>/</span>
+<a class="hover:text-blue-400" href="index.html">Ruta 2</a>
+<span>/</span>
+<span class="text-blue-400">Módulo 2.1</span>
+</div>
+</nav>
+<!-- HEADER DO MÓDULO -->
+<header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4">MÓDULO 2.1</span>
+<h3 class="text-2xl font-bold mb-4">📜 Ingeniería de CLAUDE.md</h3>
+<p class="text-lg text-neutral-400 max-w-3xl">O <code class="text-blue-300">CLAUDE.md</code> é o <strong class="text-blue-300">system prompt persistente</strong> de tu proyecto: un archivo de texto en la raíz que el agente lee al inicio de cada sesión para saber quién es, qué se está construyendo y cómo actuar. Es la <strong>constitución</strong> del proyecto: escríbelo bien y nunca más tendrás que volver a explicar el contexto. Aquí aprenderás su anatomía, las reglas que activan el ciclo de autom mejora, cómo mantenerlo conciso y cuándo el contenido debe ir a una skill en lugar de a CLAUDE.md.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-blue-400">6</div>
+<div class="text-xs text-neutral-400">Temas</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-blue-400">~45</div>
+<div class="text-xs text-neutral-400">Minutos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-blue-400">Inter.</div>
+<div class="text-xs text-neutral-400">Nivel</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-blue-400">Técnica</div>
+<div class="text-xs text-neutral-400">Tipo</div>
+</div>
+</div>
+<div aria-label="Progreso del módulo 2.1" aria-valuemax="100" aria-valuemin="0" class="mt-6 max-w-2xl" data-inema-meter="modulo:2-1" role="progressbar">
+<div class="flex items-center justify-between mb-1 text-sm">
+<span class="text-neutral-400">Progreso del módulo</span>
+<span class="text-blue-400 font-semibold"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 6</span></span>
+</div>
+<div class="inema-bar h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-blue-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+</header>
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:grid lg:grid-cols-[1fr_220px] lg:gap-10">
+<main class="min-w-0" id="conteudo">
+<!-- SVG FUTURISTA (visão geral) -->
+<section class="mb-12">
+<p class="text-neutral-300 mb-4 inema-prose leading-relaxed">Imagina empezar cada conversación con la IA desde cero, volviendo a explicar qué estás construyendo, qué herramientas usas y cómo te gusta recibir las respuestas. Es agotador y costoso en <strong>tokens</strong>. O <code class="text-blue-300">CLAUDE.md</code> resuelve esto: es un archivo que se lee automáticamente <strong>al inicio de cada sesión</strong>, convirtiéndose en el contexto base del agente: tu memoria del proyecto, que no se borra cuando termina la conversación.</p>
+<div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="El archivo CLAUDE.md está en la raíz del proyecto, con secciones de rol, contexto, reglas y estilo; al inicio de cada sesión el agente lee el archivo y empieza a trabajar conociendo el contexto, sin que tengas que volver a explicarlo" class="w-full h-auto" role="img" viewbox="0 0 1000 240">
+<defs>
+<lineargradient id="m21-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#60a5fa"></stop><stop offset="1" stop-color="#3b82f6"></stop>
+</lineargradient>
+<filter height="180%" id="m21-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="32" id="m21-grid" patternunits="userSpaceOnUse" width="32">
+<circle cx="1.3" cy="1.3" fill="#3b82f6" opacity="0.12" r="1.3"></circle>
+</pattern>
+<marker id="m21-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#64748b"></path></marker>
+<marker id="m21-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m21-grid)" height="240" width="1000" x="0" y="0"></rect>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="40" y="38">📜 CLAUDE.md — en la raíz del proyecto</text>
+<g filter="url(#m21-glow)"><rect fill="#0c1a2e" height="160" rx="14" stroke="url(#m21-grad)" stroke-width="2.5" width="240" x="40" y="52"></rect></g>
+<text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="160" y="80"># Rol</text>
+<text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="160" y="104">## Contexto</text>
+<text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="160" y="128">## Reglas operativas</text>
+<text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="160" y="152">## Estilo</text>
+<text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="160" y="176">## Estructura de carpetas</text>
+<g fill="none" opacity="0.8" stroke="#38bdf8" stroke-width="2.4"><path d="M280,132 L388,132" marker-end="url(#m21-ahc)"></path></g>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="334" y="122">leído al inicio</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="334" y="148">de cada sesión</text>
+<rect fill="#0e1b26" height="80" rx="14" stroke="#38bdf8" stroke-width="2" width="220" x="388" y="96"></rect>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="15" font-weight="700" text-anchor="middle" x="498" y="128">🤖 Agente</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="498" y="150">ya conoce el contexto</text>
+<g fill="none" opacity="0.85" stroke="#60a5fa" stroke-width="2.4">
+<path d="M608,116 C660,116 680,92 720,92" marker-end="url(#m21-ah)"></path>
+<path d="M608,136 C660,136 680,140 720,140" marker-end="url(#m21-ah)"></path>
+<path d="M608,156 C660,156 680,188 720,188" marker-end="url(#m21-ah)"></path>
+</g>
+<g class="wf-a"><rect fill="#0c1a2e" height="34" rx="9" stroke="#60a5fa" stroke-width="2" width="240" x="720" y="74"></rect><text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="840" y="96">funciona sin tener que volver a explicar</text></g>
+<g class="wf-a"><rect fill="#0c1a2e" height="34" rx="9" stroke="#60a5fa" stroke-width="2" width="240" x="720" y="122"></rect><text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="840" y="144">sigue las reglas del proyecto</text></g>
+<g class="wf-a"><rect fill="#0c1a2e" height="34" rx="9" stroke="#60a5fa" stroke-width="2" width="240" x="720" y="170"></rect><text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="840" y="192">responde con tu estilo</text></g>
+</svg>
+</div>
+<p class="text-xs text-neutral-500">Diagrama ilustrativo — el CLAUDE.md se «inyecta» en el contexto del agente cada vez que abres una sesión, así que ya empieza sabiendo quién es, qué está construyendo y cómo actuar.</p>
+</section>
+<!-- TÓPICO 1 -->
+<section class="mb-16" data-inema-topic="modulo-2-1#topico-1" id="topico-1">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">📌 CLAUDE.md como system prompt persistente</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-1-t1-p1">
+          O <strong class="text-blue-400">CLAUDE.md</strong> es un archivo en <strong>Markdown</strong> que está en la raíz de tu proyecto y define el <strong>papel</strong>, o <strong>contexto</strong> y las <strong>preferencias</strong> bajo las cuales operará el agente. Cuando abres una sesión de trabajo en esa carpeta, el agente lee ese archivo antes que nada: se convierte en el «system prompt» del proyecto, es decir, la instrucción base que moldea todo el comportamiento de la IA a partir de ahí.
+        </p>
+<!-- glossário inline -->
+<div class="bg-dark-800 border border-blue-500/30 rounded-xl p-4 mb-4">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>System prompt</strong> — la instrucción de fondo que le dice a la IA quién es y cómo actuar, siempre activa detrás de la conversación. <strong>Markdown</strong> — una forma simple de escribir texto con títulos (<code>#</code>), listas y énfasis, sin necesidad de programar. <strong>Sesión</strong> — una «sesión» de trabajo con el agente, desde que la abres hasta que la cierras.</p>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m2-1-t1-p2">
+          La palabra clave es <strong>persistente</strong>. Una conversación común se borra: cierra la ventana y el agente lo olvida todo. El CLAUDE.md no: vive en el disco, se versiona junto con el proyecto y se lee <strong>de nuevo en cada sesión</strong>. Por eso, la mejor analogía es una <strong class="text-blue-400">constitución</strong>: un documento breve y estable que establece cómo funciona el proyecto, que el agente siempre obedece, sin importar quién (o cuándo) está conversando con él.
+        </p>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Por qué aprender</h3>
+<div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+<p class="text-neutral-300 mb-3 inema-prose" data-inema-block="m2-1-t1-p3">Sin CLAUDE.md, cada día empieza desde cero: vuelves a pegar el contexto, repites tus reglas, recuerdas tus preferencias. Con él, el conocimiento del proyecto queda guardado una vez y se reutiliza infinitas veces. Es la diferencia entre capacitar a un empleado nuevo cada mañana y tener a un veterano que ya llega sabiendo.</p>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">•</span><span><strong>Sin volver a explicar:</strong> el contexto se carga solo en cada sesión.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">•</span><span><strong>Consistencia:</strong> todas las sesiones siguen las mismas reglas.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">•</span><span><strong>La base de todo:</strong> los otros temas de este módulo perfeccionan este archivo.</span></li>
+</ul>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">En la raíz</div><p class="text-xs text-neutral-400">Archivo .md en la parte superior del proyecto.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Persistente</div><p class="text-xs text-neutral-400">No se borra al cerrar la conversación.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Siempre leído</div><p class="text-xs text-neutral-400">Cargado al inicio de cada sesión.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Constitución</div><p class="text-xs text-neutral-400">Rige el comportamiento del agente.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 2 -->
+<section class="mb-16" data-inema-topic="modulo-2-1#topico-2" id="topico-2">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">🧱 Anatomía del CLAUDE.md</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-1-t2-p1">
+          Un buen CLAUDE.md tiene cinco secciones típicas: <strong class="text-blue-400">Rol</strong> (quién es el agente; por ejemplo: «eres un asistente de workflows de n8n»), <strong class="text-blue-400">Contexto</strong> (lo que se está construyendo y por qué), <strong class="text-blue-400">Reglas operativas</strong> (cómo debe trabajar), <strong class="text-blue-400">Estilo</strong> (preferencias de comunicación) y <strong class="text-blue-400">Estructura de carpetas</strong> (dónde están las cosas). Cada sección responde a una pregunta distinta que se haría la IA si acabara de llegar al proyecto.
+        </p>
+<!-- SVG anatomia -->
+<div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="Las cinco secciones del CLAUDE.md —rol, contexto, reglas, estilo y estructura de carpetas— alimentan juntas al agente, que empieza a operar con identidad, contexto y reglas definidos" class="w-full h-auto" role="img" viewbox="0 0 1000 220">
+<defs>
+<lineargradient id="m21b-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#60a5fa"></stop><stop offset="1" stop-color="#3b82f6"></stop></lineargradient>
+<pattern height="32" id="m21b-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#3b82f6" opacity="0.1" r="1.3"></circle></pattern>
+<filter height="180%" id="m21b-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.6"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<marker id="m21b-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#60a5fa"></path></marker>
+</defs>
+<rect fill="url(#m21b-grid)" height="220" width="1000" x="0" y="0"></rect>
+<rect fill="#0c1a2e" height="34" rx="9" stroke="#60a5fa" stroke-width="2" width="200" x="40" y="20"></rect><text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="140" y="42">📜 Rol — quién es el agente</text>
+<rect fill="#0c1a2e" height="34" rx="9" stroke="#60a5fa" stroke-width="2" width="200" x="40" y="60"></rect><text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="140" y="82">🗺️ Contexto — lo que construye</text>
+<rect fill="#0c1a2e" height="34" rx="9" stroke="#60a5fa" stroke-width="2" width="200" x="40" y="100"></rect><text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="140" y="122">⚙️ Reglas operativas</text>
+<rect fill="#0c1a2e" height="34" rx="9" stroke="#60a5fa" stroke-width="2" width="200" x="40" y="140"></rect><text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="140" y="162">💬 Estilo de comunicación</text>
+<rect fill="#0c1a2e" height="34" rx="9" stroke="#60a5fa" stroke-width="2" width="200" x="40" y="180"></rect><text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="140" y="202">📁 Estructura de carpetas</text>
+<g fill="none" opacity="0.7" stroke="#60a5fa" stroke-width="2">
+<path d="M240,37 C420,37 460,100 580,108" marker-end="url(#m21b-ah)"></path>
+<path d="M240,77 C420,77 470,104 580,112" marker-end="url(#m21b-ah)"></path>
+<path d="M240,117 L580,117" marker-end="url(#m21b-ah)"></path>
+<path d="M240,157 C420,157 470,126 580,120" marker-end="url(#m21b-ah)"></path>
+<path d="M240,197 C420,197 460,130 580,124" marker-end="url(#m21b-ah)"></path>
+</g>
+<g filter="url(#m21b-glow)"><rect fill="#0e1b26" height="86" rx="16" stroke="#38bdf8" stroke-width="2.5" width="240" x="580" y="74"></rect></g>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="16" font-weight="700" text-anchor="middle" x="700" y="108">🤖 Agente</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="700" y="132">identidad + contexto + reglas</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — las cinco secciones no son compartimentos aislados; juntas forman el «molde» completo a partir del cual actúa el agente.</p>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-1-t2-p2">
+          No necesitas escribir esas secciones a mano. El camino del vibe coding es <strong>pedir en lenguaje natural</strong>: "crea un CLAUDE.md para un proyecto que crea automatizaciones en n8n, con reglas para buscar una herramienta antes de crearla y mantener el archivo conciso". La IA genera el esqueleto con las secciones correctas; tú solo revisas y ajustas. Conocer la anatomía te sirve para saber <strong>qué pedir</strong> e <strong>qué revisar</strong> en el resultado.
+        </p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+<h4 class="font-bold text-blue-400 mb-4">✓ Secciones que toda anatomía tiene</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span><strong>Rol:</strong> "eres un asistente de workflows de n8n".</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span><strong>Contexto:</strong> qué es el proyecto y cuál es el objetivo principal.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span><strong>Reglas + estilo + estructura:</strong> cómo actuar, cómo hablar, dónde están las cosas.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Qué ensucia la anatomía</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Tutoriales paso a paso para tareas específicas.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Documentación extensa de una sola herramienta.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Historial de conversaciones y decisiones anteriores.</span></li>
+</ul>
+</div>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Rol</div><p class="text-xs text-neutral-400">Quién es el agente.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Contexto</div><p class="text-xs text-neutral-400">Lo que se está construyendo.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Reglas + estilo</div><p class="text-xs text-neutral-400">Cómo actuar y cómo hablar.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Generar a pedido</div><p class="text-xs text-neutral-400">En lenguaje natural, no a mano.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 3 -->
+<section class="mb-16" data-inema-topic="modulo-2-1#topico-3" id="topico-3">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">⚙️ Reglas operativas</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-1-t3-p1">
+<strong class="text-blue-400">Reglas operativas</strong> son instrucciones breves sobre <em>cómo</em> el agente debe trabajar: no qué construir, sino la disciplina del día a día. Tres reglas valen oro en casi cualquier proyecto: <strong>buscar una herramienta existente antes de crear una nueva</strong>, <strong>aprender y adaptarse cuando algo falla</strong>, e <strong>mantener los workflows y archivos siempre actualizados</strong>. Son pocas líneas, pero cambian radicalmente el comportamiento.
+        </p>
+<div class="bg-dark-800 border border-blue-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Ciclo de autom mejora</strong> — cuando el agente, al equivocarse, ajusta su propia forma de trabajar (e incluso el propio CLAUDE.md) en vez de solo remendar el resultado. <strong>Herramienta (tool)</strong> — una capacidad que puede usar el agente (leer un archivo, llamar a una API, ejecutar una skill).</p>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m2-1-t3-p2">
+          Estas reglas son exactamente lo que <strong>activa el ciclo de autom mejora</strong>. "Busca antes de crear" evita reinventar la rueda y mantiene limpio el proyecto. "Aprende al fallar" hace que el agente trate un error como información, no como un callejón sin salida. "Mantén todo actualizado" garantiza que la documentación y los flujos no queden desactualizados respecto de lo que realmente existe. Juntas, transforman al agente de ejecutor pasivo en colaborador que mejora por su cuenta.
+        </p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+<h4 class="font-bold text-blue-400 mb-4">✓ Reglas que activan el ciclo</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>"Busca una herramienta existente antes de crear una nueva."</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>"Cuando algo falle, aprende y adapta el enfoque."</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>"Mantén los workflows y archivos siempre actualizados."</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Antipatrones en las reglas</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Crear una tool nueva cada vez, ignorando lo que ya existe.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Insistir en el mismo enfoque que ya falló.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Dejar la documentación desactualizada con respecto a la realidad.</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Consejo práctico</h3>
+<p class="text-neutral-300 text-sm">Escribe reglas como <strong>principios breves y prácticos</strong>, no como párrafos. "Busca antes de crear" es mejor que tres frases que explican por qué. La IA sigue las reglas concisas con más fidelidad y, además, es fácil encontrarlas en el archivo.</p>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Buscar primero</div><p class="text-xs text-neutral-400">Reutilizar &gt; recrear.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Aprender de los errores</div><p class="text-xs text-neutral-400">El error se convierte en un ajuste.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Mantener actual</div><p class="text-xs text-neutral-400">La documentación = la realidad.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Automejora</div><p class="text-xs text-neutral-400">Las reglas conectan el ciclo.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 4 -->
+<section class="mb-16" data-inema-topic="modulo-2-1#topico-4" id="topico-4">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">✂️ Mantenerlo compacto (&lt; ~500 líneas)</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-1-t4-p1">
+          Cómo encaja CLAUDE.md en el <strong>contexto en cada sesión</strong>, compite por espacio con el resto de la conversación. La regla práctica: mantenlo <strong class="text-blue-400">conciso, por debajo de ~500 líneas</strong>. Un archivo corto hace que cada regla "pese" más; uno largo diluye las instrucciones importantes entre demasiado texto, y el agente termina "perdiendo" justo lo que importa.
+        </p>
+<div class="bg-dark-800 border border-blue-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Contexto (ventana de contexto)</strong> — el "espacio de memoria de trabajo" del agente durante una sesión; todo lo que entra allí (incluido el CLAUDE.md) ocupa espacio. <strong>Token</strong> — el fragmento de texto que la IA cuenta; cuantas más líneas tenga el archivo, más tokens se gastan en cada sesión.</p>
+</div>
+<!-- SVG context budget -->
+<div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="Comparación del presupuesto de contexto: un CLAUDE.md conciso deja espacio para la conversación y mantiene claras las reglas; un CLAUDE.md demasiado extenso ocupa casi todo el contexto y diluye las reglas" class="w-full h-auto" role="img" viewbox="0 0 1000 200">
+<defs>
+<pattern height="32" id="m21d-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#3b82f6" opacity="0.1" r="1.3"></circle></pattern>
+</defs>
+<rect fill="url(#m21d-grid)" height="200" width="1000" x="0" y="0"></rect>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="40" y="36">✓ CLAUDE.md conciso (&lt; ~500 líneas)</text>
+<rect fill="#0e1b26" height="40" rx="9" stroke="#475569" stroke-width="1.5" width="880" x="40" y="48"></rect>
+<rect fill="#0c1a2e" height="40" rx="9" stroke="#60a5fa" stroke-width="2" width="180" x="40" y="48"></rect>
+<text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="130" y="73">CLAUDE.md</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="560" y="73">espacio libre para la conversación y el trabajo</text>
+<text fill="#f87171" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="40" y="128">✗ CLAUDE.md inflado: las reglas se pierden</text>
+<rect fill="#0e1b26" height="40" rx="9" stroke="#475569" stroke-width="1.5" width="880" x="40" y="140"></rect>
+<rect fill="#2a1414" height="40" rx="9" stroke="#f87171" stroke-width="2" width="700" x="40" y="140"></rect>
+<text fill="#fecaca" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="390" y="165">CLAUDE.md gigante (reglas diluidas)</text>
+<text fill="#94a3b8" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="830" y="165">queda poco</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — cuanto más ocupa el archivo, menos espacio queda para la conversación, y más fácil es que la IA «no vea» una regla importante perdida en medio del texto.</p>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-1-t4-p2">
+          Hay un síntoma clásico: <strong>si el agente insiste en hacer algo mal aunque haya una regla clara que lo prohíbe, probablemente el archivo sea demasiado largo</strong> y la regla se está perdiendo. La solución no es gritar la regla en mayúsculas, sino <strong>quitar lo superfluo</strong>. Quita lo que no se aplica a todas las sesiones, condensa los párrafos en principios y la regla vuelve a tener peso. Ser conciso es una decisión de ingeniería, no pereza.
+        </p>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Consejo práctico</h3>
+<p class="text-neutral-300 text-sm">Regla práctica: si el CLAUDE.md no cabe en <strong>una o dos pantallas de desplazamiento</strong>, ya está demasiado grande. Antes de agregar cualquier cosa, pregúntate: "¿esto realmente es de <em>cada</em> ¿sesión?». Si es para una tarea específica, su lugar es una skill (siguiente tema).</p>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Entra en cada sesión</div><p class="text-xs text-neutral-400">Siempre ocupa contexto.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">~500 líneas</div><p class="text-xs text-neutral-400">Límite práctico.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Lo largo diluye</div><p class="text-xs text-neutral-400">Las reglas se pierden.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Síntoma</div><p class="text-xs text-neutral-400">Si falla pese a la regla = recorte.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 5 -->
+<section class="mb-16" data-inema-topic="modulo-2-1#topico-5" id="topico-5">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">🔀 CLAUDE.md vs. skills — qué va dónde</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-1-t5-p1">
+          La regla de enrutamiento más importante de este módulo: el <strong class="text-blue-400">CLAUDE.md guarda solo lo que corresponde a todas las sesiones</strong> (propósito del proyecto, framework, objetivo principal, reglas operativas). Instrucciones <strong>específicas de una tarea</strong> — como «generar una factura en PDF» o «hacer scraping de un sitio» — pertenecen a una <strong class="text-blue-400">skill</strong>, cargada bajo demanda, solo cuando surge la tarea.
+        </p>
+<div class="bg-dark-800 border border-blue-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Skill</strong> — un conjunto de instrucciones especializadas para una tarea, guardado en un archivo separado y cargado <em>solo cuando hace falta</em>. <strong>Bajo demanda (on demand)</strong> — solo se incorpora al contexto cuando se usa, en vez de estar siempre cargado.</p>
+</div>
+<!-- SVG roteamento CLAUDE.md vs skills -->
+<div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="Enrutamiento: las instrucciones de todas las sesiones van en el CLAUDE.md, que siempre está cargado; las instrucciones de tareas específicas van en skills, que solo se cargan cuando surge la tarea, sin inflar el contexto" class="w-full h-auto" role="img" viewbox="0 0 1000 220">
+<defs>
+<lineargradient id="m21e-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#60a5fa"></stop><stop offset="1" stop-color="#3b82f6"></stop></lineargradient>
+<pattern height="32" id="m21e-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#3b82f6" opacity="0.1" r="1.3"></circle></pattern>
+<filter height="180%" id="m21e-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.6"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<marker id="m21e-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#60a5fa"></path></marker>
+<marker id="m21e-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m21e-grid)" height="220" width="1000" x="0" y="0"></rect>
+<g filter="url(#m21e-glow)"><rect fill="#0c1a2e" height="44" rx="12" stroke="url(#m21e-grad)" stroke-width="2.5" width="280" x="360" y="20"></rect></g>
+<text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="14" font-weight="600" text-anchor="middle" x="500" y="47">¿Qué tipo de instrucción es esta?</text>
+<g fill="none" opacity="0.8" stroke="#60a5fa" stroke-width="2.2"><path d="M430,64 C380,90 300,100 220,108" marker-end="url(#m21e-ah)"></path></g>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="300" y="92">de TODA sesión</text>
+<g fill="none" opacity="0.8" stroke="#38bdf8" stroke-width="2.2"><path d="M570,64 C620,90 700,100 780,108" marker-end="url(#m21e-ahc)"></path></g>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="700" y="92">de tarea específica</text>
+<rect fill="#0c1a2e" height="92" rx="14" stroke="#60a5fa" stroke-width="2.2" width="320" x="40" y="108"></rect>
+<text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="15" font-weight="700" text-anchor="middle" x="200" y="138">📜 CLAUDE.md</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="200" y="160">propósito · framework · objetivo</text>
+<text fill="#7fb3f5" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="200" y="178">siempre cargado</text>
+<rect fill="#0e1b26" height="92" rx="14" stroke="#38bdf8" stroke-width="2.2" width="320" x="640" y="108"></rect>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="15" font-weight="700" text-anchor="middle" x="800" y="138">🧩 Skills (20–50)</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="800" y="160">instrucciones de la tarea</text>
+<text fill="#7ec9f5" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="800" y="178">cargadas bajo demanda</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — muchas skills (20 a 50) no inflan el contexto, porque se incorporan solo cuando la tarea lo requiere; un CLAUDE.md gigante inflaría cada sesión.</p>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-1-t5-p2">
+          Meterlo todo en CLAUDE.md <strong>se desborda la ventana de contexto</strong>: cada sesión carga toneladas de instrucciones que quizá ni se usen ese día. Las skills resuelven esto mediante <strong>ahorro de carga</strong>. Puedes tener 20, 30 o 50 skills sin inflar el contexto, porque cada una solo aparece cuando surge la tarea correspondiente, a diferencia de un CLAUDE.md gigante, cuyo costo pagarías en <em>todas</em> las sesiones.
+        </p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+<h4 class="font-bold text-blue-400 mb-4">✓ Va en CLAUDE.md</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Propósito del proyecto y objetivo principal.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Framework y reglas operativas (de toda sesión).</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Estilo de comunicación y estructura de carpetas.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ No va ahí (va en una skill)</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Paso a paso de una tarea puntual (p. ej., generar un PDF).</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Instrucciones de una integración que se usa de vez en cuando.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Recetas largas que solo sirven para un tipo de solicitud.</span></li>
+</ul>
+</div>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Cada sesión → md</div><p class="text-xs text-neutral-400">Solo lo que siempre está presente.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Tarea → skill</div><p class="text-xs text-neutral-400">Específico, bajo demanda.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Sin engordar</div><p class="text-xs text-neutral-400">20–50 skills caben.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">No te excedas</div><p class="text-xs text-neutral-400">Evita saturar el contexto.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 6 -->
+<section class="mb-16" data-inema-topic="modulo-2-1#topico-6" id="topico-6">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">💬 Iterar el archivo conversando</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-1-t6-p1">
+          El CLAUDE.md es un <strong class="text-blue-400">documento vivo</strong>. No necesitas abrir un editor para modificarlo: basta con <strong>pedirle al propio agente</strong>. "Agrega una sección sobre cómo mantener las explicaciones concisas", "elimina la regla X que ya no usamos", "registra que este proyecto usa Supabase". La IA edita el archivo y el cambio se aplica a partir de la próxima sesión. El archivo evoluciona junto con el proyecto.
+        </p>
+<div class="bg-dark-800 border border-blue-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Documento vivo</strong> — un archivo que esperas cambiar con frecuencia, no algo escrito una vez y dejado fijo. <strong>Iterar</strong> — hacer pequeñas mejoras en ciclos, validando cada paso (la misma mentalidad de la Trilha 1).</p>
+</div>
+<!-- TIMELINE: evolução do CLAUDE.md ao longo das sessões -->
+<h3 class="text-lg font-semibold text-blue-400 mb-3">Cómo evoluciona el archivo</h3>
+<ol class="relative border-l-2 border-blue-500/30 ml-3 space-y-6 mb-8">
+<li class="ml-6">
+<span class="absolute -left-[0.65rem] flex items-center justify-center w-5 h-5 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-400 text-xs font-bold">1</span>
+<p class="text-sm text-neutral-300"><strong class="text-blue-400">Sesión inicial:</strong> pides un CLAUDE.md básico (rol, contexto, reglas). El agente genera el esqueleto.</p>
+</li>
+<li class="ml-6">
+<span class="absolute -left-[0.65rem] flex items-center justify-center w-5 h-5 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-400 text-xs font-bold">2</span>
+<p class="text-sm text-neutral-300"><strong class="text-blue-400">Surge un patrón:</strong> notas que siempre pides respuestas breves. "Agrega una sección que indique que las explicaciones deben ser concisas."</p>
+</li>
+<li class="ml-6">
+<span class="absolute -left-[0.65rem] flex items-center justify-center w-5 h-5 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-400 text-xs font-bold">3</span>
+<p class="text-sm text-neutral-300"><strong class="text-blue-400">El proyecto crece:</strong> entra una nueva herramienta. "Registra que usamos Supabase para los datos." El contexto se mantiene actualizado.</p>
+</li>
+<li class="ml-6">
+<span class="absolute -left-[0.65rem] flex items-center justify-center w-5 h-5 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-400 text-xs font-bold">4</span>
+<p class="text-sm text-neutral-300"><strong class="text-blue-400">Hora de podar:</strong> el archivo superó las ~500 líneas. "Mueve las instrucciones de la tarea de facturas a una skill y reduce el CLAUDE.md."</p>
+</li>
+</ol>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m2-1-t6-p2">
+          Tratar el CLAUDE.md como algo que se puede editar en cualquier momento, en lenguaje natural, cierra el ciclo de auto-mejora del módulo: cada vez que el agente comete un error por falta de una regla, tú agregas la regla <em>conversando</em>; cada vez que el archivo crece, lo podas <em>conversando</em>. No es un documento sagrado; es una herramienta de trabajo que afinas continuamente.
+        </p>
+<!-- CODE BOX 1 (copy-run) -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-blue-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">generar un CLAUDE.md conciso para el proyecto</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-blue-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (cópialo y ejecútalo)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">crie um CLAUDE.md na raiz para um projeto que &lt;descreva o que você constrói&gt;.
+Seções: Papel, Contexto, Regras operacionais, Estilo, Estrutura de pastas.
+Regras: procurar uma tool existente antes de criar; aprender ao falhar; manter sob ~500 linhas.</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Cómo verificar: abre el archivo generado; comprueba las 5 secciones y que quepa en ~1 pantalla de desplazamiento.</p>
+</div>
+<!-- CODE BOX 2: esqueleto real de CLAUDE.md -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-blue-400 font-semibold mb-1">📜 Esqueleto: <span class="text-neutral-300 font-normal">un CLAUDE.md mínimo y conciso</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-blue-400"></span><span class="text-xs text-neutral-500 ml-2">CLAUDE.md</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"># Papel
+Você é um assistente de workflows n8n para este projeto.
+
+## Contexto
+Construímos automações que conectam e-mail, planilhas e um banco Supabase.
+Objetivo principal: notificar a equipe sobre leads novos em tempo real.
+
+## Regras
+- Procure uma tool/skill existente antes de criar uma nova.
+- Quando algo falhar, aprenda e adapte a abordagem.
+- Mantenha este arquivo sob ~500 linhas (tarefa específica vira skill).
+
+## Estilo
+- Respostas curtas e diretas, em PT-BR.
+- Explique o "porquê" das decisões em 1 frase.
+
+## Estrutura
+- /workflows  → fluxos n8n exportados
+- /skills     → instruções de tarefas específicas
+- /docs       → notas e decisões do projeto</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Cómo verificar: cada sección tiene 1–3 líneas; aquí no hay instrucciones paso a paso para una tarea específica (eso va en <code>/skills</code>).</p>
+</div>
+<!-- Checagem leve -->
+<div class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6" data-inema-check="modulo-2-1#q1">
+<p class="inema-check__q font-medium mb-4">¿Dónde deben estar las instrucciones paso a paso para «generar una factura en PDF», una tarea que solo aparece de vez en cuando?</p>
+<div class="inema-check-options inema-check__options space-y-2">
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0" type="button">Dentro del CLAUDE.md, para garantizar que siempre estén cargadas.</button>
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1" type="button">En una skill separada, que se carga bajo demanda cuando aparece la tarea.</button>
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2" type="button">Da igual — no cambia nada en el contexto del agente.</button>
+</div>
+<div aria-live="polite" class="mt-4 text-sm" data-inema-check-feedback="" role="status"></div>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-3 mt-8">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Documento vivo</div><p class="text-xs text-neutral-400">Evoluciona con el proyecto.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Editar pidiendo</div><p class="text-xs text-neutral-400">En lenguaje natural.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Agregar regla</div><p class="text-xs text-neutral-400">¿Te equivocaste? Registra la regla.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Podar</div><p class="text-xs text-neutral-400">¿Se infló? Redúcelo.</p></div>
+</div>
+<div class="flex justify-start mt-8">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-8">
+<div class="bg-gradient-to-br from-blue-900/40 via-dark-800 to-dark-800 rounded-xl border border-blue-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📌</span> Resumen del módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">System prompt persistente</strong><span class="text-neutral-400"> — el CLAUDE.md en la raíz se lee en cada sesión; es la constitución del proyecto, sin tener que volver a explicarlo.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">Anatomía en 5 secciones</strong><span class="text-neutral-400"> — rol, contexto, reglas, estilo y estructura; se genera a partir de un pedido en lenguaje natural.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">Reglas operativas</strong><span class="text-neutral-400"> — buscar antes de crear, aprender del error, mantenerse actualizado: lo que pone en marcha el ciclo de automejora.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">Mantener ligero (&lt; ~500 líneas)</strong><span class="text-neutral-400"> — entra en cada sesión; un archivo largo diluye las reglas. Si se equivoca a pesar de la regla, es hora de recortarlo.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">CLAUDE.md vs. skills</strong><span class="text-neutral-400"> — solo lo que aplica a toda la sesión va en el md; una tarea específica se convierte en una skill bajo demanda (20–50 skills no lo sobrecargan).</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">Documento vivo</strong><span class="text-neutral-400"> — edita el archivo conversando: añade reglas y registra contexto; puedes hacerlo cuando crezca demasiado.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-blue-400 mb-2">Siguiente módulo:</h3>
+<p class="text-neutral-300">2.2 — El Framework WAT a fondo</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="index.html">← Volver a la ruta</a>
+<a class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors" href="modulo-2-2.html">Siguiente módulo →</a>
+</div>
+</div>
+</section>
+</main>
+<!-- TOC sticky + scrollspy -->
+<aside class="hidden lg:block">
+<nav aria-label="Índice de la página" class="sticky top-24 self-start" data-inema-toc="">
+<p class="text-sm text-neutral-400 mb-3">Sección <span data-inema-section-counter=""><span class="inema-toc-pos">1</span> de <span class="inema-toc-total">6</span></span></p>
+<ol class="space-y-1.5 text-sm">
+<li><a class="inema-toc-link text-neutral-400 hover:text-blue-400 block" href="#topico-1">1. System prompt persistente</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-blue-400 block" href="#topico-2">2. Anatomía del CLAUDE.md</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-blue-400 block" href="#topico-3">3. Reglas operativas</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-blue-400 block" href="#topico-4">4. Mantener compacto (&lt; 500)</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-blue-400 block" href="#topico-5">5. CLAUDE.md vs skills</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-blue-400 block" href="#topico-6">6. Iterar conversando</a></li>
+</ol>
+</nav>
+</aside>
+</div>
+<footer class="border-t border-dark-600 py-8 mt-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Vibe Coding: Dominio completo · Curso original <a class="text-sky-400 hover:text-sky-300 font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a> · 2026</p>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const htmlEl = document.documentElement;
+    if (htmlEl.classList.contains('dark')) { themeToggleLightIcon.classList.remove('hidden'); }
+    else { themeToggleDarkIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      htmlEl.classList.toggle('dark');
+      const isDark = htmlEl.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      if (window.INEMA && INEMA.setPref) { INEMA.setPref('theme', isDark ? 'inema-dark' : 'claro'); }
+    });
+  </script>
+<script src="../../../assets/learn.js"></script>
+<script>
+    if (window.INEMA && typeof window.INEMA.init === 'function') {
+      window.INEMA.init();
+      if (window.INEMA.registerCheck) {
+        INEMA.registerCheck('modulo-2-1#q1', {
+          answer: 1,
+          explain: {
+            0: 'Não. Tarefa específica e ocasional no CLAUDE.md incha o contexto de toda sessão e dilui as regras importantes.',
+            1: 'Isso. Instrução de tarefa específica vai numa skill, carregada sob demanda — o CLAUDE.md fica enxuto.',
+            2: 'Não. Muda sim: o CLAUDE.md entra em toda sessão; a skill só quando a tarefa aparece. O lugar importa para o contexto.'
+          }
+        });
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="vibe-coding-completo" name="inema-course"/>
+<!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
+<script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        } else {
+          var legacy = localStorage.getItem('theme');
+          if (legacy === 'light') p.theme = 'claro';
+          else if (legacy === 'dark') p.theme = 'inema-dark';
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'inema-dark': { dark: true,  attr: null,        cs: 'dark'  },
+        'claro':      { dark: false, attr: null,        cs: 'light' },
+        'sepia':      { dark: false, attr: 'sepia',     cs: 'light' },
+        'foco':       { dark: null,  attr: 'foco',      cs: null    },
+        'contraste':  { dark: true,  attr: 'contraste', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['inema-dark'];
+
+      if (t.dark === true) html.classList.add('dark');
+      else if (t.dark === false) html.classList.remove('dark');
+
+      if (t.attr) html.setAttribute('data-theme', t.attr);
+      else html.removeAttribute('data-theme');
+
+      html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark') ? 'dark' : 'light'));
+
+      html.setAttribute('data-font', p.font || 'inter');
+      html.setAttribute('data-accent', p.accent || 'emerald');
+
+      var s = html.style;
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--inema-font-scale', (scale / 100).toString());
+      s.setProperty('font-size', scale + '%');
+      s.setProperty('--measure', (+p.lineWidth || 68) + 'ch');
+      s.setProperty('--lh-body', (+p.leading || 1.7).toString());
+      var fam = p.font === 'system'
+        ? 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif'
+        : (p.font === 'leitura'
+          ? '"Atkinson Hyperlegible", "Inter", system-ui, sans-serif'
+          : '"Inter", system-ui, sans-serif');
+      s.setProperty('--font-body', fam);
+
+      var ACC = {
+        emerald: [152, 76, 45], blue: [217, 91, 60], purple: [258, 90, 66],
+        amber: [38, 92, 50], teal: [174, 72, 41], rose: [350, 89, 60]
+      };
+      var a = ACC[p.accent] || ACC.emerald;
+      s.setProperty('--accent-h', a[0] + '');
+      s.setProperty('--accent-s', a[1] + '%');
+      s.setProperty('--accent-l', a[2] + '%');
+      s.setProperty('--accent', 'hsl(' + a[0] + ' ' + a[1] + '% ' + a[2] + '%)');
+    } catch (err) {
+      try { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme = 'dark'; } catch (e) {}
+    }
+  })();
+  </script>
+<title>Módulo 4.3 · Agentes: locales, programados y por evento | Vibe Coding: Dominio completo</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
+<script data-inema-manifest="" type="application/json">
+  {
+    "course": "vibe-coding-completo",
+    "tracks": [
+      { "n": "1", "title": "Fundamentos & Glossário", "modules": [
+        { "id": "1-1", "title": "A Mentalidade do Vibe Coding", "topics": 7, "href": "curso/trilha1/modulo-1-1.html" },
+        { "id": "1-2", "title": "O Ecossistema: Como as Peças se Encaixam", "topics": 6, "href": "curso/trilha1/modulo-1-2.html" },
+        { "id": "1-3", "title": "Glossário Essencial (Parte 1: IA, Claude Code, n8n)", "topics": 7, "href": "curso/trilha1/modulo-1-3.html" },
+        { "id": "1-4", "title": "Glossário Essencial (Parte 2: Agêntico, RAG, Deploy, Segurança)", "topics": 6, "href": "curso/trilha1/modulo-1-4.html" }
+      ]},
+      { "n": "2", "title": "Técnica: Arquitetura & Engenharia", "modules": [
+        { "id": "2-1", "title": "Engenharia de CLAUDE.md", "topics": 6, "href": "curso/trilha2/modulo-2-1.html" },
+        { "id": "2-2", "title": "O Framework WAT a Fundo", "topics": 7, "href": "curso/trilha2/modulo-2-2.html" },
+        { "id": "2-3", "title": "MCP por Dentro", "topics": 7, "href": "curso/trilha2/modulo-2-3.html" },
+        { "id": "2-4", "title": "Contexto & Tokens", "topics": 6, "href": "curso/trilha2/modulo-2-4.html" },
+        { "id": "2-5", "title": "RAG & Dados", "topics": 6, "href": "curso/trilha2/modulo-2-5.html" }
+      ]},
+      { "n": "3", "title": "Prompts & Padrões de Conversa", "modules": [
+        { "id": "3-1", "title": "Os Padrões de Prompting", "topics": 7, "href": "curso/trilha3/modulo-3-1.html" },
+        { "id": "3-2", "title": "O Ciclo Plan → Build → Troubleshoot → Optimize", "topics": 7, "href": "curso/trilha3/modulo-3-2.html" },
+        { "id": "3-3", "title": "Biblioteca de Prompts Prontos (copy-run)", "topics": 8, "href": "curso/trilha3/modulo-3-3.html" }
+      ]},
+      { "n": "4", "title": "Skills & Agentes", "modules": [
+        { "id": "4-1", "title": "Skills: Conceito & Anatomia", "topics": 7, "href": "curso/trilha4/modulo-4-1.html" },
+        { "id": "4-2", "title": "Construindo Skills na Prática", "topics": 7, "href": "curso/trilha4/modulo-4-2.html" },
+        { "id": "4-3", "title": "Agentes: Locais, Agendados & por Evento", "topics": 8, "href": "curso/trilha4/modulo-4-3.html" }
+      ]},
+      { "n": "5", "title": "Projetos Práticos (End-to-End)", "modules": [
+        { "id": "5-1", "title": "Projeto: Agente de Suporte por E-mail com RAG", "topics": 8, "href": "curso/trilha5/modulo-5-1.html" },
+        { "id": "5-2", "title": "Projeto: Agentes Hospedados (Agendado + Webhook)", "topics": 8, "href": "curso/trilha5/modulo-5-2.html" },
+        { "id": "5-3", "title": "Projeto: App Full-Stack (Lead Qualifier) + Frontend pra n8n", "topics": 8, "href": "curso/trilha5/modulo-5-3.html" }
+      ]},
+      { "n": "6", "title": "Produção, Deploy & Segurança", "modules": [
+        { "id": "6-1", "title": "GitHub & Trigger.dev", "topics": 7, "href": "curso/trilha6/modulo-6-1.html" },
+        { "id": "6-2", "title": "Secrets & Segurança", "topics": 8, "href": "curso/trilha6/modulo-6-2.html" },
+        { "id": "6-3", "title": "Confiabilidade & Monetização", "topics": 7, "href": "curso/trilha6/modulo-6-3.html" }
+      ]}
+    ]
+  }
+  </script>
+<link href="../../../assets/learn.css" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+    [id] { scroll-margin-top: 5rem; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - acento da trilha (amber, texto -800) + cores das outras trilhas no nav */
+    html:not(.dark) .text-amber-400 { color: #92400e; }
+    html:not(.dark) .text-amber-300 { color: #b45309; }
+    html:not(.dark) .bg-amber-500\/20 { background-color: rgba(217, 119, 6, 0.12); }
+    html:not(.dark) .bg-amber-500\/10 { background-color: rgba(217, 119, 6, 0.08); }
+    html:not(.dark) .bg-amber-900\/20 { background-color: rgba(217, 119, 6, 0.08); }
+    html:not(.dark) .border-amber-500\/30 { border-color: rgba(217, 119, 6, 0.25); }
+    html:not(.dark) .hover\:bg-amber-500\/30:hover { background-color: rgba(217, 119, 6, 0.18); }
+    html:not(.dark) .hover\:bg-amber-500\/10:hover { background-color: rgba(217, 119, 6, 0.08); }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .group:hover .group-hover\:text-amber-400 { color: #92400e; }
+    html:not(.dark) .hover\:border-amber-500\/30:hover { border-color: rgba(217, 119, 6, 0.25); }
+    /* nav: outras trilhas (hover only) — com texto -800 */
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5, 150, 105, 0.08); }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37, 99, 235, 0.08); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124, 58, 237, 0.08); }
+    html:not(.dark) .hover\:text-teal-400:hover { color: #0d9488; }
+    html:not(.dark) .hover\:bg-teal-500\/10:hover { background-color: rgba(13, 148, 136, 0.08); }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .hover\:bg-rose-500\/10:hover { background-color: rgba(225, 29, 72, 0.08); }
+    html:not(.dark) .text-red-400 { color: #dc2626; }
+    html:not(.dark) .bg-red-900\/20 { background-color: rgba(220, 38, 38, 0.07); }
+    html:not(.dark) .border-red-500\/30 { border-color: rgba(220, 38, 38, 0.25); }
+
+    /* Light mode - remove gradientes + cores especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-cyan-400 { color: #0e7490; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    /* Dark mode - bordas suavizadas */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* TOC scrollspy active link */
+    .inema-toc-link.is-active, [data-inema-toc] a.is-active { color: #fbbf24; font-weight: 600; }
+    html:not(.dark) [data-inema-toc] a.is-active { color: #92400e; }
+
+    /* code box (copy-run) */
+    .codebox pre { white-space: pre; }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
+    }
+  </style>
+<link href="https://inematds.github.io/vibe-coding-completo/curso/trilha4/modulo-4-3.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/en/curso/trilha4/modulo-4-3.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/es/curso/trilha4/modulo-4-3.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha4/modulo-4-3.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha4/modulo-4-3.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="modulo-4-3.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-amber-600 focus:text-white focus:rounded-lg" href="#conteudo">Saltar al contenido</a>
+<!-- NAVIGATION (T4 ativa) -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Técnica</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-amber-400 bg-amber-500/10" href="index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Proyectos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Producción</span>
+</a>
+<button class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-inema-journey-open="" type="button">
+<span aria-hidden="true">◷</span><span>Mi recorrido</span>
+<span class="inema-journey-badge hidden" data-count="0" data-inema-journey-badge=""></span>
+</button>
+<button aria-label="Alternar tema claro/oscuro" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20">
+<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+</svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav aria-label="Ruta de navegación" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-amber-400" href="../../index.html">Inicio</a>
+<span>/</span>
+<a class="hover:text-amber-400" href="index.html">Ruta 4</a>
+<span>/</span>
+<span class="text-amber-400">Módulo 4.3</span>
+</div>
+</nav>
+<!-- HEADER DO MÓDULO -->
+<header class="bg-gradient-to-br from-amber-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-full mb-4">MÓDULO 4.3</span>
+<h3 class="text-2xl font-bold mb-4">🤖 Agentes: locales, programados y por evento</h3>
+<p class="text-lg text-neutral-400 max-w-3xl">Una skill es un proceso que <em>tú</em> activa. Un <strong class="text-amber-300">agente</strong> es diferente: tú entregas el <strong>resultado deseado</strong> y razona, se adapta, pregunta y se autocorrige cuando algo falla. En este módulo práctico, pasarás de un agente <strong>local</strong> bajo demanda, pasa por el <strong>programado</strong> por cron y llega al <strong>por evento</strong> a través de un webhook — y descubre la "brecha agéntica" que cambia la forma en que diseñas todo lo que se ejecuta en la nube.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-amber-400">8</div>
+<div class="text-xs text-neutral-400">Temas</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-amber-400">~55</div>
+<div class="text-xs text-neutral-400">Minutos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-amber-400">Práctico</div>
+<div class="text-xs text-neutral-400">Nivel</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-amber-400">Agentes</div>
+<div class="text-xs text-neutral-400">Tipo</div>
+</div>
+</div>
+<div aria-label="Progreso del módulo 4.3" aria-valuemax="100" aria-valuemin="0" class="mt-6 max-w-2xl" data-inema-meter="modulo:4-3" role="progressbar">
+<div class="flex items-center justify-between mb-1 text-sm">
+<span class="text-neutral-400">Progreso del módulo</span>
+<span class="text-amber-400 font-semibold"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 8</span></span>
+</div>
+<div class="inema-bar h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-amber-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+</header>
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:grid lg:grid-cols-[1fr_220px] lg:gap-10">
+<main class="min-w-0" id="conteudo">
+<!-- Box intro -->
+<div class="bg-amber-900/20 border border-amber-500/30 rounded-xl p-5 mb-10">
+<h2 class="text-base font-semibold text-amber-400 mb-2 flex items-center"><span class="mr-2">🤖</span> Cómo leer este módulo</h2>
+<p class="text-neutral-300 text-sm">El gran cambio es dejar de pensar en "pasos que yo activo" y empezar a pensar en "un resultado que delego en alguien que razona". Los tres tipos de agente solo se diferencian en <strong>disparador</strong> — tú (local), el reloj (programado/cron) o un evento externo (webhook). Cada término nuevo (<strong>cron</strong>, <strong>webhook</strong>, <strong>payload</strong>, <strong>agentic gap</strong>) se define en un recuadro «¿Qué es?» la primera vez que aparece.</p>
+</div>
+<!-- SVG FUTURISTA (visão geral, #29) — três gatilhos alimentando um coordenador ciano -->
+<section class="mb-12">
+<p class="text-neutral-300 mb-4 inema-prose leading-relaxed">Antes de los ocho temas, mira el mapa. Tres disparadores diferentes activan el <strong>mismo</strong> tipo de cerebro: un agente que razona sobre el resultado. Lo único que cambia es <em>quién presiona el botón</em> — tú, el reloj o una campanilla digital.</p>
+<div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="Los tres tipos de activación de un agente: el agente local se activa cuando tú lo solicitas; el programado se activa según un reloj que sigue una expresión cron; el activado por evento se activa cuando un sistema externo llama a un webhook. Los tres alimentan la misma caja del agente coordinador, en cian, que razona, se adapta y entrega el resultado." class="w-full h-auto" role="img" viewbox="0 0 1000 280">
+<defs>
+<lineargradient id="m43-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#fbbf24"></stop><stop offset="1" stop-color="#f59e0b"></stop>
+</lineargradient>
+<filter height="180%" id="m43-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="32" id="m43-grid" patternunits="userSpaceOnUse" width="32">
+<circle cx="1.3" cy="1.3" fill="#f59e0b" opacity="0.12" r="1.3"></circle>
+</pattern>
+<marker id="m43-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fbbf24"></path></marker>
+<marker id="m43-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m43-grid)" height="280" width="1000" x="0" y="0"></rect>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="40" y="30">Tres disparadores →</text>
+<!-- gatilho 1: LOCAL -->
+<g class="wf-a"><rect fill="#231703" height="50" rx="13" stroke="url(#m43-grad)" stroke-width="2.2" width="230" x="40" y="46"></rect></g>
+<text fill="#fde68a" font-family="Inter,sans-serif" font-size="14" font-weight="700" text-anchor="middle" x="155" y="70">🖥️ LOCAL</text>
+<text fill="#fcd9a0" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="155" y="87">tú lo activas, bajo demanda</text>
+<!-- gatilho 2: AGENDADO -->
+<g class="wf-a"><rect fill="#231703" height="50" rx="13" stroke="url(#m43-grad)" stroke-width="2.2" width="230" x="40" y="115"></rect></g>
+<text fill="#fde68a" font-family="Inter,sans-serif" font-size="14" font-weight="700" text-anchor="middle" x="155" y="139">⏰ PROGRAMADO</text>
+<text fill="#fcd9a0" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="155" y="156">cron · el reloj se activa</text>
+<!-- gatilho 3: POR EVENTO -->
+<g class="wf-a"><rect fill="#231703" height="50" rx="13" stroke="url(#m43-grad)" stroke-width="2.2" width="230" x="40" y="184"></rect></g>
+<text fill="#fde68a" font-family="Inter,sans-serif" font-size="14" font-weight="700" text-anchor="middle" x="155" y="208">🔔 POR EVENTO</text>
+<text fill="#fcd9a0" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="155" y="225">webhook · suena el timbre</text>
+<!-- setas para o coordenador -->
+<g fill="none" opacity="0.75" stroke="#fbbf24" stroke-width="2.2">
+<path d="M270,71 C360,71 380,128 470,134" marker-end="url(#m43-ah)"></path>
+<path d="M270,140 L470,140" marker-end="url(#m43-ah)"></path>
+<path d="M270,209 C360,209 380,152 470,146" marker-end="url(#m43-ah)"></path>
+</g>
+<!-- coordenador ciano -->
+<g filter="url(#m43-glow)"><rect fill="#0e1b26" height="110" rx="18" stroke="#38bdf8" stroke-width="2.6" width="240" x="470" y="86"></rect></g>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="16" font-weight="700" text-anchor="middle" x="590" y="120">🤖 Agente coordinador</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="590" y="143">razona sobre el resultado</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="590" y="161">se adapta · pregunta · se autocorrige</text>
+<text fill="#7fc5ee" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="590" y="181">el cerebro es el mismo en los tres casos</text>
+<!-- saída -->
+<g fill="none" opacity="0.85" stroke="#38bdf8" stroke-width="2.4"><path d="M710,141 L800,141" marker-end="url(#m43-ahc)"></path></g>
+<rect fill="#0e2018" height="50" rx="13" stroke="#34d399" stroke-width="2" width="160" x="800" y="116"></rect>
+<text fill="#9ee9c9" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="880" y="139">resultado</text>
+<text fill="#7fd6b3" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="880" y="156">entregado</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500">Diagrama ilustrativo — el tipo de agente se define por el <strong>disparador</strong>, no por el cerebro. Las automatizaciones locales, programadas y activadas por eventos usan el mismo razonamiento; lo único que cambia es quién (o qué) las activa.</p>
+</section>
+<!-- TÓPICO 1 -->
+<section class="mb-16" data-inema-topic="modulo-4-3#topico-1" id="topico-1">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🤖 Qué es un agente</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-3-t1-p1">
+          En la automatización tradicional, <strong>conectas cada paso</strong>: nodo 1 → nodo 2 → nodo 3, en un camino fijo y predecible. Un <strong class="text-amber-400">agente</strong> recibe el <strong>resultado deseado</strong> — no la secuencia, sino que razona sobre cómo llegar allí. Elige herramientas, se adapta cuando cambia la situación, hace <strong>preguntas aclaratorias</strong> cuando falta contexto y <strong>si se autocorrige</strong> cuando algo se rompe a mitad del proceso.
+        </p>
+<div class="bg-dark-800 border border-amber-500/30 rounded-xl p-4 mb-4">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Determinístico</strong> = la misma entrada siempre produce la misma salida, siguiendo el mismo camino (la automatización tradicional). <strong>No determinista</strong> = el agente decide el camino en el momento, así que puede resolverlo de distintas maneras, pero cumple el objetivo. El agente es no determinista por naturaleza.</p>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m4-3-t1-p2">
+          La mejor analogía es salir a cenar. Cocinar <strong>por la receta</strong> es automatización: sigues los pasos exactos y, si falta un ingrediente, el proceso se bloquea. Pedir un <strong>bistec en el restaurante</strong> es el agente: tú dices el resultado («bife a término medio, con papas fritas»), y la cocina resuelve el «cómo»: sustituye lo que falta, ajusta el fuego, lo vuelve a hacer si se cae al suelo. Es como <strong>contratar a un desarrollador experimentado</strong> en lugar de dictar cada línea: delegas el objetivo, no el procedimiento.
+        </p>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">Por qué aprender</h3>
+<div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+<p class="text-neutral-300 mb-3 inema-prose" data-inema-block="m4-3-t1-p3">Cuando entiendes que un agente razona, dejas de microgestionar y empiezas a diseñar bien el <strong>resultado</strong> e o <strong>contexto</strong>. Esto es lo que desbloquea la velocidad: describes el destino y dejas que el agente trace (y vuelva a trazar) la ruta.</p>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-amber-400 mt-1">•</span><span><strong>Se adapta:</strong> las situaciones nuevas no requieren un flujo nuevo: el agente improvisa.</span></li>
+<li class="flex items-start space-x-2"><span class="text-amber-400 mt-1">•</span><span><strong>Pregunta:</strong> cuando la solicitud es ambigua, aclara en vez de adivinar.</span></li>
+<li class="flex items-start space-x-2"><span class="text-amber-400 mt-1">•</span><span><strong>Autorreparación:</strong> se produce un error, lo diagnostica y prueba otra vía por su cuenta.</span></li>
+</ul>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Resultado</div><p class="text-xs text-neutral-400">Delegas el «qué».</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Razona</div><p class="text-xs text-neutral-400">Elige el camino en el momento.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">No determinista</div><p class="text-xs text-neutral-400">Puede variar; cumple el objetivo.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Autorreparación</div><p class="text-xs text-neutral-400">Se rompe, diagnostica, rehace.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 2 -->
+<section class="mb-16" data-inema-topic="modulo-4-3#topico-2" id="topico-2">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">🖥️ Agente bajo demanda (local)</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-3-t2-p1">
+          O <strong class="text-amber-400">agente local</strong> es el asistente que funciona como tu agente personal, ahí en tu máquina: tú pides, él investiga, crea archivos, itera contigo y se vuelve más inteligente con cada uso. <strong>Tú eres el disparador</strong> — nada se ejecuta sin que lo pidas. Es la forma más sencilla de agente: <strong>sin deploy</strong>, sin servidor ni horario. Solo conversación.
+        </p>
+<div class="bg-dark-800 border border-amber-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Bajo demanda (on-demand)</strong> — se ejecuta solo cuando tú lo llamas. <strong>Deploy</strong> — poner algo en funcionamiento en un servidor, fuera de tu máquina, de forma continua. El agente local <em>no</em> necesita deploy: vive en el mismo lugar donde conversas con él.</p>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-3-t2-p2">Empieza siempre por lo local. Es donde tú <strong>construye intuición</strong>: ves al agente razonar, notas cuándo acierta y cuándo se pierde, y aprendes a darle resultados y contexto. Todo lo que dominas aquí se transfiere después a lo programado y a los eventos — solo que sin que estés cerca para corregir.</p>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Consejo práctico</h3>
+<p class="text-neutral-300 text-sm">Usa el agente local como banco de pruebas de lo que <em>después</em> se convertirá en una tarea programada. Ejecuta la misma solicitud allí tres o cuatro veces, observa dónde tropieza y solo pásala a la nube cuando funcione sin problemas. Lo que no hayas corregido localmente te perseguirá en producción.</p>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Tú lo ejecutas</div><p class="text-xs text-neutral-400">Disparador = tu solicitud.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Sin deploy</div><p class="text-xs text-neutral-400">Funciona en tu máquina.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Itera contigo</div><p class="text-xs text-neutral-400">Se vuelve más inteligente con cada uso.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Desarrolla la intuición</div><p class="text-xs text-neutral-400">La base para los otros tipos.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 3 -->
+<section class="mb-16" data-inema-topic="modulo-4-3#topico-3" id="topico-3">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">♻️ El ciclo de automejora en la práctica</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-3-t3-p1">
+          O <strong class="text-amber-400">ciclo de autom mejora</strong> es el superpoder del agente local: ejecutas el workflow, encuentra un error, <strong>diagnostica</strong> lo que falló, <strong>arregla la herramienta</strong> que se rompió y <strong>actualiza el workflow</strong> para que ese error no vuelva a ocurrir. Cada ronda hace que el proceso sea más fluido y rápido. No eres tú quien lo repara: el agente integra la solución de vuelta en su propio flujo.
+        </p>
+<!-- TIMELINE do loop (component variety: timeline) -->
+<div class="relative pl-8 border-l-2 border-amber-500/40 space-y-6 mb-6">
+<div class="relative">
+<span class="absolute -left-[2.55rem] flex items-center justify-center w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 text-xs font-bold border border-amber-500/40">1</span>
+<p class="text-neutral-300 text-sm"><strong class="text-amber-400">Ejecuta el workflow</strong> — el agente ejecuta el proceso de principio a fin, frente a ti.</p>
+</div>
+<div class="relative">
+<span class="absolute -left-[2.55rem] flex items-center justify-center w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 text-xs font-bold border border-amber-500/40">2</span>
+<p class="text-neutral-300 text-sm"><strong class="text-amber-400">Aparece un error</strong> — una tool devuelve un error, una fuente desaparece, un formato cambia.</p>
+</div>
+<div class="relative">
+<span class="absolute -left-[2.55rem] flex items-center justify-center w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 text-xs font-bold border border-amber-500/40">3</span>
+<p class="text-neutral-300 text-sm"><strong class="text-amber-400">Diagnostica</strong> — lee el error, identifica la causa (no el síntoma) y propone la solución.</p>
+</div>
+<div class="relative">
+<span class="absolute -left-[2.55rem] flex items-center justify-center w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 text-xs font-bold border border-amber-500/40">4</span>
+<p class="text-neutral-300 text-sm"><strong class="text-amber-400">Repara la tool</strong> — corrige el script o la llamada que falló.</p>
+</div>
+<div class="relative">
+<span class="absolute -left-[2.55rem] flex items-center justify-center w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 text-xs font-bold border border-amber-500/40">5</span>
+<p class="text-neutral-300 text-sm"><strong class="text-amber-400">Actualiza el workflow</strong> — integra la corrección para que el mismo error no vuelva a aparecer. Las siguientes rondas serán fluidas y rápidas.</p>
+</div>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-3-t3-p2">Es este ciclo el que hace que el agente local parezca mágico: no solo se equivoca menos, sino que <strong>aprende</strong> con cada ejecución. Pero hay una advertencia importante: <strong>este superpoder desaparece cuando el agente pasa a producción</strong>. Cuando se ejecuta solo en la nube, nadie está observando para cerrar el ciclo. Guárdalo: es el gancho para el tema 6, el "agentic gap".</p>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Consejo práctico</h3>
+<p class="text-neutral-300 text-sm">Cada vez que el loop cierre un error, pídele al agente que <strong>escribir en el workflow una defensa explícita</strong> contra ese caso (un try/catch, una validación, un fallback). Así, la solución pasa a ser parte permanente del flujo y sigue funcionando cuando ya no estés cerca.</p>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Diagnostica</div><p class="text-xs text-neutral-400">Encuentra la causa del error.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Repara la tool</div><p class="text-xs text-neutral-400">Corrige lo que se rompió.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Actualiza el flujo</div><p class="text-xs text-neutral-400">El error no vuelve.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Desaparece en producción</div><p class="text-xs text-neutral-400">Nadie cierra el ciclo allí.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 4 -->
+<section class="mb-16" data-inema-topic="modulo-4-3#topico-4" id="topico-4">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">⏰ Agente programado (cron): anatomía</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-3-t4-p1">
+          O <strong class="text-amber-400">agente programado</strong> se ejecuta sola a la hora programada — el disparador es el <strong>reloj</strong>. La hora se define mediante una expresión <strong class="text-amber-400">cron</strong>, un patrón de cinco campos: minuto, hora, día del mes, mes y día de la semana. Por ejemplo, <code class="text-amber-300">0 7 * * *</code> significa «a las 7 h, todos los días». El agente se despierta, hace el trabajo y vuelve a dormir, <strong>sin que nadie supervise</strong> (sin supervisión).
+        </p>
+<div class="bg-dark-800 border border-amber-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Cron</strong> — una forma compacta de decir «cuándo ejecutar», heredada de Unix. Son cinco campos separados por espacios; el asterisco <code>*</code> quiere decir "cualquier/todo". <strong>Unattended</strong> — se ejecuta sin supervisión humana, a la hora programada, aunque tú estés durmiendo.</p>
+</div>
+<!-- SVG/tabela dos 5 campos do cron (#29) -->
+<div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="Anatomía de una expresión cron de cinco campos. De izquierda a derecha: minuto (0 a 59), hora (0 a 23), día del mes (1 a 31), mes (1 a 12) y día de la semana (0 a 6, donde 0 es domingo). El asterisco significa cualquier valor. El ejemplo cero siete asterisco asterisco asterisco quiere decir todos los días a las siete en punto." class="w-full h-auto" role="img" viewbox="0 0 1000 230">
+<defs>
+<pattern height="32" id="m43c-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#f59e0b" opacity="0.1" r="1.3"></circle></pattern>
+<marker id="m43c-ah" markerheight="8" markerwidth="8" orient="auto" refx="4" refy="6"><path d="M4,8 L0,0 L8,0 Z" fill="#fbbf24"></path></marker>
+</defs>
+<rect fill="url(#m43c-grid)" height="230" width="1000" x="0" y="0"></rect>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="14" font-weight="700" text-anchor="middle" x="500" y="30">Los 5 campos del cron</text>
+<!-- os cinco campos -->
+<g fill="#fde68a" font-family="ui-monospace,monospace" font-size="34" font-weight="700" text-anchor="middle">
+<text x="140" y="92">0</text>
+<text x="320" y="92">7</text>
+<text x="500" y="92">*</text>
+<text x="680" y="92">*</text>
+<text x="860" y="92">*</text>
+</g>
+<!-- setas + rótulos -->
+<g fill="none" opacity="0.7" stroke="#fbbf24" stroke-width="1.8">
+<path d="M140,108 L140,140" marker-end="url(#m43c-ah)"></path>
+<path d="M320,108 L320,140" marker-end="url(#m43c-ah)"></path>
+<path d="M500,108 L500,140" marker-end="url(#m43c-ah)"></path>
+<path d="M680,108 L680,140" marker-end="url(#m43c-ah)"></path>
+<path d="M860,108 L860,140" marker-end="url(#m43c-ah)"></path>
+</g>
+<g fill="#fcd9a0" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle">
+<text x="140" y="160">minuto</text>
+<text x="320" y="160">hora</text>
+<text x="500" y="160">día-del-mes</text>
+<text x="680" y="160">mes</text>
+<text x="860" y="160">día-semana</text>
+</g>
+<g fill="#a3a3a3" font-family="Inter,sans-serif" font-size="11" text-anchor="middle">
+<text x="140" y="178">0–59</text>
+<text x="320" y="178">0–23</text>
+<text x="500" y="178">1–31</text>
+<text x="680" y="178">1–12</text>
+<text x="860" y="178">0–6 (0=dom)</text>
+</g>
+<rect fill="#231703" height="26" rx="8" stroke="#f59e0b" stroke-width="1.5" width="520" x="240" y="196"></rect>
+<text fill="#fde68a" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="500" y="214"><tspan font-family="ui-monospace,monospace" font-weight="700">0 7 * * *</tspan>  = todos los días, justo a las 7 h</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — lee de izquierda a derecha. Otros ejemplos: <code>*/15 * * * *</code> = cada 15 min; <code>0 9 * * 1</code> = todos los lunes a las 9 h; <code>0 0 1 * *</code> = el día 1 de cada mes a medianoche.</p>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-3-t4-p2">Lo programado es lo que convierte una tarea que harías a mano en un <strong>hábito automático</strong>. Ejemplo clásico: se activa cron → el agente investiga un tema → sintetiza lo que encontró → registra una fila en una hoja de cálculo; todo unattended, cada día, antes de que despiertes. Lo diseñas una vez y lo aprovechas para siempre.</p>
+<!-- CODE BOX #1: agente agendado por cron (copy-run) -->
+<div class="codebox rounded-xl border border-amber-500/30 bg-dark-900 overflow-hidden mb-3">
+<div class="bg-amber-500/10 border-b border-amber-500/30 px-4 py-2 flex items-center gap-2">
+<span aria-hidden="true" class="flex gap-1.5">
+<span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+<span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
+<span class="w-3 h-3 rounded-full bg-green-500/80"></span>
+</span>
+<span class="text-amber-400 text-sm font-semibold ml-1">🎯 Objetivo: crear un agente programado que investiga y registra en una hoja de cálculo, por sí solo</span>
+</div>
+<pre class="text-xs sm:text-sm text-neutral-300 p-4 overflow-x-auto"><code>Crie um agente AGENDADO com cron <span class="text-amber-300">&lt;0 7 * * *&gt;</span> (todo dia às 7h).
+A cada execução ele deve, sem supervisão:
+1. Pesquisar na web o tópico <span class="text-amber-300">&lt;novidades em automação com IA&gt;</span>;
+2. Sintetizar os achados em 3 bullets curtos (1 frase cada);
+3. Gravar UMA linha nova na planilha <span class="text-amber-300">&lt;Radar IA / aba "diário"&gt;</span>
+   com as colunas: data | resumo | 3 links.
+
+Exigências: inputs fixos (tópico e planilha são constantes),
+saída estruturada (sempre as mesmas colunas, nessa ordem),
+trate erro de cada chamada externa, e logue cada passo.</code></pre>
+</div>
+<div class="bg-dark-800 border border-dark-600 rounded-lg p-4 mb-6 text-sm text-neutral-300">
+<strong class="text-amber-400">Cómo verificar:</strong> espera la primera ejecución programada (o fuerza una manual). Comprueba si apareció <em>una</em> nueva fila en la hoja de cálculo, con la fecha correcta y tres enlaces válidos. Ejecútalo dos días seguidos: las columnas deben ser idénticas en orden y formato. Abre el log y confirma que cada paso (investigación, síntesis, registro) haya anotado éxito o un error identificado.
+        </div>
+<h3 class="text-lg font-semibold text-amber-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">5 campos</div><p class="text-xs text-neutral-400">min h día mes día-sem.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Asterisco</div><p class="text-xs text-neutral-400"><code>*</code> = cualquiera/todo.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Se activa el reloj</div><p class="text-xs text-neutral-400">Disparador = la hora programada.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Unattended</div><p class="text-xs text-neutral-400">Se ejecuta sin que nadie lo supervise.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 5 -->
+<section class="mb-16" data-inema-topic="modulo-4-3#topico-5" id="topico-5">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">🔔 Agente por evento (webhook) — anatomía</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-3-t5-p1">
+          O <strong class="text-amber-400">agente por evento</strong> se activa cuando <strong>algo sucede afuera</strong> — el activador es un <strong class="text-amber-400">webhook</strong>: una URL que queda a la escucha. Cuando un sistema externo llama a esa URL, envía junto con ella un <strong class="text-amber-400">payload</strong> (los datos del evento). Es la <em>timbre digital</em>: alguien lo activa (llama a la URL), el agente responde y actúa sobre lo recibido. Ejemplo: se envía un formulario → se activa el webhook → el agente genera un informe.
+        </p>
+<div class="bg-dark-800 border border-amber-500/30 rounded-xl p-4 mb-4">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Webhook</strong> — una URL que expone tu agente y que otros sistemas llaman para avisar: «ocurrió algo, actúa ahora». <strong>Payload</strong> — el paquete de datos que viene junto con la llamada (p. ej., los campos del formulario, en JSON). Es la diferencia entre un timbre y uno que ya te entrega el paquete.</p>
+</div>
+<div class="bg-dark-800 border border-amber-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Authorization: Bearer</strong> — un encabezado (header) que la llamada debe enviar con una <strong>clave secreta</strong>, demostrando que quien tocó el timbre tiene permiso. Sin la clave correcta, el webhook rechaza la solicitud. Eso impide que cualquiera active tu agente.</p>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-3-t5-p2">El por evento es lo que conecta tu agente con <strong>mundo real, en tiempo real</strong>: un lead llena el formulario y en segundos recibe el informe; llega un pago y la factura se emite de inmediato. En lugar de esperar la siguiente ejecución del cron, responde <strong>en el instante del evento</strong>. Y la autenticación mediante header es lo que mantiene segura esa puerta.</p>
+<!-- CODE BOX #2: payload + header Authorization Bearer (copy-run) -->
+<div class="codebox rounded-xl border border-amber-500/30 bg-dark-900 overflow-hidden mb-3">
+<div class="bg-amber-500/10 border-b border-amber-500/30 px-4 py-2 flex items-center gap-2">
+<span aria-hidden="true" class="flex gap-1.5">
+<span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+<span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
+<span class="w-3 h-3 rounded-full bg-green-500/80"></span>
+</span>
+<span class="text-amber-400 text-sm font-semibold ml-1">🎯 Objetivo: activar un agente por evento mediante un webhook autenticado</span>
+</div>
+<pre class="text-xs sm:text-sm text-neutral-300 p-4 overflow-x-auto"><code><span class="text-neutral-500"># Chamada que ACORDA o agente — um sistema externo faz isto:</span>
+POST <span class="text-amber-300">&lt;https://seu-agente.exemplo.com/webhook/lead&gt;</span>
+Authorization: Bearer <span class="text-amber-300">&lt;SUA_CHAVE_SECRETA&gt;</span>
+Content-Type: application/json
+
+<span class="text-neutral-500"># payload (os dados do evento, em JSON):</span>
+{
+  "evento": "novo_lead",
+  "nome": "Maria Souza",
+  "email": "maria@exemplo.com",
+  "empresa": "Acme Ltda",
+  "mensagem": "Quero um orçamento de automação."
+}
+
+<span class="text-neutral-500"># Prompt do agente por evento:</span>
+Crie um agente POR EVENTO exposto no webhook acima.
+Ao receber o payload, ele deve: validar a chave Bearer;
+gerar um relatório do lead (resumo + próxima ação sugerida);
+e responder 200 com o relatório. Trate erro e logue cada passo.</code></pre>
+</div>
+<div class="bg-dark-800 border border-dark-600 rounded-lg p-4 mb-6 text-sm text-neutral-300">
+<strong class="text-amber-400">Cómo verificar:</strong> haz la llamada con la clave <strong>correcta</strong> — debe devolver 200 con el informe. Vuelve a hacerlo <strong>sin</strong> el encabezado <code>Authorization</code> (o con una clave incorrecta); debe devolver 401/403 y <em>no</em> no procesar nada. Envía un payload con un campo faltante (p. ej., sin <code>email</code>) y revisa en el log si el agente manejó el error en vez de fallar.
+        </div>
+<h3 class="text-lg font-semibold text-amber-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Webhook</div><p class="text-xs text-neutral-400">URL que escucha eventos.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Payload</div><p class="text-xs text-neutral-400">Los datos del evento (JSON).</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Timbre digital</div><p class="text-xs text-neutral-400">Se activa → el agente responde.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Bearer &lt;chave&gt;</div><p class="text-xs text-neutral-400">Header que autentica.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 6 -->
+<section class="mb-16" data-inema-topic="modulo-4-3#topico-6" id="topico-6">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">🕳️ La brecha agéntica</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-3-t6-p1">
+          O <strong class="text-amber-400">agentic gap</strong> es la brecha que aparece cuando el agente deja el entorno local y pasa a la nube para ejecutarse según una agenda o un evento: el asistente <strong>ya no está mirando</strong> para cerrar el ciclo de automejora. ¿Recuerdas el tema 3? Allí, cuando algo se rompía, el agente diagnosticaba y reparaba el problema frente a ti. En producción, <strong>se ejecuta, pero no se adapta de la misma manera</strong> — y un fallo puede pasar completamente desapercibido.
+        </p>
+<div class="bg-dark-800 border border-amber-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Brecha agéntica</strong> — la diferencia entre el agente «inteligente» que ves en local (que se autocorrige porque estás con él y cierras el ciclo) y el agente «en piloto automático» en producción, que se ejecuta sin que nadie esté allí para detectar y corregir lo que salió mal.</p>
+</div>
+<!-- ✓/✗ GRID #1: local (auto-cura) vs produção (sem auto-cura) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-amber-900/20 rounded-xl border border-amber-500/30 p-6">
+<h4 class="font-bold text-amber-400 mb-4">✓ Local (se autocorrige)</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-amber-400">✓</span><span>Observas: ves el error en el instante en que ocurre.</span></li>
+<li class="flex items-start space-x-2"><span class="text-amber-400">✓</span><span>El loop se cierra: diagnostica, corrige la tool, actualiza el flujo.</span></li>
+<li class="flex items-start space-x-2"><span class="text-amber-400">✓</span><span>Se adapta a casos nuevos ahí mismo, con tus comentarios.</span></li>
+<li class="flex items-start space-x-2"><span class="text-amber-400">✓</span><span>La falla se convierte en un aprendizaje permanente del workflow.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Producción (sin autocuración)</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Nadie lo supervisa: el error ocurre y sigue siendo invisible.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>El ciclo no se cierra: se ejecuta, pero no se corrige por sí solo.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Un caso nuevo implica un comportamiento imprevisto, sin comentarios.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>La falla puede pasar desapercibida durante días.</span></li>
+</ul>
+</div>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-3-t6-p2">La brecha agéntica no es motivo para evitar producción: es lo que <strong>define cómo diseñas</strong>. Como nadie cerrará el ciclo por ti, la solución debe estar integrada <strong>desde el primer prompt</strong>: manejo de errores, logs en cada paso y resultados predecibles. Compensas la ausencia de autocuración en vivo incorporando resiliencia al agente (ese es precisamente el tema del tópico 7).</p>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Consejo práctico</h3>
+<p class="text-neutral-300 text-sm">Antes de promover un agente a la nube, pregúntate: "<strong>si esto falla a las 3 de la mañana, ¿cómo me entero?</strong>". Si la respuesta es "no me quedo", todavía estás en el agentic gap. Agrega una alerta (por correo electrónico o mensaje directo en caso de error) antes de subirlo.</p>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Nadie mirando</div><p class="text-xs text-neutral-400">El loop no se cierra solo.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Ejecutar ≠ adaptarse</div><p class="text-xs text-neutral-400">Ejecuta, pero no se cura.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Fallo invisible</div><p class="text-xs text-neutral-400">Puede pasar desapercibida.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Define el proyecto</div><p class="text-xs text-neutral-400">Resiliencia integrada.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 7 -->
+<section class="mb-16" data-inema-topic="modulo-4-3#topico-7" id="topico-7">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">7</span>
+<h2 class="text-2xl font-bold">🧱 Entradas fijas, salida estructurada, error y registro desde el primer prompt</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-3-t7-p1">
+          Son las <strong>cuatro requisitos</strong> de cualquier build unattended — el antídoto contra el agentic gap. Como nadie estará mirando, el agente debe nacer resiliente: <strong class="text-amber-400">inputs fijos</strong> (nada de «¿qué fuente uso hoy?»), <strong class="text-amber-400">salida estructurada/predecible</strong> (siempre el mismo formato), <strong class="text-amber-400">manejo de errores integrado</strong> (try/catch en cada llamada externa) y <strong class="text-amber-400">log en cada paso</strong>. Y todo esto se integra <strong>desde el primer prompt</strong>, no como un parche posterior.
+        </p>
+<div class="bg-dark-800 border border-amber-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>try/catch</strong> — «intenta hacer esto; si da error, haz aquello» en vez de fallar. <strong>Log</strong> — un registro de lo que hizo el agente en cada paso, que lees después para entender qué ocurrió cuando nadie estaba mirando.</p>
+</div>
+<!-- 4-card checklist -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+<div class="bg-dark-800 rounded-xl border border-amber-500/30 p-5">
+<div class="flex items-center gap-2 mb-1"><span class="text-amber-400">✓</span><span class="font-semibold text-amber-400 text-sm">1. Inputs fijos</span></div>
+<p class="text-xs text-neutral-400">Fuente, hoja de cálculo, tema: todo constante. El agente no pregunta nada en mitad de la noche.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-amber-500/30 p-5">
+<div class="flex items-center gap-2 mb-1"><span class="text-amber-400">✓</span><span class="font-semibold text-amber-400 text-sm">2. Salida estructurada</span></div>
+<p class="text-xs text-neutral-400">Siempre las mismas columnas/campos, en el mismo orden. Predecible para quien lo consume después.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-amber-500/30 p-5">
+<div class="flex items-center gap-2 mb-1"><span class="text-amber-400">✓</span><span class="font-semibold text-amber-400 text-sm">3. Manejo de errores</span></div>
+<p class="text-xs text-neutral-400">try/catch en cada llamada externa (API, scraping, hoja de cálculo). Fallar no puede significar "bloquearse".</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-amber-500/30 p-5">
+<div class="flex items-center gap-2 mb-1"><span class="text-amber-400">✓</span><span class="font-semibold text-amber-400 text-sm">4. Log en cada paso</span></div>
+<p class="text-xs text-neutral-400">Un registro por etapa. Es lo único que te permite ver cuando no estás mirando.</p>
+</div>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-3-t7-p2">Quien gestiona los errores y los registra desde el inicio transforma una falla silenciosa en una <strong>mensaje claro</strong>. La diferencia entre despertarte y descubrir que "el radar se detuvo hace tres días y nadie se dio cuenta" y leer "Firecrawl devolvió 429 en la fuente 3 ayer a las 7h" es toda la diferencia entre un juguete y algo confiable.</p>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Consejo práctico</h3>
+<p class="text-neutral-300 text-sm">Registra <strong>específico</strong>, no genérico. "<code>Firecrawl 429 (rate limit) na fonte 3 às 07:02</code>" dice qué hacer; "<code>task failed</code>" no dice nada y te cuesta una hora de investigación. Un buen registro nombra <em>qué</em>, <em>dónde</em> e <em>cuándo</em>.</p>
+</div>
+<!-- CODE BOX #3: prompt com as 4 exigências (copy-run) -->
+<div class="codebox rounded-xl border border-amber-500/30 bg-dark-900 overflow-hidden mb-3">
+<div class="bg-amber-500/10 border-b border-amber-500/30 px-4 py-2 flex items-center gap-2">
+<span aria-hidden="true" class="flex gap-1.5">
+<span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+<span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
+<span class="w-3 h-3 rounded-full bg-green-500/80"></span>
+</span>
+<span class="text-amber-400 text-sm font-semibold ml-1">🎯 Objetivo: pedir ya los 4 requisitos en el primer prompt del agente</span>
+</div>
+<pre class="text-xs sm:text-sm text-neutral-300 p-4 overflow-x-auto"><code>Construa o agente <span class="text-amber-300">&lt;radar diário&gt;</span> para rodar UNATTENDED, com:
+
+[Inputs FIXOS]   fonte = <span class="text-amber-300">&lt;lista de 4 sites&gt;</span>; destino = <span class="text-amber-300">&lt;planilha X&gt;</span>.
+                 Nada de perguntar nada em tempo de execução.
+
+[Saída ESTRUTURADA]  sempre as colunas: data | titulo | resumo | url,
+                     nessa ordem, mesmo que algum campo venha vazio.
+
+[Tratamento de ERRO]  envolva CADA chamada externa em try/catch;
+                      se uma fonte falhar, pule-a e continue as demais.
+
+[LOG por passo]  registre início/fim de cada etapa e todo erro,
+                 nomeando fonte + código (ex.: "fonte 3: HTTP 429").
+                 Em caso de falha, me avise por <span class="text-amber-300">&lt;e-mail/DM&gt;</span>.</code></pre>
+</div>
+<div class="bg-dark-800 border border-dark-600 rounded-lg p-4 mb-6 text-sm text-neutral-300">
+<strong class="text-amber-400">Cómo verificar:</strong> derriba a propósito una de las fuentes (usa una URL inválida) y ejecútalo. El agente debe <em>saltar</em> la fuente defectuosa, procesar las demás, registrar el error identificado (p. ej., "fuente 3: HTTP 404") y aun así guardar el resultado con las columnas correctas. Confirma que llegó el aviso de error al canal elegido: no puede fallar en silencio.
+        </div>
+<h3 class="text-lg font-semibold text-amber-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Entradas fijas</div><p class="text-xs text-neutral-400">Nada de preguntar a mitad de camino.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Salida predecible</div><p class="text-xs text-neutral-400">Siempre el mismo formato.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Error gestionado</div><p class="text-xs text-neutral-400">try/catch externo.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Log específico</div><p class="text-xs text-neutral-400">Nombra qué/dónde/cuándo.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 8 -->
+<section class="mb-16" data-inema-topic="modulo-4-3#topico-8" id="topico-8">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">8</span>
+<h2 class="text-2xl font-bold">📜 Cuando un "agente" es solo un script (y está bien)</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-3-t8-p1">
+          No todo necesita razonar. Si la tarea es <strong>fija y previsible</strong> — siempre los mismos pasos, sobre los mismos datos, con el mismo resultado: un <strong class="text-amber-400">script determinístico</strong> es más <strong>barato</strong> (no consume tokens razonando), más <strong>rápido</strong> y más <strong>confiable</strong> que un agente. Elegir el script aquí no es «menos avanzado»: es la ingeniería correcta. <strong>Lo simple es hermoso</strong> — lo aburrido es hermoso.
+        </p>
+<div class="bg-dark-800 border border-amber-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Script</strong> — un pequeño programa que realiza exactamente los mismos pasos cada vez (determinístico). No razona, no se adapta ni cuesta por token: hace lo que está escrito, punto. Para tareas que nunca cambian, eso es una ventaja.</p>
+</div>
+<!-- ✓/✗ GRID #2: use agente quando... vs use script quando... -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-amber-900/20 rounded-xl border border-amber-500/30 p-6">
+<h4 class="font-bold text-amber-400 mb-4">✓ Usa un AGENTE cuando…</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-amber-400">✓</span><span>La entrada varía mucho y requiere interpretación (lenguaje natural).</span></li>
+<li class="flex items-start space-x-2"><span class="text-amber-400">✓</span><span>El camino no es fijo: hay que elegir herramientas sobre la marcha.</span></li>
+<li class="flex items-start space-x-2"><span class="text-amber-400">✓</span><span>Aparecen casos nuevos y hay que adaptarse o improvisar.</span></li>
+<li class="flex items-start space-x-2"><span class="text-amber-400">✓</span><span>Hay una ambigüedad real que justifica preguntar o razonar.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Usa un SCRIPT cuando…</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">▸</span><span>La tarea es fija: siempre los mismos pasos, en el mismo orden.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">▸</span><span>La entrada es predecible y está bien estructurada (no necesita interpretación).</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">▸</span><span>La confiabilidad y el costo importan más que la flexibilidad.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">▸</span><span>"Aburrido y repetible" es exactamente lo que quieres.</span></li>
+</ul>
+</div>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-3-t8-p2">La madurez de quien construye no consiste en usar agentes para todo, sino en saber <strong>cuando no usar</strong>. Usar un agente costoso y no determinístico para una tarea que resolvería un script de diez líneas es un desperdicio y abre la puerta a errores donde no los había. Elegir la herramienta adecuada para el problema es lo que distingue a quien juega de quien entrega.</p>
+<h3 class="text-lg font-semibold text-amber-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Fijo → script</div><p class="text-xs text-neutral-400">Lo predecible no necesita razonar.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Más barato</div><p class="text-xs text-neutral-400">No gastes tokens en vano.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Más confiable</div><p class="text-xs text-neutral-400">Haz lo mismo cada vez.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Lo simple es hermoso</div><p class="text-xs text-neutral-400">Elección válida y madura.</p></div>
+</div>
+<!-- CHECAGEM LEVE (data-inema-check) -->
+<div class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6" data-inema-check="modulo-4-3#q1">
+<p class="inema-check__q font-medium mb-4">Un agente funciona en la nube con cron, todos los días a las 7h, y ayer falló una fuente, pero recién hoy te diste cuenta de que faltan datos. ¿Qué concepto lo explica?</p>
+<div class="inema-check-options inema-check__options space-y-2">
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0" type="button">El agente es determinista, así que nunca podría haber fallado.</button>
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1" type="button">La brecha agéntica: en producción nadie cierra el ciclo de autocuración, así que el fallo pasó desapercibido.</button>
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2" type="button">La expresión cron estaba mal, por eso falló la fuente.</button>
+</div>
+<div aria-live="polite" class="mt-4 text-sm" data-inema-check-feedback="" role="status"></div>
+</div>
+<div class="flex justify-start mt-8">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-8">
+<div class="bg-gradient-to-br from-amber-900/40 via-dark-800 to-dark-800 rounded-xl border border-amber-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📌</span> Resumen del módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Agente ≠ automatización</strong><span class="text-neutral-400"> — delegas el resultado; razona, se adapta, pregunta y se corrige solo (no determinista). Bife en un restaurante, no una receta.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Local (bajo demanda)</strong><span class="text-neutral-400"> — tú eres el disparador; sin deploy; aquí es donde se desarrolla la intuición.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Loop de mejora continua</strong><span class="text-neutral-400"> — se ejecuta → se equivoca → diagnostica → corrige la tool → actualiza el flujo. Este superpoder desaparece en producción.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Programado (cron)</strong><span class="text-neutral-400"> — el reloj se activa; 5 campos (min h día mes día-sem.); <code>0 7 * * *</code> = todos los días a las 7 h; se ejecuta sin supervisión.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Por evento (webhook)</strong><span class="text-neutral-400"> — URL que escucha + payload (campanilla digital); autentica con Authorization: Bearer &lt;chave&gt;.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Brecha agéntica</strong><span class="text-neutral-400"> — en la nube, nadie cierra el ciclo; el agente se ejecuta, pero no se adapta, y el fallo puede pasar desapercibido.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Los 4 requisitos</strong><span class="text-neutral-400"> — inputs fijos, salida estructurada, error manejado (try/catch) y log específico — desde el 1.er prompt.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">A veces solo es un script</strong><span class="text-neutral-400"> — tarea fija y predecible: un script determinista es más barato y confiable. Lo simple funciona.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-amber-400 mb-2">Siguiente módulo:</h3>
+<p class="text-neutral-300">Ruta 5 — Proyectos prácticos (End-to-End)</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="index.html">← Volver a la ruta</a>
+<a class="flex-1 text-center px-6 py-3 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-500 transition-colors" href="../trilha5/index.html">Ruta 5: Proyectos →</a>
+</div>
+</div>
+</section>
+</main>
+<!-- TOC sticky + scrollspy -->
+<aside class="hidden lg:block">
+<nav aria-label="Índice de la página" class="sticky top-24 self-start" data-inema-toc="">
+<p class="text-sm text-neutral-400 mb-3">Sección <span data-inema-section-counter=""><span class="inema-toc-pos">1</span> de <span class="inema-toc-total">8</span></span></p>
+<ol class="space-y-1.5 text-sm">
+<li><a class="inema-toc-link text-neutral-400 hover:text-amber-400 block" href="#topico-1">1. Qué es un agente</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-amber-400 block" href="#topico-2">2. Local (bajo demanda)</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-amber-400 block" href="#topico-3">3. Bucle de automejora</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-amber-400 block" href="#topico-4">4. Programado (cron)</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-amber-400 block" href="#topico-5">5. Por evento (webhook)</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-amber-400 block" href="#topico-6">6. La brecha agentic</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-amber-400 block" href="#topico-7">7. Inputs, salida, error y log</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-amber-400 block" href="#topico-8">8. Cuándo basta con un script</a></li>
+</ol>
+</nav>
+</aside>
+</div>
+<footer class="border-t border-dark-600 py-8 mt-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Vibe Coding: Dominio completo · Curso original <a class="text-sky-400 hover:text-sky-300 font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a> · 2026</p>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const htmlEl = document.documentElement;
+    if (htmlEl.classList.contains('dark')) { themeToggleLightIcon.classList.remove('hidden'); }
+    else { themeToggleDarkIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      htmlEl.classList.toggle('dark');
+      const isDark = htmlEl.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      if (window.INEMA && INEMA.setPref) { INEMA.setPref('theme', isDark ? 'inema-dark' : 'claro'); }
+    });
+  </script>
+<script src="../../../assets/learn.js"></script>
+<script>
+    if (window.INEMA && typeof window.INEMA.init === 'function') {
+      window.INEMA.init();
+      if (window.INEMA.registerCheck) {
+        INEMA.registerCheck('modulo-4-3#q1', {
+          answer: 1,
+          explain: {
+            0: 'Não. Um agente é não-determinístico e depende de fontes externas — pode, sim, falhar. O problema aqui é não ter percebido a falha.',
+            1: 'Isso. É o agentic gap: em produção ninguém está olhando para fechar o loop de auto-cura, então a falha rodou em silêncio. A defesa é log + aviso desde o 1º prompt.',
+            2: 'Não. A fonte caiu por conta dela (externa); o cron disparou certo às 7h. O ponto é a falha ter passado despercebida.'
+          }
+        });
+      }
+    }
+  </script>
+</body>
+</html>

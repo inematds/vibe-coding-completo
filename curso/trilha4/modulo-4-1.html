@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="dark">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="inema-course" content="vibe-coding-completo">
 
-  <!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
-  <script>
+<html class="dark" lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="vibe-coding-completo" name="inema-course"/>
+<!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
+<script>
   (function () {
     try {
       var html = document.documentElement;
@@ -74,10 +74,9 @@
     }
   })();
   </script>
-
-  <title>Módulo 4.1 · Skills: Conceito & Anatomia | Vibe Coding: Domínio Completo</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
+<title>Módulo 4.1 · Skills: Conceito &amp; Anatomia | Vibe Coding: Domínio Completo</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
@@ -90,10 +89,9 @@
       }
     }
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
-  <script type="application/json" data-inema-manifest>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
+<script data-inema-manifest="" type="application/json">
   {
     "course": "vibe-coding-completo",
     "tracks": [
@@ -133,10 +131,8 @@
     ]
   }
   </script>
-
-  <link rel="stylesheet" href="../../assets/learn.css">
-
-  <style>
+<link href="../../assets/learn.css" rel="stylesheet"/>
+<style>
     body { font-family: 'Inter', sans-serif; }
     .dark body { background-color: #111827; }
     .topic-explanation { display: none; }
@@ -212,208 +208,187 @@
       .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
     }
   </style>
-</head>
-<body class="bg-dark-900 text-neutral-100 min-h-screen">
-
-  <a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-amber-600 focus:text-white focus:rounded-lg" href="#conteudo">Pular para o conteúdo</a>
-
-  <!-- NAVIGATION (T4 ativa) -->
-  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-14">
-        <div class="flex items-center space-x-4">
-          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
-            <span class="text-2xl">⚡</span>
-            <span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
-          </a>
-          <span class="text-neutral-600">|</span>
-          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
-        </div>
-        <div class="flex items-center space-x-1 sm:space-x-2">
-          <a href="../trilha1/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
-            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
-          </a>
-          <a href="../trilha2/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
-            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Técnica</span>
-          </a>
-          <a href="../trilha3/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
-            <span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
-          </a>
-          <a href="index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-amber-400 bg-amber-500/10">
-            <span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
-          </a>
-          <a href="../trilha5/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors">
-            <span class="sm:hidden">T5</span><span class="hidden sm:inline">Projetos</span>
-          </a>
-          <a href="../trilha6/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors">
-            <span class="sm:hidden">T6</span><span class="hidden sm:inline">Produção</span>
-          </a>
-          <button type="button" data-inema-journey-open class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1">
-            <span aria-hidden="true">◷</span><span>Minha jornada</span>
-            <span class="inema-journey-badge hidden" data-inema-journey-badge data-count="0"></span>
-          </button>
-          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" aria-label="Alternar tema claro/escuro">
-            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-            </svg>
-            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <!-- BREADCRUMB -->
-  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4" aria-label="Trilha de navegação">
-    <div class="flex items-center space-x-2 text-sm text-neutral-400">
-      <a href="../../index.html" class="hover:text-amber-400">Início</a>
-      <span>/</span>
-      <a href="index.html" class="hover:text-amber-400">Trilha 4</a>
-      <span>/</span>
-      <span class="text-amber-400">Módulo 4.1</span>
-    </div>
-  </nav>
-
-  <!-- HEADER DO MÓDULO -->
-  <header class="bg-gradient-to-br from-amber-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <span class="inline-block px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-full mb-4">MÓDULO 4.1</span>
-      <h3 class="text-2xl font-bold mb-4">📦 Skills: Conceito & Anatomia</h3>
-      <p class="text-lg text-neutral-400 max-w-3xl">Uma <strong class="text-amber-300">skill</strong> é um arquivo de instruções que vira um comando reutilizável: você descreve um processo uma vez, e o agente passa a executá-lo do mesmo jeito sempre — sem você reexplicar. Conceitualmente é a camada <strong>W (workflows)</strong> do framework WAT, só que mora numa pasta e é acionada por um <strong>slash command</strong>. Aqui você entende o que é uma skill, onde ela vive, como é a sua anatomia, e quando faz sentido criar uma em vez de só digitar.</p>
-      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-amber-400">7</div>
-          <div class="text-xs text-neutral-400">Tópicos</div>
-        </div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-amber-400">~50</div>
-          <div class="text-xs text-neutral-400">Minutos</div>
-        </div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-amber-400">Prático</div>
-          <div class="text-xs text-neutral-400">Nível</div>
-        </div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-amber-400">Skill</div>
-          <div class="text-xs text-neutral-400">Tipo</div>
-        </div>
-      </div>
-      <div class="mt-6 max-w-2xl" data-inema-meter="modulo:4-1" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso do módulo 4.1">
-        <div class="flex items-center justify-between mb-1 text-sm">
-          <span class="text-neutral-400">Progresso do módulo</span>
-          <span class="text-amber-400 font-semibold"><span data-inema-meter-pct>0%</span> · <span data-inema-meter-frac>0 de 7</span></span>
-        </div>
-        <div class="inema-bar h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-amber-500 rounded-full" data-inema-meter-fill style="width:0%"></div></div>
-      </div>
-    </div>
-  </header>
-
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:grid lg:grid-cols-[1fr_220px] lg:gap-10">
-
-    <main id="conteudo" class="min-w-0">
-
-      <!-- SVG FUTURISTA (visão geral, #29) -->
-      <section class="mb-12">
-        <p class="text-neutral-300 mb-4 inema-prose leading-relaxed">Antes dos sete tópicos, veja o caminho que liga tudo: você escreve um <strong>workflow em markdown</strong>, ele passa a viver numa pasta (<code>.claude/skills</code>), e o agente o expõe como um <strong>slash command</strong> que pode chamar quando você (ou uma instrução) o invoca. Uma skill é, no fundo, um pedaço de processo embalado para reuso.</p>
-        <div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
-          <svg viewBox="0 0 1000 240" class="w-full h-auto" role="img" aria-label="Fluxo de uma skill: um arquivo de workflow em markdown é salvo na pasta .claude/skills; a partir dali o agente coordenador o expõe como um slash command que pode ser invocado e reutilizado a qualquer momento">
-            <defs>
-              <linearGradient id="m41-grad" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#fbbf24"/><stop offset="1" stop-color="#f59e0b"/>
-              </linearGradient>
-              <filter id="m41-glow" x="-40%" y="-40%" width="180%" height="180%">
-                <feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-              </filter>
-              <pattern id="m41-grid" width="32" height="32" patternUnits="userSpaceOnUse">
-                <circle cx="1.3" cy="1.3" r="1.3" fill="#f59e0b" opacity="0.12"/>
-              </pattern>
-              <marker id="m41-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#f59e0b"/></marker>
-              <marker id="m41-ahc" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"/></marker>
-            </defs>
-            <rect x="0" y="0" width="1000" height="240" fill="url(#m41-grid)"/>
-
-            <!-- 1: arquivo markdown -->
-            <g filter="url(#m41-glow)"><rect x="36" y="86" width="180" height="68" rx="14" fill="#2a1c05" stroke="url(#m41-grad)" stroke-width="2.5"/></g>
-            <text x="126" y="112" text-anchor="middle" fill="#fbbf24" font-family="Inter,sans-serif" font-weight="700" font-size="14">📄 SKILL.md</text>
-            <text x="126" y="132" text-anchor="middle" fill="#fcd9a0" font-family="Inter,sans-serif" font-size="11">workflow em markdown</text>
-
-            <g fill="none" stroke="#f59e0b" stroke-width="2.2" opacity="0.75"><path d="M216,120 L290,120" marker-end="url(#m41-ah)"/></g>
-            <text x="253" y="110" text-anchor="middle" fill="#d8a14a" font-family="Inter,sans-serif" font-size="11">salvar</text>
-
-            <!-- 2: pasta .claude/skills -->
-            <rect x="290" y="86" width="200" height="68" rx="14" fill="#2a1c05" stroke="#f59e0b" stroke-width="2"/>
-            <text x="390" y="112" text-anchor="middle" fill="#fbbf24" font-family="Inter,sans-serif" font-weight="700" font-size="14">📁 .claude/skills</text>
-            <text x="390" y="132" text-anchor="middle" fill="#fcd9a0" font-family="Inter,sans-serif" font-size="11">cada skill na sua pasta</text>
-
-            <g fill="none" stroke="#38bdf8" stroke-width="2.2" opacity="0.7"><path d="M490,120 L564,120" marker-end="url(#m41-ahc)"/></g>
-            <text x="527" y="110" text-anchor="middle" fill="#7fc4ee" font-family="Inter,sans-serif" font-size="11">expõe</text>
-
-            <!-- 3: slash command -->
-            <rect x="564" y="86" width="180" height="68" rx="14" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/>
-            <text x="654" y="112" text-anchor="middle" fill="#bfe6ff" font-family="Inter,sans-serif" font-weight="700" font-size="14">/slash-command</text>
-            <text x="654" y="132" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11">comando chamável</text>
-
-            <!-- agente coordenador embaixo -->
-            <rect x="564" y="180" width="180" height="40" rx="11" fill="#0e1b26" stroke="#38bdf8" stroke-width="1.8"/>
-            <text x="654" y="205" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="12">🤖 agente coordenador</text>
-            <g fill="none" stroke="#38bdf8" stroke-width="2" opacity="0.6"><path d="M654,180 L654,158" marker-end="url(#m41-ahc)"/></g>
-
-            <!-- 4: reuso -->
-            <g fill="none" stroke="#f59e0b" stroke-width="2.2" opacity="0.75"><path d="M744,120 L818,120" marker-end="url(#m41-ah)"/></g>
-            <g class="wf-a"><rect x="818" y="78" width="150" height="34" rx="9" fill="#2a1c05" stroke="#fbbf24" stroke-width="1.8"/><text x="893" y="100" text-anchor="middle" fill="#fcd9a0" font-family="Inter,sans-serif" font-size="11">invocar (vez A)</text></g>
-            <g class="wf-a"><rect x="818" y="128" width="150" height="34" rx="9" fill="#2a1c05" stroke="#fbbf24" stroke-width="1.8"/><text x="893" y="150" text-anchor="middle" fill="#fcd9a0" font-family="Inter,sans-serif" font-size="11">invocar (vez B)</text></g>
-            <text x="893" y="186" text-anchor="middle" fill="#d8a14a" font-family="Inter,sans-serif" font-size="11">mesmo processo,</text>
-            <text x="893" y="200" text-anchor="middle" fill="#d8a14a" font-family="Inter,sans-serif" font-size="11">toda vez</text>
-
-            <text x="40" y="40" fill="#fbbf24" font-family="Inter,sans-serif" font-size="13" font-weight="600">Skill = workflow embalado → vive numa pasta → vira comando reutilizável</text>
-          </svg>
-        </div>
-        <p class="text-xs text-neutral-500">Diagrama ilustrativo — uma skill nasce de um workflow descrito em texto; depois de salva, o agente a oferece como comando e a reusa de forma consistente sempre que invocada.</p>
-      </section>
-
-      <!-- TÓPICO 1 -->
-      <section id="topico-1" data-inema-topic="modulo-4-1#topico-1" class="mb-16">
-        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-          <div class="flex items-center space-x-4">
-            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">1</span>
-            <h2 class="text-2xl font-bold">📦 O que é uma skill</h2>
-          </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
-            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
-          </button>
-        </div>
-
-        <h3 class="text-lg font-semibold text-amber-400 mb-2">O que é</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-1-t1-p1">
+<link href="https://inematds.github.io/vibe-coding-completo/curso/trilha4/modulo-4-1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/en/curso/trilha4/modulo-4-1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/es/curso/trilha4/modulo-4-1.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="modulo-4-1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">PT</a><a href="../../en/curso/trilha4/modulo-4-1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="../../es/curso/trilha4/modulo-4-1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-amber-600 focus:text-white focus:rounded-lg" href="#conteudo">Pular para o conteúdo</a>
+<!-- NAVIGATION (T4 ativa) -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Técnica</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-amber-400 bg-amber-500/10" href="index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Projetos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Produção</span>
+</a>
+<button class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-inema-journey-open="" type="button">
+<span aria-hidden="true">◷</span><span>Minha jornada</span>
+<span class="inema-journey-badge hidden" data-count="0" data-inema-journey-badge=""></span>
+</button>
+<button aria-label="Alternar tema claro/escuro" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20">
+<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+</svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav aria-label="Trilha de navegação" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-amber-400" href="../../index.html">Início</a>
+<span>/</span>
+<a class="hover:text-amber-400" href="index.html">Trilha 4</a>
+<span>/</span>
+<span class="text-amber-400">Módulo 4.1</span>
+</div>
+</nav>
+<!-- HEADER DO MÓDULO -->
+<header class="bg-gradient-to-br from-amber-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-full mb-4">MÓDULO 4.1</span>
+<h3 class="text-2xl font-bold mb-4">📦 Skills: Conceito &amp; Anatomia</h3>
+<p class="text-lg text-neutral-400 max-w-3xl">Uma <strong class="text-amber-300">skill</strong> é um arquivo de instruções que vira um comando reutilizável: você descreve um processo uma vez, e o agente passa a executá-lo do mesmo jeito sempre — sem você reexplicar. Conceitualmente é a camada <strong>W (workflows)</strong> do framework WAT, só que mora numa pasta e é acionada por um <strong>slash command</strong>. Aqui você entende o que é uma skill, onde ela vive, como é a sua anatomia, e quando faz sentido criar uma em vez de só digitar.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-amber-400">7</div>
+<div class="text-xs text-neutral-400">Tópicos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-amber-400">~50</div>
+<div class="text-xs text-neutral-400">Minutos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-amber-400">Prático</div>
+<div class="text-xs text-neutral-400">Nível</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-amber-400">Skill</div>
+<div class="text-xs text-neutral-400">Tipo</div>
+</div>
+</div>
+<div aria-label="Progresso do módulo 4.1" aria-valuemax="100" aria-valuemin="0" class="mt-6 max-w-2xl" data-inema-meter="modulo:4-1" role="progressbar">
+<div class="flex items-center justify-between mb-1 text-sm">
+<span class="text-neutral-400">Progresso do módulo</span>
+<span class="text-amber-400 font-semibold"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 7</span></span>
+</div>
+<div class="inema-bar h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-amber-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+</header>
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:grid lg:grid-cols-[1fr_220px] lg:gap-10">
+<main class="min-w-0" id="conteudo">
+<!-- SVG FUTURISTA (visão geral, #29) -->
+<section class="mb-12">
+<p class="text-neutral-300 mb-4 inema-prose leading-relaxed">Antes dos sete tópicos, veja o caminho que liga tudo: você escreve um <strong>workflow em markdown</strong>, ele passa a viver numa pasta (<code>.claude/skills</code>), e o agente o expõe como um <strong>slash command</strong> que pode chamar quando você (ou uma instrução) o invoca. Uma skill é, no fundo, um pedaço de processo embalado para reuso.</p>
+<div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="Fluxo de uma skill: um arquivo de workflow em markdown é salvo na pasta .claude/skills; a partir dali o agente coordenador o expõe como um slash command que pode ser invocado e reutilizado a qualquer momento" class="w-full h-auto" role="img" viewbox="0 0 1000 240">
+<defs>
+<lineargradient id="m41-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#fbbf24"></stop><stop offset="1" stop-color="#f59e0b"></stop>
+</lineargradient>
+<filter height="180%" id="m41-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="32" id="m41-grid" patternunits="userSpaceOnUse" width="32">
+<circle cx="1.3" cy="1.3" fill="#f59e0b" opacity="0.12" r="1.3"></circle>
+</pattern>
+<marker id="m41-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#f59e0b"></path></marker>
+<marker id="m41-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m41-grid)" height="240" width="1000" x="0" y="0"></rect>
+<!-- 1: arquivo markdown -->
+<g filter="url(#m41-glow)"><rect fill="#2a1c05" height="68" rx="14" stroke="url(#m41-grad)" stroke-width="2.5" width="180" x="36" y="86"></rect></g>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="14" font-weight="700" text-anchor="middle" x="126" y="112">📄 SKILL.md</text>
+<text fill="#fcd9a0" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="126" y="132">workflow em markdown</text>
+<g fill="none" opacity="0.75" stroke="#f59e0b" stroke-width="2.2"><path d="M216,120 L290,120" marker-end="url(#m41-ah)"></path></g>
+<text fill="#d8a14a" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="253" y="110">salvar</text>
+<!-- 2: pasta .claude/skills -->
+<rect fill="#2a1c05" height="68" rx="14" stroke="#f59e0b" stroke-width="2" width="200" x="290" y="86"></rect>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="14" font-weight="700" text-anchor="middle" x="390" y="112">📁 .claude/skills</text>
+<text fill="#fcd9a0" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="390" y="132">cada skill na sua pasta</text>
+<g fill="none" opacity="0.7" stroke="#38bdf8" stroke-width="2.2"><path d="M490,120 L564,120" marker-end="url(#m41-ahc)"></path></g>
+<text fill="#7fc4ee" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="527" y="110">expõe</text>
+<!-- 3: slash command -->
+<rect fill="#0e1b26" height="68" rx="14" stroke="#38bdf8" stroke-width="2" width="180" x="564" y="86"></rect>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="14" font-weight="700" text-anchor="middle" x="654" y="112">/slash-command</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="654" y="132">comando chamável</text>
+<!-- agente coordenador embaixo -->
+<rect fill="#0e1b26" height="40" rx="11" stroke="#38bdf8" stroke-width="1.8" width="180" x="564" y="180"></rect>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="654" y="205">🤖 agente coordenador</text>
+<g fill="none" opacity="0.6" stroke="#38bdf8" stroke-width="2"><path d="M654,180 L654,158" marker-end="url(#m41-ahc)"></path></g>
+<!-- 4: reuso -->
+<g fill="none" opacity="0.75" stroke="#f59e0b" stroke-width="2.2"><path d="M744,120 L818,120" marker-end="url(#m41-ah)"></path></g>
+<g class="wf-a"><rect fill="#2a1c05" height="34" rx="9" stroke="#fbbf24" stroke-width="1.8" width="150" x="818" y="78"></rect><text fill="#fcd9a0" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="893" y="100">invocar (vez A)</text></g>
+<g class="wf-a"><rect fill="#2a1c05" height="34" rx="9" stroke="#fbbf24" stroke-width="1.8" width="150" x="818" y="128"></rect><text fill="#fcd9a0" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="893" y="150">invocar (vez B)</text></g>
+<text fill="#d8a14a" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="893" y="186">mesmo processo,</text>
+<text fill="#d8a14a" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="893" y="200">toda vez</text>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="40" y="40">Skill = workflow embalado → vive numa pasta → vira comando reutilizável</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500">Diagrama ilustrativo — uma skill nasce de um workflow descrito em texto; depois de salva, o agente a oferece como comando e a reusa de forma consistente sempre que invocada.</p>
+</section>
+<!-- TÓPICO 1 -->
+<section class="mb-16" data-inema-topic="modulo-4-1#topico-1" id="topico-1">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">📦 O que é uma skill</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tenho dúvida</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">O que é</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-1-t1-p1">
           Uma <strong class="text-amber-400">skill</strong> é, na essência, um <strong>arquivo markdown de instruções</strong> — conceitualmente idêntico à camada <strong>W (workflows)</strong> do framework <strong>WAT</strong>. A diferença em relação a um workflow que você só descreve no chat é <em>onde ele mora</em> e <em>como é acionado</em>: a skill fica salva numa pasta do projeto e é invocada por um comando, então pode ser executada da mesma forma quantas vezes você quiser, sem você reescrever o processo.
         </p>
-
-        <div class="bg-dark-800 border border-amber-500/30 rounded-xl p-4 mb-4">
-          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-xs font-semibold mr-2">O que é?</span><strong>Workflow</strong> — uma sequência de passos que resolve uma tarefa (o "W" do WAT). <strong>Slash command</strong> — um comando que começa com <code>/</code> e dispara uma ação no agente (ex.: <code>/clear</code>). Uma skill é um workflow embalado e exposto como slash command.</p>
-        </div>
-
-        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m4-1-t1-p2">
+<div class="bg-dark-800 border border-amber-500/30 rounded-xl p-4 mb-4">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-xs font-semibold mr-2">O que é?</span><strong>Workflow</strong> — uma sequência de passos que resolve uma tarefa (o "W" do WAT). <strong>Slash command</strong> — um comando que começa com <code>/</code> e dispara uma ação no agente (ex.: <code>/clear</code>). Uma skill é um workflow embalado e exposto como slash command.</p>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m4-1-t1-p2">
           O detalhe libertador: <strong>você não precisa saber escrever skills</strong>. Você descreve o workflow em linguagem natural — "toda vez que eu pedir, faça X, depois Y, depois salve em Z" — e pede ao agente para <em>transformar isso numa skill / slash command</em>. Ele cria o arquivo, e você passa a chamá-lo por um comando. É o mesmo princípio do vibe coding: descreve o resultado, a IA faz o trabalho pesado.
         </p>
-
-        <h3 class="text-lg font-semibold text-amber-400 mb-2">Por que aprender</h3>
-        <div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
-          <p class="text-neutral-300 mb-3 inema-prose" data-inema-block="m4-1-t1-p3">Skills resolvem quatro dores de uma vez. Sem elas, você reexplica o mesmo processo toda sessão, gasta tokens repetindo contexto e perde consistência. Embaladas numa skill, ganham:</p>
-          <ul class="space-y-2 text-neutral-300">
-            <li class="flex items-start space-x-2"><span class="text-amber-400 mt-1">•</span><span><strong>Consistência:</strong> o mesmo processo roda igual toda vez, sem reexplicar.</span></li>
-            <li class="flex items-start space-x-2"><span class="text-amber-400 mt-1">•</span><span><strong>Economia de tokens:</strong> a skill carrega <em>sob demanda</em>, só quando invocada — não fica ocupando o contexto o tempo todo.</span></li>
-            <li class="flex items-start space-x-2"><span class="text-amber-400 mt-1">•</span><span><strong>Compartilhável:</strong> é um arquivo — você passa para o time inteiro.</span></li>
-            <li class="flex items-start space-x-2"><span class="text-amber-400 mt-1">•</span><span><strong>Confiável:</strong> embrulha passos complexos e fáceis de esquecer → você delega-e-esquece.</span></li>
-          </ul>
-        </div>
-
-        <!-- copy-run #2: prompt para pedir uma skill -->
-        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
-          <p class="text-sm text-amber-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">pedir ao agente para transformar um workflow seu numa skill</span></p>
-          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt para o agente (copie e edite)</span></div>
-          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Transforme este workflow numa skill chamável (slash command).
+<h3 class="text-lg font-semibold text-amber-400 mb-2">Por que aprender</h3>
+<div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+<p class="text-neutral-300 mb-3 inema-prose" data-inema-block="m4-1-t1-p3">Skills resolvem quatro dores de uma vez. Sem elas, você reexplica o mesmo processo toda sessão, gasta tokens repetindo contexto e perde consistência. Embaladas numa skill, ganham:</p>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-amber-400 mt-1">•</span><span><strong>Consistência:</strong> o mesmo processo roda igual toda vez, sem reexplicar.</span></li>
+<li class="flex items-start space-x-2"><span class="text-amber-400 mt-1">•</span><span><strong>Economia de tokens:</strong> a skill carrega <em>sob demanda</em>, só quando invocada — não fica ocupando o contexto o tempo todo.</span></li>
+<li class="flex items-start space-x-2"><span class="text-amber-400 mt-1">•</span><span><strong>Compartilhável:</strong> é um arquivo — você passa para o time inteiro.</span></li>
+<li class="flex items-start space-x-2"><span class="text-amber-400 mt-1">•</span><span><strong>Confiável:</strong> embrulha passos complexos e fáceis de esquecer → você delega-e-esquece.</span></li>
+</ul>
+</div>
+<!-- copy-run #2: prompt para pedir uma skill -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-amber-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">pedir ao agente para transformar um workflow seu numa skill</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt para o agente (copie e edite)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Transforme este workflow numa skill chamável (slash command).
 
 Nome desejado: &lt;nome-da-skill&gt;
 Quando deve ser usada: &lt;descreva o gatilho — ex.: "quando eu pedir um resumo de reunião"&gt;
@@ -424,120 +399,107 @@ Passos do processo:
 3. &lt;onde salvar / formato final&gt;
 
 Crie o arquivo em .claude/skills/ e me diga como invocá-la.</pre>
-          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: o agente deve criar o arquivo e responder com o comando <code>/&lt;nome-da-skill&gt;</code>. Rode-o uma vez para confirmar que aparece e pede os argumentos.</p>
-        </div>
-
-        <h3 class="text-lg font-semibold text-amber-400 mb-3">Conceitos-chave</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Arquivo markdown</div><p class="text-xs text-neutral-400">Instruções em texto.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">É a camada W</div><p class="text-xs text-neutral-400">Workflow do WAT.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Sob demanda</div><p class="text-xs text-neutral-400">Carrega só ao chamar.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Você descreve</div><p class="text-xs text-neutral-400">A IA escreve a skill.</p></div>
-        </div>
-
-        <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- TÓPICO 2 -->
-      <section id="topico-2" data-inema-topic="modulo-4-1#topico-2" class="mb-16">
-        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-          <div class="flex items-center space-x-4">
-            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">2</span>
-            <h2 class="text-2xl font-bold">📁 Onde vivem e como viram slash command</h2>
-          </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
-            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
-          </button>
-        </div>
-
-        <h3 class="text-lg font-semibold text-amber-400 mb-2">O que é</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-1-t2-p1">
+<p class="text-xs text-neutral-500 mt-3">✅ Como verificar: o agente deve criar o arquivo e responder com o comando <code>/&lt;nome-da-skill&gt;</code>. Rode-o uma vez para confirmar que aparece e pede os argumentos.</p>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-3">Conceitos-chave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Arquivo markdown</div><p class="text-xs text-neutral-400">Instruções em texto.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">É a camada W</div><p class="text-xs text-neutral-400">Workflow do WAT.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Sob demanda</div><p class="text-xs text-neutral-400">Carrega só ao chamar.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Você descreve</div><p class="text-xs text-neutral-400">A IA escreve a skill.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 2 -->
+<section class="mb-16" data-inema-topic="modulo-4-1#topico-2" id="topico-2">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">📁 Onde vivem e como viram slash command</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tenho dúvida</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">O que é</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-1-t2-p1">
           As skills vivem num diretório do projeto chamado <code class="text-amber-300">.claude/skills</code>. A organização é simples: <strong>cada skill fica na sua própria pasta</strong>, e dentro dela há um arquivo de skill que descreve o que ela faz. O agente varre essa pasta e <strong>expõe cada skill como um slash command</strong> — um comando que começa com <code>/</code> e que você digita para acioná-la.
         </p>
-
-        <div class="bg-dark-800 border border-amber-500/30 rounded-xl p-4 mb-6">
-          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-xs font-semibold mr-2">O que é?</span><strong>Diretório <code>.claude</code></strong> — uma pasta de configuração que o agente lê dentro do seu projeto. <strong>Built-in</strong> — um comando que já vem pronto (ex.: <code>/clear</code> limpa o contexto). Suas skills aparecem ao lado dos built-ins, na mesma lista de slash commands.</p>
-        </div>
-
-        <h3 class="text-lg font-semibold text-amber-400 mb-2">Por que aprender</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-1-t2-p2">
+<div class="bg-dark-800 border border-amber-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-xs font-semibold mr-2">O que é?</span><strong>Diretório <code>.claude</code></strong> — uma pasta de configuração que o agente lê dentro do seu projeto. <strong>Built-in</strong> — um comando que já vem pronto (ex.: <code>/clear</code> limpa o contexto). Suas skills aparecem ao lado dos built-ins, na mesma lista de slash commands.</p>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">Por que aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-1-t2-p2">
           Entender o lugar e o mecanismo desfaz a mágica: skill não é um recurso oculto da IA, é <strong>um arquivo numa pasta</strong> que vira comando. Vale notar a unificação recente: <strong>os slash commands foram unificados em skills</strong> — ou seja, criar uma skill e criar um slash command viraram a mesma coisa. Por isso, comparar com built-ins como <code>/clear</code> ajuda: a diferença é só que os seus são definidos por você, no projeto.
         </p>
-
-        <!-- TIMELINE: ciclo de vida de uma skill -->
-        <h3 class="text-lg font-semibold text-amber-400 mb-3">Ciclo de vida de uma skill</h3>
-        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
-          <ol class="relative border-l-2 border-amber-500/40 ml-3 space-y-6">
-            <li class="ml-6">
-              <span class="absolute -left-[15px] flex items-center justify-center w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 font-bold text-sm border border-amber-500/40">1</span>
-              <p class="text-neutral-100 font-semibold text-sm">Descrever o workflow</p>
-              <p class="text-neutral-400 text-xs">Você conta o processo em linguagem natural — passos, entradas, saída.</p>
-            </li>
-            <li class="ml-6">
-              <span class="absolute -left-[15px] flex items-center justify-center w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 font-bold text-sm border border-amber-500/40">2</span>
-              <p class="text-neutral-100 font-semibold text-sm">Agente gera o arquivo de skill</p>
-              <p class="text-neutral-400 text-xs">Ele cria a pasta em <code>.claude/skills</code> com nome, descrição e passos.</p>
-            </li>
-            <li class="ml-6">
-              <span class="absolute -left-[15px] flex items-center justify-center w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 font-bold text-sm border border-amber-500/40">3</span>
-              <p class="text-neutral-100 font-semibold text-sm">Invocar pelo slash command</p>
-              <p class="text-neutral-400 text-xs">Você digita <code>/nome-da-skill</code> e o agente executa o processo.</p>
-            </li>
-            <li class="ml-6">
-              <span class="absolute -left-[15px] flex items-center justify-center w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 font-bold text-sm border border-amber-500/40">4</span>
-              <p class="text-neutral-100 font-semibold text-sm">Reusar (e compartilhar)</p>
-              <p class="text-neutral-400 text-xs">Mesma execução sempre; e por ser arquivo, vai junto no projeto para o time.</p>
-            </li>
-          </ol>
-        </div>
-
-        <h3 class="text-lg font-semibold text-amber-400 mb-3">Conceitos-chave</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">.claude/skills</div><p class="text-xs text-neutral-400">O lar das skills.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Uma pasta cada</div><p class="text-xs text-neutral-400">Skill isolada por pasta.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Vira /comando</div><p class="text-xs text-neutral-400">Exposta como slash command.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Unificadas</div><p class="text-xs text-neutral-400">Slash commands = skills.</p></div>
-        </div>
-
-        <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- TÓPICO 3 -->
-      <section id="topico-3" data-inema-topic="modulo-4-1#topico-3" class="mb-16">
-        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-          <div class="flex items-center space-x-4">
-            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">3</span>
-            <h2 class="text-2xl font-bold">🧬 Anatomia do SKILL.md</h2>
-          </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
-            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
-          </button>
-        </div>
-
-        <h3 class="text-lg font-semibold text-amber-400 mb-2">O que é</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-1-t3-p1">
+<!-- TIMELINE: ciclo de vida de uma skill -->
+<h3 class="text-lg font-semibold text-amber-400 mb-3">Ciclo de vida de uma skill</h3>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<ol class="relative border-l-2 border-amber-500/40 ml-3 space-y-6">
+<li class="ml-6">
+<span class="absolute -left-[15px] flex items-center justify-center w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 font-bold text-sm border border-amber-500/40">1</span>
+<p class="text-neutral-100 font-semibold text-sm">Descrever o workflow</p>
+<p class="text-neutral-400 text-xs">Você conta o processo em linguagem natural — passos, entradas, saída.</p>
+</li>
+<li class="ml-6">
+<span class="absolute -left-[15px] flex items-center justify-center w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 font-bold text-sm border border-amber-500/40">2</span>
+<p class="text-neutral-100 font-semibold text-sm">Agente gera o arquivo de skill</p>
+<p class="text-neutral-400 text-xs">Ele cria a pasta em <code>.claude/skills</code> com nome, descrição e passos.</p>
+</li>
+<li class="ml-6">
+<span class="absolute -left-[15px] flex items-center justify-center w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 font-bold text-sm border border-amber-500/40">3</span>
+<p class="text-neutral-100 font-semibold text-sm">Invocar pelo slash command</p>
+<p class="text-neutral-400 text-xs">Você digita <code>/nome-da-skill</code> e o agente executa o processo.</p>
+</li>
+<li class="ml-6">
+<span class="absolute -left-[15px] flex items-center justify-center w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 font-bold text-sm border border-amber-500/40">4</span>
+<p class="text-neutral-100 font-semibold text-sm">Reusar (e compartilhar)</p>
+<p class="text-neutral-400 text-xs">Mesma execução sempre; e por ser arquivo, vai junto no projeto para o time.</p>
+</li>
+</ol>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-3">Conceitos-chave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">.claude/skills</div><p class="text-xs text-neutral-400">O lar das skills.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Uma pasta cada</div><p class="text-xs text-neutral-400">Skill isolada por pasta.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Vira /comando</div><p class="text-xs text-neutral-400">Exposta como slash command.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Unificadas</div><p class="text-xs text-neutral-400">Slash commands = skills.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 3 -->
+<section class="mb-16" data-inema-topic="modulo-4-1#topico-3" id="topico-3">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">🧬 Anatomia do SKILL.md</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tenho dúvida</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">O que é</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-1-t3-p1">
           Toda skill tem quatro partes essenciais: <strong class="text-amber-400">nome</strong> (como ela é chamada), <strong class="text-amber-400">descrição</strong> (o <em>gatilho</em> — ensina o agente <strong>QUANDO</strong> usar a skill), <strong class="text-amber-400">argumentos esperados</strong> (as entradas que ela recebe) e as <strong class="text-amber-400">instruções passo a passo</strong> (o que fazer). A peça mais subestimada é a descrição: ela não é decorativa — é o que faz o agente decidir, sozinho, que aquela skill é a certa para a situação.
         </p>
-
-        <div class="bg-dark-800 border border-amber-500/30 rounded-xl p-4 mb-6">
-          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-xs font-semibold mr-2">O que é?</span><strong>Gatilho (trigger)</strong> — a condição que faz a skill ser escolhida. Uma boa descrição diz "use isto QUANDO...". Se ela for vaga, o agente não saberá quando aplicar; se for precisa, ele acerta sozinho.</p>
-        </div>
-
-        <!-- CODE BOX copy-run #30 (REQUERIDO) -->
-        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
-          <p class="text-sm text-amber-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">criar o arquivo que define uma skill chamável</span></p>
-          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">.claude/skills/draft-email/SKILL.md (copie e edite)</span></div>
-          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">---
+<div class="bg-dark-800 border border-amber-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-xs font-semibold mr-2">O que é?</span><strong>Gatilho (trigger)</strong> — a condição que faz a skill ser escolhida. Uma boa descrição diz "use isto QUANDO...". Se ela for vaga, o agente não saberá quando aplicar; se for precisa, ele acerta sozinho.</p>
+</div>
+<!-- CODE BOX copy-run #30 (REQUERIDO) -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-amber-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">criar o arquivo que define uma skill chamável</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">.claude/skills/draft-email/SKILL.md (copie e edite)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">---
 name: &lt;nome-da-skill&gt;
 description: &lt;quando-acionar — ex.: rascunhar um e-mail a partir de bullets&gt;
 ---
@@ -553,342 +515,301 @@ description: &lt;quando-acionar — ex.: rascunhar um e-mail a partir de bullets
 1. Leia os &lt;bullets&gt; e o &lt;tom&gt;.
 2. Escreva um e-mail polido, conciso, sem enrolação.
 3. Salve em temporary/&lt;nome-arquivo&gt;.md</pre>
-          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: rode <code>/&lt;nome-da-skill&gt;</code> — se a skill aparecer na lista de slash commands e pedir os argumentos que faltam, está registrada.</p>
-        </div>
-
-        <h3 class="text-lg font-semibold text-amber-400 mb-2">Por que aprender</h3>
-        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m4-1-t3-p2">
+<p class="text-xs text-neutral-500 mt-3">✅ Como verificar: rode <code>/&lt;nome-da-skill&gt;</code> — se a skill aparecer na lista de slash commands e pedir os argumentos que faltam, está registrada.</p>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">Por que aprender</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m4-1-t3-p2">
           Conhecer a anatomia te dá controle mesmo sem escrever: você sabe pedir uma descrição-gatilho boa ("use quando eu colar bullets de e-mail"), nomear argumentos claros e listar passos na ordem certa. E sabe revisar o que o agente gerou — se a descrição estiver fraca, é só pedir para deixá-la mais específica. A estrutura <strong>frontmatter (nome + descrição) + corpo (argumentos + passos)</strong> é o esqueleto de toda skill.
         </p>
-
-        <h3 class="text-lg font-semibold text-amber-400 mb-3">Conceitos-chave</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Nome</div><p class="text-xs text-neutral-400">Como é chamada.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Descrição</div><p class="text-xs text-neutral-400">O gatilho: QUANDO usar.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Argumentos</div><p class="text-xs text-neutral-400">As entradas esperadas.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Passos</div><p class="text-xs text-neutral-400">As instruções em ordem.</p></div>
-        </div>
-
-        <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- TÓPICO 4 -->
-      <section id="topico-4" data-inema-topic="modulo-4-1#topico-4" class="mb-16">
-        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-          <div class="flex items-center space-x-4">
-            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">4</span>
-            <h2 class="text-2xl font-bold">🔧 Skills podem chamar tools</h2>
-          </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
-            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
-          </button>
-        </div>
-
-        <h3 class="text-lg font-semibold text-amber-400 mb-2">O que é</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-1-t4-p1">
+<h3 class="text-lg font-semibold text-amber-400 mb-3">Conceitos-chave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Nome</div><p class="text-xs text-neutral-400">Como é chamada.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Descrição</div><p class="text-xs text-neutral-400">O gatilho: QUANDO usar.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Argumentos</div><p class="text-xs text-neutral-400">As entradas esperadas.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Passos</div><p class="text-xs text-neutral-400">As instruções em ordem.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 4 -->
+<section class="mb-16" data-inema-topic="modulo-4-1#topico-4" id="topico-4">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">🔧 Skills podem chamar tools</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tenho dúvida</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">O que é</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-1-t4-p1">
           Uma skill não substitui as <strong class="text-amber-400">tools (ferramentas)</strong> — ela as <em>orquestra</em>. Dentro dos seus passos, uma skill ainda pode acionar tools: scripts em Python que fazem busca na web, raspagem de uma página, geração de um documento. Ou seja, o <strong>WAT permanece intacto por baixo</strong>: a skill é o <strong>W</strong> (workflow), a tool é o <strong>T</strong> (ferramenta), e o agente é quem decide quando rodar cada tool no meio do processo.
         </p>
-
-        <div class="bg-dark-800 border border-amber-500/30 rounded-xl p-4 mb-6">
-          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-xs font-semibold mr-2">O que é?</span><strong>Tool (ferramenta)</strong> — um pedaço de código que faz uma ação concreta no mundo (busca, raspagem, salvar arquivo). <strong>WAT</strong> — o framework Workflows + Agents + Tools: skills são os workflows, tools são as ferramentas, o agente costura tudo.</p>
-        </div>
-
-        <h3 class="text-lg font-semibold text-amber-400 mb-2">Por que aprender</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-1-t4-p2">
+<div class="bg-dark-800 border border-amber-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-xs font-semibold mr-2">O que é?</span><strong>Tool (ferramenta)</strong> — um pedaço de código que faz uma ação concreta no mundo (busca, raspagem, salvar arquivo). <strong>WAT</strong> — o framework Workflows + Agents + Tools: skills são os workflows, tools são as ferramentas, o agente costura tudo.</p>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">Por que aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-1-t4-p2">
           Saber que skill ≈ W e tool ≈ T evita uma confusão comum: achar que adotar skills joga fora tudo o que você aprendeu sobre tools e MCP. Não joga. A skill apenas dá um <strong>roteiro</strong> reutilizável de quando e como usar as suas ferramentas. Uma skill de "pesquisa de mercado", por exemplo, pode dizer: <em>busque na web, raspe as três primeiras páginas, resuma e gere um documento</em> — chamando uma tool em cada passo.
         </p>
-
-        <h3 class="text-lg font-semibold text-amber-400 mb-3">Conceitos-chave</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Skill ≈ W</div><p class="text-xs text-neutral-400">O workflow do WAT.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Tool ≈ T</div><p class="text-xs text-neutral-400">A ferramenta concreta.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Orquestra</div><p class="text-xs text-neutral-400">A skill chama tools.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Agente decide</div><p class="text-xs text-neutral-400">Quando rodar cada tool.</p></div>
-        </div>
-
-        <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- TÓPICO 5 -->
-      <section id="topico-5" data-inema-topic="modulo-4-1#topico-5" class="mb-16">
-        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-          <div class="flex items-center space-x-4">
-            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">5</span>
-            <h2 class="text-2xl font-bold">⚖️ Quando usar skill vs digitar</h2>
-          </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
-            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
-          </button>
-        </div>
-
-        <h3 class="text-lg font-semibold text-amber-400 mb-2">O que é</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-1-t5-p1">
+<h3 class="text-lg font-semibold text-amber-400 mb-3">Conceitos-chave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Skill ≈ W</div><p class="text-xs text-neutral-400">O workflow do WAT.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Tool ≈ T</div><p class="text-xs text-neutral-400">A ferramenta concreta.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Orquestra</div><p class="text-xs text-neutral-400">A skill chama tools.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Agente decide</div><p class="text-xs text-neutral-400">Quando rodar cada tool.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 5 -->
+<section class="mb-16" data-inema-topic="modulo-4-1#topico-5" id="topico-5">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">⚖️ Quando usar skill vs digitar</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tenho dúvida</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">O que é</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-1-t5-p1">
           Nem tudo merece virar skill. A regra: <strong>crie uma skill quando o processo se repete, a consistência importa, as instruções são complexas ou esquecíveis, ou você quer compartilhar com o time</strong>. Para o resto — uma tarefa de uma frase, uma experimentação inicial, uma instrução simples — é mais rápido só digitar. Embalar uma tarefa trivial numa skill só adiciona cerimônia.
         </p>
-
-        <div class="bg-dark-800 border border-amber-500/30 rounded-xl p-4 mb-6">
-          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-xs font-semibold mr-2">O que é?</span><strong>Cerimônia</strong> — o esforço extra de formalizar algo (criar arquivo, nomear, documentar). Vale a pena quando você vai reusar; é desperdício para um pedido único.</p>
-        </div>
-
-        <h3 class="text-lg font-semibold text-amber-400 mb-2">Por que aprender</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-1-t5-p2">
+<div class="bg-dark-800 border border-amber-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-xs font-semibold mr-2">O que é?</span><strong>Cerimônia</strong> — o esforço extra de formalizar algo (criar arquivo, nomear, documentar). Vale a pena quando você vai reusar; é desperdício para um pedido único.</p>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">Por que aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-1-t5-p2">
           O critério evita os dois extremos: nunca usar skills (e reexplicar tudo, toda vez) ou virar skill de qualquer coisa (e poluir a pasta com comandos que você usa uma vez só). A pergunta-chave é simples: <em>"vou repetir isto?"</em> Se sim, e a consistência importa, vale a skill. Se é one-off, digite.
         </p>
-
-        <!-- COMPARISON GRID 1: skill vs digitar -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          <div class="bg-amber-900/20 rounded-xl border border-amber-500/30 p-6">
-            <h4 class="font-bold text-amber-400 mb-4">✓ Crie uma SKILL quando…</h4>
-            <ul class="space-y-3 text-neutral-300 text-sm">
-              <li class="flex items-start space-x-2"><span class="text-amber-400">✓</span><span>O workflow se repete (você já fez isso 3+ vezes).</span></li>
-              <li class="flex items-start space-x-2"><span class="text-amber-400">✓</span><span>A consistência importa (mesmo formato/qualidade sempre).</span></li>
-              <li class="flex items-start space-x-2"><span class="text-amber-400">✓</span><span>As instruções são complexas ou fáceis de esquecer.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-amber-400">✓</span><span>Você quer compartilhar o processo com o time.</span></li>
-            </ul>
-          </div>
-          <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
-            <h4 class="font-bold text-red-400 mb-4">✗ Só DIGITE quando…</h4>
-            <ul class="space-y-3 text-neutral-300 text-sm">
-              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>É uma tarefa de uma frase, pontual.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Você ainda está experimentando / explorando o problema.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>A instrução é simples e não se repete.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Formalizar custaria mais do que só pedir de novo.</span></li>
-            </ul>
-          </div>
-        </div>
-
-        <h3 class="text-lg font-semibold text-amber-400 mb-3">Conceitos-chave</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Repetição</div><p class="text-xs text-neutral-400">Se repete → skill.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Consistência</div><p class="text-xs text-neutral-400">Importa → skill.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">One-off</div><p class="text-xs text-neutral-400">Pontual → digitar.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">"Vou repetir?"</div><p class="text-xs text-neutral-400">A pergunta-chave.</p></div>
-        </div>
-
-        <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- TÓPICO 6 -->
-      <section id="topico-6" data-inema-topic="modulo-4-1#topico-6" class="mb-16">
-        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-          <div class="flex items-center space-x-4">
-            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">6</span>
-            <h2 class="text-2xl font-bold">🪶 Skills vs CLAUDE.md (contexto sob demanda)</h2>
-          </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
-            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
-          </button>
-        </div>
-
-        <h3 class="text-lg font-semibold text-amber-400 mb-2">O que é</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-1-t6-p1">
+<!-- COMPARISON GRID 1: skill vs digitar -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-amber-900/20 rounded-xl border border-amber-500/30 p-6">
+<h4 class="font-bold text-amber-400 mb-4">✓ Crie uma SKILL quando…</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-amber-400">✓</span><span>O workflow se repete (você já fez isso 3+ vezes).</span></li>
+<li class="flex items-start space-x-2"><span class="text-amber-400">✓</span><span>A consistência importa (mesmo formato/qualidade sempre).</span></li>
+<li class="flex items-start space-x-2"><span class="text-amber-400">✓</span><span>As instruções são complexas ou fáceis de esquecer.</span></li>
+<li class="flex items-start space-x-2"><span class="text-amber-400">✓</span><span>Você quer compartilhar o processo com o time.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Só DIGITE quando…</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>É uma tarefa de uma frase, pontual.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Você ainda está experimentando / explorando o problema.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>A instrução é simples e não se repete.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Formalizar custaria mais do que só pedir de novo.</span></li>
+</ul>
+</div>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-3">Conceitos-chave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Repetição</div><p class="text-xs text-neutral-400">Se repete → skill.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Consistência</div><p class="text-xs text-neutral-400">Importa → skill.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">One-off</div><p class="text-xs text-neutral-400">Pontual → digitar.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">"Vou repetir?"</div><p class="text-xs text-neutral-400">A pergunta-chave.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 6 -->
+<section class="mb-16" data-inema-topic="modulo-4-1#topico-6" id="topico-6">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">🪶 Skills vs CLAUDE.md (contexto sob demanda)</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tenho dúvida</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">O que é</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-1-t6-p1">
           A divisão de trabalho: o <strong class="text-amber-400">CLAUDE.md</strong> guarda só o que vale para <em>toda sessão</em> — propósito do projeto, objetivo, framework, regras gerais. Ele está <strong>sempre no contexto</strong>. Já o que é <strong>por-tarefa</strong> (per-task) vai para <strong class="text-amber-400">skills</strong>, que carregam <strong>sob demanda</strong> — só quando você invoca aquele comando. É a diferença entre "o que a IA precisa saber sempre" e "o que ela só precisa quando vai fazer X".
         </p>
-
-        <div class="bg-dark-800 border border-amber-500/30 rounded-xl p-4 mb-6">
-          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-xs font-semibold mr-2">O que é?</span><strong>CLAUDE.md</strong> — arquivo de memória que o agente lê no início de toda sessão. <strong>Contexto sob demanda</strong> — carregar informação só no momento em que ela é necessária, para não ocupar a "memória de trabalho" o tempo todo.</p>
-        </div>
-
-        <!-- SVG #29: contraste CLAUDE.md (sempre) vs skills (sob demanda) -->
-        <div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
-          <svg viewBox="0 0 1000 220" class="w-full h-auto" role="img" aria-label="Contraste: o CLAUDE.md fica sempre dentro do contexto, ocupando espaço em toda sessão; as skills ficam fora, na pasta, e só uma delas entra no contexto quando é invocada, mantendo o restante leve">
-            <defs>
-              <pattern id="m41b-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#f59e0b" opacity="0.1"/></pattern>
-              <marker id="m41b-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fbbf24"/></marker>
-              <filter id="m41b-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            </defs>
-            <rect x="0" y="0" width="1000" height="220" fill="url(#m41b-grid)"/>
-
-            <!-- caixa "contexto da sessão" -->
-            <rect x="40" y="40" width="430" height="150" rx="16" fill="#0e1b26" stroke="#38bdf8" stroke-width="2" stroke-dasharray="6 4"/>
-            <text x="255" y="64" text-anchor="middle" fill="#bfe6ff" font-family="Inter,sans-serif" font-weight="700" font-size="13">CONTEXTO DA SESSÃO (espaço limitado)</text>
-            <g filter="url(#m41b-glow)"><rect x="70" y="86" width="370" height="44" rx="11" fill="#2a1c05" stroke="#fbbf24" stroke-width="2"/></g>
-            <text x="255" y="113" text-anchor="middle" fill="#fcd9a0" font-family="Inter,sans-serif" font-size="13">📌 CLAUDE.md — sempre presente (toda sessão)</text>
-            <rect x="70" y="142" width="175" height="34" rx="9" fill="#13202b" stroke="#38bdf8" stroke-width="1.4" opacity="0.85"/>
-            <text x="157" y="164" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11">skill ativa (1)</text>
-            <text x="357" y="164" text-anchor="middle" fill="#5b748a" font-family="Inter,sans-serif" font-size="11">espaço livre</text>
-
-            <!-- pasta de skills fora do contexto -->
-            <text x="760" y="40" text-anchor="middle" fill="#fbbf24" font-family="Inter,sans-serif" font-weight="700" font-size="13">📁 .claude/skills — fora do contexto</text>
-            <rect x="560" y="56" width="120" height="30" rx="8" fill="#2a1c05" stroke="#fbbf24" stroke-width="1.4"/><text x="620" y="76" text-anchor="middle" fill="#fcd9a0" font-family="Inter,sans-serif" font-size="11">/skill-a</text>
-            <rect x="700" y="56" width="120" height="30" rx="8" fill="#2a1c05" stroke="#fbbf24" stroke-width="1.4"/><text x="760" y="76" text-anchor="middle" fill="#fcd9a0" font-family="Inter,sans-serif" font-size="11">/skill-b</text>
-            <rect x="840" y="56" width="120" height="30" rx="8" fill="#2a1c05" stroke="#fbbf24" stroke-width="1.4"/><text x="900" y="76" text-anchor="middle" fill="#fcd9a0" font-family="Inter,sans-serif" font-size="11">/skill-c</text>
-            <rect x="560" y="96" width="120" height="30" rx="8" fill="#2a1c05" stroke="#fbbf24" stroke-width="1.4"/><text x="620" y="116" text-anchor="middle" fill="#fcd9a0" font-family="Inter,sans-serif" font-size="11">/skill-d</text>
-            <rect x="700" y="96" width="120" height="30" rx="8" fill="#2a1c05" stroke="#fbbf24" stroke-width="1.4"/><text x="760" y="116" text-anchor="middle" fill="#fcd9a0" font-family="Inter,sans-serif" font-size="11">/skill-e</text>
-            <rect x="840" y="96" width="120" height="30" rx="8" fill="#1f1505" stroke="#7a5a1e" stroke-width="1.4"/><text x="900" y="116" text-anchor="middle" fill="#b58b46" font-family="Inter,sans-serif" font-size="11">+20…</text>
-
-            <text x="760" y="150" text-anchor="middle" fill="#d8a14a" font-family="Inter,sans-serif" font-size="12">20–50 skills aqui NÃO incham o contexto</text>
-            <g fill="none" stroke="#fbbf24" stroke-width="2.2" opacity="0.85"><path d="M558,71 C520,71 500,150 248,159" marker-end="url(#m41b-ah)"/></g>
-            <text x="430" y="200" text-anchor="middle" fill="#d8a14a" font-family="Inter,sans-serif" font-size="11">só a skill invocada entra no contexto (sob demanda)</text>
-          </svg>
-        </div>
-        <p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — jogar tudo no CLAUDE.md enche o contexto fixo; manter o per-task em skills deixa dezenas de comandos disponíveis sem peso, porque só o invocado é carregado.</p>
-
-        <h3 class="text-lg font-semibold text-amber-400 mb-2">Por que aprender</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-1-t6-p2">
+<div class="bg-dark-800 border border-amber-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-xs font-semibold mr-2">O que é?</span><strong>CLAUDE.md</strong> — arquivo de memória que o agente lê no início de toda sessão. <strong>Contexto sob demanda</strong> — carregar informação só no momento em que ela é necessária, para não ocupar a "memória de trabalho" o tempo todo.</p>
+</div>
+<!-- SVG #29: contraste CLAUDE.md (sempre) vs skills (sob demanda) -->
+<div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="Contraste: o CLAUDE.md fica sempre dentro do contexto, ocupando espaço em toda sessão; as skills ficam fora, na pasta, e só uma delas entra no contexto quando é invocada, mantendo o restante leve" class="w-full h-auto" role="img" viewbox="0 0 1000 220">
+<defs>
+<pattern height="32" id="m41b-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#f59e0b" opacity="0.1" r="1.3"></circle></pattern>
+<marker id="m41b-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fbbf24"></path></marker>
+<filter height="180%" id="m41b-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.4"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+</defs>
+<rect fill="url(#m41b-grid)" height="220" width="1000" x="0" y="0"></rect>
+<!-- caixa "contexto da sessão" -->
+<rect fill="#0e1b26" height="150" rx="16" stroke="#38bdf8" stroke-dasharray="6 4" stroke-width="2" width="430" x="40" y="40"></rect>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="13" font-weight="700" text-anchor="middle" x="255" y="64">CONTEXTO DA SESSÃO (espaço limitado)</text>
+<g filter="url(#m41b-glow)"><rect fill="#2a1c05" height="44" rx="11" stroke="#fbbf24" stroke-width="2" width="370" x="70" y="86"></rect></g>
+<text fill="#fcd9a0" font-family="Inter,sans-serif" font-size="13" text-anchor="middle" x="255" y="113">📌 CLAUDE.md — sempre presente (toda sessão)</text>
+<rect fill="#13202b" height="34" opacity="0.85" rx="9" stroke="#38bdf8" stroke-width="1.4" width="175" x="70" y="142"></rect>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="157" y="164">skill ativa (1)</text>
+<text fill="#5b748a" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="357" y="164">espaço livre</text>
+<!-- pasta de skills fora do contexto -->
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="13" font-weight="700" text-anchor="middle" x="760" y="40">📁 .claude/skills — fora do contexto</text>
+<rect fill="#2a1c05" height="30" rx="8" stroke="#fbbf24" stroke-width="1.4" width="120" x="560" y="56"></rect><text fill="#fcd9a0" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="620" y="76">/skill-a</text>
+<rect fill="#2a1c05" height="30" rx="8" stroke="#fbbf24" stroke-width="1.4" width="120" x="700" y="56"></rect><text fill="#fcd9a0" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="760" y="76">/skill-b</text>
+<rect fill="#2a1c05" height="30" rx="8" stroke="#fbbf24" stroke-width="1.4" width="120" x="840" y="56"></rect><text fill="#fcd9a0" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="900" y="76">/skill-c</text>
+<rect fill="#2a1c05" height="30" rx="8" stroke="#fbbf24" stroke-width="1.4" width="120" x="560" y="96"></rect><text fill="#fcd9a0" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="620" y="116">/skill-d</text>
+<rect fill="#2a1c05" height="30" rx="8" stroke="#fbbf24" stroke-width="1.4" width="120" x="700" y="96"></rect><text fill="#fcd9a0" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="760" y="116">/skill-e</text>
+<rect fill="#1f1505" height="30" rx="8" stroke="#7a5a1e" stroke-width="1.4" width="120" x="840" y="96"></rect><text fill="#b58b46" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="900" y="116">+20…</text>
+<text fill="#d8a14a" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="760" y="150">20–50 skills aqui NÃO incham o contexto</text>
+<g fill="none" opacity="0.85" stroke="#fbbf24" stroke-width="2.2"><path d="M558,71 C520,71 500,150 248,159" marker-end="url(#m41b-ah)"></path></g>
+<text fill="#d8a14a" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="430" y="200">só a skill invocada entra no contexto (sob demanda)</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — jogar tudo no CLAUDE.md enche o contexto fixo; manter o per-task em skills deixa dezenas de comandos disponíveis sem peso, porque só o invocado é carregado.</p>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">Por que aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-1-t6-p2">
           O erro clássico do iniciante é <strong>jogar tudo no CLAUDE.md</strong> — toda instrução, todo workflow, todo detalhe. Isso <strong>estoura o contexto</strong>: o arquivo fica gigante, ocupa espaço em toda sessão e degrada a atenção da IA. A sacada das skills é exatamente essa: você pode ter <strong>20, 50 skills</strong> sem inchar nada, porque elas só carregam quando chamadas. CLAUDE.md enxuto + muitas skills sob demanda &gt; CLAUDE.md gigante.
         </p>
-
-        <!-- COMPARISON GRID 2: CLAUDE.md vs skills -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          <div class="bg-amber-900/20 rounded-xl border border-amber-500/30 p-6">
-            <h4 class="font-bold text-amber-400 mb-4">✓ No CLAUDE.md (toda sessão)</h4>
-            <ul class="space-y-3 text-neutral-300 text-sm">
-              <li class="flex items-start space-x-2"><span class="text-amber-400">✓</span><span>Propósito e objetivo do projeto.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-amber-400">✓</span><span>O framework / convenções gerais.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-amber-400">✓</span><span>Regras que valem em <em>qualquer</em> tarefa.</span></li>
-            </ul>
-          </div>
-          <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
-            <h4 class="font-bold text-red-400 mb-4">✗ NÃO no CLAUDE.md → vai pra skill</h4>
-            <ul class="space-y-3 text-neutral-300 text-sm">
-              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Workflows específicos de uma tarefa só.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Passo a passo longo e detalhado de um processo.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Tudo que só importa quando você vai fazer X.</span></li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
-          <h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Dica prática</h3>
-          <p class="text-neutral-300 text-sm">Antes de adicionar algo ao CLAUDE.md, pergunte: <em>"isto vale para toda sessão, ou só quando faço uma tarefa específica?"</em> Se for específico, vire skill. Seu CLAUDE.md deve caber numa olhada; o resto do conhecimento mora na pasta de skills, pronto para ser chamado.</p>
-        </div>
-
-        <h3 class="text-lg font-semibold text-amber-400 mb-3">Conceitos-chave</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Sempre vs demanda</div><p class="text-xs text-neutral-400">CLAUDE.md x skill.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Regras gerais</div><p class="text-xs text-neutral-400">Ficam no CLAUDE.md.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Per-task</div><p class="text-xs text-neutral-400">Vira skill.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Não incha</div><p class="text-xs text-neutral-400">20–50 skills, sem peso.</p></div>
-        </div>
-
-        <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- TÓPICO 7 -->
-      <section id="topico-7" data-inema-topic="modulo-4-1#topico-7" class="mb-16">
-        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-          <div class="flex items-center space-x-4">
-            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">7</span>
-            <h2 class="text-2xl font-bold">🤝 Compartilhar e versionar</h2>
-          </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
-            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
-          </button>
-        </div>
-
-        <h3 class="text-lg font-semibold text-amber-400 mb-2">O que é</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-1-t7-p1">
+<!-- COMPARISON GRID 2: CLAUDE.md vs skills -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-amber-900/20 rounded-xl border border-amber-500/30 p-6">
+<h4 class="font-bold text-amber-400 mb-4">✓ No CLAUDE.md (toda sessão)</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-amber-400">✓</span><span>Propósito e objetivo do projeto.</span></li>
+<li class="flex items-start space-x-2"><span class="text-amber-400">✓</span><span>O framework / convenções gerais.</span></li>
+<li class="flex items-start space-x-2"><span class="text-amber-400">✓</span><span>Regras que valem em <em>qualquer</em> tarefa.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ NÃO no CLAUDE.md → vai pra skill</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Workflows específicos de uma tarefa só.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Passo a passo longo e detalhado de um processo.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Tudo que só importa quando você vai fazer X.</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Dica prática</h3>
+<p class="text-neutral-300 text-sm">Antes de adicionar algo ao CLAUDE.md, pergunte: <em>"isto vale para toda sessão, ou só quando faço uma tarefa específica?"</em> Se for específico, vire skill. Seu CLAUDE.md deve caber numa olhada; o resto do conhecimento mora na pasta de skills, pronto para ser chamado.</p>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-3">Conceitos-chave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Sempre vs demanda</div><p class="text-xs text-neutral-400">CLAUDE.md x skill.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Regras gerais</div><p class="text-xs text-neutral-400">Ficam no CLAUDE.md.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Per-task</div><p class="text-xs text-neutral-400">Vira skill.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Não incha</div><p class="text-xs text-neutral-400">20–50 skills, sem peso.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 7 -->
+<section class="mb-16" data-inema-topic="modulo-4-1#topico-7" id="topico-7">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl">7</span>
+<h2 class="text-2xl font-bold">🤝 Compartilhar e versionar</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tenho dúvida</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">O que é</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m4-1-t7-p1">
           Como uma skill é apenas <strong>um arquivo numa pasta</strong> do projeto, ela herda todas as vantagens de um arquivo de código: pode ser <strong class="text-amber-400">versionada no Git</strong> (histórico de mudanças, revisão, reverter), e <strong class="text-amber-400">compartilhada</strong> com qualquer pessoa que clone o projeto. O processo deixa de ser conhecimento preso na cabeça de uma pessoa e vira um <strong>ativo do time</strong>.
         </p>
-
-        <div class="bg-dark-800 border border-amber-500/30 rounded-xl p-4 mb-6">
-          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-xs font-semibold mr-2">O que é?</span><strong>Git</strong> — o sistema que guarda o histórico de versões de arquivos. <strong>Versionar</strong> — registrar cada mudança de um arquivo ao longo do tempo, para poder ver, revisar e reverter. Como a skill é arquivo, ela entra nesse fluxo de graça.</p>
-        </div>
-
-        <h3 class="text-lg font-semibold text-amber-400 mb-2">Por que aprender</h3>
-        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m4-1-t7-p2">
+<div class="bg-dark-800 border border-amber-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-xs font-semibold mr-2">O que é?</span><strong>Git</strong> — o sistema que guarda o histórico de versões de arquivos. <strong>Versionar</strong> — registrar cada mudança de um arquivo ao longo do tempo, para poder ver, revisar e reverter. Como a skill é arquivo, ela entra nesse fluxo de graça.</p>
+</div>
+<h3 class="text-lg font-semibold text-amber-400 mb-2">Por que aprender</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m4-1-t7-p2">
           Esse é o salto de "truque pessoal" para "capacidade de equipe". Quando o seu melhor workflow vira uma skill versionada, qualquer colega passa a executar o mesmo processo, com a mesma qualidade, sem precisar te perguntar como. Erros corrigidos na skill beneficiam todo mundo na próxima invocação. É reuso de verdade: escreve uma vez, todo o time colhe.
         </p>
-
-        <h3 class="text-lg font-semibold text-amber-400 mb-3">Conceitos-chave</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">É arquivo</div><p class="text-xs text-neutral-400">Logo, versionável.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Git</div><p class="text-xs text-neutral-400">Histórico e reverter.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Compartilhável</div><p class="text-xs text-neutral-400">Clonou, já tem.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Ativo do time</div><p class="text-xs text-neutral-400">Não preso numa cabeça.</p></div>
-        </div>
-
-        <!-- Checagem leve -->
-        <div data-inema-check="modulo-4-1#q1" class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6">
-          <p class="inema-check__q font-medium mb-4">Você tem um processo de 8 passos que repete toda semana e quer que um colega execute igual. Onde isso deve morar?</p>
-          <div class="inema-check-options inema-check__options space-y-2">
-            <button type="button" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0">No CLAUDE.md, para carregar em toda sessão e ninguém esquecer.</button>
-            <button type="button" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1">Numa skill em .claude/skills, versionada no Git e invocada por slash command.</button>
-            <button type="button" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2">Digitando os 8 passos no chat toda vez que precisar.</button>
-          </div>
-          <div data-inema-check-feedback class="mt-4 text-sm" role="status" aria-live="polite"></div>
-        </div>
-
-        <div class="flex justify-start mt-8">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- RESUMO -->
-      <section class="mb-8">
-        <div class="bg-gradient-to-br from-amber-900/40 via-dark-800 to-dark-800 rounded-xl border border-amber-500/30 p-8">
-          <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📌</span> Resumo do Módulo</h2>
-          <div class="space-y-4 mb-8">
-            <div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">O que é uma skill</strong><span class="text-neutral-400"> — arquivo markdown de instruções; é a camada W do WAT, carrega sob demanda; você descreve, a IA escreve.</span></div></div>
-            <div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Onde vivem</strong><span class="text-neutral-400"> — em .claude/skills, uma pasta por skill, expostas como slash command (slash commands foram unificados em skills).</span></div></div>
-            <div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Anatomia</strong><span class="text-neutral-400"> — nome, descrição (o gatilho: QUANDO usar), argumentos e passos. A descrição é o que mais importa.</span></div></div>
-            <div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Chamam tools</strong><span class="text-neutral-400"> — skill ≈ W, tool ≈ T; o WAT segue intacto e o agente decide quando rodar cada ferramenta.</span></div></div>
-            <div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Skill vs digitar</strong><span class="text-neutral-400"> — skill para repetição/consistência/complexidade/time; digitar para o pontual e simples.</span></div></div>
-            <div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Skills vs CLAUDE.md</strong><span class="text-neutral-400"> — regras de toda sessão no CLAUDE.md; per-task em skills sob demanda. 20–50 skills não incham o contexto.</span></div></div>
-            <div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Compartilhar e versionar</strong><span class="text-neutral-400"> — é um arquivo: versionável no Git e compartilhável; vira ativo do time, não conhecimento preso numa cabeça.</span></div></div>
-          </div>
-          <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
-            <h3 class="font-semibold text-amber-400 mb-2">Próximo Módulo:</h3>
-            <p class="text-neutral-300">4.2 — Construindo Skills na Prática</p>
-          </div>
-          <div class="flex flex-col sm:flex-row gap-4">
-            <a href="index.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← Voltar para Trilha</a>
-            <a href="modulo-4-2.html" class="flex-1 text-center px-6 py-3 bg-amber-600 text-white rounded-lg font-semibold hover:bg-amber-500 transition-colors">Próximo Módulo →</a>
-          </div>
-        </div>
-      </section>
-
-    </main>
-
-    <!-- TOC sticky + scrollspy -->
-    <aside class="hidden lg:block">
-      <nav data-inema-toc aria-label="Índice da página" class="sticky top-24 self-start">
-        <p class="text-sm text-neutral-400 mb-3">Seção <span data-inema-section-counter><span class="inema-toc-pos">1</span> de <span class="inema-toc-total">7</span></span></p>
-        <ol class="space-y-1.5 text-sm">
-          <li><a href="#topico-1" class="inema-toc-link text-neutral-400 hover:text-amber-400 block">1. O que é uma skill</a></li>
-          <li><a href="#topico-2" class="inema-toc-link text-neutral-400 hover:text-amber-400 block">2. Onde vivem / slash command</a></li>
-          <li><a href="#topico-3" class="inema-toc-link text-neutral-400 hover:text-amber-400 block">3. Anatomia do SKILL.md</a></li>
-          <li><a href="#topico-4" class="inema-toc-link text-neutral-400 hover:text-amber-400 block">4. Skills chamam tools</a></li>
-          <li><a href="#topico-5" class="inema-toc-link text-neutral-400 hover:text-amber-400 block">5. Skill vs digitar</a></li>
-          <li><a href="#topico-6" class="inema-toc-link text-neutral-400 hover:text-amber-400 block">6. Skills vs CLAUDE.md</a></li>
-          <li><a href="#topico-7" class="inema-toc-link text-neutral-400 hover:text-amber-400 block">7. Compartilhar e versionar</a></li>
-        </ol>
-      </nav>
-    </aside>
-
-  </div>
-
-  <footer class="border-t border-dark-600 py-8 mt-8">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
-      <p>Vibe Coding: Domínio Completo · Curso original <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 font-medium">INEMA.CLUB</a> · 2026</p>
-    </div>
-  </footer>
-
-  <script>
+<h3 class="text-lg font-semibold text-amber-400 mb-3">Conceitos-chave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">É arquivo</div><p class="text-xs text-neutral-400">Logo, versionável.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Git</div><p class="text-xs text-neutral-400">Histórico e reverter.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Compartilhável</div><p class="text-xs text-neutral-400">Clonou, já tem.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Ativo do time</div><p class="text-xs text-neutral-400">Não preso numa cabeça.</p></div>
+</div>
+<!-- Checagem leve -->
+<div class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6" data-inema-check="modulo-4-1#q1">
+<p class="inema-check__q font-medium mb-4">Você tem um processo de 8 passos que repete toda semana e quer que um colega execute igual. Onde isso deve morar?</p>
+<div class="inema-check-options inema-check__options space-y-2">
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0" type="button">No CLAUDE.md, para carregar em toda sessão e ninguém esquecer.</button>
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1" type="button">Numa skill em .claude/skills, versionada no Git e invocada por slash command.</button>
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2" type="button">Digitando os 8 passos no chat toda vez que precisar.</button>
+</div>
+<div aria-live="polite" class="mt-4 text-sm" data-inema-check-feedback="" role="status"></div>
+</div>
+<div class="flex justify-start mt-8">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+</button>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-8">
+<div class="bg-gradient-to-br from-amber-900/40 via-dark-800 to-dark-800 rounded-xl border border-amber-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📌</span> Resumo do Módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">O que é uma skill</strong><span class="text-neutral-400"> — arquivo markdown de instruções; é a camada W do WAT, carrega sob demanda; você descreve, a IA escreve.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Onde vivem</strong><span class="text-neutral-400"> — em .claude/skills, uma pasta por skill, expostas como slash command (slash commands foram unificados em skills).</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Anatomia</strong><span class="text-neutral-400"> — nome, descrição (o gatilho: QUANDO usar), argumentos e passos. A descrição é o que mais importa.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Chamam tools</strong><span class="text-neutral-400"> — skill ≈ W, tool ≈ T; o WAT segue intacto e o agente decide quando rodar cada ferramenta.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Skill vs digitar</strong><span class="text-neutral-400"> — skill para repetição/consistência/complexidade/time; digitar para o pontual e simples.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Skills vs CLAUDE.md</strong><span class="text-neutral-400"> — regras de toda sessão no CLAUDE.md; per-task em skills sob demanda. 20–50 skills não incham o contexto.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-neutral-100">Compartilhar e versionar</strong><span class="text-neutral-400"> — é um arquivo: versionável no Git e compartilhável; vira ativo do time, não conhecimento preso numa cabeça.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-amber-400 mb-2">Próximo Módulo:</h3>
+<p class="text-neutral-300">4.2 — Construindo Skills na Prática</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="index.html">← Voltar para Trilha</a>
+<a class="flex-1 text-center px-6 py-3 bg-amber-600 text-white rounded-lg font-semibold hover:bg-amber-500 transition-colors" href="modulo-4-2.html">Próximo Módulo →</a>
+</div>
+</div>
+</section>
+</main>
+<!-- TOC sticky + scrollspy -->
+<aside class="hidden lg:block">
+<nav aria-label="Índice da página" class="sticky top-24 self-start" data-inema-toc="">
+<p class="text-sm text-neutral-400 mb-3">Seção <span data-inema-section-counter=""><span class="inema-toc-pos">1</span> de <span class="inema-toc-total">7</span></span></p>
+<ol class="space-y-1.5 text-sm">
+<li><a class="inema-toc-link text-neutral-400 hover:text-amber-400 block" href="#topico-1">1. O que é uma skill</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-amber-400 block" href="#topico-2">2. Onde vivem / slash command</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-amber-400 block" href="#topico-3">3. Anatomia do SKILL.md</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-amber-400 block" href="#topico-4">4. Skills chamam tools</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-amber-400 block" href="#topico-5">5. Skill vs digitar</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-amber-400 block" href="#topico-6">6. Skills vs CLAUDE.md</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-amber-400 block" href="#topico-7">7. Compartilhar e versionar</a></li>
+</ol>
+</nav>
+</aside>
+</div>
+<footer class="border-t border-dark-600 py-8 mt-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Vibe Coding: Domínio Completo · Curso original <a class="text-sky-400 hover:text-sky-300 font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a> · 2026</p>
+</div>
+</footer>
+<script>
     const themeToggle = document.getElementById('theme-toggle');
     const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
     const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
@@ -904,9 +825,8 @@ description: &lt;quando-acionar — ex.: rascunhar um e-mail a partir de bullets
       if (window.INEMA && INEMA.setPref) { INEMA.setPref('theme', isDark ? 'inema-dark' : 'claro'); }
     });
   </script>
-
-  <script src="../../assets/learn.js"></script>
-  <script>
+<script src="../../assets/learn.js"></script>
+<script>
     if (window.INEMA && typeof window.INEMA.init === 'function') {
       if (window.INEMA.registerCheck) {
         INEMA.registerCheck('modulo-4-1#q1', {
@@ -921,6 +841,5 @@ description: &lt;quando-acionar — ex.: rascunhar um e-mail a partir de bullets
       window.INEMA.init();
     }
   </script>
-
 </body>
 </html>

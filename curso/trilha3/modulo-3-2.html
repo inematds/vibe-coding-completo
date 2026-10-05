@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="dark">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="inema-course" content="vibe-coding-completo">
 
-  <!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
-  <script>
+<html class="dark" lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="vibe-coding-completo" name="inema-course"/>
+<!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
+<script>
   (function () {
     try {
       var html = document.documentElement;
@@ -74,10 +74,9 @@
     }
   })();
   </script>
-
-  <title>Módulo 3.2 · O Ciclo Plan → Build → Troubleshoot → Optimize | Vibe Coding: Domínio Completo</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
+<title>Módulo 3.2 · O Ciclo Plan → Build → Troubleshoot → Optimize | Vibe Coding: Domínio Completo</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
@@ -90,10 +89,9 @@
       }
     }
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
-  <script type="application/json" data-inema-manifest>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
+<script data-inema-manifest="" type="application/json">
   {
     "course": "vibe-coding-completo",
     "tracks": [
@@ -133,10 +131,8 @@
     ]
   }
   </script>
-
-  <link rel="stylesheet" href="../../assets/learn.css">
-
-  <style>
+<link href="../../assets/learn.css" rel="stylesheet"/>
+<style>
     body { font-family: 'Inter', sans-serif; }
     .dark body { background-color: #111827; }
     .topic-explanation { display: none; }
@@ -215,190 +211,177 @@
       .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
     }
   </style>
-</head>
-<body class="bg-dark-900 text-neutral-100 min-h-screen">
-
-  <a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-purple-600 focus:text-white focus:rounded-lg" href="#conteudo">Pular para o conteúdo</a>
-
-  <!-- NAVIGATION (T3 ativa) -->
-  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-14">
-        <div class="flex items-center space-x-4">
-          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
-            <span class="text-2xl">⚡</span>
-            <span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
-          </a>
-          <span class="text-neutral-600">|</span>
-          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
-        </div>
-        <div class="flex items-center space-x-1 sm:space-x-2">
-          <a href="../trilha1/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
-            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
-          </a>
-          <a href="../trilha2/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
-            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Técnica</span>
-          </a>
-          <a href="index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10">
-            <span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
-          </a>
-          <a href="../trilha4/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors">
-            <span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
-          </a>
-          <a href="../trilha5/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors">
-            <span class="sm:hidden">T5</span><span class="hidden sm:inline">Projetos</span>
-          </a>
-          <a href="../trilha6/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors">
-            <span class="sm:hidden">T6</span><span class="hidden sm:inline">Produção</span>
-          </a>
-          <button type="button" data-inema-journey-open class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1">
-            <span aria-hidden="true">◷</span><span>Minha jornada</span>
-            <span class="inema-journey-badge hidden" data-inema-journey-badge data-count="0"></span>
-          </button>
-          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" aria-label="Alternar tema claro/escuro">
-            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-            </svg>
-            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <!-- BREADCRUMB -->
-  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4" aria-label="Trilha de navegação">
-    <div class="flex items-center space-x-2 text-sm text-neutral-400">
-      <a href="../../index.html" class="hover:text-purple-400">Início</a>
-      <span>/</span>
-      <a href="index.html" class="hover:text-purple-400">Trilha 3</a>
-      <span>/</span>
-      <span class="text-purple-400">Módulo 3.2</span>
-    </div>
-  </nav>
-
-  <!-- HEADER DO MÓDULO -->
-  <header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-4">MÓDULO 3.2</span>
-      <h3 class="text-2xl font-bold mb-4">🔄 O Ciclo Plan → Build → Troubleshoot → Optimize</h3>
-      <p class="text-lg text-neutral-400 max-w-3xl">Todo build segue o mesmo ritmo de quatro fases — <strong class="text-purple-300">planejar, construir, depurar, otimizar</strong> — com duas habilidades que atravessam tudo: verificar de verdade e fazer backup antes de mudar. Este módulo destrincha cada fase com o prompt certo para conduzir a IA, marca a fronteira do que ela <strong>não</strong> faz (credenciais, mapeamento), e fecha com a disciplina que evita perder trabalho.</p>
-      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-purple-400">7</div>
-          <div class="text-xs text-neutral-400">Tópicos</div>
-        </div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-purple-400">~45</div>
-          <div class="text-xs text-neutral-400">Minutos</div>
-        </div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-purple-400">Prático</div>
-          <div class="text-xs text-neutral-400">Nível</div>
-        </div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-purple-400">Copy-run</div>
-          <div class="text-xs text-neutral-400">Tipo</div>
-        </div>
-      </div>
-      <div class="mt-6 max-w-2xl" data-inema-meter="modulo:3-2" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso do módulo 3.2">
-        <div class="flex items-center justify-between mb-1 text-sm">
-          <span class="text-neutral-400">Progresso do módulo</span>
-          <span class="text-purple-400 font-semibold"><span data-inema-meter-pct>0%</span> · <span data-inema-meter-frac>0 de 7</span></span>
-        </div>
-        <div class="inema-bar h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-purple-500 rounded-full" data-inema-meter-fill style="width:0%"></div></div>
-      </div>
-    </div>
-  </header>
-
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:grid lg:grid-cols-[1fr_220px] lg:gap-10">
-
-    <main id="conteudo" class="min-w-0">
-
-      <!-- intro box -->
-      <div class="bg-purple-900/20 border border-purple-500/30 rounded-xl p-5 mb-10">
-        <h2 class="text-base font-semibold text-purple-400 mb-2 flex items-center"><span class="mr-2">🔄</span> O ciclo em uma frase</h2>
-        <p class="text-neutral-300 text-sm"><strong>Plan</strong> (alinha o quê e o como) → <strong>Build</strong> (a IA constrói e valida) → <strong>Troubleshoot</strong> (você devolve o erro com contexto) → <strong>Optimize</strong> (você melhora em camadas). E, em volta de tudo: verifique de verdade e tenha um backup antes de cada mudança.</p>
-      </div>
-
-      <!-- SVG FUTURISTA (o ciclo, #29) -->
-      <section class="mb-12">
-        <p class="text-neutral-300 mb-4 inema-prose leading-relaxed">O ciclo não é uma linha reta com fim: depois de otimizar você costuma voltar a depurar (a mudança quebrou algo?) ou até a planejar (surgiu um requisito novo). Por isso ele é desenhado como um loop — e o backup é o que torna esse loop seguro.</p>
-        <div class="rounded-2xl border border-purple-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
-          <svg viewBox="0 0 1000 240" class="w-full h-auto" role="img" aria-label="O ciclo de quatro fases como um loop: planejar leva a construir, construir leva a depurar, depurar leva a otimizar, e otimizar realimenta o ciclo voltando para depurar ou planejar; o coordenador no centro lê o erro e propõe a correção">
-            <defs>
-              <linearGradient id="m32-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c084fc"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient>
-              <filter id="m32-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-              <pattern id="m32-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#8b5cf6" opacity="0.12"/></pattern>
-              <marker id="m32-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#c084fc"/></marker>
-              <marker id="m32-ahc" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"/></marker>
-            </defs>
-            <rect x="0" y="0" width="1000" height="240" fill="url(#m32-grid)"/>
-            <!-- fases -->
-            <g filter="url(#m32-glow)"><rect x="60" y="40" width="200" height="56" rx="14" fill="#1c1033" stroke="url(#m32-grad)" stroke-width="2.5"/></g>
-            <text x="160" y="64" text-anchor="middle" fill="#c084fc" font-family="Inter,sans-serif" font-weight="700" font-size="15">1 · Plan</text>
-            <text x="160" y="82" text-anchor="middle" fill="#d8c4f7" font-family="Inter,sans-serif" font-size="11">pesquisa · plano</text>
-            <rect x="740" y="40" width="200" height="56" rx="14" fill="#1c1033" stroke="#a78bfa" stroke-width="2"/>
-            <text x="840" y="64" text-anchor="middle" fill="#c084fc" font-family="Inter,sans-serif" font-weight="700" font-size="15">2 · Build</text>
-            <text x="840" y="82" text-anchor="middle" fill="#d8c4f7" font-family="Inter,sans-serif" font-size="11">criar · validar</text>
-            <rect x="740" y="150" width="200" height="56" rx="14" fill="#1c1033" stroke="#a78bfa" stroke-width="2"/>
-            <text x="840" y="174" text-anchor="middle" fill="#c084fc" font-family="Inter,sans-serif" font-weight="700" font-size="15">3 · Troubleshoot</text>
-            <text x="840" y="192" text-anchor="middle" fill="#d8c4f7" font-family="Inter,sans-serif" font-size="11">erro · correção</text>
-            <rect x="60" y="150" width="200" height="56" rx="14" fill="#1c1033" stroke="#a78bfa" stroke-width="2"/>
-            <text x="160" y="174" text-anchor="middle" fill="#c084fc" font-family="Inter,sans-serif" font-weight="700" font-size="15">4 · Optimize</text>
-            <text x="160" y="192" text-anchor="middle" fill="#d8c4f7" font-family="Inter,sans-serif" font-size="11">melhorar em camadas</text>
-            <!-- coordenador central (ciano) -->
-            <rect x="420" y="98" width="160" height="50" rx="13" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/>
-            <text x="500" y="120" text-anchor="middle" fill="#bfe6ff" font-family="Inter,sans-serif" font-weight="600" font-size="13">coordenador</text>
-            <text x="500" y="137" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="10">lê erro · propõe fix</text>
-            <!-- setas do loop -->
-            <g fill="none" stroke="#c084fc" stroke-width="2.2" opacity="0.8">
-              <path d="M260,68 L736,68" marker-end="url(#m32-ah)"/>
-              <path d="M840,96 L840,146" marker-end="url(#m32-ah)"/>
-              <path d="M740,178 L264,178" marker-end="url(#m32-ah)"/>
-              <path d="M160,150 L160,100" marker-end="url(#m32-ah)"/>
-            </g>
-            <!-- realimentação para o coordenador -->
-            <g fill="none" stroke="#38bdf8" stroke-width="2" opacity="0.55" stroke-dasharray="5 5">
-              <path d="M740,170 L582,128" marker-end="url(#m32-ahc)"/>
-              <path d="M576,118 L744,76" marker-end="url(#m32-ahc)"/>
-            </g>
-          </svg>
-        </div>
-        <p class="text-xs text-neutral-500">Diagrama ilustrativo — o ciclo é um loop, não uma fila. O coordenador (a IA) lê o erro que você devolve e propõe a correção; otimizar costuma realimentar depurar.</p>
-      </section>
-
-      <!-- TÓPICO 1 -->
-      <section id="topico-1" data-inema-topic="modulo-3-2#topico-1" class="mb-16">
-        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-          <div class="flex items-center space-x-4">
-            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">1</span>
-            <h2 class="text-2xl font-bold">🗺️ Fase 1 — Plan</h2>
-          </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
-            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
-          </button>
-        </div>
-
-        <h3 class="text-lg font-semibold text-purple-400 mb-2">O que é</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m3-2-t1-p1">
+<link href="https://inematds.github.io/vibe-coding-completo/curso/trilha3/modulo-3-2.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/en/curso/trilha3/modulo-3-2.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/es/curso/trilha3/modulo-3-2.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="modulo-3-2.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">PT</a><a href="../../en/curso/trilha3/modulo-3-2.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="../../es/curso/trilha3/modulo-3-2.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-purple-600 focus:text-white focus:rounded-lg" href="#conteudo">Pular para o conteúdo</a>
+<!-- NAVIGATION (T3 ativa) -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Técnica</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10" href="index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Projetos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Produção</span>
+</a>
+<button class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-inema-journey-open="" type="button">
+<span aria-hidden="true">◷</span><span>Minha jornada</span>
+<span class="inema-journey-badge hidden" data-count="0" data-inema-journey-badge=""></span>
+</button>
+<button aria-label="Alternar tema claro/escuro" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20">
+<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+</svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav aria-label="Trilha de navegação" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-purple-400" href="../../index.html">Início</a>
+<span>/</span>
+<a class="hover:text-purple-400" href="index.html">Trilha 3</a>
+<span>/</span>
+<span class="text-purple-400">Módulo 3.2</span>
+</div>
+</nav>
+<!-- HEADER DO MÓDULO -->
+<header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-4">MÓDULO 3.2</span>
+<h3 class="text-2xl font-bold mb-4">🔄 O Ciclo Plan → Build → Troubleshoot → Optimize</h3>
+<p class="text-lg text-neutral-400 max-w-3xl">Todo build segue o mesmo ritmo de quatro fases — <strong class="text-purple-300">planejar, construir, depurar, otimizar</strong> — com duas habilidades que atravessam tudo: verificar de verdade e fazer backup antes de mudar. Este módulo destrincha cada fase com o prompt certo para conduzir a IA, marca a fronteira do que ela <strong>não</strong> faz (credenciais, mapeamento), e fecha com a disciplina que evita perder trabalho.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">7</div>
+<div class="text-xs text-neutral-400">Tópicos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">~45</div>
+<div class="text-xs text-neutral-400">Minutos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">Prático</div>
+<div class="text-xs text-neutral-400">Nível</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">Copy-run</div>
+<div class="text-xs text-neutral-400">Tipo</div>
+</div>
+</div>
+<div aria-label="Progresso do módulo 3.2" aria-valuemax="100" aria-valuemin="0" class="mt-6 max-w-2xl" data-inema-meter="modulo:3-2" role="progressbar">
+<div class="flex items-center justify-between mb-1 text-sm">
+<span class="text-neutral-400">Progresso do módulo</span>
+<span class="text-purple-400 font-semibold"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 7</span></span>
+</div>
+<div class="inema-bar h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-purple-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+</header>
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:grid lg:grid-cols-[1fr_220px] lg:gap-10">
+<main class="min-w-0" id="conteudo">
+<!-- intro box -->
+<div class="bg-purple-900/20 border border-purple-500/30 rounded-xl p-5 mb-10">
+<h2 class="text-base font-semibold text-purple-400 mb-2 flex items-center"><span class="mr-2">🔄</span> O ciclo em uma frase</h2>
+<p class="text-neutral-300 text-sm"><strong>Plan</strong> (alinha o quê e o como) → <strong>Build</strong> (a IA constrói e valida) → <strong>Troubleshoot</strong> (você devolve o erro com contexto) → <strong>Optimize</strong> (você melhora em camadas). E, em volta de tudo: verifique de verdade e tenha um backup antes de cada mudança.</p>
+</div>
+<!-- SVG FUTURISTA (o ciclo, #29) -->
+<section class="mb-12">
+<p class="text-neutral-300 mb-4 inema-prose leading-relaxed">O ciclo não é uma linha reta com fim: depois de otimizar você costuma voltar a depurar (a mudança quebrou algo?) ou até a planejar (surgiu um requisito novo). Por isso ele é desenhado como um loop — e o backup é o que torna esse loop seguro.</p>
+<div class="rounded-2xl border border-purple-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="O ciclo de quatro fases como um loop: planejar leva a construir, construir leva a depurar, depurar leva a otimizar, e otimizar realimenta o ciclo voltando para depurar ou planejar; o coordenador no centro lê o erro e propõe a correção" class="w-full h-auto" role="img" viewbox="0 0 1000 240">
+<defs>
+<lineargradient id="m32-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#c084fc"></stop><stop offset="1" stop-color="#8b5cf6"></stop></lineargradient>
+<filter height="180%" id="m32-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m32-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#8b5cf6" opacity="0.12" r="1.3"></circle></pattern>
+<marker id="m32-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#c084fc"></path></marker>
+<marker id="m32-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m32-grid)" height="240" width="1000" x="0" y="0"></rect>
+<!-- fases -->
+<g filter="url(#m32-glow)"><rect fill="#1c1033" height="56" rx="14" stroke="url(#m32-grad)" stroke-width="2.5" width="200" x="60" y="40"></rect></g>
+<text fill="#c084fc" font-family="Inter,sans-serif" font-size="15" font-weight="700" text-anchor="middle" x="160" y="64">1 · Plan</text>
+<text fill="#d8c4f7" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="160" y="82">pesquisa · plano</text>
+<rect fill="#1c1033" height="56" rx="14" stroke="#a78bfa" stroke-width="2" width="200" x="740" y="40"></rect>
+<text fill="#c084fc" font-family="Inter,sans-serif" font-size="15" font-weight="700" text-anchor="middle" x="840" y="64">2 · Build</text>
+<text fill="#d8c4f7" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="840" y="82">criar · validar</text>
+<rect fill="#1c1033" height="56" rx="14" stroke="#a78bfa" stroke-width="2" width="200" x="740" y="150"></rect>
+<text fill="#c084fc" font-family="Inter,sans-serif" font-size="15" font-weight="700" text-anchor="middle" x="840" y="174">3 · Troubleshoot</text>
+<text fill="#d8c4f7" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="840" y="192">erro · correção</text>
+<rect fill="#1c1033" height="56" rx="14" stroke="#a78bfa" stroke-width="2" width="200" x="60" y="150"></rect>
+<text fill="#c084fc" font-family="Inter,sans-serif" font-size="15" font-weight="700" text-anchor="middle" x="160" y="174">4 · Optimize</text>
+<text fill="#d8c4f7" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="160" y="192">melhorar em camadas</text>
+<!-- coordenador central (ciano) -->
+<rect fill="#0e1b26" height="50" rx="13" stroke="#38bdf8" stroke-width="2" width="160" x="420" y="98"></rect>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="500" y="120">coordenador</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="500" y="137">lê erro · propõe fix</text>
+<!-- setas do loop -->
+<g fill="none" opacity="0.8" stroke="#c084fc" stroke-width="2.2">
+<path d="M260,68 L736,68" marker-end="url(#m32-ah)"></path>
+<path d="M840,96 L840,146" marker-end="url(#m32-ah)"></path>
+<path d="M740,178 L264,178" marker-end="url(#m32-ah)"></path>
+<path d="M160,150 L160,100" marker-end="url(#m32-ah)"></path>
+</g>
+<!-- realimentação para o coordenador -->
+<g fill="none" opacity="0.55" stroke="#38bdf8" stroke-dasharray="5 5" stroke-width="2">
+<path d="M740,170 L582,128" marker-end="url(#m32-ahc)"></path>
+<path d="M576,118 L744,76" marker-end="url(#m32-ahc)"></path>
+</g>
+</svg>
+</div>
+<p class="text-xs text-neutral-500">Diagrama ilustrativo — o ciclo é um loop, não uma fila. O coordenador (a IA) lê o erro que você devolve e propõe a correção; otimizar costuma realimentar depurar.</p>
+</section>
+<!-- TÓPICO 1 -->
+<section class="mb-16" data-inema-topic="modulo-3-2#topico-1" id="topico-1">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🗺️ Fase 1 — Plan</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tenho dúvida</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-purple-400 mb-2">O que é</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m3-2-t1-p1">
           A fase de alinhamento. No <strong>Plan Mode</strong>, a IA pesquisa os recursos certos, faz perguntas de esclarecimento (intervalo? colunas? o que conta como "urgente"?) e propõe um plano numerado para você aprovar. Você ainda não construiu nada — está definindo o quê e o como, na fase mais barata de mudar de ideia.
         </p>
-
-        <div class="bg-dark-800 border border-purple-500/30 rounded-xl p-4 mb-6">
-          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-purple-500/20 text-purple-400 text-xs font-semibold mr-2">O que é?</span><strong>Perguntas de esclarecimento</strong> — as dúvidas que a IA levanta antes de construir (formato de saída, fonte de dados, casos de exceção). Respondê-las bem é metade do trabalho.</p>
-        </div>
-
-        <h3 class="text-lg font-semibold text-purple-400 mb-2">Por que aprender</h3>
-        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m3-2-t1-p2">Pular o plano é a causa nº 1 de retrabalho: a IA constrói uma coisa, você queria outra, e agora há nós para refazer. Alinhar no plano custa uma conversa; alinhar depois custa um rebuild.</p>
-
-        <!-- copy-run -->
-        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
-          <p class="text-sm text-purple-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">obter um plano aprovável antes de qualquer build.</span></p>
-          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (Plan Mode)</span></div>
-          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Entre em plan mode. Quero &lt;descreva o resultado, ex.: "um workflow que monitora
+<div class="bg-dark-800 border border-purple-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-purple-500/20 text-purple-400 text-xs font-semibold mr-2">O que é?</span><strong>Perguntas de esclarecimento</strong> — as dúvidas que a IA levanta antes de construir (formato de saída, fonte de dados, casos de exceção). Respondê-las bem é metade do trabalho.</p>
+</div>
+<h3 class="text-lg font-semibold text-purple-400 mb-2">Por que aprender</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m3-2-t1-p2">Pular o plano é a causa nº 1 de retrabalho: a IA constrói uma coisa, você queria outra, e agora há nós para refazer. Alinhar no plano custa uma conversa; alinhar depois custa um rebuild.</p>
+<!-- copy-run -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-purple-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">obter um plano aprovável antes de qualquer build.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (Plan Mode)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Entre em plan mode. Quero &lt;descreva o resultado, ex.: "um workflow que monitora
 o Gmail por e-mails com 'urgente' no assunto e registra cada um numa planilha"&gt;.
 
 Antes de construir:
@@ -407,200 +390,178 @@ Antes de construir:
 3. Apresente um plano numerado com a arquitetura e as credenciais que vou precisar.
 
 Não escreva nada até eu aprovar.</pre>
-          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: a resposta traz perguntas + um plano + a lista de credenciais. Você responde, ajusta o plano e aprova — só então começa o build.</p>
-        </div>
-
-        <h3 class="text-lg font-semibold text-purple-400 mb-3">Conceitos-chave</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Pesquisar</div><p class="text-xs text-neutral-400">Recursos certos.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Perguntar</div><p class="text-xs text-neutral-400">Tirar dúvidas antes.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Plano</div><p class="text-xs text-neutral-400">Numerado e aprovável.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Aprovar</div><p class="text-xs text-neutral-400">Você dá o "ok".</p></div>
-        </div>
-
-        <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- TÓPICO 2 -->
-      <section id="topico-2" data-inema-topic="modulo-3-2#topico-2" class="mb-16">
-        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-          <div class="flex items-center space-x-4">
-            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">2</span>
-            <h2 class="text-2xl font-bold">🏗️ Fase 2 — Build</h2>
-          </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
-            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
-          </button>
-        </div>
-
-        <h3 class="text-lg font-semibold text-purple-400 mb-2">O que é</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m3-2-t2-p1">
+<p class="text-xs text-neutral-500 mt-3">✅ Como verificar: a resposta traz perguntas + um plano + a lista de credenciais. Você responde, ajusta o plano e aprova — só então começa o build.</p>
+</div>
+<h3 class="text-lg font-semibold text-purple-400 mb-3">Conceitos-chave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Pesquisar</div><p class="text-xs text-neutral-400">Recursos certos.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Perguntar</div><p class="text-xs text-neutral-400">Tirar dúvidas antes.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Plano</div><p class="text-xs text-neutral-400">Numerado e aprovável.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Aprovar</div><p class="text-xs text-neutral-400">Você dá o "ok".</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 2 -->
+<section class="mb-16" data-inema-topic="modulo-3-2#topico-2" id="topico-2">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">🏗️ Fase 2 — Build</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tenho dúvida</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-purple-400 mb-2">O que é</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m3-2-t2-p1">
           Com o plano aprovado, a IA constrói o workflow/projeto e <strong>valida sozinha</strong> o que consegue (corrige problemas de validação automaticamente). Em <strong>bypass permissions</strong>, ela executa sem pedir confirmação a cada passo. Lembre: a saída pode variar entre execuções — não compare tela a tela.
         </p>
-
-        <h3 class="text-lg font-semibold text-purple-400 mb-2">Por que aprender</h3>
-        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m3-2-t2-p2">Assistir ao build cedo tem dois ganhos: você aprende como o sistema funciona e consegue <strong>interromper</strong> rápido se a IA sair do trilho — economizando tempo e token. O bypass acelera, mas você deixa de ver cada passo; use com critério.</p>
-
-        <!-- copy-run -->
-        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
-          <p class="text-sm text-purple-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">construir o que foi aprovado e validar antes de testar.</span></p>
-          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (após aprovar o plano)</span></div>
-          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Aprovado. Construa exatamente o plano acima.
+<h3 class="text-lg font-semibold text-purple-400 mb-2">Por que aprender</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m3-2-t2-p2">Assistir ao build cedo tem dois ganhos: você aprende como o sistema funciona e consegue <strong>interromper</strong> rápido se a IA sair do trilho — economizando tempo e token. O bypass acelera, mas você deixa de ver cada passo; use com critério.</p>
+<!-- copy-run -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-purple-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">construir o que foi aprovado e validar antes de testar.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (após aprovar o plano)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Aprovado. Construa exatamente o plano acima.
 
 Ao terminar:
 - Valide o que foi criado e corrija problemas de validação automaticamente.
 - Me diga claramente o que ainda preciso fazer à mão (credenciais, mapeamento,
   criar destinos).
 - Não considere "pronto" sem antes apontar o que falta para eu testar.</pre>
-          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: o build aparece montado e validado; a IA lista o que é manual. Você não tenta testar antes de saber o que ainda falta configurar.</p>
-        </div>
-
-        <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
-          <h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Dica prática</h3>
-          <p class="text-neutral-300 text-sm">Se a sua versão tiver nomes e layout diferentes de um tutorial, tudo bem: a IA é não-determinística. Avalie pelo comportamento final, não pela aparência passo a passo.</p>
-        </div>
-
-        <h3 class="text-lg font-semibold text-purple-400 mb-3">Conceitos-chave</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Validar</div><p class="text-xs text-neutral-400">A IA auto-corrige.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Bypass</div><p class="text-xs text-neutral-400">Sem interromper.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Assistir</div><p class="text-xs text-neutral-400">Interrompa se errar.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Variação</div><p class="text-xs text-neutral-400">Esperada, não defeito.</p></div>
-        </div>
-
-        <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- TÓPICO 3 -->
-      <section id="topico-3" data-inema-topic="modulo-3-2#topico-3" class="mb-16">
-        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-          <div class="flex items-center space-x-4">
-            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">3</span>
-            <h2 class="text-2xl font-bold">🙅 O que a IA NÃO faz</h2>
-          </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
-            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
-          </button>
-        </div>
-
-        <h3 class="text-lg font-semibold text-purple-400 mb-2">O que é</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m3-2-t3-p1">
+<p class="text-xs text-neutral-500 mt-3">✅ Como verificar: o build aparece montado e validado; a IA lista o que é manual. Você não tenta testar antes de saber o que ainda falta configurar.</p>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Dica prática</h3>
+<p class="text-neutral-300 text-sm">Se a sua versão tiver nomes e layout diferentes de um tutorial, tudo bem: a IA é não-determinística. Avalie pelo comportamento final, não pela aparência passo a passo.</p>
+</div>
+<h3 class="text-lg font-semibold text-purple-400 mb-3">Conceitos-chave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Validar</div><p class="text-xs text-neutral-400">A IA auto-corrige.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Bypass</div><p class="text-xs text-neutral-400">Sem interromper.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Assistir</div><p class="text-xs text-neutral-400">Interrompa se errar.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Variação</div><p class="text-xs text-neutral-400">Esperada, não defeito.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 3 -->
+<section class="mb-16" data-inema-topic="modulo-3-2#topico-3" id="topico-3">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">🙅 O que a IA NÃO faz</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tenho dúvida</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-purple-400 mb-2">O que é</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m3-2-t3-p1">
           A fronteira do automático. Algumas etapas precisam de você: criar <strong>credenciais OAuth</strong> (logar com a sua conta), criar a planilha/pasta de destino, e <strong>mapear campos</strong> (dizer qual valor vai em qual coluna). E a regra de ouro: <strong>chave/segredo nunca no chat</strong> — só em arquivo de ambiente.
         </p>
-
-        <div class="bg-dark-800 border border-purple-500/30 rounded-xl p-4 mb-6">
-          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-purple-500/20 text-purple-400 text-xs font-semibold mr-2">O que é?</span><strong>OAuth</strong> — o jeito seguro de autorizar um app a acessar a sua conta (Gmail, Sheets) sem entregar a senha. <strong>Mapear campos</strong> — ligar cada dado de entrada (remetente, assunto) à coluna/saída correta.</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          <div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-6">
-            <h4 class="font-bold text-purple-400 mb-4">✓ A IA faz</h4>
-            <ul class="space-y-3 text-neutral-300 text-sm">
-              <li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Escolher e montar os nós/arquivos.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Validar e auto-corrigir o que dá.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Sugerir as colunas e o mapeamento.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Te dizer exatamente o que falta fazer à mão.</span></li>
-            </ul>
-          </div>
-          <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
-            <h4 class="font-bold text-red-400 mb-4">✗ Você faz (manual)</h4>
-            <ul class="space-y-3 text-neutral-300 text-sm">
-              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Criar as credenciais OAuth (logar nas contas).</span></li>
-              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Criar a planilha/pasta de destino.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Confirmar o mapeamento final dos valores.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Guardar a chave no .env — nunca colar no chat.</span></li>
-            </ul>
-          </div>
-        </div>
-
-        <h3 class="text-lg font-semibold text-purple-400 mb-2">Por que aprender</h3>
-        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m3-2-t3-p2">Sem saber a fronteira, você fica esperando a IA fazer o que só você pode (autorizar a sua própria conta) — ou, pior, cola uma chave no chat por impaciência. Saber a divisão acelera o build e mantém os segredos seguros.</p>
-
-        <!-- copy-run -->
-        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
-          <p class="text-sm text-purple-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">obter um checklist do que é manual antes de testar.</span></p>
-          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (copie e rode)</span></div>
-          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Antes de eu testar, me dê um checklist do que SÓ EU posso fazer:
+<div class="bg-dark-800 border border-purple-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-purple-500/20 text-purple-400 text-xs font-semibold mr-2">O que é?</span><strong>OAuth</strong> — o jeito seguro de autorizar um app a acessar a sua conta (Gmail, Sheets) sem entregar a senha. <strong>Mapear campos</strong> — ligar cada dado de entrada (remetente, assunto) à coluna/saída correta.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-6">
+<h4 class="font-bold text-purple-400 mb-4">✓ A IA faz</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Escolher e montar os nós/arquivos.</span></li>
+<li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Validar e auto-corrigir o que dá.</span></li>
+<li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Sugerir as colunas e o mapeamento.</span></li>
+<li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Te dizer exatamente o que falta fazer à mão.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Você faz (manual)</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Criar as credenciais OAuth (logar nas contas).</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Criar a planilha/pasta de destino.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Confirmar o mapeamento final dos valores.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Guardar a chave no .env — nunca colar no chat.</span></li>
+</ul>
+</div>
+</div>
+<h3 class="text-lg font-semibold text-purple-400 mb-2">Por que aprender</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m3-2-t3-p2">Sem saber a fronteira, você fica esperando a IA fazer o que só você pode (autorizar a sua própria conta) — ou, pior, cola uma chave no chat por impaciência. Saber a divisão acelera o build e mantém os segredos seguros.</p>
+<!-- copy-run -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-purple-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">obter um checklist do que é manual antes de testar.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (copie e rode)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Antes de eu testar, me dê um checklist do que SÓ EU posso fazer:
 - Quais credenciais OAuth criar e em quais nós/serviços.
 - Que destinos preciso criar (planilha, pasta) e com quais colunas.
 - Qual o mapeamento de cada campo de entrada para a saída.
 
 Para chaves/segredos, me diga onde colocá-los no arquivo de ambiente — nunca
 me peça para colar uma chave aqui no chat.</pre>
-          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: você recebe uma lista clara de ações manuais. Nenhuma instrução pede que você cole segredos no chat.</p>
-        </div>
-
-        <h3 class="text-lg font-semibold text-purple-400 mb-3">Conceitos-chave</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">OAuth</div><p class="text-xs text-neutral-400">Você autoriza.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Destino</div><p class="text-xs text-neutral-400">Crie planilha/pasta.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Mapear</div><p class="text-xs text-neutral-400">Valor → coluna.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Chave no .env</div><p class="text-xs text-neutral-400">Nunca no chat.</p></div>
-        </div>
-
-        <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- TÓPICO 4 -->
-      <section id="topico-4" data-inema-topic="modulo-3-2#topico-4" class="mb-16">
-        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-          <div class="flex items-center space-x-4">
-            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">4</span>
-            <h2 class="text-2xl font-bold">🔧 Fase 3 — Troubleshoot</h2>
-          </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
-            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
-          </button>
-        </div>
-
-        <h3 class="text-lg font-semibold text-purple-400 mb-2">O que é</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m3-2-t4-p1">
+<p class="text-xs text-neutral-500 mt-3">✅ Como verificar: você recebe uma lista clara de ações manuais. Nenhuma instrução pede que você cole segredos no chat.</p>
+</div>
+<h3 class="text-lg font-semibold text-purple-400 mb-3">Conceitos-chave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">OAuth</div><p class="text-xs text-neutral-400">Você autoriza.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Destino</div><p class="text-xs text-neutral-400">Crie planilha/pasta.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Mapear</div><p class="text-xs text-neutral-400">Valor → coluna.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Chave no .env</div><p class="text-xs text-neutral-400">Nunca no chat.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 4 -->
+<section class="mb-16" data-inema-topic="modulo-3-2#topico-4" id="topico-4">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">🔧 Fase 3 — Troubleshoot</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tenho dúvida</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-purple-400 mb-2">O que é</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m3-2-t4-p1">
           Quando algo quebra, o reflexo certo é <strong>devolver o erro com contexto</strong>: copie a mensagem inteira, diga em qual nó/passo aconteceu e o que você esperava, e peça diagnóstico + causa + correção. A IA lê os inputs/outputs de cada passo e conserta. Depois você reexecuta — uma correção por vez.
         </p>
-
-        <!-- SVG conceitual: anatomia de um nó (#29) -->
-        <div class="rounded-2xl border border-purple-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
-          <svg viewBox="0 0 1000 170" class="w-full h-auto" role="img" aria-label="Para depurar, leia a anatomia de um passo: à esquerda entram os dados do passo anterior, no meio fica o passo que falhou com a mensagem de erro, à direita sai o resultado; você copia a mensagem e o nome do passo de volta para a IA">
-            <defs>
-              <pattern id="m32b-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#8b5cf6" opacity="0.1"/></pattern>
-              <marker id="m32b-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#c084fc"/></marker>
-              <marker id="m32b-ahc" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"/></marker>
-            </defs>
-            <rect x="0" y="0" width="1000" height="170" fill="url(#m32b-grid)"/>
-            <rect x="40" y="58" width="200" height="50" rx="12" fill="#1e293b" stroke="#94a3b8" stroke-width="1.8"/><text x="140" y="80" text-anchor="middle" fill="#e2e8f0" font-family="Inter,sans-serif" font-size="12" font-weight="600">entrada (passo anterior)</text><text x="140" y="98" text-anchor="middle" fill="#cbd5e1" font-family="Inter,sans-serif" font-size="11">dados que chegam</text>
-            <g fill="none" stroke="#c084fc" stroke-width="2" opacity="0.7"><path d="M240,83 L322,83" marker-end="url(#m32b-ah)"/></g>
-            <rect x="322" y="50" width="240" height="66" rx="13" fill="#2a1820" stroke="#fb7185" stroke-width="2.2"/><text x="442" y="78" text-anchor="middle" fill="#fda4af" font-family="Inter,sans-serif" font-size="13" font-weight="700">passo que falhou</text><text x="442" y="98" text-anchor="middle" fill="#fda4af" font-family="Inter,sans-serif" font-size="11">⚠ mensagem de erro</text>
-            <g fill="none" stroke="#c084fc" stroke-width="2" opacity="0.7"><path d="M562,83 L644,83" marker-end="url(#m32b-ah)"/></g>
-            <rect x="644" y="58" width="200" height="50" rx="12" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/><text x="744" y="80" text-anchor="middle" fill="#bfe6ff" font-family="Inter,sans-serif" font-size="12" font-weight="600">saída esperada</text><text x="744" y="98" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11">o que você queria</text>
-            <g fill="none" stroke="#38bdf8" stroke-width="2" opacity="0.55" stroke-dasharray="5 5"><path d="M442,116 C442,150 700,150 880,120" marker-end="url(#m32b-ahc)"/></g>
-            <text x="660" y="150" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11">copie msg + nome do passo → IA</text>
-          </svg>
-        </div>
-        <p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — ler a entrada, o passo e a saída esperada localiza o erro. O que a IA precisa é a mensagem literal + onde ela ocorreu.</p>
-
-        <h3 class="text-lg font-semibold text-purple-400 mb-2">Por que aprender</h3>
-        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m3-2-t4-p2">"Deu erro" sem contexto vira chute. A mensagem exata + o local + o que você esperava transformam o problema num pedido acionável — e a IA costuma achar a causa real (um formato de modelo errado, uma expressão de tempo inválida, um campo lido em caixa diferente) e corrigir rápido.</p>
-
-        <!-- copy-run -->
-        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
-          <p class="text-sm text-purple-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">devolver o erro de forma que a IA conserte de primeira.</span></p>
-          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">template de troubleshooting</span></div>
-          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Apareceu um erro. Aqui está o contexto completo:
+<!-- SVG conceitual: anatomia de um nó (#29) -->
+<div class="rounded-2xl border border-purple-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="Para depurar, leia a anatomia de um passo: à esquerda entram os dados do passo anterior, no meio fica o passo que falhou com a mensagem de erro, à direita sai o resultado; você copia a mensagem e o nome do passo de volta para a IA" class="w-full h-auto" role="img" viewbox="0 0 1000 170">
+<defs>
+<pattern height="32" id="m32b-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#8b5cf6" opacity="0.1" r="1.3"></circle></pattern>
+<marker id="m32b-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#c084fc"></path></marker>
+<marker id="m32b-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m32b-grid)" height="170" width="1000" x="0" y="0"></rect>
+<rect fill="#1e293b" height="50" rx="12" stroke="#94a3b8" stroke-width="1.8" width="200" x="40" y="58"></rect><text fill="#e2e8f0" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="140" y="80">entrada (passo anterior)</text><text fill="#cbd5e1" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="140" y="98">dados que chegam</text>
+<g fill="none" opacity="0.7" stroke="#c084fc" stroke-width="2"><path d="M240,83 L322,83" marker-end="url(#m32b-ah)"></path></g>
+<rect fill="#2a1820" height="66" rx="13" stroke="#fb7185" stroke-width="2.2" width="240" x="322" y="50"></rect><text fill="#fda4af" font-family="Inter,sans-serif" font-size="13" font-weight="700" text-anchor="middle" x="442" y="78">passo que falhou</text><text fill="#fda4af" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="442" y="98">⚠ mensagem de erro</text>
+<g fill="none" opacity="0.7" stroke="#c084fc" stroke-width="2"><path d="M562,83 L644,83" marker-end="url(#m32b-ah)"></path></g>
+<rect fill="#0e1b26" height="50" rx="12" stroke="#38bdf8" stroke-width="2" width="200" x="644" y="58"></rect><text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="744" y="80">saída esperada</text><text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="744" y="98">o que você queria</text>
+<g fill="none" opacity="0.55" stroke="#38bdf8" stroke-dasharray="5 5" stroke-width="2"><path d="M442,116 C442,150 700,150 880,120" marker-end="url(#m32b-ahc)"></path></g>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" x="660" y="150">copie msg + nome do passo → IA</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — ler a entrada, o passo e a saída esperada localiza o erro. O que a IA precisa é a mensagem literal + onde ela ocorreu.</p>
+<h3 class="text-lg font-semibold text-purple-400 mb-2">Por que aprender</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m3-2-t4-p2">"Deu erro" sem contexto vira chute. A mensagem exata + o local + o que você esperava transformam o problema num pedido acionável — e a IA costuma achar a causa real (um formato de modelo errado, uma expressão de tempo inválida, um campo lido em caixa diferente) e corrigir rápido.</p>
+<!-- copy-run -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-purple-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">devolver o erro de forma que a IA conserte de primeira.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">template de troubleshooting</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Apareceu um erro. Aqui está o contexto completo:
 
 - Onde aconteceu: &lt;nó/passo, ex.: "nó Google Sheets append"&gt;
 - O que eu esperava: &lt;ex.: "que a linha fosse adicionada na planilha"&gt;
@@ -612,103 +573,90 @@ me peça para colar uma chave aqui no chat.</pre>
 
 Diagnostique a causa, explique por que aconteceu e corrija. Não mude mais nada
 além do necessário para resolver isso.</pre>
-          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: a IA explica a causa e aplica uma correção pontual. Você recarrega/reexecuta; se ainda falhar, repita o template com o novo erro.</p>
-        </div>
-
-        <h3 class="text-lg font-semibold text-purple-400 mb-3">Conceitos-chave</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Mensagem literal</div><p class="text-xs text-neutral-400">Cole exatamente.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Local</div><p class="text-xs text-neutral-400">Qual nó/passo.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Por quê</div><p class="text-xs text-neutral-400">Peça a causa.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Pontual</div><p class="text-xs text-neutral-400">Sem mexer no resto.</p></div>
-        </div>
-
-        <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- TÓPICO 5 -->
-      <section id="topico-5" data-inema-topic="modulo-3-2#topico-5" class="mb-16">
-        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-          <div class="flex items-center space-x-4">
-            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">5</span>
-            <h2 class="text-2xl font-bold">⚡ Fase 4 — Optimize</h2>
-          </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
-            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
-          </button>
-        </div>
-
-        <h3 class="text-lg font-semibold text-purple-400 mb-2">O que é</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m3-2-t5-p1">
+<p class="text-xs text-neutral-500 mt-3">✅ Como verificar: a IA explica a causa e aplica uma correção pontual. Você recarrega/reexecuta; se ainda falhar, repita o template com o novo erro.</p>
+</div>
+<h3 class="text-lg font-semibold text-purple-400 mb-3">Conceitos-chave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Mensagem literal</div><p class="text-xs text-neutral-400">Cole exatamente.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Local</div><p class="text-xs text-neutral-400">Qual nó/passo.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Por quê</div><p class="text-xs text-neutral-400">Peça a causa.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Pontual</div><p class="text-xs text-neutral-400">Sem mexer no resto.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 5 -->
+<section class="mb-16" data-inema-topic="modulo-3-2#topico-5" id="topico-5">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">⚡ Fase 4 — Optimize</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tenho dúvida</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-purple-400 mb-2">O que é</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m3-2-t5-p1">
           Com o básico funcionando, "funciona" vira "funciona bem". Você melhora em <strong>camadas</strong>, em uma ordem de prioridade: (1) tratamento de erro — o que quebra; (2) lógica — o que é ineficiente; (3) qualidade da saída — a experiência (formatação, assinatura); (4) performance — velocidade do gatilho até a entrega. Uma mudança por vez, testando a cada passo.
         </p>
-
-        <div class="bg-dark-800 border border-purple-500/30 rounded-xl p-4 mb-6">
-          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-purple-500/20 text-purple-400 text-xs font-semibold mr-2">O que é?</span><strong>Caso de borda (edge case)</strong> — situação incomum que pode quebrar o fluxo (e-mail sem assinatura, campo vazio, remetente automático). Otimizar é, em boa parte, cobrir esses casos.</p>
-        </div>
-
-        <h3 class="text-lg font-semibold text-purple-400 mb-2">Por que aprender</h3>
-        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m3-2-t5-p2">Polir a saída antes de tratar erro é perda de tempo: um e-mail bonito não vale nada se o e-mail não chega. A ordem de prioridade garante que você gasta energia onde o retorno é maior — e fazer uma mudança por vez mantém cada problema localizável.</p>
-
-        <!-- copy-run -->
-        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
-          <p class="text-sm text-purple-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">otimizar em uma camada por vez, ancorado no que já existe.</span></p>
-          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (uma melhoria por vez)</span></div>
-          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">No workflow já existente chamado "&lt;nome exato do workflow&gt;", aplique UMA
+<div class="bg-dark-800 border border-purple-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-purple-500/20 text-purple-400 text-xs font-semibold mr-2">O que é?</span><strong>Caso de borda (edge case)</strong> — situação incomum que pode quebrar o fluxo (e-mail sem assinatura, campo vazio, remetente automático). Otimizar é, em boa parte, cobrir esses casos.</p>
+</div>
+<h3 class="text-lg font-semibold text-purple-400 mb-2">Por que aprender</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m3-2-t5-p2">Polir a saída antes de tratar erro é perda de tempo: um e-mail bonito não vale nada se o e-mail não chega. A ordem de prioridade garante que você gasta energia onde o retorno é maior — e fazer uma mudança por vez mantém cada problema localizável.</p>
+<!-- copy-run -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-purple-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">otimizar em uma camada por vez, ancorado no que já existe.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (uma melhoria por vez)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">No workflow já existente chamado "&lt;nome exato do workflow&gt;", aplique UMA
 melhoria: &lt;descreva a mudança, ex.: "quando a busca não achar uma política,
 em vez de inventar, envie uma resposta dizendo que vamos pesquisar e retornar"&gt;.
 
 Não crie um workflow novo — edite este. Me explique o que vai mudar antes de
 aplicar, e depois me diga como testar essa mudança especificamente.</pre>
-          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: a IA edita o workflow nomeado (não cria outro), explica a mudança e indica o teste exato. Você testa só essa camada antes da próxima.</p>
-        </div>
-
-        <h3 class="text-lg font-semibold text-purple-400 mb-3">Conceitos-chave</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Camadas</div><p class="text-xs text-neutral-400">Uma por vez.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Prioridade</div><p class="text-xs text-neutral-400">Erro &gt; lógica &gt; saída.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Ancorar</div><p class="text-xs text-neutral-400">Nomeie o workflow.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Testar</div><p class="text-xs text-neutral-400">A cada camada.</p></div>
-        </div>
-
-        <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- TÓPICO 6 -->
-      <section id="topico-6" data-inema-topic="modulo-3-2#topico-6" class="mb-16">
-        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-          <div class="flex items-center space-x-4">
-            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">6</span>
-            <h2 class="text-2xl font-bold">🔬 Verificação & testes de verdade</h2>
-          </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
-            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
-          </button>
-        </div>
-
-        <h3 class="text-lg font-semibold text-purple-400 mb-2">O que é</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m3-2-t6-p1">
+<p class="text-xs text-neutral-500 mt-3">✅ Como verificar: a IA edita o workflow nomeado (não cria outro), explica a mudança e indica o teste exato. Você testa só essa camada antes da próxima.</p>
+</div>
+<h3 class="text-lg font-semibold text-purple-400 mb-3">Conceitos-chave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Camadas</div><p class="text-xs text-neutral-400">Uma por vez.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Prioridade</div><p class="text-xs text-neutral-400">Erro &gt; lógica &gt; saída.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Ancorar</div><p class="text-xs text-neutral-400">Nomeie o workflow.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Testar</div><p class="text-xs text-neutral-400">A cada camada.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 6 -->
+<section class="mb-16" data-inema-topic="modulo-3-2#topico-6" id="topico-6">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">🔬 Verificação &amp; testes de verdade</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tenho dúvida</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-purple-400 mb-2">O que é</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m3-2-t6-p1">
           A habilidade que atravessa todas as fases: testar com cenários <strong>reais</strong> (caminho feliz, casos de borda e fora de escopo), conferir números e fatos contra a fonte, e exigir que o agente <strong>recuse inventar</strong> o que não sabe. A regra de ouro permanece: <strong>verde ≠ correto</strong> — rodar sem erro não prova que a resposta está certa.
         </p>
-
-        <h3 class="text-lg font-semibold text-purple-400 mb-2">Por que aprender</h3>
-        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m3-2-t6-p2">Para testar um filtro, você precisa enviar exatamente o tipo de entrada que ele deve pegar. Um teste "fora de escopo" (ex.: perguntar algo que não está na base) é o que revela se o agente é honesto ou se ele alucina. Um bom agente diz "não tenho essa informação" — e isso é desejável, não um bug.</p>
-
-        <!-- copy-run -->
-        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
-          <p class="text-sm text-purple-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">montar um plano de teste que cubra feliz, borda e fora de escopo.</span></p>
-          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (copie e rode)</span></div>
-          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Monte um plano de teste para &lt;descreva o que foi construído&gt; com 3 categorias:
+<h3 class="text-lg font-semibold text-purple-400 mb-2">Por que aprender</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m3-2-t6-p2">Para testar um filtro, você precisa enviar exatamente o tipo de entrada que ele deve pegar. Um teste "fora de escopo" (ex.: perguntar algo que não está na base) é o que revela se o agente é honesto ou se ele alucina. Um bom agente diz "não tenho essa informação" — e isso é desejável, não um bug.</p>
+<!-- copy-run -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-purple-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">montar um plano de teste que cubra feliz, borda e fora de escopo.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (copie e rode)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Monte um plano de teste para &lt;descreva o que foi construído&gt; com 3 categorias:
 1. Caminho feliz: &lt;ex.: uma pergunta dentro do escopo, com resposta na base&gt;.
 2. Caso de borda: &lt;ex.: entrada incompleta / formato incomum&gt;.
 3. Fora de escopo: &lt;ex.: algo que NÃO está na base&gt; — aqui o agente deve dizer
@@ -716,145 +664,128 @@ aplicar, e depois me diga como testar essa mudança especificamente.</pre>
 
 Para cada teste, diga: a entrada exata, o resultado esperado e como conferir
 (números/fatos contra a fonte). Lembre: green ≠ correto.</pre>
-          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: você roda os três tipos. O caminho feliz acerta o conteúdo (não só "verde"); o fora de escopo gera uma recusa honesta, não uma resposta inventada.</p>
-        </div>
-
-        <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
-          <h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Dica prática</h3>
-          <p class="text-neutral-300 text-sm">Confira os números com precisão: "30 dias" e "um ano" são respostas diferentes. Abra o resultado e compare com a fonte — não confie só no indicador verde.</p>
-        </div>
-
-        <h3 class="text-lg font-semibold text-purple-400 mb-3">Conceitos-chave</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Verde ≠ correto</div><p class="text-xs text-neutral-400">Rodar não é acertar.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Cenários reais</div><p class="text-xs text-neutral-400">Feliz, borda, fora.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Conferir fatos</div><p class="text-xs text-neutral-400">Números e fontes.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Recusar inventar</div><p class="text-xs text-neutral-400">"Não sei" é bom.</p></div>
-        </div>
-
-        <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- TÓPICO 7 -->
-      <section id="topico-7" data-inema-topic="modulo-3-2#topico-7" class="mb-16">
-        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-          <div class="flex items-center space-x-4">
-            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">7</span>
-            <h2 class="text-2xl font-bold">💾 Backup antes de mudar</h2>
-          </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm">
-            <span aria-hidden="true">?</span><span>Tenho dúvida</span>
-          </button>
-        </div>
-
-        <h3 class="text-lg font-semibold text-purple-400 mb-2">O que é</h3>
-        <p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m3-2-t7-p1">
+<p class="text-xs text-neutral-500 mt-3">✅ Como verificar: você roda os três tipos. O caminho feliz acerta o conteúdo (não só "verde"); o fora de escopo gera uma recusa honesta, não uma resposta inventada.</p>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Dica prática</h3>
+<p class="text-neutral-300 text-sm">Confira os números com precisão: "30 dias" e "um ano" são respostas diferentes. Abra o resultado e compare com a fonte — não confie só no indicador verde.</p>
+</div>
+<h3 class="text-lg font-semibold text-purple-400 mb-3">Conceitos-chave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Verde ≠ correto</div><p class="text-xs text-neutral-400">Rodar não é acertar.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Cenários reais</div><p class="text-xs text-neutral-400">Feliz, borda, fora.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Conferir fatos</div><p class="text-xs text-neutral-400">Números e fontes.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Recusar inventar</div><p class="text-xs text-neutral-400">"Não sei" é bom.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 7 -->
+<section class="mb-16" data-inema-topic="modulo-3-2#topico-7" id="topico-7">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">7</span>
+<h2 class="text-2xl font-bold">💾 Backup antes de mudar</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tenho dúvida</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-purple-400 mb-2">O que é</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m3-2-t7-p1">
           A disciplina que torna o ciclo seguro: antes de qualquer mudança, faça um <strong>backup</strong> (duplique ou exporte em JSON) e estabeleça uma <strong>linha de base testada</strong>. Assim, se a próxima otimização quebrar algo, você reverte sem perder o que já funcionava.
         </p>
-
-        <div class="bg-dark-800 border border-purple-500/30 rounded-xl p-4 mb-6">
-          <p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-purple-500/20 text-purple-400 text-xs font-semibold mr-2">O que é?</span><strong>Export JSON</strong> — salvar o workflow como um arquivo de texto que você pode reimportar para restaurar exatamente o estado anterior. <strong>Linha de base</strong> — uma versão que você confirmou que funciona, usada como ponto de retorno.</p>
-        </div>
-
-        <h3 class="text-lg font-semibold text-purple-400 mb-2">Por que aprender</h3>
-        <p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m3-2-t7-p2">Sem linha de base, você corre dois riscos: não conseguir voltar quando algo der errado, e <strong>culpar a mudança nova</strong> por um problema que já existia. Confirmar que o caminho feliz funciona antes e depois de cada mudança mantém o diagnóstico honesto.</p>
-
-        <!-- copy-run -->
-        <div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
-          <p class="text-sm text-purple-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">criar uma linha de base segura antes de otimizar.</span></p>
-          <div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (antes de qualquer mudança)</span></div>
-          <pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Antes de eu começar a otimizar, me guie a:
+<div class="bg-dark-800 border border-purple-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-purple-500/20 text-purple-400 text-xs font-semibold mr-2">O que é?</span><strong>Export JSON</strong> — salvar o workflow como um arquivo de texto que você pode reimportar para restaurar exatamente o estado anterior. <strong>Linha de base</strong> — uma versão que você confirmou que funciona, usada como ponto de retorno.</p>
+</div>
+<h3 class="text-lg font-semibold text-purple-400 mb-2">Por que aprender</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m3-2-t7-p2">Sem linha de base, você corre dois riscos: não conseguir voltar quando algo der errado, e <strong>culpar a mudança nova</strong> por um problema que já existia. Confirmar que o caminho feliz funciona antes e depois de cada mudança mantém o diagnóstico honesto.</p>
+<!-- copy-run -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-purple-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">criar uma linha de base segura antes de otimizar.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (antes de qualquer mudança)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Antes de eu começar a otimizar, me guie a:
 1. Fazer um backup do estado atual (export em JSON ou duplicar) e onde salvá-lo.
 2. Rodar um teste de caminho feliz para registrar a linha de base que funciona.
 
 Confirme que está tudo verde e correto AGORA. Só depois disso seguimos para as
 melhorias — uma de cada vez, testando após cada uma.</pre>
-          <p class="text-xs text-neutral-500 mt-3">✅ Como verificar: você tem um arquivo de backup salvo e um teste de caminho feliz passando. Se algo quebrar depois, você reimporta o JSON e volta ao estado bom.</p>
-        </div>
-
-        <h3 class="text-lg font-semibold text-purple-400 mb-3">Conceitos-chave</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Export JSON</div><p class="text-xs text-neutral-400">Salve antes.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Linha de base</div><p class="text-xs text-neutral-400">Ponto de retorno.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Reversível</div><p class="text-xs text-neutral-400">Reimporte e volte.</p></div>
-          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Diagnóstico honesto</div><p class="text-xs text-neutral-400">Não culpe o novo.</p></div>
-        </div>
-
-        <!-- Checagem leve -->
-        <div data-inema-check="modulo-3-2#q1" class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6">
-          <p class="inema-check__q font-medium mb-4">Seu fluxo executou sem nenhum erro (tudo verde), mas ao abrir o rascunho você vê que ele citou "um ano" quando a política diz "30 dias". O que isso significa?</p>
-          <div class="inema-check-options inema-check__options space-y-2">
-            <button type="button" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0">Está tudo certo — não houve erro de execução.</button>
-            <button type="button" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1">Verde ≠ correto: rodou, mas o conteúdo está errado e precisa de verificação/correção.</button>
-            <button type="button" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2">O fluxo precisa ser reconstruído do zero.</button>
-          </div>
-          <div data-inema-check-feedback class="mt-4 text-sm" role="status" aria-live="polite"></div>
-        </div>
-
-        <div class="flex justify-start mt-8">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done hidden" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- RESUMO -->
-      <section class="mb-8">
-        <div class="bg-gradient-to-br from-purple-900/40 via-dark-800 to-dark-800 rounded-xl border border-purple-500/30 p-8">
-          <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📌</span> Resumo do Módulo</h2>
-          <div class="space-y-4 mb-8">
-            <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-neutral-100">Plan</strong><span class="text-neutral-400"> — pesquisa + perguntas + plano aprovado; a fase mais barata de mudar de ideia.</span></div></div>
-            <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-neutral-100">Build</strong><span class="text-neutral-400"> — a IA constrói e valida; assista cedo e use bypass com critério.</span></div></div>
-            <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-neutral-100">O que a IA não faz</strong><span class="text-neutral-400"> — credenciais, destinos e mapeamento são seus; chave nunca no chat.</span></div></div>
-            <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-neutral-100">Troubleshoot</strong><span class="text-neutral-400"> — devolva a mensagem literal + local + o esperado; correção pontual.</span></div></div>
-            <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-neutral-100">Optimize</strong><span class="text-neutral-400"> — uma camada por vez, na ordem erro → lógica → saída → performance.</span></div></div>
-            <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-neutral-100">Verificar de verdade</strong><span class="text-neutral-400"> — feliz, borda e fora de escopo; verde ≠ correto.</span></div></div>
-            <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-neutral-100">Backup antes de mudar</strong><span class="text-neutral-400"> — export JSON + linha de base; reverter sem perder o que funcionava.</span></div></div>
-          </div>
-          <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
-            <h3 class="font-semibold text-purple-400 mb-2">Próximo Módulo:</h3>
-            <p class="text-neutral-300">3.3 — Biblioteca de Prompts Prontos (copy-run)</p>
-          </div>
-          <div class="flex flex-col sm:flex-row gap-4">
-            <a href="modulo-3-1.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← Módulo anterior</a>
-            <a href="modulo-3-3.html" class="flex-1 text-center px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-500 transition-colors">Próximo Módulo →</a>
-          </div>
-        </div>
-      </section>
-
-    </main>
-
-    <!-- TOC sticky + scrollspy -->
-    <aside class="hidden lg:block">
-      <nav data-inema-toc aria-label="Índice da página" class="sticky top-24 self-start">
-        <p class="text-sm text-neutral-400 mb-3">Seção <span data-inema-section-counter><span class="inema-toc-pos">1</span> de <span class="inema-toc-total">7</span></span></p>
-        <ol class="space-y-1.5 text-sm">
-          <li><a href="#topico-1" class="inema-toc-link text-neutral-400 hover:text-purple-400 block">1. Fase 1 — Plan</a></li>
-          <li><a href="#topico-2" class="inema-toc-link text-neutral-400 hover:text-purple-400 block">2. Fase 2 — Build</a></li>
-          <li><a href="#topico-3" class="inema-toc-link text-neutral-400 hover:text-purple-400 block">3. O que a IA não faz</a></li>
-          <li><a href="#topico-4" class="inema-toc-link text-neutral-400 hover:text-purple-400 block">4. Fase 3 — Troubleshoot</a></li>
-          <li><a href="#topico-5" class="inema-toc-link text-neutral-400 hover:text-purple-400 block">5. Fase 4 — Optimize</a></li>
-          <li><a href="#topico-6" class="inema-toc-link text-neutral-400 hover:text-purple-400 block">6. Verificação & testes</a></li>
-          <li><a href="#topico-7" class="inema-toc-link text-neutral-400 hover:text-purple-400 block">7. Backup antes de mudar</a></li>
-        </ol>
-      </nav>
-    </aside>
-
-  </div>
-
-  <footer class="border-t border-dark-600 py-8 mt-8">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
-      <p>Vibe Coding: Domínio Completo · Curso original <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 font-medium">INEMA.CLUB</a> · 2026</p>
-    </div>
-  </footer>
-
-  <script>
+<p class="text-xs text-neutral-500 mt-3">✅ Como verificar: você tem um arquivo de backup salvo e um teste de caminho feliz passando. Se algo quebrar depois, você reimporta o JSON e volta ao estado bom.</p>
+</div>
+<h3 class="text-lg font-semibold text-purple-400 mb-3">Conceitos-chave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Export JSON</div><p class="text-xs text-neutral-400">Salve antes.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Linha de base</div><p class="text-xs text-neutral-400">Ponto de retorno.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Reversível</div><p class="text-xs text-neutral-400">Reimporte e volte.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-purple-400 font-semibold text-sm mb-1">Diagnóstico honesto</div><p class="text-xs text-neutral-400">Não culpe o novo.</p></div>
+</div>
+<!-- Checagem leve -->
+<div class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6" data-inema-check="modulo-3-2#q1">
+<p class="inema-check__q font-medium mb-4">Seu fluxo executou sem nenhum erro (tudo verde), mas ao abrir o rascunho você vê que ele citou "um ano" quando a política diz "30 dias". O que isso significa?</p>
+<div class="inema-check-options inema-check__options space-y-2">
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0" type="button">Está tudo certo — não houve erro de execução.</button>
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1" type="button">Verde ≠ correto: rodou, mas o conteúdo está errado e precisa de verificação/correção.</button>
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2" type="button">O fluxo precisa ser reconstruído do zero.</button>
+</div>
+<div aria-live="polite" class="mt-4 text-sm" data-inema-check-feedback="" role="status"></div>
+</div>
+<div class="flex justify-start mt-8">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done hidden">Lido</span>
+</button>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-8">
+<div class="bg-gradient-to-br from-purple-900/40 via-dark-800 to-dark-800 rounded-xl border border-purple-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📌</span> Resumo do Módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-neutral-100">Plan</strong><span class="text-neutral-400"> — pesquisa + perguntas + plano aprovado; a fase mais barata de mudar de ideia.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-neutral-100">Build</strong><span class="text-neutral-400"> — a IA constrói e valida; assista cedo e use bypass com critério.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-neutral-100">O que a IA não faz</strong><span class="text-neutral-400"> — credenciais, destinos e mapeamento são seus; chave nunca no chat.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-neutral-100">Troubleshoot</strong><span class="text-neutral-400"> — devolva a mensagem literal + local + o esperado; correção pontual.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-neutral-100">Optimize</strong><span class="text-neutral-400"> — uma camada por vez, na ordem erro → lógica → saída → performance.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-neutral-100">Verificar de verdade</strong><span class="text-neutral-400"> — feliz, borda e fora de escopo; verde ≠ correto.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-neutral-100">Backup antes de mudar</strong><span class="text-neutral-400"> — export JSON + linha de base; reverter sem perder o que funcionava.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-purple-400 mb-2">Próximo Módulo:</h3>
+<p class="text-neutral-300">3.3 — Biblioteca de Prompts Prontos (copy-run)</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="modulo-3-1.html">← Módulo anterior</a>
+<a class="flex-1 text-center px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-500 transition-colors" href="modulo-3-3.html">Próximo Módulo →</a>
+</div>
+</div>
+</section>
+</main>
+<!-- TOC sticky + scrollspy -->
+<aside class="hidden lg:block">
+<nav aria-label="Índice da página" class="sticky top-24 self-start" data-inema-toc="">
+<p class="text-sm text-neutral-400 mb-3">Seção <span data-inema-section-counter=""><span class="inema-toc-pos">1</span> de <span class="inema-toc-total">7</span></span></p>
+<ol class="space-y-1.5 text-sm">
+<li><a class="inema-toc-link text-neutral-400 hover:text-purple-400 block" href="#topico-1">1. Fase 1 — Plan</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-purple-400 block" href="#topico-2">2. Fase 2 — Build</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-purple-400 block" href="#topico-3">3. O que a IA não faz</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-purple-400 block" href="#topico-4">4. Fase 3 — Troubleshoot</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-purple-400 block" href="#topico-5">5. Fase 4 — Optimize</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-purple-400 block" href="#topico-6">6. Verificação &amp; testes</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-purple-400 block" href="#topico-7">7. Backup antes de mudar</a></li>
+</ol>
+</nav>
+</aside>
+</div>
+<footer class="border-t border-dark-600 py-8 mt-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Vibe Coding: Domínio Completo · Curso original <a class="text-sky-400 hover:text-sky-300 font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a> · 2026</p>
+</div>
+</footer>
+<script>
     const themeToggle = document.getElementById('theme-toggle');
     const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
     const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
@@ -870,9 +801,8 @@ melhorias — uma de cada vez, testando após cada uma.</pre>
       if (window.INEMA && INEMA.setPref) { INEMA.setPref('theme', isDark ? 'inema-dark' : 'claro'); }
     });
   </script>
-
-  <script src="../../assets/learn.js"></script>
-  <script>
+<script src="../../assets/learn.js"></script>
+<script>
     if (window.INEMA && typeof window.INEMA.init === 'function') {
       window.INEMA.init();
       if (window.INEMA.registerCheck) {
@@ -887,6 +817,5 @@ melhorias — uma de cada vez, testando após cada uma.</pre>
       }
     }
   </script>
-
 </body>
 </html>

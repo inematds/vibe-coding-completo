@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="vibe-coding-completo" name="inema-course"/>
+<!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
+<script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        } else {
+          var legacy = localStorage.getItem('theme');
+          if (legacy === 'light') p.theme = 'claro';
+          else if (legacy === 'dark') p.theme = 'inema-dark';
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'inema-dark': { dark: true,  attr: null,        cs: 'dark'  },
+        'claro':      { dark: false, attr: null,        cs: 'light' },
+        'sepia':      { dark: false, attr: 'sepia',     cs: 'light' },
+        'foco':       { dark: null,  attr: 'foco',      cs: null    },
+        'contraste':  { dark: true,  attr: 'contraste', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['inema-dark'];
+
+      if (t.dark === true) html.classList.add('dark');
+      else if (t.dark === false) html.classList.remove('dark');
+
+      if (t.attr) html.setAttribute('data-theme', t.attr);
+      else html.removeAttribute('data-theme');
+
+      html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark') ? 'dark' : 'light'));
+
+      html.setAttribute('data-font', p.font || 'inter');
+      html.setAttribute('data-accent', p.accent || 'emerald');
+
+      var s = html.style;
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--inema-font-scale', (scale / 100).toString());
+      s.setProperty('font-size', scale + '%');
+      s.setProperty('--measure', (+p.lineWidth || 68) + 'ch');
+      s.setProperty('--lh-body', (+p.leading || 1.7).toString());
+      var fam = p.font === 'system'
+        ? 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif'
+        : (p.font === 'leitura'
+          ? '"Atkinson Hyperlegible", "Inter", system-ui, sans-serif'
+          : '"Inter", system-ui, sans-serif');
+      s.setProperty('--font-body', fam);
+
+      var ACC = {
+        emerald: [152, 76, 45], blue: [217, 91, 60], purple: [258, 90, 66],
+        amber: [38, 92, 50], teal: [174, 72, 41], rose: [350, 89, 60]
+      };
+      var a = ACC[p.accent] || ACC.emerald;
+      s.setProperty('--accent-h', a[0] + '');
+      s.setProperty('--accent-s', a[1] + '%');
+      s.setProperty('--accent-l', a[2] + '%');
+      s.setProperty('--accent', 'hsl(' + a[0] + ' ' + a[1] + '% ' + a[2] + '%)');
+    } catch (err) {
+      try { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme = 'dark'; } catch (e) {}
+    }
+  })();
+  </script>
+<title>Ruta 5 · Proyectos prácticos (End-to-End) | Vibe Coding: Dominio completo</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
+<script data-inema-manifest="" type="application/json">
+  {
+    "course": "vibe-coding-completo",
+    "tracks": [
+      { "n": "1", "title": "Fundamentos & Glossário", "modules": [
+        { "id": "1-1", "title": "A Mentalidade do Vibe Coding", "topics": 7, "href": "curso/trilha1/modulo-1-1.html" },
+        { "id": "1-2", "title": "O Ecossistema: Como as Peças se Encaixam", "topics": 6, "href": "curso/trilha1/modulo-1-2.html" },
+        { "id": "1-3", "title": "Glossário Essencial (Parte 1: IA, Claude Code, n8n)", "topics": 7, "href": "curso/trilha1/modulo-1-3.html" },
+        { "id": "1-4", "title": "Glossário Essencial (Parte 2: Agêntico, RAG, Deploy, Segurança)", "topics": 6, "href": "curso/trilha1/modulo-1-4.html" }
+      ]},
+      { "n": "2", "title": "Técnica: Arquitetura & Engenharia", "modules": [
+        { "id": "2-1", "title": "Engenharia de CLAUDE.md", "topics": 6, "href": "curso/trilha2/modulo-2-1.html" },
+        { "id": "2-2", "title": "O Framework WAT a Fundo", "topics": 7, "href": "curso/trilha2/modulo-2-2.html" },
+        { "id": "2-3", "title": "MCP por Dentro", "topics": 7, "href": "curso/trilha2/modulo-2-3.html" },
+        { "id": "2-4", "title": "Contexto & Tokens", "topics": 6, "href": "curso/trilha2/modulo-2-4.html" },
+        { "id": "2-5", "title": "RAG & Dados", "topics": 6, "href": "curso/trilha2/modulo-2-5.html" }
+      ]},
+      { "n": "3", "title": "Prompts & Padrões de Conversa", "modules": [
+        { "id": "3-1", "title": "Os Padrões de Prompting", "topics": 7, "href": "curso/trilha3/modulo-3-1.html" },
+        { "id": "3-2", "title": "O Ciclo Plan → Build → Troubleshoot → Optimize", "topics": 7, "href": "curso/trilha3/modulo-3-2.html" },
+        { "id": "3-3", "title": "Biblioteca de Prompts Prontos (copy-run)", "topics": 8, "href": "curso/trilha3/modulo-3-3.html" }
+      ]},
+      { "n": "4", "title": "Skills & Agentes", "modules": [
+        { "id": "4-1", "title": "Skills: Conceito & Anatomia", "topics": 7, "href": "curso/trilha4/modulo-4-1.html" },
+        { "id": "4-2", "title": "Construindo Skills na Prática", "topics": 7, "href": "curso/trilha4/modulo-4-2.html" },
+        { "id": "4-3", "title": "Agentes: Locais, Agendados & por Evento", "topics": 8, "href": "curso/trilha4/modulo-4-3.html" }
+      ]},
+      { "n": "5", "title": "Projetos Práticos (End-to-End)", "modules": [
+        { "id": "5-1", "title": "Projeto: Agente de Suporte por E-mail com RAG", "topics": 8, "href": "curso/trilha5/modulo-5-1.html" },
+        { "id": "5-2", "title": "Projeto: Agentes Hospedados (Agendado + Webhook)", "topics": 8, "href": "curso/trilha5/modulo-5-2.html" },
+        { "id": "5-3", "title": "Projeto: App Full-Stack (Lead Qualifier) + Frontend pra n8n", "topics": 8, "href": "curso/trilha5/modulo-5-3.html" }
+      ]},
+      { "n": "6", "title": "Produção, Deploy & Segurança", "modules": [
+        { "id": "6-1", "title": "GitHub & Trigger.dev", "topics": 7, "href": "curso/trilha6/modulo-6-1.html" },
+        { "id": "6-2", "title": "Secrets & Segurança", "topics": 8, "href": "curso/trilha6/modulo-6-2.html" },
+        { "id": "6-3", "title": "Confiabilidade & Monetização", "topics": 7, "href": "curso/trilha6/modulo-6-3.html" }
+      ]}
+    ]
+  }
+  </script>
+<link href="../../../assets/learn.css" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+    [id] { scroll-margin-top: 5rem; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - acento da trilha (teal) + cores das outras trilhas no nav */
+    html:not(.dark) .text-teal-400 { color: #0d9488; }
+    html:not(.dark) .bg-teal-500\/20 { background-color: rgba(13, 148, 136, 0.12); }
+    html:not(.dark) .bg-teal-500\/10 { background-color: rgba(13, 148, 136, 0.08); }
+    html:not(.dark) .border-teal-500\/30 { border-color: rgba(13, 148, 136, 0.25); }
+    html:not(.dark) .hover\:bg-teal-500\/30:hover { background-color: rgba(13, 148, 136, 0.18); }
+    html:not(.dark) .hover\:bg-teal-500\/10:hover { background-color: rgba(13, 148, 136, 0.08); }
+    html:not(.dark) .hover\:text-teal-400:hover { color: #0d9488; }
+    html:not(.dark) .group:hover .group-hover\:text-teal-400 { color: #0d9488; }
+    html:not(.dark) .hover\:border-teal-500\/30:hover { border-color: rgba(13, 148, 136, 0.25); }
+    /* nav: outras trilhas (hover only) — amber/rose com texto -800 */
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5, 150, 105, 0.08); }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37, 99, 235, 0.08); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124, 58, 237, 0.08); }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .hover\:bg-amber-500\/10:hover { background-color: rgba(217, 119, 6, 0.08); }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .hover\:bg-rose-500\/10:hover { background-color: rgba(225, 29, 72, 0.08); }
+
+    /* Light mode - remove gradientes + cores especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    /* Dark mode - bordas suavizadas */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
+    }
+  </style>
+<link href="https://inematds.github.io/vibe-coding-completo/curso/trilha5/" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/en/curso/trilha5/" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/es/curso/trilha5/" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha5/" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha5/" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="./" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-teal-600 focus:text-white focus:rounded-lg" href="#conteudo">Saltar al contenido</a>
+<!-- NAVIGATION (T5 ativa) -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Técnica</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-teal-400 bg-teal-500/10" href="index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Proyectos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Producción</span>
+</a>
+<button class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-inema-journey-open="" type="button">
+<span aria-hidden="true">◷</span><span>Mi recorrido</span>
+<span class="inema-journey-badge hidden" data-count="0" data-inema-journey-badge=""></span>
+</button>
+<button aria-label="Alternar tema claro/oscuro" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20">
+<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+</svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- HEADER DA TRILHA -->
+<header class="bg-gradient-to-br from-teal-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-teal-500/20 text-teal-400 text-xs font-semibold rounded-full mb-4">RUTA 5</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🟦 Proyectos prácticos (end-to-end)</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">
+        Aquí todo se convierte en build. Tres proyectos completos, desde el prompt inicial hasta la verificación final: un <strong>agente de soporte por correo electrónico con RAG</strong>, dos <strong>agentes alojados</strong> (programado por cron y activado por webhook) y un <strong>app full-stack</strong> (Lead Qualifier) con autenticación, seguridad y pagos; además, un frontend para un workflow de n8n. Cada paso incluye el prompt real que copias, ejecutas y verificas.
+      </p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-teal-400">3</div>
+<div class="text-xs text-neutral-400">Módulos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-teal-400">24</div>
+<div class="text-xs text-neutral-400">Temas</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-teal-400">~4h</div>
+<div class="text-xs text-neutral-400">Duración</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-teal-400">Práctico</div>
+<div class="text-xs text-neutral-400">Nivel</div>
+</div>
+</div>
+<!-- progresso da trilha -->
+<div aria-label="Progreso de la ruta 5" aria-valuemax="100" aria-valuemin="0" class="mt-6 max-w-2xl" data-inema-meter="trilha:5" role="progressbar">
+<div class="flex items-center justify-between mb-1 text-sm">
+<span class="text-neutral-400">Progreso de la ruta</span>
+<span class="text-teal-400 font-semibold"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 24</span></span>
+</div>
+<div class="inema-bar h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-teal-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12" id="conteudo">
+<img alt="Banner de la ruta de proyectos: una idea que fluye por etapas en verde azulado hasta convertirse en una app en línea" class="w-full h-auto rounded-2xl border border-teal-500/30 mb-8 shadow-lg shadow-teal-500/5" loading="lazy" src="../../../assets/img/hero-t5.png"/>
+<!-- HERO SVG -->
+<section class="mb-12">
+<div class="rounded-2xl border border-teal-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden">
+<svg aria-label="El recorrido de la ruta 5: tres proyectos end-to-end que amplían su alcance: primero, un agente de soporte por correo electrónico con RAG que se ejecuta localmente; después, dos agentes alojados en la nube (uno programado y otro activado por webhook); y, por último, una app full-stack con frontend, autenticación, seguridad y pagos" class="w-full h-auto" role="img" viewbox="0 0 1000 230">
+<defs>
+<lineargradient id="t5-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#2dd4bf"></stop><stop offset="1" stop-color="#14b8a6"></stop>
+</lineargradient>
+<filter height="180%" id="t5-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="32" id="t5-grid" patternunits="userSpaceOnUse" width="32">
+<circle cx="1.3" cy="1.3" fill="#14b8a6" opacity="0.12" r="1.3"></circle>
+</pattern>
+<marker id="t5-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#2dd4bf"></path></marker>
+</defs>
+<rect fill="url(#t5-grid)" height="230" width="1000" x="0" y="0"></rect>
+<g fill="none" opacity="0.55" stroke="#2dd4bf" stroke-width="2">
+<path d="M338,115 L386,115" marker-end="url(#t5-ah)"></path>
+<path d="M648,115 L696,115" marker-end="url(#t5-ah)"></path>
+</g>
+<g filter="url(#t5-glow)"><rect fill="#0c211f" height="82" rx="16" stroke="url(#t5-grad)" stroke-width="2.5" width="298" x="40" y="74"></rect></g>
+<text fill="#2dd4bf" font-family="Inter,sans-serif" font-size="16" font-weight="600" text-anchor="middle" x="189" y="104">Módulo 5.1 · se ejecuta localmente</text>
+<text fill="#9beadd" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="189" y="126">Agente de soporte por correo electrónico + RAG</text>
+<text fill="#7fd6c9" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="189" y="144">PDF → clasificar → redactar</text>
+<rect fill="#0e1b26" height="82" rx="16" stroke="#38bdf8" stroke-width="2" width="262" x="386" y="74"></rect>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="16" font-weight="600" text-anchor="middle" x="517" y="104">Módulo 5.2 · en la nube</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="517" y="126">Agentes alojados</text>
+<text fill="#86c9f5" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="517" y="144">cron (programación) + webhook (evento)</text>
+<rect fill="#0c211f" height="82" rx="16" stroke="#2dd4bf" stroke-width="2" width="262" x="696" y="74"></rect>
+<text fill="#2dd4bf" font-family="Inter,sans-serif" font-size="16" font-weight="600" text-anchor="middle" x="827" y="104">Módulo 5.3 · en producción</text>
+<text fill="#9beadd" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="827" y="126">App full-stack (Lead Qualifier)</text>
+<text fill="#7fd6c9" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="827" y="144">frontend · autenticación · seguridad · pago</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mt-2">El recorrido de la ruta 5: desde el agente que se ejecuta en tu máquina, pasando por agentes que viven en la nube, hasta un producto completo que otras personas usan y pagan.</p>
+</section>
+<!-- MAPA DA TRILHA (OBRIGATORIO) -->
+<section class="mb-12">
+<h2 class="text-2xl font-bold mb-6">Mapa de la ruta</h2>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-teal-500/30 p-5 transition-all" href="#modulo-5-1">
+<div class="flex items-center justify-between mb-2">
+<span class="text-teal-400 font-bold text-sm">5.1</span>
+<span class="text-xs text-neutral-500">~75 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-teal-400 transition-colors">📧 Soporte por correo electrónico + RAG</h3>
+<p class="text-xs text-neutral-400">Lee políticas en PDF, clasifica y redacta la respuesta adecuada</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-teal-500/30 p-5 transition-all" href="#modulo-5-2">
+<div class="flex items-center justify-between mb-2">
+<span class="text-teal-400 font-bold text-sm">5.2</span>
+<span class="text-xs text-neutral-500">~75 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-teal-400 transition-colors">⏰ Agentes alojados</h3>
+<p class="text-xs text-neutral-400">Uno según agenda (cron), uno por evento (webhook)</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-teal-500/30 p-5 transition-all" href="#modulo-5-3">
+<div class="flex items-center justify-between mb-2">
+<span class="text-teal-400 font-bold text-sm">5.3</span>
+<span class="text-xs text-neutral-500">~90 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-teal-400 transition-colors">🚀 App full stack + frontend de n8n</h3>
+<p class="text-xs text-neutral-400">Lead Qualifier con auth, seguridad y pago</p>
+</a>
+</div>
+</section>
+<h2 class="text-2xl font-bold mb-6">Contenido detallado</h2>
+<!-- MÓDULO 5.1 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" data-inema-module="5-1" data-inema-track="5" id="modulo-5-1">
+<img alt="Ilustración del módulo 5.1" class="w-full h-32 sm:h-40 object-cover rounded-t-xl border-b border-teal-500/20" loading="lazy" src="../../../assets/img/thumb-5-1.png"/>
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-teal-400 font-bold">5.1</span>
+<span class="text-xs text-neutral-500">~75 min · 8 temas</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">📧 Proyecto: agente de soporte por correo electrónico con RAG</h3>
+<p class="text-neutral-400 text-sm">Un agente que lee las políticas de la empresa (PDF) para crear una base de conocimiento, clasifica cada correo electrónico recibido y redacta una respuesta respaldada por los documentos, y se niega a inventar cuando el tema está fuera de alcance. Construyes dos workflows (indexador + agente), conectas las credenciales, pruebas casos reales y aplicas los 6 enhancements.</p>
+<div class="mt-3" data-inema-meter="modulo:5-1">
+<div class="flex items-center justify-between mb-1 text-xs">
+<span class="text-neutral-500">Progreso del módulo</span>
+<span class="text-teal-400"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 8</span></span>
+</div>
+<div class="inema-bar h-1.5 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-teal-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button aria-controls="t51-1" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">🎯</span>
+<div><span class="font-medium">El alcance del proyecto</span><span class="text-neutral-500 text-sm ml-2">- Leer políticas en PDF → clasificar → redactar un borrador</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t51-1">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-teal-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Un agente que transforma documentos de políticas (devoluciones, garantía, plazos) en una base de conocimiento y la usa para responder correos electrónicos de soporte con fundamento.</p></div>
+<div><span class="text-teal-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Es el «hola, mundo» de los agentes útiles: combina RAG, clasificación y generación de texto en un caso de negocio real.</p></div>
+<div><span class="text-teal-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Alcance claro; borrador (sin envío automático); una persona debe aprobarlo.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t51-2" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">🏗️</span>
+<div><span class="font-medium">La arquitectura</span><span class="text-neutral-500 text-sm ml-2">- Dos workflows: indexador + agente</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t51-2">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-teal-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Separar quién "aprende" (el indexador, que lee PDFs y llena el vector store) de quién "responde" (el agente, que se activa cuando llega un nuevo correo electrónico).</p></div>
+<div><span class="text-teal-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Separar la indexación de la consulta permite probar cada parte fácilmente y ejecutarla a bajo costo.</p></div>
+<div><span class="text-teal-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Indexador (manual) vs. agente (trigger); vector store compartido; embeddings.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t51-3" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">📝</span>
+<div><span class="font-medium">El prompt de apertura integral</span><span class="text-neutral-500 text-sm ml-2">- Describir todo el proyecto de una vez</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t51-3">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-teal-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Un único prompt en Plan Mode que describe el resultado completo (trigger, base de conocimientos, clasificación, borrador, fallback) y deja que la IA proponga el plan.</p></div>
+<div><span class="text-teal-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Un buen prompt inicial ahorra horas: la IA pregunta qué falta antes de construir.</p></div>
+<div><span class="text-teal-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Plan Mode primero; describir el resultado; responder las preguntas aclaratorias.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t51-4" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">🔧</span>
+<div><span class="font-medium">Build de los dos workflows</span><span class="text-neutral-500 text-sm ml-2">- Crear, validar, conectar</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t51-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-teal-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">La IA arma el indexador (document loader → text splitter → embeddings → vector store) y el agente (Gmail trigger → classifier → retrieval → borrador).</p></div>
+<div><span class="text-teal-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Ver cómo se crean los nodos enseña la anatomía de un pipeline RAG real.</p></div>
+<div><span class="text-teal-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Ejecutar el indexador una vez; el agente lee del vector store; probar paso a paso.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t51-5" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">🔑</span>
+<div><span class="font-medium">Credenciales</span><span class="text-neutral-500 text-sm ml-2">- Gmail OAuth, OpenAI (lo que la IA no hace)</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t51-5">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-teal-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Conectar la cuenta de correo electrónico (OAuth) y la clave de la IA — algo que TÚ haces manualmente, porque la IA no tiene acceso a tus secretos (ni debería tenerlo).</p></div>
+<div><span class="text-teal-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Es la frontera clara entre el trabajo de la IA y el tuyo; el secreto nunca va al chat.</p></div>
+<div><span class="text-teal-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">OAuth = autorizar sin dar la contraseña; clave de API; la credencial queda en la herramienta.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t51-6" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">🧪</span>
+<div><span class="font-medium">Pruebas</span><span class="text-neutral-500 text-sm ml-2">- Devoluciones, garantías, fuera de alcance = no inventar</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t51-6">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-teal-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Envía correos de prueba para cada escenario: uno sobre devolución, uno sobre garantía y uno fuera de alcance (que el agente debe rechazar, no inventar).</p></div>
+<div><span class="text-teal-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Verde ≠ correcto: solo la prueba con casos reales revela si el RAG está fundamentando las respuestas.</p></div>
+<div><span class="text-teal-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Casos límite; negarse a inventar; verificar las cifras con la política.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t51-7" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">7</span>
+<span class="text-lg">✨</span>
+<div><span class="font-medium">Los 6 enhancements aplicados</span><span class="text-neutral-500 text-sm ml-2">- Alternativa, filtros, tono, nombre, confianza</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t51-7">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-teal-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Seis mejoras incrementales en lenguaje natural: alternativa cuando no hay confianza, filtro por tiempo, ignorar correos automáticos, ajustar el tono, firmar con tu nombre y usar un score de confianza.</p></div>
+<div><span class="text-teal-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Muestra en la práctica la iteración por capas: una mejora a la vez, probando cada una.</p></div>
+<div><span class="text-teal-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Iterar; pedir cambios en PT; una capa a la vez; puntuación de confianza.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t51-8" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">8</span>
+<span class="text-lg">✅</span>
+<div><span class="font-medium">Verificación final y lista de verificación</span><span class="text-neutral-500 text-sm ml-2">- ¿El proyecto está listo?</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t51-8">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-teal-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Una checklist objetiva: ¿indexa? ¿clasifica correctamente? ¿se basa en el documento? ¿rechaza lo que está fuera de alcance? ¿firma? ¿respeta el filtro de tiempo?</p></div>
+<div><span class="text-teal-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Definir "listo" evita el ciclo infinito de "una mejora más".</p></div>
+<div><span class="text-teal-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Definición de terminado; copia de seguridad (exportación JSON); una persona aprueba el borrador.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<a class="px-4 py-2 text-sm bg-teal-600 hover:bg-teal-500 text-white rounded-lg transition-colors" href="modulo-5-1.html">Ver completo</a>
+</div>
+</div>
+<!-- MÓDULO 5.2 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" data-inema-module="5-2" data-inema-track="5" id="modulo-5-2">
+<img alt="Ilustración del módulo 5.2" class="w-full h-32 sm:h-40 object-cover rounded-t-xl border-b border-teal-500/20" loading="lazy" src="../../../assets/img/thumb-5-2.png"/>
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-teal-400 font-bold">5.2</span>
+<span class="text-xs text-neutral-500">~75 min · 8 temas</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">⏰ Proyecto: Agentes alojados (programado + webhook)</h3>
+<p class="text-neutral-400 text-sm">Sacar el agente de tu máquina y ponerlo en la nube para que funcione solo. Construyes dos: uno <strong>programado</strong> (cron → búsqueda en la web con Firecrawl → síntesis → Google Sheets) y un <strong>por evento</strong> (el webhook recibe un payload → genera un .docx → lo guarda en Drive). En el camino: OAuth refresh token, debug que solo aparece en producción, auth Bearer, formulario no-code y deploy automático mediante GitHub.</p>
+<div class="mt-3" data-inema-meter="modulo:5-2">
+<div class="flex items-center justify-between mb-1 text-xs">
+<span class="text-neutral-500">Progreso del módulo</span>
+<span class="text-teal-400"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 8</span></span>
+</div>
+<div class="inema-bar h-1.5 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-teal-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button aria-controls="t52-1" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">🔁</span>
+<div><span class="font-medium">Agente de investigación programado</span><span class="text-neutral-500 text-sm ml-2">- cron → Firecrawl → síntesis → Sheets</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t52-1">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-teal-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Un agente que se activa según una agenda (cron), busca contenido en la web (Firecrawl), lo resume y registra cada fila en una hoja de cálculo, sin que tú estés presente.</p></div>
+<div><span class="text-teal-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Es el primer agente que «vive solo»: cierra la brecha agentic entre el entorno local y producción.</p></div>
+<div><span class="text-teal-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Cron (5 campos); scraping; síntesis; salida estructurada en Sheets.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t52-2" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">🔐</span>
+<div><span class="font-medium">OAuth refresh token</span><span class="text-neutral-500 text-sm ml-2">- Y la alternativa mediante terminal</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t52-2">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-teal-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">En la nube no hay ventana de inicio de sesión: el agente usa un refresh token para renovar el acceso por su cuenta, y cuando la interfaz falla, lo obtienes desde la terminal.</p></div>
+<div><span class="text-teal-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Es el problema clásico del alojamiento; conocer la alternativa permite destrabar el deploy.</p></div>
+<div><span class="text-teal-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Access vs refresh token; renovación automática; alternativa desde la terminal.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t52-3" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">🐛</span>
+<div><span class="font-medium">Debug que solo aparece en producción</span><span class="text-neutral-500 text-sm ml-2">- Traza → IA → corrección → redeploy</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t52-3">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-teal-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Errores que no ocurren localmente (timeout, variable de entorno ausente, formato de fecha) y cómo encontrarlos leyendo el trace y devolviendo el error con contexto a la IA.</p></div>
+<div><span class="text-teal-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">La producción tiene su propia realidad; el ciclo humano de depuración es la habilidad central.</p></div>
+<div><span class="text-teal-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Trace = paso a paso; devolver el error; redeploy; logs significativos.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t52-4" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">📄</span>
+<div><span class="font-medium">Informe por webhook</span><span class="text-neutral-500 text-sm ml-2">- payload → .docx → Drive</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t52-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-teal-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">El segundo agente: recibe un payload mediante webhook, crea un documento .docx con formato y lo guarda en Google Drive, y devuelve el enlace.</p></div>
+<div><span class="text-teal-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Enseña la activación por evento: el agente responde a una solicitud externa, no a un reloj.</p></div>
+<div><span class="text-teal-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Payload = datos del pedido; generar el archivo; guardar y devolver el enlace.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t52-5" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">🔔</span>
+<div><span class="font-medium">Webhook como "timbre digital"</span><span class="text-neutral-500 text-sm ml-2">- + auth Bearer</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t52-5">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-teal-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Un webhook es una URL que, al «tocarla», activa el agente. Como es pública, la proteges con un token Bearer en el encabezado.</p></div>
+<div><span class="text-teal-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Sin auth, cualquiera puede tocar el timbre; Bearer es el candado básico.</p></div>
+<div><span class="text-teal-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">URL de activación; header Authorization: Bearer; rechazar si no hay token.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t52-6" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">📋</span>
+<div><span class="font-medium">Form sin código → webhook</span><span class="text-neutral-500 text-sm ml-2">- Quién toca el timbre</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t52-6">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-teal-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Un formulario simple (no-code) que, al enviarse, hace la solicitud al webhook con el payload, y así ofrece una interfaz humana para el agente.</p></div>
+<div><span class="text-teal-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Conecta a una persona real con el agente sin que tengas que escribir todavía el frontend.</p></div>
+<div><span class="text-teal-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Form → POST; mapear campos en el payload; pasar el token.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t52-7" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">7</span>
+<span class="text-lg">🐙</span>
+<div><span class="font-medium">Pipeline de GitHub → deploy automático</span><span class="text-neutral-500 text-sm ml-2">- Del commit a producción</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t52-7">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-teal-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Conectar el repositorio de GitHub a la plataforma de hosting para que cada push haga el deploy automáticamente.</p></div>
+<div><span class="text-teal-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Elimina el deploy manual del proceso; el código del repo es la fuente de la verdad.</p></div>
+<div><span class="text-teal-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">commit/push; deploy al hacer push; .gitignore protege el .env.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t52-8" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">8</span>
+<span class="text-lg">📊</span>
+<div><span class="font-medium">Verificar runs, traces y el schedule</span><span class="text-neutral-500 text-sm ml-2">- El dashboard de producción</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t52-8">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-teal-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Lee el panel: cada run (ejecución), su trace (paso a paso), el schedule activo y la separación entre dev y prod.</p></div>
+<div><span class="text-teal-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Si no estás presente, el dashboard es lo que te permite saber si el agente está funcionando bien.</p></div>
+<div><span class="text-teal-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Runs; traces; schedules; dev vs. prod; alertas ante fallos.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<a class="px-4 py-2 text-sm bg-teal-600 hover:bg-teal-500 text-white rounded-lg transition-colors" href="modulo-5-2.html">Ver completo</a>
+</div>
+</div>
+<!-- MÓDULO 5.3 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" data-inema-module="5-3" data-inema-track="5" id="modulo-5-3">
+<img alt="Ilustración del módulo 5.3" class="w-full h-32 sm:h-40 object-cover rounded-t-xl border-b border-teal-500/20" loading="lazy" src="../../../assets/img/thumb-5-3.png"/>
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-teal-400 font-bold">5.3</span>
+<span class="text-xs text-neutral-500">~90 min · 8 temas</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">🚀 Proyecto: app full stack (Lead Qualifier) + frontend para n8n</h3>
+<p class="text-neutral-400 text-sm">El proyecto más ambicioso: una app que otras personas usan. Backend que califica leads (Trigger.dev) + frontend (Vercel), conectados mediante variables de entorno. Después agregas autenticación (Supabase + RLS), haces una auditoría de seguridad, cobras con Stripe (freemium) y también construyes un frontend para un workflow de n8n (form → webhook). Todo mediante iteraciones incrementales: diseño → autenticación → pago.</p>
+<div class="mt-3" data-inema-meter="modulo:5-3">
+<div class="flex items-center justify-between mb-1 text-xs">
+<span class="text-neutral-500">Progreso del módulo</span>
+<span class="text-teal-400"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 8</span></span>
+</div>
+<div class="inema-bar h-1.5 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-teal-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button aria-controls="t53-1" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">🏛️</span>
+<div><span class="font-medium">La arquitectura</span><span class="text-neutral-500 text-sm ml-2">- Backend Trigger.dev + frontend Vercel</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t53-1">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-teal-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">El modelo de dos extremos: el frontend (lo que ve el usuario, en Vercel) llama al backend (la lógica del agente, en Trigger.dev), que hace el trabajo pesado.</p></div>
+<div><span class="text-teal-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Entender la división entre front y back es lo que permite construir productos, no solo automatizaciones.</p></div>
+<div><span class="text-teal-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Frontend vs. backend; request/response; dos deploys separados.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t53-2" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">⚙️</span>
+<div><span class="font-medium">Build del lead qualifier</span><span class="text-neutral-500 text-sm ml-2">- Del prompt a la app</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t53-2">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-teal-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Una app que recibe los datos de un lead, los puntúa/califica con IA y devuelve la clasificación, construida a partir de un prompt inicial completo.</p></div>
+<div><span class="text-teal-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Repite el patrón «describe el resultado completo» ahora en un contexto full-stack.</p></div>
+<div><span class="text-teal-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Entradas fijas; salida estructurada; lógica de calificación.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t53-3" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">🔌</span>
+<div><span class="font-medium">Conectar frontend ↔ backend</span><span class="text-neutral-500 text-sm ml-2">- Mediante variables de entorno</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t53-3">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-teal-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">El frontend descubre dónde está el backend (y la clave de acceso) mediante variables de entorno, nunca mediante un valor escrito en el código.</p></div>
+<div><span class="text-teal-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Es la costura que hace que ambos extremos se comuniquen de forma segura.</p></div>
+<div><span class="text-teal-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Variable de entorno; URL del backend; clave en tiempo de ejecución, no en el código.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t53-4" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">👤</span>
+<div><span class="font-medium">Autenticación con Supabase + RLS</span><span class="text-neutral-500 text-sm ml-2">- Inicio de sesión y aislamiento de datos</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t53-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-teal-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Agregar inicio de sesión (Supabase) y Row Level Security (RLS), que garantiza en la propia base de datos que cada usuario solo vea sus propios datos.</p></div>
+<div><span class="text-teal-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Sin RLS, incluso un usuario con el inicio de sesión correcto puede leer datos ajenos; RLS es la defensa a nivel de datos.</p></div>
+<div><span class="text-teal-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Auth; RLS; migration; cada fila pertenece a un usuario.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t53-5" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">🛡️</span>
+<div><span class="font-medium">Auditoría de seguridad</span><span class="text-neutral-500 text-sm ml-2">- Rutas, claves, env, RLS</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t53-5">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-teal-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Pedirle a la IA un análisis: rutas sin protección, claves expuestas, env vars filtrándose al cliente, RLS ausente.</p></div>
+<div><span class="text-teal-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Una app abierta = riesgo: alguien puede gastar tus tokens o leer datos ajenos.</p></div>
+<div><span class="text-teal-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Superficie de ataque; clave en el servidor; ningún secreto en el cliente.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t53-6" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">💳</span>
+<div><span class="font-medium">Pagos con Stripe</span><span class="text-neutral-500 text-sm ml-2">- Modelo freemium</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t53-6">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-teal-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Agregar el checkout de Stripe y un modelo freemium: uso gratis hasta un límite; después, un plan pago habilitado por webhook.</p></div>
+<div><span class="text-teal-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Transforma una app en un producto: ingresos reales con un flujo que se puede probar.</p></div>
+<div><span class="text-teal-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Checkout; price ID; webhook secret; freemium; límite de uso.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t53-7" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">7</span>
+<span class="text-lg">🖥️</span>
+<div><span class="font-medium">Frontend para un workflow de n8n</span><span class="text-neutral-500 text-sm ml-2">- formulario → webhook</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t53-7">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-teal-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Darle un aspecto amigable a un workflow de n8n: una página con un formulario que envía los datos al webhook del flujo y muestra el resultado.</p></div>
+<div><span class="text-teal-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Combina los dos mundos del curso: automatización n8n con interfaz de app.</p></div>
+<div><span class="text-teal-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Form → POST webhook; CORS; muestra la respuesta; URL del webhook en env var.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t53-8" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">8</span>
+<span class="text-lg">🪜</span>
+<div><span class="font-medium">Iteración incremental</span><span class="text-neutral-500 text-sm ml-2">- diseño → autenticación → pago</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t53-8">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-teal-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">El orden que funciona: primero la app fea pero funcional, después el diseño, luego la autenticación y, por último, el pago: una capa a la vez.</p></div>
+<div><span class="text-teal-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Iterar por capas mantiene cada paso comprobable y reversible.</p></div>
+<div><span class="text-teal-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Primero el MVP; una capa a la vez; haz una copia de seguridad antes de cambiar; prueba en cada paso.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<a class="px-4 py-2 text-sm bg-teal-600 hover:bg-teal-500 text-white rounded-lg transition-colors" href="modulo-5-3.html">Ver completo</a>
+</div>
+</div>
+<!-- NAVEGAÇÃO ENTRE TRILHAS -->
+<div class="flex flex-col sm:flex-row gap-4 mt-10">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="../trilha4/index.html">← Ruta 4: Skills y agentes</a>
+<a class="flex-1 text-center px-6 py-3 bg-rose-600 text-white rounded-lg font-semibold hover:bg-rose-500 transition-colors" href="../trilha6/index.html">Ruta 6: Producción →</a>
+</div>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Vibe Coding: Dominio completo · Curso original <a class="text-sky-400 hover:text-sky-300 font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a> · 2026</p>
+</div>
+</footer>
+<script>
+    function toggleTopic(button) {
+      const topicItem = button.closest('.topic-item');
+      const explanation = topicItem.querySelector('.topic-explanation');
+      const moduleCard = button.closest('.bg-dark-800');
+      moduleCard.querySelectorAll('.topic-explanation.active').forEach(exp => {
+        if (exp !== explanation) {
+          exp.classList.remove('active');
+          const b = exp.closest('.topic-item').querySelector('button');
+          if (b) b.setAttribute('aria-expanded', 'false');
+        }
+      });
+      const willOpen = !explanation.classList.contains('active');
+      explanation.classList.toggle('active');
+      button.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+    }
+
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const htmlEl = document.documentElement;
+    if (htmlEl.classList.contains('dark')) { themeToggleLightIcon.classList.remove('hidden'); }
+    else { themeToggleDarkIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      htmlEl.classList.toggle('dark');
+      const isDark = htmlEl.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      if (window.INEMA && INEMA.setPref) { INEMA.setPref('theme', isDark ? 'inema-dark' : 'claro'); }
+    });
+  </script>
+<script src="../../../assets/learn.js"></script>
+<script>
+    if (window.INEMA && typeof window.INEMA.init === 'function') { window.INEMA.init(); }
+  </script>
+</body>
+</html>

@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="vibe-coding-completo" name="inema-course"/>
+<!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
+<script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        } else {
+          var legacy = localStorage.getItem('theme');
+          if (legacy === 'light') p.theme = 'claro';
+          else if (legacy === 'dark') p.theme = 'inema-dark';
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'inema-dark': { dark: true,  attr: null,        cs: 'dark'  },
+        'claro':      { dark: false, attr: null,        cs: 'light' },
+        'sepia':      { dark: false, attr: 'sepia',     cs: 'light' },
+        'foco':       { dark: null,  attr: 'foco',      cs: null    },
+        'contraste':  { dark: true,  attr: 'contraste', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['inema-dark'];
+
+      if (t.dark === true) html.classList.add('dark');
+      else if (t.dark === false) html.classList.remove('dark');
+
+      if (t.attr) html.setAttribute('data-theme', t.attr);
+      else html.removeAttribute('data-theme');
+
+      html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark') ? 'dark' : 'light'));
+
+      html.setAttribute('data-font', p.font || 'inter');
+      html.setAttribute('data-accent', p.accent || 'emerald');
+
+      var s = html.style;
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--inema-font-scale', (scale / 100).toString());
+      s.setProperty('font-size', scale + '%');
+      s.setProperty('--measure', (+p.lineWidth || 68) + 'ch');
+      s.setProperty('--lh-body', (+p.leading || 1.7).toString());
+      var fam = p.font === 'system'
+        ? 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif'
+        : (p.font === 'leitura'
+          ? '"Atkinson Hyperlegible", "Inter", system-ui, sans-serif'
+          : '"Inter", system-ui, sans-serif');
+      s.setProperty('--font-body', fam);
+
+      var ACC = {
+        emerald: [152, 76, 45], blue: [217, 91, 60], purple: [258, 90, 66],
+        amber: [38, 92, 50], teal: [174, 72, 41], rose: [350, 89, 60]
+      };
+      var a = ACC[p.accent] || ACC.emerald;
+      s.setProperty('--accent-h', a[0] + '');
+      s.setProperty('--accent-s', a[1] + '%');
+      s.setProperty('--accent-l', a[2] + '%');
+      s.setProperty('--accent', 'hsl(' + a[0] + ' ' + a[1] + '% ' + a[2] + '%)');
+    } catch (err) {
+      try { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme = 'dark'; } catch (e) {}
+    }
+  })();
+  </script>
+<title>Módulo 2.5 · RAG &amp; datos | Vibe Coding: Dominio completo</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
+<script data-inema-manifest="" type="application/json">
+  {
+    "course": "vibe-coding-completo",
+    "tracks": [
+      { "n": "1", "title": "Fundamentos & Glossário", "modules": [
+        { "id": "1-1", "title": "A Mentalidade do Vibe Coding", "topics": 7, "href": "curso/trilha1/modulo-1-1.html" },
+        { "id": "1-2", "title": "O Ecossistema: Como as Peças se Encaixam", "topics": 6, "href": "curso/trilha1/modulo-1-2.html" },
+        { "id": "1-3", "title": "Glossário Essencial (Parte 1: IA, Claude Code, n8n)", "topics": 7, "href": "curso/trilha1/modulo-1-3.html" },
+        { "id": "1-4", "title": "Glossário Essencial (Parte 2: Agêntico, RAG, Deploy, Segurança)", "topics": 6, "href": "curso/trilha1/modulo-1-4.html" }
+      ]},
+      { "n": "2", "title": "Técnica: Arquitetura & Engenharia", "modules": [
+        { "id": "2-1", "title": "Engenharia de CLAUDE.md", "topics": 6, "href": "curso/trilha2/modulo-2-1.html" },
+        { "id": "2-2", "title": "O Framework WAT a Fundo", "topics": 7, "href": "curso/trilha2/modulo-2-2.html" },
+        { "id": "2-3", "title": "MCP por Dentro", "topics": 7, "href": "curso/trilha2/modulo-2-3.html" },
+        { "id": "2-4", "title": "Contexto & Tokens", "topics": 6, "href": "curso/trilha2/modulo-2-4.html" },
+        { "id": "2-5", "title": "RAG & Dados", "topics": 6, "href": "curso/trilha2/modulo-2-5.html" }
+      ]},
+      { "n": "3", "title": "Prompts & Padrões de Conversa", "modules": [
+        { "id": "3-1", "title": "Os Padrões de Prompting", "topics": 7, "href": "curso/trilha3/modulo-3-1.html" },
+        { "id": "3-2", "title": "O Ciclo Plan → Build → Troubleshoot → Optimize", "topics": 7, "href": "curso/trilha3/modulo-3-2.html" },
+        { "id": "3-3", "title": "Biblioteca de Prompts Prontos (copy-run)", "topics": 8, "href": "curso/trilha3/modulo-3-3.html" }
+      ]},
+      { "n": "4", "title": "Skills & Agentes", "modules": [
+        { "id": "4-1", "title": "Skills: Conceito & Anatomia", "topics": 7, "href": "curso/trilha4/modulo-4-1.html" },
+        { "id": "4-2", "title": "Construindo Skills na Prática", "topics": 7, "href": "curso/trilha4/modulo-4-2.html" },
+        { "id": "4-3", "title": "Agentes: Locais, Agendados & por Evento", "topics": 8, "href": "curso/trilha4/modulo-4-3.html" }
+      ]},
+      { "n": "5", "title": "Projetos Práticos (End-to-End)", "modules": [
+        { "id": "5-1", "title": "Projeto: Agente de Suporte por E-mail com RAG", "topics": 8, "href": "curso/trilha5/modulo-5-1.html" },
+        { "id": "5-2", "title": "Projeto: Agentes Hospedados (Agendado + Webhook)", "topics": 8, "href": "curso/trilha5/modulo-5-2.html" },
+        { "id": "5-3", "title": "Projeto: App Full-Stack (Lead Qualifier) + Frontend pra n8n", "topics": 8, "href": "curso/trilha5/modulo-5-3.html" }
+      ]},
+      { "n": "6", "title": "Produção, Deploy & Segurança", "modules": [
+        { "id": "6-1", "title": "GitHub & Trigger.dev", "topics": 7, "href": "curso/trilha6/modulo-6-1.html" },
+        { "id": "6-2", "title": "Secrets & Segurança", "topics": 8, "href": "curso/trilha6/modulo-6-2.html" },
+        { "id": "6-3", "title": "Confiabilidade & Monetização", "topics": 7, "href": "curso/trilha6/modulo-6-3.html" }
+      ]}
+    ]
+  }
+  </script>
+<link href="../../../assets/learn.css" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+    [id] { scroll-margin-top: 5rem; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - acento (blue, T2 ativa) + cores das outras trilhas no nav */
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .bg-blue-500\/20 { background-color: rgba(37, 99, 235, 0.12); }
+    html:not(.dark) .bg-blue-500\/10 { background-color: rgba(37, 99, 235, 0.08); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37, 99, 235, 0.25); }
+    html:not(.dark) .hover\:bg-blue-500\/30:hover { background-color: rgba(37, 99, 235, 0.18); }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37, 99, 235, 0.08); }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .text-blue-300 { color: #1d4ed8; }
+    html:not(.dark) .bg-blue-900\/20 { background-color: rgba(37, 99, 235, 0.08); }
+    /* nav: outras trilhas (hover) — emerald/purple/amber/teal/rose */
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5, 150, 105, 0.08); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124, 58, 237, 0.08); }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .hover\:bg-amber-500\/10:hover { background-color: rgba(217, 119, 6, 0.08); }
+    html:not(.dark) .hover\:text-teal-400:hover { color: #0d9488; }
+    html:not(.dark) .hover\:bg-teal-500\/10:hover { background-color: rgba(13, 148, 136, 0.08); }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .hover\:bg-rose-500\/10:hover { background-color: rgba(225, 29, 72, 0.08); }
+    html:not(.dark) .text-red-400 { color: #dc2626; }
+    html:not(.dark) .bg-red-900\/20 { background-color: rgba(220, 38, 38, 0.07); }
+    html:not(.dark) .border-red-500\/30 { border-color: rgba(220, 38, 38, 0.25); }
+
+    /* Light mode - remove gradientes + cores especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    /* Dark mode - bordas suavizadas */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* TOC scrollspy active link */
+    .inema-toc-link.is-active, [data-inema-toc] a.is-active { color: #60a5fa; font-weight: 600; }
+    html:not(.dark) [data-inema-toc] a.is-active { color: #2563eb; }
+
+    /* code box (copy-run) */
+    .codebox pre { white-space: pre; }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
+    }
+  </style>
+<link href="https://inematds.github.io/vibe-coding-completo/curso/trilha2/modulo-2-5.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/en/curso/trilha2/modulo-2-5.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/es/curso/trilha2/modulo-2-5.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha2/modulo-2-5.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha2/modulo-2-5.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="modulo-2-5.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-blue-600 focus:text-white focus:rounded-lg" href="#conteudo">Saltar al contenido</a>
+<!-- NAVIGATION (T2 ativa) -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10" href="index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Técnica</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Proyectos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Producción</span>
+</a>
+<button class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-inema-journey-open="" type="button">
+<span aria-hidden="true">◷</span><span>Mi recorrido</span>
+<span class="inema-journey-badge hidden" data-count="0" data-inema-journey-badge=""></span>
+</button>
+<button aria-label="Alternar tema claro/oscuro" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20">
+<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+</svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav aria-label="Ruta de navegación" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-blue-400" href="../../index.html">Inicio</a>
+<span>/</span>
+<a class="hover:text-blue-400" href="index.html">Ruta 2</a>
+<span>/</span>
+<span class="text-blue-400">Módulo 2.5</span>
+</div>
+</nav>
+<!-- HEADER DO MÓDULO -->
+<header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4">MÓDULO 2.5</span>
+<h3 class="text-2xl font-bold mb-4">🗂️ RAG y datos</h3>
+<p class="text-lg text-neutral-400 max-w-3xl">La IA solo responde sobre lo que está <strong class="text-blue-300">a su alcance</strong> — lo que se incorporó al contexto o se entrenó. Para que el agente hable de los <strong>tus</strong> datos (políticas, preguntas frecuentes, manuales), tienes que darle <strong>memoria</strong> e <strong>fuentes confiables</strong>. Es lo que el <strong class="text-blue-300">RAG (retrieval-augmented generation)</strong> hace: él <em>recupera</em> el fragmento adecuado de tus documentos y se lo entrega al agente antes de generar la respuesta. Sin una fuente, la IA inventa o se equivoca; con RAG, responde basándose en lo que es tuyo.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-blue-400">6</div>
+<div class="text-xs text-neutral-400">Temas</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-blue-400">~45</div>
+<div class="text-xs text-neutral-400">Minutos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-blue-400">Inter.</div>
+<div class="text-xs text-neutral-400">Nivel</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-blue-400">Datos</div>
+<div class="text-xs text-neutral-400">Tipo</div>
+</div>
+</div>
+<div aria-label="Progreso del módulo 2.5" aria-valuemax="100" aria-valuemin="0" class="mt-6 max-w-2xl" data-inema-meter="modulo:2-5" role="progressbar">
+<div class="flex items-center justify-between mb-1 text-sm">
+<span class="text-neutral-400">Progreso del módulo</span>
+<span class="text-blue-400 font-semibold"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 6</span></span>
+</div>
+<div class="inema-bar h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-blue-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+</header>
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:grid lg:grid-cols-[1fr_220px] lg:gap-10">
+<main class="min-w-0" id="conteudo">
+<!-- intro + SVG visão geral (pipeline RAG) -->
+<section class="mb-12">
+<p class="text-neutral-300 mb-4 inema-prose leading-relaxed">RAG tiene dos mitades que viven en <strong>flujos separados</strong>. Una prepara la base: indexas los documentos (los divides en fragmentos, los conviertes en números y los guardas en un <em>vector store</em>). La otra responde: la pregunta pasa por un <strong>clasificador</strong> que decide si vale la pena usar al agente; el agente busca el fragmento relevante en el vector store y responde <strong>anclado</strong> en este fragmento y, cuando no encuentra nada, cae en un <em>fallback</em> ser honesto en lugar de inventar.</p>
+<div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="Pipeline de RAG en dos mitades: en la indexación, los documentos pasan por un indexador que los divide en fragmentos y genera embeddings, que alimentan el vector store; en la consulta, una pregunta pasa por un clasificador, llega al agente, que busca en el vector store y devuelve una respuesta fundamentada, con una rama de fallback cuando no hay ningún fragmento relevante" class="w-full h-auto" role="img" viewbox="0 0 1000 250">
+<defs>
+<lineargradient id="m25-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#60a5fa"></stop><stop offset="1" stop-color="#3b82f6"></stop>
+</lineargradient>
+<filter height="180%" id="m25-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="32" id="m25-grid" patternunits="userSpaceOnUse" width="32">
+<circle cx="1.3" cy="1.3" fill="#3b82f6" opacity="0.12" r="1.3"></circle>
+</pattern>
+<marker id="m25-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#64748b"></path></marker>
+<marker id="m25-ahb" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#60a5fa"></path></marker>
+<marker id="m25-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m25-grid)" height="250" width="1000" x="0" y="0"></rect>
+<!-- linha de cima: indexação -->
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="40" y="40">Indexación: preparar la base (se ejecuta una vez / al actualizar)</text>
+<rect fill="#0e1b2e" height="36" rx="9" stroke="#60a5fa" stroke-width="1.8" width="120" x="40" y="52"></rect><text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="100" y="75">documentos</text>
+<g fill="none" opacity="0.7" stroke="#60a5fa" stroke-width="2"><path d="M160,70 L208,70" marker-end="url(#m25-ahb)"></path></g>
+<rect fill="#0e1b2e" height="40" rx="10" stroke="#3b82f6" stroke-width="2" width="180" x="208" y="50"></rect><text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="298" y="68">indexador</text><text fill="#93c5fd" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="298" y="83">fragmentos + embeddings</text>
+<g fill="none" opacity="0.7" stroke="#60a5fa" stroke-width="2"><path d="M388,70 L436,70" marker-end="url(#m25-ahb)"></path></g>
+<g filter="url(#m25-glow)"><rect fill="#0e1b2e" height="44" rx="12" stroke="url(#m25-grad)" stroke-width="2.5" width="170" x="436" y="48"></rect></g>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="521" y="68">vector store</text><text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="521" y="84">memoria de búsqueda</text>
+<!-- linha de baixo: consulta -->
+<text fill="#38bdf8" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="40" y="150">Consulta — responder con fundamento (en cada pregunta)</text>
+<rect fill="#1e293b" height="40" rx="10" stroke="#94a3b8" stroke-width="1.8" width="110" x="40" y="162"></rect><text fill="#e2e8f0" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="95" y="186">pregunta</text>
+<g fill="none" opacity="0.7" stroke="#94a3b8" stroke-width="2"><path d="M150,182 L196,182" marker-end="url(#m25-ah)"></path></g>
+<rect fill="#1e293b" height="40" rx="10" stroke="#94a3b8" stroke-width="1.8" width="120" x="196" y="162"></rect><text fill="#e2e8f0" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="256" y="186">clasificador</text>
+<g fill="none" opacity="0.7" stroke="#38bdf8" stroke-width="2"><path d="M316,182 L364,182" marker-end="url(#m25-ahc)"></path></g>
+<rect fill="#0e2533" height="44" rx="12" stroke="#38bdf8" stroke-width="2.5" width="150" x="364" y="160"></rect><text fill="#bae6fd" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="439" y="178">🤖 agente</text><text fill="#7dd3fc" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="439" y="194">consulta el vector store</text>
+<g fill="none" opacity="0.6" stroke="#38bdf8" stroke-width="2"><path d="M514,170 C560,170 560,90 600,80" marker-end="url(#m25-ahc)"></path></g>
+<g fill="none" opacity="0.6" stroke="#60a5fa" stroke-width="2"><path d="M606,82 C570,110 560,150 514,176" marker-end="url(#m25-ahb)"></path></g>
+<g fill="none" opacity="0.7" stroke="#38bdf8" stroke-width="2">
+<path d="M514,188 C560,188 580,176 626,176" marker-end="url(#m25-ahc)"></path>
+<path d="M514,196 C560,196 580,214 626,214" marker-end="url(#m25-ahc)"></path>
+</g>
+<g class="wf-a"><rect fill="#0e2533" height="36" rx="9" stroke="#38bdf8" stroke-width="2" width="220" x="626" y="158"></rect><text fill="#bae6fd" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="736" y="181">respuesta fundamentada (encontró un fragmento)</text></g>
+<g class="wf-a"><rect fill="#2a1410" height="36" rx="9" stroke="#f87171" stroke-width="2" width="220" x="626" y="200"></rect><text fill="#fecaca" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="736" y="223">fallback honesto (no lo encontró)</text></g>
+</svg>
+</div>
+<p class="text-xs text-neutral-500">Diagrama ilustrativo — la indexación (azul) está separada de la consulta (cian). El agente busca el fragmento; cuando nada es relevante, sigue la rama de respaldo en lugar de inventar.</p>
+</section>
+<!-- TÓPICO 1 -->
+<section class="mb-16" data-inema-topic="modulo-2-5#topico-1" id="topico-1">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">❓ El problema: la IA no sabe lo que no está en el contexto</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-5-t1-p1">
+          Un modelo de IA solo responde sobre dos cosas: lo que aprendió en el <strong>entrenamiento</strong> (conocimiento general, con fecha de corte) y lo que está en el <strong class="text-blue-400">contexto</strong> de esa conversación (lo que pegaste ahí). No tiene acceso mágico a los <strong>tus</strong> archivos. Si no pones la política de cambios, las preguntas frecuentes o el manual a su alcance, simplemente no los conoce.
+        </p>
+<div class="bg-dark-800 border border-blue-500/30 rounded-xl p-4 mb-4">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Contexto</strong> — la «ventana» de texto que la IA ve en una conversación: instrucciones, mensajes y cualquier documento que hayas adjuntado. <strong>RAG</strong> — <em>generación aumentada por recuperación</em>: el patrón de buscar el fragmento correcto de tus datos e insertarlo en el contexto antes de que la IA genere la respuesta.</p>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m2-5-t1-p2">
+          El peligro es sutil: sin la fuente a mano, la IA no se queda callada; tiende a <strong>llenar el vacío</strong>, inventando un plazo, un monto o una regla que parecen plausibles. Eso es una alucinación. RAG existe justamente para cerrar esa brecha: en vez de cruzar los dedos para que el modelo "recuerde" tu política, te aseguras de que el texto de la política esté en el contexto en el momento adecuado. Ese es el <em>porqué</em> de todo lo que viene a continuación en este módulo.
+        </p>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Por qué aprender</h3>
+<div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+<p class="text-neutral-300 mb-3 inema-prose" data-inema-block="m2-5-t1-p3">Quien entiende este límite deja de exigirle lo imposible a la IA y empieza a darle la información correcta. En vez de "¿por qué no conoce mi política?", la pregunta pasa a ser "¿cómo pongo mi política a su alcance?".</p>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">•</span><span><strong>Sin fuente, no hay verdad:</strong> la IA no inventa a propósito: completa los vacíos.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">•</span><span><strong>Tus datos = al alcance:</strong> las políticas, las preguntas frecuentes y los manuales deben incluirse en el contexto.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">•</span><span><strong>Fundamento del RAG:</strong> recuperar la fuente es lo que fundamenta la respuesta.</span></li>
+</ul>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Ventana limitada</div><p class="text-xs text-neutral-400">La IA solo ve el contexto.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">No conoce el tuyo</div><p class="text-xs text-neutral-400">Tus archivos no se incorporan por sí solos.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Vacío = invención</div><p class="text-xs text-neutral-400">Sin fuente, la completa.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">RAG cierra la brecha</div><p class="text-xs text-neutral-400">Recupera y ancla la respuesta.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 2 -->
+<section class="mb-16" data-inema-topic="modulo-2-5#topico-2" id="topico-2">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">⚖️ System prompt vs vector store (cuándo usar cada uno)</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-5-t2-p1">
+          Hay dos formas de darle conocimiento al agente. En <strong class="text-blue-400">system prompt</strong>, pegas el texto completo directamente en las instrucciones: la forma más sencilla y económica, ideal para un documento pequeño y estable. En el <strong class="text-blue-400">vector store (RAG)</strong>, el agente busca solo las secciones relevantes para cada pregunta: escalable, recomendado cuando la base es grande o crece.
+        </p>
+<div class="bg-dark-800 border border-blue-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>System prompt</strong> — el bloque fijo de instrucciones que define cómo actúa el agente; admite texto, pero siempre ocupa contexto. <strong>Vector store</strong> — un repositorio que guarda tus documentos listos para buscarlos por significado; el agente toma solo el fragmento necesario.</p>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-5-t2-p2">Elegir mal cuesta caro de dos maneras. Si incluyes una base enorme en el system prompt, consumes contexto en cada llamada (más tokens, más lento) y además alcanzas el límite de la ventana cuando la base crece. Si creas un vector store para un solo párrafo, agregas complejidad sin obtener beneficios. La regla práctica: documento pequeño y fijo → system prompt; base grande o que crece → vector store.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+<h4 class="font-bold text-blue-400 mb-4">✓ Vector store (opción para escalar)</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Busca solo el fragmento relevante — no carga toda la base.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Escala: puedes crecer de 5 a 500 documentos.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Menor costo de contexto por pregunta.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Todo en el system prompt (no escala)</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Carga el documento completo en cada llamada.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Consume contexto (token) incluso en lo que no se preguntó.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Limita el crecimiento: la ventana se desborda cuando crece la base.</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Consejo práctico</h3>
+<p class="text-neutral-300 text-sm">Empieza por lo más simple: si es una FAQ de un párrafo, pégala en el system prompt y pruébala. Migra a vector store solo cuando la base tenga varias secciones o empiece a crecer; no montes un indexador para algo que cabe en tres líneas.</p>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Prompt = simple</div><p class="text-xs text-neutral-400">Texto directo, barato y pequeño.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Vector = escala</div><p class="text-xs text-neutral-400">Encuentra lo relevante, escala bien.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Costo de contexto</div><p class="text-xs text-neutral-400">Un prompt completo consume tokens siempre.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Regla práctica</div><p class="text-xs text-neutral-400">Fijo y corto → prompt; grande → vector.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 3 -->
+<section class="mb-16" data-inema-topic="modulo-2-5#topico-3" id="topico-3">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">🧬 Embeddings y vector store en lenguaje sencillo</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-5-t3-p1">
+<strong class="text-blue-400">Embedding</strong> es transformar un texto en números que capturan el <strong>significado</strong>. Las frases parecidas en significado se convierten en conjuntos de números cercanos, incluso sin tener ninguna palabra en común. El <strong class="text-blue-400">vector store</strong> guarda estos números y, al momento de la búsqueda, encuentra los fragmentos cuyo significado se acerca más a la pregunta: no por coincidir exactamente en las palabras, sino por la proximidad de significado.
+        </p>
+<div class="bg-dark-800 border border-blue-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Embedding</strong> — una lista de números (un «vector») que representa el significado de un texto. <strong>Búsqueda por similitud</strong> — encontrar los fragmentos cuyos vectores están más cerca del vector de la pregunta. Por eso, "¿cómo devuelvo un producto?" encuentra un documento titulado "Política de cambios", aunque no aparezca la palabra "devuelvo".</p>
+</div>
+<!-- SVG: embeddings = significado como números / busca por similaridade -->
+<div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="El texto se convierte en un vector de números (embedding); en el espacio del significado, el vector de la pregunta queda cerca de los vectores de los documentos con un sentido parecido, y esa proximidad permite que la búsqueda encuentre el fragmento correcto, aunque las palabras sean diferentes" class="w-full h-auto" role="img" viewbox="0 0 1000 230">
+<defs>
+<pattern height="32" id="m25b-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#3b82f6" opacity="0.1" r="1.3"></circle></pattern>
+<marker id="m25b-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#60a5fa"></path></marker>
+</defs>
+<rect fill="url(#m25b-grid)" height="230" width="1000" x="0" y="0"></rect>
+<!-- esquerda: texto vira números -->
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="40" y="36">texto → embedding (significado en números)</text>
+<rect fill="#0e1b2e" height="36" rx="9" stroke="#60a5fa" stroke-width="1.8" width="240" x="40" y="56"></rect><text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="160" y="79">"¿cómo devuelvo un producto?"</text>
+<g fill="none" opacity="0.7" stroke="#60a5fa" stroke-width="2"><path d="M160,92 L160,124" marker-end="url(#m25b-ah)"></path></g>
+<rect fill="#0e2533" height="34" rx="9" stroke="#38bdf8" stroke-width="1.8" width="240" x="40" y="124"></rect><text fill="#bae6fd" font-family="monospace" font-size="12" text-anchor="middle" x="160" y="146">[0.82, -0.13, 0.47, …]</text>
+<text fill="#7dd3fc" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="160" y="182">vector de la pregunta</text>
+<!-- direita: espaço de significado -->
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="520" y="36">espacio de significado: lo que está cerca, la casa</text>
+<rect fill="#0b1220" height="160" rx="14" stroke="#1e3a5f" stroke-width="1.5" width="580" x="380" y="50"></rect>
+<!-- pergunta (ciano) -->
+<circle cx="640" cy="120" fill="#38bdf8" r="9"></circle><text fill="#bae6fd" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="640" y="146">pregunta</text>
+<!-- docs próximos (azul, relevantes) -->
+<circle cx="610" cy="100" fill="#60a5fa" r="7"></circle><circle cx="675" cy="105" fill="#60a5fa" r="7"></circle>
+<g opacity="0.8" stroke="#38bdf8" stroke-dasharray="3 3" stroke-width="1.5"><line x1="640" x2="610" y1="120" y2="100"></line><line x1="640" x2="675" y1="120" y2="105"></line></g>
+<text fill="#93c5fd" font-family="Inter,sans-serif" font-size="11" x="700" y="92">"Política de cambios" (cerca = relevante)</text>
+<!-- docs distantes (cinza, irrelevantes) -->
+<circle cx="470" cy="80" fill="#475569" r="6"></circle><circle cx="900" cy="180" fill="#475569" r="6"></circle><circle cx="440" cy="175" fill="#475569" r="6"></circle>
+<text fill="#64748b" font-family="Inter,sans-serif" font-size="10" x="470" y="68">"Horario de la tienda" (lejos)</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — la búsqueda compara distancias en el espacio del significado. Los puntos cercanos a la pregunta (azul) se convierten en los fragmentos recuperados; los lejanos (gris) se ignoran.</p>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m2-5-t3-p2">Este es el motor que hace que la búsqueda «entienda» la pregunta. Sin embeddings, dependerías de que el usuario use exactamente las mismas palabras del documento — algo frágil y propenso a fallos. Con embeddings, «quiero que me devuelvan el dinero» encuentra la «Política de reembolso» porque el sentido coincide. Saber esto explica por qué el vector store encuentra el fragmento correcto y por qué, a veces, se equivoca (cuando el significado realmente está lejos).</p>
+<h3 class="text-lg font-semibold text-blue-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Significado → números</div><p class="text-xs text-neutral-400">Embedding captura el sentido.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Cercano = parecido</div><p class="text-xs text-neutral-400">La distancia mide la similitud.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">No es una palabra exacta</div><p class="text-xs text-neutral-400">Busca por significado, no por letra.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">El motor de búsqueda</div><p class="text-xs text-neutral-400">Es lo que hace que RAG «entienda».</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 4 -->
+<section class="mb-16" data-inema-topic="modulo-2-5#topico-4" id="topico-4">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">📥 Indexador (trigger manual → docs → vector store)</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-5-t4-p1">
+          O <strong class="text-blue-400">indexador</strong> es un flujo <strong>separado</strong> del agente, que existe solo para completar el vector store. La secuencia es: <strong>disparador manual</strong> → <strong>leer los documentos</strong> → <strong>dividir en partes</strong> (divisor de texto) → <strong>generar embeddings</strong> → <strong>cargar el vector store</strong>. Ejecutas este flujo una vez para crear la base y de nuevo cada vez que cambien los documentos.
+        </p>
+<div class="bg-dark-800 border border-blue-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Disparador manual</strong> — tú presionas «ejecutar» cuando quieres; no se ejecuta solo. <strong>Text splitter</strong> — divide un documento largo en fragmentos más pequeños, del tamaño que la búsqueda puede comparar bien. <strong>Vector store en memoria</strong> — una versión que existe mientras el flujo está activo; ideal para aprender y probar.</p>
+</div>
+<!-- SVG: pipeline do indexador -->
+<div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="Pipeline del indexador en cinco pasos encadenados: activador manual, después cargar documentos, después dividirlos en fragmentos con el text splitter, después generar embeddings y, por último, llenar el vector store" class="w-full h-auto" role="img" viewbox="0 0 1000 150">
+<defs>
+<pattern height="32" id="m25c-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#3b82f6" opacity="0.1" r="1.3"></circle></pattern>
+<lineargradient id="m25c-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#60a5fa"></stop><stop offset="1" stop-color="#3b82f6"></stop></lineargradient>
+<filter height="180%" id="m25c-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.6"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<marker id="m25c-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#60a5fa"></path></marker>
+</defs>
+<rect fill="url(#m25c-grid)" height="150" width="1000" x="0" y="0"></rect>
+<rect fill="#1e293b" height="44" rx="11" stroke="#94a3b8" stroke-width="1.8" width="150" x="24" y="54"></rect><text fill="#e2e8f0" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="99" y="80">▶ activador manual</text>
+<g fill="none" opacity="0.75" stroke="#60a5fa" stroke-width="2"><path d="M174,76 L206,76" marker-end="url(#m25c-ah)"></path></g>
+<rect fill="#0e1b2e" height="44" rx="11" stroke="#60a5fa" stroke-width="1.8" width="150" x="206" y="54"></rect><text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="281" y="80">leer documentos</text>
+<g fill="none" opacity="0.75" stroke="#60a5fa" stroke-width="2"><path d="M356,76 L388,76" marker-end="url(#m25c-ah)"></path></g>
+<rect fill="#0e1b2e" height="44" rx="11" stroke="#60a5fa" stroke-width="1.8" width="150" x="388" y="54"></rect><text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="463" y="76">dividir en partes</text><text fill="#93c5fd" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="463" y="90">text splitter</text>
+<g fill="none" opacity="0.75" stroke="#60a5fa" stroke-width="2"><path d="M538,76 L570,76" marker-end="url(#m25c-ah)"></path></g>
+<rect fill="#0e2533" height="44" rx="11" stroke="#38bdf8" stroke-width="1.8" width="150" x="570" y="54"></rect><text fill="#bae6fd" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="645" y="80">generar embeddings</text>
+<g fill="none" opacity="0.75" stroke="#60a5fa" stroke-width="2"><path d="M720,76 L752,76" marker-end="url(#m25c-ah)"></path></g>
+<g filter="url(#m25c-glow)"><rect fill="#0e1b2e" height="52" rx="13" stroke="url(#m25c-grad)" stroke-width="2.5" width="170" x="752" y="50"></rect></g>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="837" y="72">cargar el</text><text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="837" y="89">vector store</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — el indexador es un flujo de una sola dirección que termina llenando el vector store. No responde preguntas; solo prepara la base.</p>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-5-t4-p2">Separar la <strong>indexación</strong> de la <strong>consulta</strong> es el patrón de arquitectura de RAG. El indexador se ejecuta rara vez (una vez o cuando cambia la base); el agente se ejecuta con cada pregunta. Mezclar los dos haría que volvieras a indexar todo en cada consulta: lento y costoso. Entender esta separación es lo que evita el error más común: activar el agente antes de que exista la base.</p>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Consejo práctico</h3>
+<p class="text-neutral-300 text-sm">Ejecuta el indexador <strong>antes</strong> de activar el agente — la base debe estar poblada para que la búsqueda encuentre algo. Si usas un vector store en memoria, recuerda: al reiniciar el flujo, la base desaparece; vuelve a ejecutar el indexador antes de probar.</p>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Flujo separado</div><p class="text-xs text-neutral-400">Indexar ≠ consultar.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Dividir en fragmentos</div><p class="text-xs text-neutral-400">Text splitter prepara la búsqueda.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Se ejecuta rara vez</div><p class="text-xs text-neutral-400">Una vez o al actualizar.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Termina en el store</div><p class="text-xs text-neutral-400">La salida es la base de datos poblada.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 5 -->
+<section class="mb-16" data-inema-topic="modulo-2-5#topico-5" id="topico-5">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">🚏 Classifier — enrutar antes de gastar en el agente</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-5-t5-p1">
+          O <strong class="text-blue-400">clasificador de texto</strong> es un nodo que decide <strong>temprano</strong>, desde el inicio, si el mensaje es relevante (por ejemplo: "¿es una pregunta de soporte?" frente a "¿es spam o está fuera de alcance?") y <strong>enruta</strong> de acuerdo. Solo lo importante pasa al agente más costoso; el resto se detiene o se procesa de forma económica antes de gastar en el modelo.
+        </p>
+<div class="bg-dark-800 border border-blue-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Clasificar</strong> — encajar la entrada en una categoría ("soporte", "ventas", "fuera del alcance"). <strong>Enrutar</strong> — enviar cada categoría a una ruta distinta del flujo. <strong>Clasificación</strong> — ese filtro económico al inicio, antes del trabajo pesado.</p>
+</div>
+<!-- SVG: classificador e roteamento -->
+<div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="La entrada llega al clasificador, que abre dos caminos: si es relevante, continúa hacia el agente costoso que consulta el vector store; si no es relevante, el flujo se detiene de forma económica sin activar al agente" class="w-full h-auto" role="img" viewbox="0 0 1000 190">
+<defs>
+<pattern height="32" id="m25d-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#3b82f6" opacity="0.1" r="1.3"></circle></pattern>
+<marker id="m25d-ahb" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#60a5fa"></path></marker>
+<marker id="m25d-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+<marker id="m25d-ahg" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#94a3b8"></path></marker>
+</defs>
+<rect fill="url(#m25d-grid)" height="190" width="1000" x="0" y="0"></rect>
+<rect fill="#1e293b" height="44" rx="11" stroke="#94a3b8" stroke-width="1.8" width="130" x="30" y="76"></rect><text fill="#e2e8f0" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="95" y="103">entrada</text>
+<g fill="none" opacity="0.75" stroke="#94a3b8" stroke-width="2"><path d="M160,98 L208,98" marker-end="url(#m25d-ahg)"></path></g>
+<rect fill="#0e1b2e" height="48" rx="12" stroke="#60a5fa" stroke-width="2" width="160" x="208" y="74"></rect><text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="288" y="95">clasificador</text><text fill="#93c5fd" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="288" y="111">¿relevante?</text>
+<!-- caminho relevante -->
+<g fill="none" opacity="0.8" stroke="#38bdf8" stroke-width="2"><path d="M368,86 C420,86 430,52 482,52" marker-end="url(#m25d-ahc)"></path></g>
+<text fill="#7dd3fc" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="426" y="44">relevante</text>
+<rect fill="#0e2533" height="44" rx="12" stroke="#38bdf8" stroke-width="2.5" width="170" x="482" y="30"></rect><text fill="#bae6fd" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="567" y="51">🤖 agente (caro)</text><text fill="#7dd3fc" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="567" y="66">búsqueda en el vector store</text>
+<g fill="none" opacity="0.7" stroke="#38bdf8" stroke-width="2"><path d="M652,52 L700,52" marker-end="url(#m25d-ahc)"></path></g>
+<rect fill="#0e1b2e" height="40" rx="10" stroke="#60a5fa" stroke-width="1.8" width="170" x="700" y="32"></rect><text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="785" y="56">responde con fundamento</text>
+<!-- caminho não-relevante -->
+<g fill="none" opacity="0.7" stroke="#94a3b8" stroke-width="2"><path d="M368,112 C420,112 430,146 482,146" marker-end="url(#m25d-ahg)"></path></g>
+<text fill="#64748b" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="426" y="156">fuera del alcance</text>
+<rect fill="#181c24" height="40" rx="10" stroke="#64748b" stroke-width="1.8" width="200" x="482" y="124"></rect><text fill="#9aa6b5" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="582" y="148">para (no consume al agente)</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — el filtro económico decide el destino. Solo la ruta «relevante» (cian) llega al agente costoso; el resto se detiene antes, ahorrando tokens.</p>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m2-5-t5-p2">Un triaje económico <strong>antes</strong> del agente ahorra tokens y evita respuestas fuera de alcance. Sin el clasificador, cada mensaje — incluidos el spam y los temas que ni siquiera son tuyos — activa al agente costoso, que consume contexto y hasta puede intentar responder algo que no debería. Con él, usas el modelo solo cuando vale la pena y mantienes al agente dentro del alcance acordado.</p>
+<h3 class="text-lg font-semibold text-blue-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Decide pronto</div><p class="text-xs text-neutral-400">Clasificación al inicio.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Enruta</div><p class="text-xs text-neutral-400">Cada categoría, un camino.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Ahorra tokens</div><p class="text-xs text-neutral-400">Solo lo relevante consume al agente.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Dentro del alcance</div><p class="text-xs text-neutral-400">Bloquea lo que se sale del tema.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 6 -->
+<section class="mb-16" data-inema-topic="modulo-2-5#topico-6" id="topico-6">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">🎯 Confidence score y fallback (no inventar)</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-5-t6-p1">
+          El agente emite un <strong class="text-blue-400">marcador de confianza</strong> junto con la respuesta; por ejemplo, <em>alta (&gt;0,8) / media (0,6–0,8) / baja (&lt;0,6)</em>, o incluso una etiqueta sencilla como «política encontrada» / «ninguna política encontrada». Un <strong>nodo de código</strong> lee este marcador y un <strong>nodo IF</strong> se ramifica: cuando hay un fragmento relevante, sigue el borrador de la respuesta; cuando no lo hay, cae en un <strong class="text-blue-400">fallback</strong> educado («vamos a investigar y te respondemos») en lugar de alucinar.
+        </p>
+<div class="bg-dark-800 border border-blue-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Confidence score</strong> — una nota que da el agente para indicar cuánto respalda la fuente su respuesta. <strong>Fallback</strong> — la alternativa honesta cuando no hay suficiente información en la base. <strong>Nodo IF</strong> — la bifurcación que elige entre «responder» y «fallback».</p>
+</div>
+<!-- SVG: confiança + fallback -->
+<div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="El agente busca en el vector store y emite un marcador de confianza; un nodo IF ramifica: cuando hay un fragmento relevante, continúa con el borrador de la respuesta fundamentada; cuando no lo hay, continúa con el fallback honesto que dice que va a investigar y volver, sin inventar" class="w-full h-auto" role="img" viewbox="0 0 1000 200">
+<defs>
+<pattern height="32" id="m25e-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#3b82f6" opacity="0.1" r="1.3"></circle></pattern>
+<marker id="m25e-ahb" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#60a5fa"></path></marker>
+<marker id="m25e-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+<marker id="m25e-ahr" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#f87171"></path></marker>
+</defs>
+<rect fill="url(#m25e-grid)" height="200" width="1000" x="0" y="0"></rect>
+<rect fill="#0e2533" height="48" rx="12" stroke="#38bdf8" stroke-width="2.5" width="170" x="24" y="82"></rect><text fill="#bae6fd" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="109" y="103">🤖 agente</text><text fill="#7dd3fc" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="109" y="119">búsqueda + nota de confianza</text>
+<g fill="none" opacity="0.8" stroke="#38bdf8" stroke-width="2"><path d="M194,106 L240,106" marker-end="url(#m25e-ahc)"></path></g>
+<rect fill="#0e1b2e" height="44" rx="11" stroke="#60a5fa" stroke-width="2" width="150" x="240" y="84"></rect><text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="315" y="105">IF (confianza)</text><text fill="#93c5fd" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="315" y="120">¿encontró un fragmento?</text>
+<!-- ramo achou -->
+<g fill="none" opacity="0.85" stroke="#60a5fa" stroke-width="2"><path d="M390,96 C440,96 450,58 502,58" marker-end="url(#m25e-ahb)"></path></g>
+<text fill="#93c5fd" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="446" y="50">sí (alta)</text>
+<rect fill="#0e1b2e" height="44" rx="11" stroke="#60a5fa" stroke-width="1.8" width="240" x="502" y="36"></rect><text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="622" y="57">redactar una respuesta fundamentada</text><text fill="#93c5fd" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="622" y="72">citando la fuente</text>
+<!-- ramo não achou -->
+<g fill="none" opacity="0.85" stroke="#f87171" stroke-width="2"><path d="M390,116 C440,116 450,154 502,154" marker-end="url(#m25e-ahr)"></path></g>
+<text fill="#fca5a5" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="446" y="164">no (descarga)</text>
+<rect fill="#2a1410" height="44" rx="11" stroke="#f87171" stroke-width="1.8" width="240" x="502" y="132"></rect><text fill="#fecaca" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="622" y="153">fallback honesto</text><text fill="#fca5a5" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="622" y="168">"vamos a investigar y volvemos"</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — la bifurcación según la confianza. La rama de baja confianza (roja) no es un error: el agente se niega a inventar.</p>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-5-t6-p2">Un agente que <strong>se niega a inventar</strong> es un resultado <em>deseado</em>, no un bug. Cuando recurre al fallback porque no encontró la política, está siendo honesto: es mucho mejor que dar un plazo o un monto inventado que podría causar pérdidas y romper la confianza. El indicador de confianza es lo que permite controlar este comportamiento: defines el umbral y decides en el código cuándo responder y cuándo abstenerse.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+<h4 class="font-bold text-blue-400 mb-4">✓ Rechaza inventar (fallback honesto)</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Sin un fragmento relevante → "no tenemos eso aquí; vamos a investigar y te respondemos".</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Una confianza baja activa el fallback automáticamente.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Comportamiento predecible y auditable (ves la nota).</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Alucinar una respuesta</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Inventar un plazo o valor que "parece correcto".</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Responder con confianza incluso sin fuentes en el store.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Tratar el "no sé" del agente como un defecto que hay que eliminar.</span></li>
+</ul>
+</div>
+</div>
+<!-- TIMELINE: sequência de construção do RAG -->
+<div class="bg-dark-800 border border-dark-600 rounded-xl p-6 mb-6">
+<h3 class="text-base font-semibold text-blue-400 mb-4">La secuencia de construcción del RAG</h3>
+<ol class="space-y-4">
+<li class="flex items-start space-x-4">
+<span class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 font-bold text-sm">1</span>
+<div><strong class="text-neutral-100">Índice</strong><span class="text-neutral-400"> — ejecuta el indexador (docs → fragmentos → embeddings → vector store) y confirma que la base esté poblada.</span></div>
+</li>
+<li class="flex items-start space-x-4">
+<span class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 font-bold text-sm">2</span>
+<div><strong class="text-neutral-100">Classifier</strong><span class="text-neutral-400"> — coloca el filtro de clasificación al inicio para bloquear lo que está fuera del alcance antes de que llegue al agente.</span></div>
+</li>
+<li class="flex items-start space-x-4">
+<span class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 font-bold text-sm">3</span>
+<div><strong class="text-neutral-100">Agente con tool de vector store</strong><span class="text-neutral-400"> — el agente consulta la base y responde con fundamento en el fragmento recuperado.</span></div>
+</li>
+<li class="flex items-start space-x-4">
+<span class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 font-bold text-sm">4</span>
+<div><strong class="text-neutral-100">Fallback</strong><span class="text-neutral-400"> — revisa la confianza, ramifica en el IF y, si no hay un fragmento relevante, responde con el fallback honesto.</span></div>
+</li>
+</ol>
+</div>
+<!-- CODE BOX #1 (copy-run): arquitetura dos dois fluxos -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-blue-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">armar la base de conocimiento (indexador) y el agente que la consulta</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-blue-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (cópialo y ejecútalo)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">crie um indexador (trigger manual → ler &lt;meus-documentos&gt; → dividir em pedaços → embeddings → vector store)
+e um agente que classifica a pergunta, busca no vector store e, se não achar nada relevante,
+responde com um fallback honesto em vez de inventar.</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Cómo verificar: ejecuta el indexador una vez; haz una pregunta fuera de alcance y confirma que el agente use la respuesta alternativa (sin alucinar).</p>
+</div>
+<!-- CODE BOX #2: pseudocódigo do parse de confiança + IF -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-blue-400 font-semibold mb-1">🧩 Pseudocódigo: <span class="text-neutral-300 font-normal">leer el marcador de confianza y ramificar en el IF</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-blue-400"></span><span class="text-xs text-neutral-500 ml-2">nodo de código → nodo IF</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">confianca = ler_marcador(resposta_do_agente)   // ex.: 0.42
+
+se confianca &lt; 0.6:
+    rota = "preciso pesquisar"                  // fallback honesto
+senão:
+    rota = "rascunhar resposta"                 // responder ancorado
+
+// o nó IF usa "rota" para escolher o caminho do fluxo</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Cómo verificar: fuerza una confianza baja (pregunta sin fuente) y confirma que «ruta» se convierta en «necesito investigar».</p>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Consejo práctico</h3>
+<p class="text-neutral-300 text-sm">Prueba con una pregunta <strong>fuera de alcance</strong> y confirma que el agente <strong>no inventes</strong> — debe pasar al fallback. Esta prueba de «pregunta sin fuente» es la mejor demostración de que tu RAG es honesto.</p>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Nota de confianza</div><p class="text-xs text-neutral-400">Alta / media / baja.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">El código lee el marcador</div><p class="text-xs text-neutral-400">Interpreta el score.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">IF ramifica</div><p class="text-xs text-neutral-400">Responder o usar una alternativa.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Rechazar = deseado</div><p class="text-xs text-neutral-400">"No sé" no es un bug.</p></div>
+</div>
+<!-- Checagem leve -->
+<div class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6" data-inema-check="modulo-2-5#q1">
+<p class="inema-check__q font-medium mb-4">Al cerrar el módulo: qué hace un <strong>buen agente RAG</strong> lo hace cuando la búsqueda <strong>no encuentra</strong> ¿nada relevante?</p>
+<div class="inema-check-options inema-check__options space-y-2">
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0" type="button">Inventa una respuesta plausible para no dejar al usuario sin respuesta.</button>
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1" type="button">Recurre a una respuesta alternativa honesta ("vamos a investigar y te responderemos") en lugar de inventar.</button>
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2" type="button">Carga toda la base en el system prompt para tener más posibilidades de acertar.</button>
+</div>
+<div aria-live="polite" class="mt-4 text-sm" data-inema-check-feedback="" role="status"></div>
+</div>
+<div class="flex justify-start mt-8">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-8">
+<div class="bg-gradient-to-br from-blue-900/40 via-dark-800 to-dark-800 rounded-xl border border-blue-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📌</span> Resumen del módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">La IA solo ve el contexto</strong><span class="text-neutral-400"> — sin la fuente a mano, inventa; RAG existe para cerrar esa brecha.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">System prompt vs vector store</strong><span class="text-neutral-400"> — fijo y corto → prompt; grande o que crece → vector store (escala, menor costo de contexto).</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">Embeddings</strong><span class="text-neutral-400"> — el significado convertido en número; la búsqueda encuentra resultados por proximidad semántica, no por coincidencia exacta de palabras.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">Indexador</strong><span class="text-neutral-400"> — flujo separado (trigger → docs → fragmentos → embeddings → store); se ejecuta antes que el agente.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">Classifier</strong><span class="text-neutral-400"> — clasificación económica al inicio; solo lo relevante llega al agente más costoso.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">Confidence &amp; fallback</strong><span class="text-neutral-400"> — sin un fragmento relevante, el agente se niega a inventar y recurre a la alternativa honesta. Eso es lo deseado.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-blue-400 mb-2">Siguiente módulo:</h3>
+<p class="text-neutral-300">Ruta 3 — Prompts y patrones de conversación</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="index.html">← Volver a la ruta</a>
+<a class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors" href="../trilha3/index.html">Ir a la Ruta 3 →</a>
+</div>
+</div>
+</section>
+</main>
+<!-- TOC sticky + scrollspy -->
+<aside class="hidden lg:block">
+<nav aria-label="Índice de la página" class="sticky top-24 self-start" data-inema-toc="">
+<p class="text-sm text-neutral-400 mb-3">Sección <span data-inema-section-counter=""><span class="inema-toc-pos">1</span> de <span class="inema-toc-total">6</span></span></p>
+<ol class="space-y-1.5 text-sm">
+<li><a class="inema-toc-link text-neutral-400 hover:text-blue-400 block" href="#topico-1">1. La IA y el contexto</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-blue-400 block" href="#topico-2">2. Prompt vs. vector store</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-blue-400 block" href="#topico-3">3. Embeddings &amp; store</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-blue-400 block" href="#topico-4">4. Indexador</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-blue-400 block" href="#topico-5">5. Classifier</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-blue-400 block" href="#topico-6">6. Confianza y fallback</a></li>
+</ol>
+</nav>
+</aside>
+</div>
+<footer class="border-t border-dark-600 py-8 mt-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Vibe Coding: Dominio completo · Curso original <a class="text-sky-400 hover:text-sky-300 font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a> · 2026</p>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const htmlEl = document.documentElement;
+    if (htmlEl.classList.contains('dark')) { themeToggleLightIcon.classList.remove('hidden'); }
+    else { themeToggleDarkIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      htmlEl.classList.toggle('dark');
+      const isDark = htmlEl.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      if (window.INEMA && INEMA.setPref) { INEMA.setPref('theme', isDark ? 'inema-dark' : 'claro'); }
+    });
+  </script>
+<script src="../../../assets/learn.js"></script>
+<script>
+    if (window.INEMA && typeof window.INEMA.init === 'function') {
+      window.INEMA.init();
+      if (window.INEMA.registerCheck) {
+        INEMA.registerCheck('modulo-2-5#q1', {
+          answer: 1,
+          explain: {
+            0: 'Não. Inventar uma resposta plausível é exatamente a alucinação que o RAG evita. Sem fonte, recue.',
+            1: 'Isso. Sem trecho relevante, o bom agente cai num fallback honesto em vez de inventar — comportamento desejado.',
+            2: 'Não. Jogar a base inteira no system prompt não escala e custa contexto; e não resolve o caso de "não achei".'
+          }
+        });
+      }
+    }
+  </script>
+</body>
+</html>

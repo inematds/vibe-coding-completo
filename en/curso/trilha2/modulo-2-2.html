@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="vibe-coding-completo" name="inema-course"/>
+<!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
+<script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        } else {
+          var legacy = localStorage.getItem('theme');
+          if (legacy === 'light') p.theme = 'claro';
+          else if (legacy === 'dark') p.theme = 'inema-dark';
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'inema-dark': { dark: true,  attr: null,        cs: 'dark'  },
+        'claro':      { dark: false, attr: null,        cs: 'light' },
+        'sepia':      { dark: false, attr: 'sepia',     cs: 'light' },
+        'foco':       { dark: null,  attr: 'foco',      cs: null    },
+        'contraste':  { dark: true,  attr: 'contraste', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['inema-dark'];
+
+      if (t.dark === true) html.classList.add('dark');
+      else if (t.dark === false) html.classList.remove('dark');
+
+      if (t.attr) html.setAttribute('data-theme', t.attr);
+      else html.removeAttribute('data-theme');
+
+      html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark') ? 'dark' : 'light'));
+
+      html.setAttribute('data-font', p.font || 'inter');
+      html.setAttribute('data-accent', p.accent || 'emerald');
+
+      var s = html.style;
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--inema-font-scale', (scale / 100).toString());
+      s.setProperty('font-size', scale + '%');
+      s.setProperty('--measure', (+p.lineWidth || 68) + 'ch');
+      s.setProperty('--lh-body', (+p.leading || 1.7).toString());
+      var fam = p.font === 'system'
+        ? 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif'
+        : (p.font === 'leitura'
+          ? '"Atkinson Hyperlegible", "Inter", system-ui, sans-serif'
+          : '"Inter", system-ui, sans-serif');
+      s.setProperty('--font-body', fam);
+
+      var ACC = {
+        emerald: [152, 76, 45], blue: [217, 91, 60], purple: [258, 90, 66],
+        amber: [38, 92, 50], teal: [174, 72, 41], rose: [350, 89, 60]
+      };
+      var a = ACC[p.accent] || ACC.emerald;
+      s.setProperty('--accent-h', a[0] + '');
+      s.setProperty('--accent-s', a[1] + '%');
+      s.setProperty('--accent-l', a[2] + '%');
+      s.setProperty('--accent', 'hsl(' + a[0] + ' ' + a[1] + '% ' + a[2] + '%)');
+    } catch (err) {
+      try { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme = 'dark'; } catch (e) {}
+    }
+  })();
+  </script>
+<title>Module 2.2 · The WAT Framework in Depth | Vibe Coding: Complete Mastery</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
+<script data-inema-manifest="" type="application/json">
+  {
+    "course": "vibe-coding-completo",
+    "tracks": [
+      { "n": "1", "title": "Fundamentos & Glossário", "modules": [
+        { "id": "1-1", "title": "A Mentalidade do Vibe Coding", "topics": 7, "href": "curso/trilha1/modulo-1-1.html" },
+        { "id": "1-2", "title": "O Ecossistema: Como as Peças se Encaixam", "topics": 6, "href": "curso/trilha1/modulo-1-2.html" },
+        { "id": "1-3", "title": "Glossário Essencial (Parte 1: IA, Claude Code, n8n)", "topics": 7, "href": "curso/trilha1/modulo-1-3.html" },
+        { "id": "1-4", "title": "Glossário Essencial (Parte 2: Agêntico, RAG, Deploy, Segurança)", "topics": 6, "href": "curso/trilha1/modulo-1-4.html" }
+      ]},
+      { "n": "2", "title": "Técnica: Arquitetura & Engenharia", "modules": [
+        { "id": "2-1", "title": "Engenharia de CLAUDE.md", "topics": 6, "href": "curso/trilha2/modulo-2-1.html" },
+        { "id": "2-2", "title": "O Framework WAT a Fundo", "topics": 7, "href": "curso/trilha2/modulo-2-2.html" },
+        { "id": "2-3", "title": "MCP por Dentro", "topics": 7, "href": "curso/trilha2/modulo-2-3.html" },
+        { "id": "2-4", "title": "Contexto & Tokens", "topics": 6, "href": "curso/trilha2/modulo-2-4.html" },
+        { "id": "2-5", "title": "RAG & Dados", "topics": 6, "href": "curso/trilha2/modulo-2-5.html" }
+      ]},
+      { "n": "3", "title": "Prompts & Padrões de Conversa", "modules": [
+        { "id": "3-1", "title": "Os Padrões de Prompting", "topics": 7, "href": "curso/trilha3/modulo-3-1.html" },
+        { "id": "3-2", "title": "O Ciclo Plan → Build → Troubleshoot → Optimize", "topics": 7, "href": "curso/trilha3/modulo-3-2.html" },
+        { "id": "3-3", "title": "Biblioteca de Prompts Prontos (copy-run)", "topics": 8, "href": "curso/trilha3/modulo-3-3.html" }
+      ]},
+      { "n": "4", "title": "Skills & Agentes", "modules": [
+        { "id": "4-1", "title": "Skills: Conceito & Anatomia", "topics": 7, "href": "curso/trilha4/modulo-4-1.html" },
+        { "id": "4-2", "title": "Construindo Skills na Prática", "topics": 7, "href": "curso/trilha4/modulo-4-2.html" },
+        { "id": "4-3", "title": "Agentes: Locais, Agendados & por Evento", "topics": 8, "href": "curso/trilha4/modulo-4-3.html" }
+      ]},
+      { "n": "5", "title": "Projetos Práticos (End-to-End)", "modules": [
+        { "id": "5-1", "title": "Projeto: Agente de Suporte por E-mail com RAG", "topics": 8, "href": "curso/trilha5/modulo-5-1.html" },
+        { "id": "5-2", "title": "Projeto: Agentes Hospedados (Agendado + Webhook)", "topics": 8, "href": "curso/trilha5/modulo-5-2.html" },
+        { "id": "5-3", "title": "Projeto: App Full-Stack (Lead Qualifier) + Frontend pra n8n", "topics": 8, "href": "curso/trilha5/modulo-5-3.html" }
+      ]},
+      { "n": "6", "title": "Produção, Deploy & Segurança", "modules": [
+        { "id": "6-1", "title": "GitHub & Trigger.dev", "topics": 7, "href": "curso/trilha6/modulo-6-1.html" },
+        { "id": "6-2", "title": "Secrets & Segurança", "topics": 8, "href": "curso/trilha6/modulo-6-2.html" },
+        { "id": "6-3", "title": "Confiabilidade & Monetização", "topics": 7, "href": "curso/trilha6/modulo-6-3.html" }
+      ]}
+    ]
+  }
+  </script>
+<link href="../../../assets/learn.css" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+    [id] { scroll-margin-top: 5rem; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - acento (blue) + cores das outras trilhas no nav */
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .bg-blue-500\/20 { background-color: rgba(37, 99, 235, 0.12); }
+    html:not(.dark) .bg-blue-500\/10 { background-color: rgba(37, 99, 235, 0.08); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37, 99, 235, 0.25); }
+    html:not(.dark) .hover\:bg-blue-500\/30:hover { background-color: rgba(37, 99, 235, 0.18); }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37, 99, 235, 0.08); }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .text-blue-300 { color: #1d4ed8; }
+    html:not(.dark) .bg-blue-900\/20 { background-color: rgba(37, 99, 235, 0.08); }
+    /* nav: outras trilhas (hover) — emerald/purple/amber/teal/rose hover-only */
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5, 150, 105, 0.08); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124, 58, 237, 0.08); }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .hover\:bg-amber-500\/10:hover { background-color: rgba(217, 119, 6, 0.08); }
+    html:not(.dark) .hover\:text-teal-400:hover { color: #0d9488; }
+    html:not(.dark) .hover\:bg-teal-500\/10:hover { background-color: rgba(13, 148, 136, 0.08); }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .hover\:bg-rose-500\/10:hover { background-color: rgba(225, 29, 72, 0.08); }
+    html:not(.dark) .text-red-400 { color: #dc2626; }
+    html:not(.dark) .bg-red-900\/20 { background-color: rgba(220, 38, 38, 0.07); }
+    html:not(.dark) .border-red-500\/30 { border-color: rgba(220, 38, 38, 0.25); }
+
+    /* Light mode - remove gradientes + cores especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    /* Dark mode - bordas suavizadas */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* TOC scrollspy active link */
+    .inema-toc-link.is-active, [data-inema-toc] a.is-active { color: #60a5fa; font-weight: 600; }
+    html:not(.dark) [data-inema-toc] a.is-active { color: #2563eb; }
+
+    /* code box (copy-run) */
+    .codebox pre { white-space: pre; }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
+    }
+  </style>
+<link href="https://inematds.github.io/vibe-coding-completo/curso/trilha2/modulo-2-2.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/en/curso/trilha2/modulo-2-2.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/es/curso/trilha2/modulo-2-2.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha2/modulo-2-2.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="modulo-2-2.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../../es/curso/trilha2/modulo-2-2.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-blue-600 focus:text-white focus:rounded-lg" href="#conteudo">Skip to content</a>
+<!-- NAVIGATION (T2 ativa) -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentals</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10" href="index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Technical</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Projects</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Production</span>
+</a>
+<button class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-inema-journey-open="" type="button">
+<span aria-hidden="true">◷</span><span>My journey</span>
+<span class="inema-journey-badge hidden" data-count="0" data-inema-journey-badge=""></span>
+</button>
+<button aria-label="Toggle light/dark theme" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20">
+<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+</svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav aria-label="Navigation track" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-blue-400" href="../../index.html">Start</a>
+<span>/</span>
+<a class="hover:text-blue-400" href="index.html">Track 2</a>
+<span>/</span>
+<span class="text-blue-400">Module 2.2</span>
+</div>
+</nav>
+<!-- HEADER DO MÓDULO -->
+<header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4">MODULE 2.2</span>
+<h3 class="text-2xl font-bold mb-4">🔠 The WAT Framework in Depth</h3>
+<p class="text-lg text-neutral-400 max-w-3xl"><strong class="text-blue-300">WAT</strong> = <strong>W</strong>orkflows + <strong>A</strong>gent + <strong>T</strong>ools. It’s the structure behind practically every agentic workflow: the instructions in markdown are the <strong>manual</strong>, the agent is the <strong>brain</strong> that make decisions, and the scripts are the <strong>hands</strong> that do the work. Understanding the three layers — and knowing when <em>no</em> use them — that’s what separates a project that grows on its own from a mess you rebuild every week.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-blue-400">7</div>
+<div class="text-xs text-neutral-400">Topics</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-blue-400">~50</div>
+<div class="text-xs text-neutral-400">Minutes</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-blue-400">Inter.</div>
+<div class="text-xs text-neutral-400">Level</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-blue-400">Architecture</div>
+<div class="text-xs text-neutral-400">Type</div>
+</div>
+</div>
+<div aria-label="Module 2.2 progress" aria-valuemax="100" aria-valuemin="0" class="mt-6 max-w-2xl" data-inema-meter="modulo:2-2" role="progressbar">
+<div class="flex items-center justify-between mb-1 text-sm">
+<span class="text-neutral-400">Module progress</span>
+<span class="text-blue-400 font-semibold"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 of 7</span></span>
+</div>
+<div class="inema-bar h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-blue-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+</header>
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:grid lg:grid-cols-[1fr_220px] lg:gap-10">
+<main class="min-w-0" id="conteudo">
+<!-- Novo aqui? box (intro, #31) -->
+<div class="bg-blue-900/20 border border-blue-500/30 rounded-xl p-5 mb-10">
+<h2 class="text-base font-semibold text-blue-400 mb-2 flex items-center"><span class="mr-2">🧭</span> How to read this module</h2>
+<p class="text-neutral-300 text-sm">WAT is less a piece of software and more a <strong>way to organize</strong> any agentic project. You'll see the three layers separately (W, A, T), then the loop that makes everything improve on its own, the recommended folder structure, and—importantly—the cases where building WAT is overkill. You don't need to know how to program: the agent writes and fixes the scripts; you just need to understand the map.</p>
+</div>
+<!-- SVG FUTURISTA (visão geral, #29) -->
+<section class="mb-12">
+<p class="text-neutral-300 mb-4 inema-prose leading-relaxed">Before opening each layer, see how they fit together. The <strong>markdown instructions</strong> say what to do; the <strong>agent</strong> reads these instructions, looks at the available tools, and decides which one to use; the <strong>tools in Python</strong> do the actual work. And there’s one detail that changes everything: when something goes wrong, the agent fixes the tool <em>e</em> updates the workflow — so the system gets better with every run.</p>
+<div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="The three layers of the WAT framework: on the left, Workflows, which are Markdown instructions serving as a manual; in the center, the Agent, the coordinating brain highlighted in cyan that reads the workflows and chooses the tool; on the right, the Tools, Python scripts that do the work; and a self-improvement arrow that loops back from the tools to the workflows, closing the cycle" class="w-full h-auto" role="img" viewbox="0 0 1000 250">
+<defs>
+<lineargradient id="m22-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#60a5fa"></stop><stop offset="1" stop-color="#3b82f6"></stop>
+</lineargradient>
+<filter height="180%" id="m22-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="32" id="m22-grid" patternunits="userSpaceOnUse" width="32">
+<circle cx="1.3" cy="1.3" fill="#3b82f6" opacity="0.12" r="1.3"></circle>
+</pattern>
+<marker id="m22-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#60a5fa"></path></marker>
+<marker id="m22-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m22-grid)" height="250" width="1000" x="0" y="0"></rect>
+<!-- W = Workflows -->
+<text fill="#93c5fd" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="40" y="44">W · Workflows (manual in markdown)</text>
+<rect fill="#0e1a2e" height="120" rx="16" stroke="url(#m22-grad)" stroke-width="2.4" width="210" x="40" y="60"></rect>
+<text fill="#93c5fd" font-family="Inter,sans-serif" font-size="16" font-weight="700" text-anchor="middle" x="145" y="100">📄 Workflows</text>
+<text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="145" y="124">goal · input</text>
+<text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="145" y="142">output · steps</text>
+<text fill="#7fb3f3" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="145" y="162">what to do</text>
+<g fill="none" opacity="0.7" stroke="#60a5fa" stroke-width="2.2"><path d="M250,120 L388,120" marker-end="url(#m22-ah)"></path></g>
+<text fill="#7fb3f3" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="319" y="110">reads</text>
+<!-- A = Agent (ciano, destaque) -->
+<text fill="#38bdf8" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="392" y="44">A · Agent (the decision-making brain)</text>
+<g filter="url(#m22-glow)"><rect fill="#0e1b26" height="120" rx="16" stroke="#38bdf8" stroke-width="2.8" width="216" x="392" y="60"></rect></g>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="16" font-weight="700" text-anchor="middle" x="500" y="100">🧠 Agent</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="500" y="124">coordinator</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="500" y="142">decides which tool to use</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="500" y="162">and when</text>
+<g fill="none" opacity="0.7" stroke="#60a5fa" stroke-width="2.2"><path d="M608,120 L746,120" marker-end="url(#m22-ah)"></path></g>
+<text fill="#7fb3f3" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="677" y="110">calls</text>
+<!-- T = Tools -->
+<text fill="#93c5fd" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="750" y="44">T · Tools (Python scripts)</text>
+<rect fill="#0e1a2e" height="120" rx="16" stroke="url(#m22-grad)" stroke-width="2.4" width="210" x="750" y="60"></rect>
+<text fill="#93c5fd" font-family="Inter,sans-serif" font-size="16" font-weight="700" text-anchor="middle" x="855" y="100">🔧 Tools</text>
+<text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="855" y="124">one task each</text>
+<text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="855" y="142">scrape · generate · analyze</text>
+<text fill="#7fb3f3" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="855" y="162">the hands</text>
+<!-- loop de auto-melhoria: das tools de volta pros workflows -->
+<g fill="none" opacity="0.85" stroke="#38bdf8" stroke-dasharray="7 5" stroke-width="2.4"><path d="M855,180 C855,224 145,224 145,184" marker-end="url(#m22-ahc)"></path></g>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="500" y="240">self-improvement loop — fixes the tool and updates the workflow so the error never comes back</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500">Illustrative diagram — the manual (W) guides the brain (A), which uses the hands (T); what the agent learns from fixing an error goes back into the manual, so the system improves on its own.</p>
+</section>
+<!-- TÓPICO 1 -->
+<section class="mb-16" data-inema-topic="modulo-2-2#topico-1" id="topico-1">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🗺️ WAT overview</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>I have a question</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">What it is</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-2-t1-p1">
+<strong class="text-blue-400">WAT</strong> is a simple acronym for three layers that together give your agentic project a <strong>a manual, a brain, and hands</strong>: <strong>W</strong>orkflows (instructions), <strong>A</strong>gent (the coordinator) and <strong>T</strong>ools (the scripts). The idea isn’t a new technology—it’s a way to organize parts you already know so they work together predictably.
+        </p>
+<div class="bg-dark-800 border border-blue-500/30 rounded-xl p-4 mb-4">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold mr-2">What is it?</span><strong>Agentic flow</strong> — a process in which an AI doesn’t just respond, but <em>acts</em>: decides on steps, calls tools, and corrects itself. <strong>Framework</strong> — here, a mental/organizational framework, not a program you install.</p>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m2-2-t1-p2">
+          The analogy that sticks: imagine hiring a new assistant. You hand them a <strong>procedures manual</strong> (the workflows), it uses its own <strong>reasoning</strong> to decide what to do in each case (the agent), and has a set of <strong>physical tools</strong> on the workbench (the tools). Most agentic projects you’ll build fit this pattern — which is why it’s worth learning the vocabulary once and reusing it forever.
+        </p>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Why learn</h3>
+<div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+<p class="text-neutral-300 mb-3 inema-prose" data-inema-block="m2-2-t1-p3">Having a repeatable template means you don’t reinvent the wheel with every project. When WAT becomes your standard, anyone (including you three months from now) can open the folder and immediately understand what’s what.</p>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">•</span><span><strong>Common vocabulary:</strong> you and the AI speak the same language about the project.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">•</span><span><strong>Repeatable structure:</strong> the same skeleton works for everything from a simple bot to a production agent.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 mt-1">•</span><span><strong>Separation of roles:</strong> instructions, decisions, and execution happen in separate layers.</span></li>
+</ul>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-3">Key concepts</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Manual (W)</div><p class="text-xs text-neutral-400">What to do, in markdown.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Brain (A)</div><p class="text-xs text-neutral-400">Decides which tool to use.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Hands (T)</div><p class="text-xs text-neutral-400">Scripts that execute.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Single template</div><p class="text-xs text-neutral-400">Almost everything fits in it.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Mark as read</span><span class="inema-label-done hidden">Read</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 2 -->
+<section class="mb-16" data-inema-topic="modulo-2-2#topico-2" id="topico-2">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">📄 W = Workflows (Markdown instructions)</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>I have a question</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">What it is</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-2-t2-p1">
+          The layer <strong class="text-blue-400">W</strong> are files of <strong>markdown instruction</strong> — plain text with headings, lists, and bold — which work as a <strong>job description</strong> or a <strong>SOP</strong> (standard operating procedure). Each workflow tells the agent what to do for a specific task: the objective, the input, the expected output, and the steps.
+        </p>
+<div class="bg-dark-800 border border-blue-500/30 rounded-xl p-4 mb-4">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold mr-2">What is it?</span><strong>Markdown</strong> — a way to format text with simple symbols (`#` becomes a heading, `-` becomes a list, `**` becomes bold). <strong>SOP</strong> (Standard Operating Procedure) — a document that describes, step by step, how to perform a task consistently.</p>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m2-2-t2-p2">
+          This is the layer that you <strong>also edits</strong>. Changing the agent’s behavior almost never means changing code—it means rewriting the workflow in clear Portuguese. A good workflow documents four things: the <strong>goal</strong> (the final result), the <strong>input</strong> (what it receives), <strong>expected output</strong> (format, name, where to save) and the <strong>steps</strong> in order. The more explicit you are, the less the agent has to guess.
+        </p>
+<!-- code box #2: esqueleto de workflow.md -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-blue-400 font-semibold mb-1">📄 Skeleton: <span class="text-neutral-300 font-normal">workflows/relatorio-semanal.md</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-blue-400"></span><span class="text-xs text-neutral-500 ml-2">markdown (minimum structure)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed"># Relatório semanal de vendas
+
+## Objetivo
+Gerar um PDF com o resumo das vendas da semana.
+
+## Entrada
+A planilha vendas.csv na pasta temporary/.
+
+## Saída
+relatorio-AAAA-SS.pdf salvo em temporary/, com total,
+top 5 produtos e variação vs. semana anterior.
+
+## Passos
+1. Ler vendas.csv com a tool ler_csv.py
+2. Calcular totais e top 5
+3. Gerar o PDF com a tool gerar_pdf.py</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Note: no code here — just structured natural language. The agent reads this and chooses the tools.</p>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Why learn</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m2-2-t2-p3">Since the workflow is the layer that changes the most, mastering it gives you the greatest return. A well-written workflow helps the agent get it right on the first try; a vague one makes it ask questions (or worse, make the wrong assumption). Think of it as the briefing you’d give a competent person: clear enough to avoid confusion, concise enough not to be tiring.</p>
+<h3 class="text-lg font-semibold text-blue-400 mb-3">Key concepts</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">It’s an SOP</div><p class="text-xs text-neutral-400">Agent job description.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Markdown</div><p class="text-xs text-neutral-400">Simple text, no code.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Four fields</div><p class="text-xs text-neutral-400">Goal · input · output · steps.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">You edit more</div><p class="text-xs text-neutral-400">Change behavior = make changes here.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Mark as read</span><span class="inema-label-done hidden">Read</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 3 -->
+<section class="mb-16" data-inema-topic="modulo-2-2#topico-3" id="topico-3">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">🧠 A = Agent (the coordinator who makes decisions)</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>I have a question</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">What it is</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-2-t3-p1">
+          The layer <strong class="text-blue-400">A</strong> is the AI assistant itself — the <strong>coordinator</strong>, the system’s brain. It reads the workflows, sees which tools are available, and <strong>decides</strong>, at each moment, which tool to call and when. It's not a fixed script: the agent <em>chooses</em> the path, like a project manager who delegates each part to the right person.
+        </p>
+<div class="bg-dark-800 border border-blue-500/30 rounded-xl p-4 mb-4">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold mr-2">What is it?</span><strong>Coordinator (orchestrator)</strong> — the component that doesn’t do the hands-on work but decides the order of things and who handles each part. <strong>Delegate</strong> — to hand off a subtask to the most suitable tool (or subagent).</p>
+</div>
+<!-- SVG: agente como coordenador -->
+<div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="The agent, a prominent cyan central box, reads the workflows on the left and, instead of following a fixed script, chooses which of the three tools on the right to call for the current task" class="w-full h-auto" role="img" viewbox="0 0 1000 210">
+<defs>
+<pattern height="32" id="m22b-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#3b82f6" opacity="0.1" r="1.3"></circle></pattern>
+<filter height="180%" id="m22b-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.6"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<marker id="m22b-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#60a5fa"></path></marker>
+<marker id="m22b-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m22b-grid)" height="210" width="1000" x="0" y="0"></rect>
+<rect fill="#0e1a2e" height="54" rx="12" stroke="#60a5fa" stroke-width="2" width="180" x="40" y="78"></rect>
+<text fill="#93c5fd" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="130" y="102">📄 workflows</text>
+<text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="130" y="121">what to do</text>
+<g fill="none" opacity="0.75" stroke="#60a5fa" stroke-width="2.2"><path d="M220,105 L388,105" marker-end="url(#m22b-ah)"></path></g>
+<text fill="#7fb3f3" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="304" y="95">reads</text>
+<g filter="url(#m22b-glow)"><rect fill="#0e1b26" height="82" rx="16" stroke="#38bdf8" stroke-width="2.8" width="224" x="388" y="64"></rect></g>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="16" font-weight="700" text-anchor="middle" x="500" y="98">🧠 Coordinating agent</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="500" y="120">decides which tool, when</text>
+<g fill="none" opacity="0.8" stroke="#38bdf8" stroke-width="2.2">
+<path d="M612,90 C680,90 700,60 770,60" marker-end="url(#m22b-ahc)"></path>
+<path d="M612,105 L770,105" marker-end="url(#m22b-ahc)"></path>
+<path d="M612,120 C680,120 700,150 770,150" marker-end="url(#m22b-ahc)"></path>
+</g>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="690" y="48">chooses one</text>
+<rect fill="#0e1a2e" height="36" rx="9" stroke="#60a5fa" stroke-width="1.8" width="190" x="770" y="42"></rect><text fill="#93c5fd" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="865" y="65">🔧 raspar_site.py</text>
+<rect fill="#0e1a2e" height="36" rx="9" stroke="#60a5fa" stroke-width="1.8" width="190" x="770" y="87"></rect><text fill="#93c5fd" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="865" y="110">🔧 gerar_pdf.py</text>
+<rect fill="#0e1a2e" height="36" rx="9" stroke="#60a5fa" stroke-width="1.8" width="190" x="770" y="132"></rect><text fill="#93c5fd" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="865" y="155">🔧 analisar_dados.py</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mb-6">Illustrative diagram — the agent doesn’t run a fixed script; it reads the manual and decides which hands to use for what’s in front of it.</p>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Why learn</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m2-2-t3-p2">Confusing an agent with a script is the most common mistake newcomers make. A script always does the same thing in the same order; the agent <strong>reasons</strong> and adapts. That's why it can handle situations you didn't anticipate—and why you also need to give it good workflows (the manual) and good tools (the hands): it's only as good as what it has available to coordinate.</p>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Practical tip</h3>
+<p class="text-neutral-300 text-sm">When the agent chooses the "wrong" tool, the problem is almost always in the <strong>workflow</strong> (ambiguous description) or in the <strong>tool name/description</strong> (doesn’t clearly say what it does). Fix the manual, don’t fight the brain.</p>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-3">Key concepts</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">It’s the assistant</div><p class="text-xs text-neutral-400">The AI itself coordinates.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Decide</div><p class="text-xs text-neutral-400">Not a fixed script.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Manager</div><p class="text-xs text-neutral-400">Delegate to the right tool.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Adapts</div><p class="text-xs text-neutral-400">Handles the unexpected.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Mark as read</span><span class="inema-label-done hidden">Read</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 4 -->
+<section class="mb-16" data-inema-topic="modulo-2-2#topico-4" id="topico-4">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">🔧 T = Tools (Python scripts, one task each)</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>I have a question</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">What it is</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-2-t4-p1">
+          The layer <strong class="text-blue-400">T</strong> are <strong>Python scripts</strong> that do the actual work. The golden rule: ideally, <strong>one tool does one job</strong> — scrape a website, generate a PDF, analyze a spreadsheet. These are the system's “hands,” which interact with the world (files, APIs, data).
+        </p>
+<div class="bg-dark-800 border border-blue-500/30 rounded-xl p-4 mb-4">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold mr-2">What is it?</span><strong>Script</strong> — a code file that performs a task when run. <strong>Python</strong> — the most common language for these tools; you don’t need to know how to write it, because the agent writes and fixes it for you.</p>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m2-2-t4-p2">
+          The point that takes away the fear: <strong>the agent writes and fixes the tools</strong>. You don’t need to know how to code—describe what the tool should do (in the workflow), and the agent produces the Python. Small, focused tools are easy to <strong>test</strong> (only one thing can go wrong), <strong>reuse</strong> (the same gerar_pdf.py serves multiple workflows) and <strong>fix</strong> (the fix stays isolated). A tool that “does everything” becomes a black box that no one—not even the agent—can really understand.
+        </p>
+<!-- grid ✓/✗ #1 -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+<h4 class="font-bold text-blue-400 mb-4">✓ Good tool (one job)</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span><code>raspar_precos.py</code> — only reads the prices on a page.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Clear input and output (takes a URL, returns a CSV).</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Easy to test in isolation and reuse in another workflow.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Bloated tool (does everything)</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span><code>fazer_relatorio.py</code> that scrapes, calculates, generates PDFs, and sends email.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>When it breaks, it's hard to tell which part failed.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>You can't reuse pieces; it becomes a black box.</span></li>
+</ul>
+</div>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-3">Key concepts</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">One task</div><p class="text-xs text-neutral-400">Each tool does one thing.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">In Python</div><p class="text-xs text-neutral-400">The agent writes for you.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Testable</div><p class="text-xs text-neutral-400">Small = easy to check.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Reusable</div><p class="text-xs text-neutral-400">Serves multiple workflows.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Mark as read</span><span class="inema-label-done hidden">Read</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 5 -->
+<section class="mb-16" data-inema-topic="modulo-2-2#topico-5" id="topico-5">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">🔄 The self-improvement loop</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>I have a question</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">What it is</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-2-t5-p1">
+          O <strong class="text-blue-400">self-improvement loop</strong> is WAT’s superpower. The agent runs a workflow, hits an error, <strong>diagnoses</strong> the cause, <strong>fixes the tool</strong> — and, most importantly, <strong>updates the workflow file</strong> so that error <em>never again</em> happen. With each run, the system gets smoother and faster.
+        </p>
+<div class="bg-dark-800 border border-blue-500/30 rounded-xl p-4 mb-4">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold mr-2">What is it?</span><strong>Diagnose</strong> — find out <em>why</em> something failed, not just that it failed. <strong>Self-correction</strong> — have the agent apply the fix on its own (in the tool and the workflow), without you having to explain the solution.</p>
+</div>
+<!-- SVG: loop circular de auto-melhoria -->
+<div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="Five-step self-improvement cycle arranged in a circle around the agent's central node in cyan: run the workflow, find an error, diagnose the cause, fix the tool and update the workflow, then return to run it again" class="w-full h-auto" role="img" viewbox="0 0 1000 260">
+<defs>
+<pattern height="32" id="m22c-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#3b82f6" opacity="0.1" r="1.3"></circle></pattern>
+<filter height="180%" id="m22c-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.6"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<marker id="m22c-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#60a5fa"></path></marker>
+</defs>
+<rect fill="url(#m22c-grid)" height="260" width="1000" x="0" y="0"></rect>
+<!-- nó central agente (ciano) -->
+<g filter="url(#m22c-glow)"><circle cx="500" cy="130" fill="#0e1b26" r="48" stroke="#38bdf8" stroke-width="2.8"></circle></g>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="14" font-weight="700" text-anchor="middle" x="500" y="126">🧠 Agent</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="500" y="144">learns</text>
+<!-- 5 etapas -->
+<rect fill="#0e1a2e" height="44" rx="11" stroke="#60a5fa" stroke-width="2" width="170" x="60" y="40"></rect><text fill="#93c5fd" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="145" y="67">1 · runs the workflow</text>
+<rect fill="#0e1a2e" height="44" rx="11" stroke="#60a5fa" stroke-width="2" width="170" x="780" y="40"></rect><text fill="#93c5fd" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="865" y="67">2 · finds an error</text>
+<rect fill="#0e1a2e" height="44" rx="11" stroke="#60a5fa" stroke-width="2" width="170" x="815" y="176"></rect><text fill="#93c5fd" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="900" y="203">3 · diagnoses</text>
+<rect fill="#0e1a2e" height="44" rx="11" stroke="#60a5fa" stroke-width="2" width="170" x="415" y="206"></rect><text fill="#93c5fd" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="500" y="233">4 · fix the tool</text>
+<rect fill="#0e1a2e" height="44" rx="11" stroke="#60a5fa" stroke-width="2" width="190" x="15" y="176"></rect><text fill="#93c5fd" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="110" y="203">5 · update the workflow</text>
+<!-- setas circulares -->
+<g fill="none" opacity="0.8" stroke="#60a5fa" stroke-width="2.2">
+<path d="M230,55 C400,30 600,30 778,55" marker-end="url(#m22c-ah)"></path>
+<path d="M880,84 C930,120 920,150 905,174" marker-end="url(#m22c-ah)"></path>
+<path d="M815,210 C720,235 640,235 587,230" marker-end="url(#m22c-ah)"></path>
+<path d="M415,230 C330,235 250,232 205,213" marker-end="url(#m22c-ah)"></path>
+<path d="M95,176 C60,140 70,108 120,84" marker-end="url(#m22c-ah)"></path>
+</g>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mb-6">Illustrative diagram — an error isn’t waste: it becomes a permanent improvement to the manual. That’s why WAT improves on its own with use.</p>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Why learn</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m2-2-t5-p2">Without the loop, you fix the same error every week. With it, each failure is “paid for once”: the agent records the lesson in the workflow, and the system stops stumbling there. That’s what turns a fragile prototype into a reliable assistant—and the key is to insist that it <strong>update the workflow</strong>, don't just patch the tool on the fly.</p>
+<!-- timeline (loop como etapas numeradas) -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h4 class="font-semibold text-blue-400 mb-4">The full loop, step by step</h4>
+<ol class="space-y-4">
+<li class="flex items-start gap-3"><span class="flex-none flex items-center justify-center w-7 h-7 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold">1</span><div class="text-sm text-neutral-300"><strong class="text-neutral-100">Runs</strong> — the agent runs the workflow with the current tool.</div></li>
+<li class="flex items-start gap-3"><span class="flex-none flex items-center justify-center w-7 h-7 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold">2</span><div class="text-sm text-neutral-300"><strong class="text-neutral-100">Error</strong> — something fails (unexpected format, empty field, API is down).</div></li>
+<li class="flex items-start gap-3"><span class="flex-none flex items-center justify-center w-7 h-7 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold">3</span><div class="text-sm text-neutral-300"><strong class="text-neutral-100">Diagnoses</strong> — reads the error message and identifies the root cause.</div></li>
+<li class="flex items-start gap-3"><span class="flex-none flex items-center justify-center w-7 h-7 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold">4</span><div class="text-sm text-neutral-300"><strong class="text-neutral-100">Fix the tool</strong> — adjust the Python to handle that case.</div></li>
+<li class="flex items-start gap-3"><span class="flex-none flex items-center justify-center w-7 h-7 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold">5</span><div class="text-sm text-neutral-300"><strong class="text-neutral-100">Updates the workflow</strong> — records the lesson so the error doesn't happen again. Then it returns to step 1, more robust.</div></li>
+</ol>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-3">Key concepts</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Diagnoses</div><p class="text-xs text-neutral-400">Finds the cause of the error.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Fix the tool</div><p class="text-xs text-neutral-400">Adjust the script.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Updates the W</div><p class="text-xs text-neutral-400">Lesson becomes a fixed rule.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Improves on its own</div><p class="text-xs text-neutral-400">Smoother with every run.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Mark as read</span><span class="inema-label-done hidden">Read</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 6 -->
+<section class="mb-16" data-inema-topic="modulo-2-2#topico-6" id="topico-6">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">📁 Folder structure (workflows/tools/temporary/.env)</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>I have a question</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">What it is</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-2-t6-p1">
+          WAT has a <strong>recommended folder layout</strong> that gives everything its place: a folder <code>workflows/</code> (the Markdown manuals), a <code>tools/</code> (the Python scripts), a <code>temporary/</code> (intermediate and output files), an environment file <code>.env</code> (API keys and secrets, <strong>never</strong> shared) and the <code>CLAUDE.md</code> at the root, which guides the agent through the entire project.
+        </p>
+<div class="bg-dark-800 border border-blue-500/30 rounded-xl p-4 mb-4">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold mr-2">What is it?</span><strong>.env</strong> — a file for storing secrets (API keys, passwords) separately from the code, so they never end up on GitHub. <strong>CLAUDE.md</strong> — the context file the agent reads first; it explains the project, its rules, and how the WAT layers are organized.</p>
+</div>
+<!-- SVG: árvore de pastas -->
+<div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="WAT project folder tree: at the root are the CLAUDE.md file and the .env secrets file, plus the workflows, tools, and temporary folders, each with example files inside" class="w-full h-auto" role="img" viewbox="0 0 1000 230">
+<defs>
+<pattern height="32" id="m22d-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#3b82f6" opacity="0.1" r="1.3"></circle></pattern>
+<filter height="180%" id="m22d-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.4"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+</defs>
+<rect fill="url(#m22d-grid)" height="230" width="1000" x="0" y="0"></rect>
+<!-- raiz -->
+<g filter="url(#m22d-glow)"><rect fill="#0e1b26" height="44" rx="12" stroke="#38bdf8" stroke-width="2.6" width="180" x="40" y="96"></rect></g>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="14" font-weight="700" text-anchor="middle" x="130" y="123">📦 project/</text>
+<!-- conectores -->
+<g fill="none" opacity="0.7" stroke="#60a5fa" stroke-width="2">
+<path d="M220,108 L300,30"></path><path d="M220,114 L300,80"></path><path d="M220,124 L300,124"></path><path d="M220,130 L300,168"></path><path d="M220,136 L300,206"></path>
+</g>
+<!-- nós nível 1 -->
+<rect fill="#0e1a2e" height="32" rx="8" stroke="#60a5fa" stroke-width="1.8" width="220" x="300" y="14"></rect><text fill="#93c5fd" font-family="Inter,sans-serif" font-size="12" x="316" y="35">📄 CLAUDE.md (context)</text>
+<rect fill="#0e1a2e" height="32" rx="8" stroke="#60a5fa" stroke-width="1.8" width="220" x="300" y="64"></rect><text fill="#93c5fd" font-family="Inter,sans-serif" font-size="12" x="316" y="85">🔑 .env (secrets)</text>
+<rect fill="#0e1a2e" height="32" rx="8" stroke="#60a5fa" stroke-width="1.8" width="220" x="300" y="108"></rect><text fill="#93c5fd" font-family="Inter,sans-serif" font-size="12" x="316" y="129">📁 workflows/</text>
+<rect fill="#0e1a2e" height="32" rx="8" stroke="#60a5fa" stroke-width="1.8" width="220" x="300" y="152"></rect><text fill="#93c5fd" font-family="Inter,sans-serif" font-size="12" x="316" y="173">📁 tools/</text>
+<rect fill="#0e1a2e" height="32" rx="8" stroke="#60a5fa" stroke-width="1.8" width="220" x="300" y="196"></rect><text fill="#93c5fd" font-family="Inter,sans-serif" font-size="12" x="316" y="217">📁 temporary/</text>
+<!-- conteúdo das pastas -->
+<g fill="none" opacity="0.55" stroke="#60a5fa" stroke-width="1.6"><path d="M520,124 L600,124"></path><path d="M520,168 L600,168"></path><path d="M520,212 L600,212"></path></g>
+<rect fill="#0b1320" height="32" rx="8" stroke="#3b82f6" stroke-width="1.4" width="360" x="600" y="108"></rect><text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="11" x="616" y="129">relatorio-semanal.md · email-suporte.md</text>
+<rect fill="#0b1320" height="32" rx="8" stroke="#3b82f6" stroke-width="1.4" width="360" x="600" y="152"></rect><text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="11" x="616" y="173">ler_csv.py · gerar_pdf.py · raspar_site.py</text>
+<rect fill="#0b1320" height="32" rx="8" stroke="#3b82f6" stroke-width="1.4" width="360" x="600" y="196"></rect><text fill="#bfdbfe" font-family="Inter,sans-serif" font-size="11" x="616" y="217">sales.csv · report-2026-25.pdf</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mb-6">Illustrative diagram — each WAT layer gets its own folder; secrets stay isolated in .env, and temporary/ holds what's disposable.</p>
+<!-- code box #1 (copy-run) -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-blue-400 font-semibold mb-1">🎯 Goal: <span class="text-neutral-300 font-normal">build the project's WAT structure</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-blue-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (copy and run)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">no Plan Mode, crie um CLAUDE.md na raiz usando o framework WAT,
+com as pastas workflows/ tools/ temporary/ e um arquivo .env.
+Descreva cada camada (W, A, T) e as regras de operação.</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ How to verify: check that the workflows/ tools/ temporary/ folders and the .env file were created, and that CLAUDE.md mentions the 3 layers.</p>
+</div>
+<!-- code box #2 (árvore de pastas) -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-blue-400 font-semibold mb-1">📁 Expected result: <span class="text-neutral-300 font-normal">project folder tree</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-blue-400"></span><span class="text-xs text-neutral-500 ml-2">file structure</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">projeto/
+├─ CLAUDE.md        &lt;- contexto: explica o projeto e o WAT
+├─ workflows/       &lt;- W: os manuais em markdown (.md)
+├─ tools/           &lt;- T: os scripts Python (.py)
+├─ temporary/       &lt;- arquivos intermediários e de saída
+└─ .env             &lt;- segredos (NUNCA versionar/compartilhar)</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Layer A (the agent) isn't a folder: it's the assistant itself, which reads all of this and coordinates.</p>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-3">Key concepts</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">workflows/</div><p class="text-xs text-neutral-400">The .md manuals.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">tools/</div><p class="text-xs text-neutral-400">The .py scripts.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">temporary/</div><p class="text-xs text-neutral-400">Intermediaries and output.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">.env</div><p class="text-xs text-neutral-400">Secrets isolated.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Mark as read</span><span class="inema-label-done hidden">Read</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 7 -->
+<section class="mb-16" data-inema-topic="modulo-2-2#topico-7" id="topico-7">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">7</span>
+<h2 class="text-2xl font-bold">🚦 When NOT to use WAT</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>I have a question</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">What it is</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m2-2-t7-p1">
+          As important as knowing how to use WAT is knowing <strong class="text-blue-400">when not to use it</strong>. For a one-off task, an initial experiment, or a request <strong>simple enough to fit in one sentence</strong>, building the whole WAT structure is overkill—bureaucracy that costs time and context without delivering value. In these cases, just type the request.
+        </p>
+<div class="bg-dark-800 border border-blue-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold mr-2">What is it?</span><strong>One-sentence task</strong> — something you can describe completely in a single instruction ("convert this CSV to JSON"). <strong>Context</strong> — the conversation’s “memory space”; unnecessary structures fill it up for no reason.</p>
+</div>
+<!-- grid ✓/✗ #2 -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+<h4 class="font-bold text-blue-400 mb-4">✓ Use WAT</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Task <strong>repeatable</strong> that you'll run many times.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Process <strong>complex</strong>, with multiple steps and tools.</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Something that needs <strong>improve over time</strong> (self-improvement loop).</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Don’t use WAT</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Request <strong>of a sentence</strong> ("summarize this text").</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Task <strong>one-off</strong>, which runs once and is done.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span><strong>Experimentation</strong> initial, still exploring the idea.</span></li>
+</ul>
+</div>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-2">Why learn</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m2-2-t7-p2">People who learn WAT sometimes want to structure everything—and end up creating folders and workflows for things that could be handled with a direct command. Knowing when <em>no</em> using it avoids bureaucracy, saves context, and keeps you moving fast. The rule is simple: <strong>if it fits in one sentence, make it one sentence</strong>; if it will be repeated and scaled, it becomes WAT.</p>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Practical tip</h3>
+<p class="text-neutral-300 text-sm">Always start with a direct request. When you notice you’re repeating the same request (or adjusting it every time), <strong>there</strong> it’s time to promote it to a workflow. Let the structure emerge from real needs, not enthusiasm.</p>
+</div>
+<h3 class="text-lg font-semibold text-blue-400 mb-3">Key concepts</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Sentence = sentence</div><p class="text-xs text-neutral-400">Simple request, no structure.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">One-off</div><p class="text-xs text-neutral-400">Runs once, without WAT.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">Repeatable → WAT</div><p class="text-xs text-neutral-400">Promote it when you repeat it.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-blue-400 font-semibold text-sm mb-1">No red tape</div><p class="text-xs text-neutral-400">Just the right structure.</p></div>
+</div>
+<!-- Checagem leve opcional -->
+<div class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6" data-inema-check="modulo-2-2#q1">
+<p class="inema-check__q font-medium mb-4">In the WAT framework, <strong>which layer decides</strong> which tool to use at each point?</p>
+<div class="inema-check-options inema-check__options space-y-2">
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0" type="button">W — Workflows, the markdown instruction files.</button>
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1" type="button">A — Agent, the coordinator that reads the workflows and chooses the tool.</button>
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2" type="button">T — Tools, the Python scripts that do the work.</button>
+</div>
+<div aria-live="polite" class="mt-4 text-sm" data-inema-check-feedback="" role="status"></div>
+</div>
+<div class="flex justify-start mt-8">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Mark as read</span><span class="inema-label-done hidden">Read</span>
+</button>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-8">
+<div class="bg-gradient-to-br from-blue-900/40 via-dark-800 to-dark-800 rounded-xl border border-blue-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📌</span> Module Summary</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">WAT overview</strong><span class="text-neutral-400"> — three layers that give the agent a manual (W), a brain (A), and hands (T); almost everything fits this model.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">W = Workflows</strong><span class="text-neutral-400"> — markdown instructions (SOP) with objective, input, output, and steps; the layer you edit the most.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">A = Agent</strong><span class="text-neutral-400"> — the coordinator/brain that reads the workflows and decides which tool to use; it isn’t a fixed script.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">T = Tools</strong><span class="text-neutral-400"> — Python scripts that each do one job; the agent writes and fixes them, so you don't need to know how to code.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">Self-improvement loop</strong><span class="text-neutral-400"> — when it makes a mistake, the agent fixes the tool AND updates the workflow; the system improves with every run.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">Folder structure</strong><span class="text-neutral-400"> — workflows/ tools/ temporary/ + .env (secrets) + CLAUDE.md; each layer has its place.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">When NOT to use</strong><span class="text-neutral-400"> — a one-sentence request, a one-off task, or experimentation: WAT is overkill; just type the request.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-blue-400 mb-2">Next Module:</h3>
+<p class="text-neutral-300">2.3 — MCP Under the Hood</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="index.html">← Back to Track</a>
+<a class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors" href="modulo-2-3.html">Next Module →</a>
+</div>
+</div>
+</section>
+</main>
+<!-- TOC sticky + scrollspy -->
+<aside class="hidden lg:block">
+<nav aria-label="Page index" class="sticky top-24 self-start" data-inema-toc="">
+<p class="text-sm text-neutral-400 mb-3">Section <span data-inema-section-counter=""><span class="inema-toc-pos">1</span> of <span class="inema-toc-total">7</span></span></p>
+<ol class="space-y-1.5 text-sm">
+<li><a class="inema-toc-link text-neutral-400 hover:text-blue-400 block" href="#topico-1">1. WAT overview</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-blue-400 block" href="#topico-2">2. W = Workflows</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-blue-400 block" href="#topico-3">3. A = Agent</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-blue-400 block" href="#topico-4">4. T = Tools</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-blue-400 block" href="#topico-5">5. Self-improvement loop</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-blue-400 block" href="#topico-6">6. Folder structure</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-blue-400 block" href="#topico-7">7. When NOT to use</a></li>
+</ol>
+</nav>
+</aside>
+</div>
+<footer class="border-t border-dark-600 py-8 mt-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Vibe Coding: Complete Mastery · Original course <a class="text-sky-400 hover:text-sky-300 font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a> · 2026</p>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const htmlEl = document.documentElement;
+    if (htmlEl.classList.contains('dark')) { themeToggleLightIcon.classList.remove('hidden'); }
+    else { themeToggleDarkIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      htmlEl.classList.toggle('dark');
+      const isDark = htmlEl.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      if (window.INEMA && INEMA.setPref) { INEMA.setPref('theme', isDark ? 'inema-dark' : 'claro'); }
+    });
+  </script>
+<script src="../../../assets/learn.js"></script>
+<script>
+    if (window.INEMA && typeof window.INEMA.init === 'function') {
+      window.INEMA.init();
+      if (window.INEMA.registerCheck) {
+        INEMA.registerCheck('modulo-2-2#q1', {
+          answer: 1,
+          explain: {
+            0: 'Não. Os Workflows dizem O QUE fazer (são o manual), mas não decidem nada por si — quem lê e decide é o agente.',
+            1: 'Isso. O Agent é o coordenador/cérebro: lê os workflows, enxerga as tools e escolhe qual usar e quando.',
+            2: 'Não. As Tools são as mãos que executam quando chamadas; elas não decidem — só fazem o trabalho que o agente delega.'
+          }
+        });
+      }
+    }
+  </script>
+</body>
+</html>

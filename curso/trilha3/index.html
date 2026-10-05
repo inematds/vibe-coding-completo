@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="dark">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="inema-course" content="vibe-coding-completo">
 
-  <!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
-  <script>
+<html class="dark" lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="vibe-coding-completo" name="inema-course"/>
+<!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
+<script>
   (function () {
     try {
       var html = document.documentElement;
@@ -74,10 +74,9 @@
     }
   })();
   </script>
-
-  <title>Trilha 3 · Prompts & Padrões de Conversa | Vibe Coding: Domínio Completo</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
+<title>Trilha 3 · Prompts &amp; Padrões de Conversa | Vibe Coding: Domínio Completo</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
@@ -90,10 +89,9 @@
       }
     }
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
-  <script type="application/json" data-inema-manifest>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
+<script data-inema-manifest="" type="application/json">
   {
     "course": "vibe-coding-completo",
     "tracks": [
@@ -133,10 +131,8 @@
     ]
   }
   </script>
-
-  <link rel="stylesheet" href="../../assets/learn.css">
-
-  <style>
+<link href="../../assets/learn.css" rel="stylesheet"/>
+<style>
     body { font-family: 'Inter', sans-serif; }
     .dark body { background-color: #111827; }
     .topic-explanation { display: none; }
@@ -202,569 +198,551 @@
       .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
     }
   </style>
-</head>
-<body class="bg-dark-900 text-neutral-100 min-h-screen">
-
-  <a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-purple-600 focus:text-white focus:rounded-lg" href="#conteudo">Pular para o conteúdo</a>
-
-  <!-- NAVIGATION (T3 ativa) -->
-  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-14">
-        <div class="flex items-center space-x-4">
-          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
-            <span class="text-2xl">⚡</span>
-            <span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
-          </a>
-          <span class="text-neutral-600">|</span>
-          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
-        </div>
-        <div class="flex items-center space-x-1 sm:space-x-2">
-          <a href="../trilha1/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
-            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
-          </a>
-          <a href="../trilha2/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
-            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Técnica</span>
-          </a>
-          <a href="index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10">
-            <span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
-          </a>
-          <a href="../trilha4/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors">
-            <span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
-          </a>
-          <a href="../trilha5/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors">
-            <span class="sm:hidden">T5</span><span class="hidden sm:inline">Projetos</span>
-          </a>
-          <a href="../trilha6/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors">
-            <span class="sm:hidden">T6</span><span class="hidden sm:inline">Produção</span>
-          </a>
-          <button type="button" data-inema-journey-open class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1">
-            <span aria-hidden="true">◷</span><span>Minha jornada</span>
-            <span class="inema-journey-badge hidden" data-inema-journey-badge data-count="0"></span>
-          </button>
-          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" aria-label="Alternar tema claro/escuro">
-            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-            </svg>
-            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <!-- HEADER DA TRILHA -->
-  <header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-4">TRILHA 3</span>
-      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🟣 Prompts & Padrões de Conversa</h1>
-      <p class="text-lg text-neutral-400 max-w-3xl">
+<link href="https://inematds.github.io/vibe-coding-completo/curso/trilha3/" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/en/curso/trilha3/" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/es/curso/trilha3/" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="./" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">PT</a><a href="../../en/curso/trilha3/" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="../../es/curso/trilha3/" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-purple-600 focus:text-white focus:rounded-lg" href="#conteudo">Pular para o conteúdo</a>
+<!-- NAVIGATION (T3 ativa) -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Técnica</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10" href="index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Projetos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Produção</span>
+</a>
+<button class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-inema-journey-open="" type="button">
+<span aria-hidden="true">◷</span><span>Minha jornada</span>
+<span class="inema-journey-badge hidden" data-count="0" data-inema-journey-badge=""></span>
+</button>
+<button aria-label="Alternar tema claro/escuro" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20">
+<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+</svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- HEADER DA TRILHA -->
+<header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-4">TRILHA 3</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🟣 Prompts &amp; Padrões de Conversa</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">
         A craft do prompt — e uma <strong class="text-purple-400">biblioteca de prompts prontos</strong> que você copia e roda. Aqui você firma os padrões que tiram resultado consistente da IA, domina o ciclo Plan → Build → Troubleshoot → Optimize, e leva uma coleção de prompts reais, completos e parametrizáveis. Trilha fortemente <strong>copy-run</strong>: tudo é para colar e executar.
       </p>
-      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-purple-400">3</div>
-          <div class="text-xs text-neutral-400">Módulos</div>
-        </div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-purple-400">22</div>
-          <div class="text-xs text-neutral-400">Tópicos</div>
-        </div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-purple-400">~2h30</div>
-          <div class="text-xs text-neutral-400">Duração</div>
-        </div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-purple-400">Prático</div>
-          <div class="text-xs text-neutral-400">Nível</div>
-        </div>
-      </div>
-
-      <!-- progresso da trilha -->
-      <div class="mt-6 max-w-2xl" data-inema-meter="trilha:3" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso da trilha 3">
-        <div class="flex items-center justify-between mb-1 text-sm">
-          <span class="text-neutral-400">Progresso da trilha</span>
-          <span class="text-purple-400 font-semibold"><span data-inema-meter-pct>0%</span> · <span data-inema-meter-frac>0 de 22</span></span>
-        </div>
-        <div class="inema-bar h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-purple-500 rounded-full" data-inema-meter-fill style="width:0%"></div></div>
-      </div>
-    </div>
-  </header>
-
-  <main id="conteudo" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-
-    <img src="../../assets/img/hero-t3.png" alt="Banner da trilha de prompts: um terminal e balões de diálogo em roxo virando fluxos estruturados" class="w-full h-auto rounded-2xl border border-purple-500/30 mb-8 shadow-lg shadow-purple-500/5" loading="lazy">
-
-    <!-- HERO SVG -->
-    <section class="mb-12">
-      <div class="rounded-2xl border border-purple-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden">
-        <svg viewBox="0 0 1000 220" class="w-full h-auto" role="img" aria-label="O arco da trilha 3: primeiro os padrões de prompting que orientam toda conversa, depois o ciclo de quatro fases planejar, construir, depurar e otimizar, e por fim a biblioteca de prompts prontos para copiar e rodar">
-          <defs>
-            <linearGradient id="t3-grad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#c084fc"/><stop offset="1" stop-color="#8b5cf6"/>
-            </linearGradient>
-            <filter id="t3-glow" x="-40%" y="-40%" width="180%" height="180%">
-              <feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-            <pattern id="t3-grid" width="32" height="32" patternUnits="userSpaceOnUse">
-              <circle cx="1.3" cy="1.3" r="1.3" fill="#8b5cf6" opacity="0.12"/>
-            </pattern>
-            <marker id="t3-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#c084fc"/></marker>
-          </defs>
-          <rect x="0" y="0" width="1000" height="220" fill="url(#t3-grid)"/>
-          <g fill="none" stroke="#c084fc" stroke-width="2" opacity="0.55">
-            <path d="M330,110 L372,110" marker-end="url(#t3-ah)"/>
-            <path d="M622,110 L664,110" marker-end="url(#t3-ah)"/>
-          </g>
-          <g filter="url(#t3-glow)"><rect x="40" y="74" width="290" height="72" rx="16" fill="#1c1033" stroke="url(#t3-grad)" stroke-width="2.5"/></g>
-          <text x="185" y="104" text-anchor="middle" fill="#c084fc" font-family="Inter,sans-serif" font-weight="600" font-size="16">Módulo 3.1</text>
-          <text x="185" y="126" text-anchor="middle" fill="#d8c4f7" font-family="Inter,sans-serif" font-size="12">Os padrões de prompting</text>
-
-          <rect x="372" y="74" width="250" height="72" rx="16" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/>
-          <text x="497" y="104" text-anchor="middle" fill="#bfe6ff" font-family="Inter,sans-serif" font-weight="600" font-size="16">Módulo 3.2</text>
-          <text x="497" y="126" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="12">O ciclo de 4 fases</text>
-
-          <rect x="664" y="74" width="294" height="72" rx="16" fill="#1c1033" stroke="#a78bfa" stroke-width="2"/>
-          <text x="811" y="104" text-anchor="middle" fill="#c084fc" font-family="Inter,sans-serif" font-weight="600" font-size="16">Módulo 3.3</text>
-          <text x="811" y="126" text-anchor="middle" fill="#d8c4f7" font-family="Inter,sans-serif" font-size="12">Biblioteca de prompts (copy-run)</text>
-        </svg>
-      </div>
-      <p class="text-xs text-neutral-500 mt-2">O caminho da trilha 3: dos padrões que orientam cada pedido, passando pelo ciclo de quatro fases, até a biblioteca pronta para copiar e rodar.</p>
-    </section>
-
-    <!-- MAPA DA TRILHA (OBRIGATORIO) -->
-    <section class="mb-12">
-      <h2 class="text-2xl font-bold mb-6">Mapa da trilha</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <a href="#modulo-3-1" class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-purple-500/30 p-5 transition-all">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-purple-400 font-bold text-sm">3.1</span>
-            <span class="text-xs text-neutral-500">~45 min</span>
-          </div>
-          <h3 class="font-semibold mb-1 group-hover:text-purple-400 transition-colors">🎯 Os Padrões de Prompting</h3>
-          <p class="text-xs text-neutral-400">Os hábitos que tiram resultado consistente</p>
-        </a>
-        <a href="#modulo-3-2" class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-purple-500/30 p-5 transition-all">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-purple-400 font-bold text-sm">3.2</span>
-            <span class="text-xs text-neutral-500">~45 min</span>
-          </div>
-          <h3 class="font-semibold mb-1 group-hover:text-purple-400 transition-colors">🔄 O Ciclo de 4 Fases</h3>
-          <p class="text-xs text-neutral-400">Plan → Build → Troubleshoot → Optimize</p>
-        </a>
-        <a href="#modulo-3-3" class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-purple-500/30 p-5 transition-all">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-purple-400 font-bold text-sm">3.3</span>
-            <span class="text-xs text-neutral-500">~60 min</span>
-          </div>
-          <h3 class="font-semibold mb-1 group-hover:text-purple-400 transition-colors">📚 Biblioteca de Prompts</h3>
-          <p class="text-xs text-neutral-400">8 prompts prontos, copy-run</p>
-        </a>
-      </div>
-    </section>
-
-    <h2 class="text-2xl font-bold mb-6">Conteúdo detalhado</h2>
-
-    <!-- MÓDULO 3.1 -->
-    <div id="modulo-3-1" data-inema-module="3-1" data-inema-track="3" class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
-      <img src="../../assets/img/thumb-3-1.png" alt="Ilustração do módulo 3.1" class="w-full h-32 sm:h-40 object-cover rounded-t-xl border-b border-purple-500/20" loading="lazy">
-      <div class="p-6 border-b border-dark-600">
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-purple-400 font-bold">3.1</span>
-          <span class="text-xs text-neutral-500">~45 min · 7 tópicos</span>
-        </div>
-        <h3 class="text-2xl font-bold mb-2">🎯 Os Padrões de Prompting</h3>
-        <p class="text-neutral-400 text-sm">Os hábitos que separam um pedido qualquer de um pedido que rende: definir o objetivo (não os passos), ser específico sobre a saída, planejar antes de executar, dar feedback em vez de correção, tratar a IA como especialista, evitar os erros que mais custam token, e o checklist das 12 dicas.</p>
-        <div class="mt-3" data-inema-meter="modulo:3-1">
-          <div class="flex items-center justify-between mb-1 text-xs">
-            <span class="text-neutral-500">Progresso do módulo</span>
-            <span class="text-purple-400"><span data-inema-meter-pct>0%</span> · <span data-inema-meter-frac>0 de 7</span></span>
-          </div>
-          <div class="inema-bar h-1.5 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-purple-500 rounded-full" data-inema-meter-fill style="width:0%"></div></div>
-        </div>
-      </div>
-      <div class="divide-y divide-dark-600">
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t31-1" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
-            <span class="text-lg">🎯</span>
-            <div><span class="font-medium">Definir o objetivo, não os passos</span><span class="text-neutral-500 text-sm ml-2">- Diga o "o quê", deixe a IA achar o "como"</span></div>
-          </button>
-          <div id="t31-1" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Descrever o resultado desejado em vez de ditar a sequência técnica — "identifique perguntas técnicas e rascunhe a resposta", não "use um nó IF com regex".</p></div>
-              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Liberta a IA para usar todo o repertório dela; o caminho costuma ser melhor que o seu.</p></div>
-              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Outcome &gt; instrução; não microgerenciar; a IA escolhe a rota.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t31-2" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
-            <span class="text-lg">📐</span>
-            <div><span class="font-medium">Ser específico sobre a saída</span><span class="text-neutral-500 text-sm ml-2">- Formato, estrutura, nome, onde salvar</span></div>
-          </button>
-          <div id="t31-2" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Dizer exatamente o formato e o destino: "75 perfis", ".docx na pasta saídas", "tabela com colunas data, tópico, resumo".</p></div>
-              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Saída vaga gera resultado vago e mais idas e vindas (mais token).</p></div>
-              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Quantidade exata; formato; nome do arquivo; pasta de saída.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t31-3" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
-            <span class="text-lg">🗺️</span>
-            <div><span class="font-medium">Plan Mode primeiro, executar depois</span><span class="text-neutral-500 text-sm ml-2">- Planejar antes de tocar em qualquer coisa</span></div>
-          </button>
-          <div id="t31-3" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Começar no modo de planejamento: a IA pesquisa, faz perguntas e propõe um plano; só depois de aprovado é que constrói.</p></div>
-              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Você corrige rumo no plano (barato) e não no meio do build (caro).</p></div>
-              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Pesquisa → perguntas → plano → aprovar → bypass para executar.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t31-4" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
-            <span class="text-lg">💬</span>
-            <div><span class="font-medium">Feedback, não correção</span><span class="text-neutral-500 text-sm ml-2">- "Gostei de X, mude Y"</span></div>
-          </button>
-          <div id="t31-4" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Devolver feedback específico ("gostei da estrutura, mas o tom está formal demais") em vez de correção seca ("está errado").</p></div>
-              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Feedback faz a IA ajustar o raciocínio; correção seca só remenda a saída.</p></div>
-              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Específico; o que gostou + o que mudar; alimenta o loop de melhoria.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t31-5" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
-            <span class="text-lg">🧑‍🔬</span>
-            <div><span class="font-medium">Tratar o agente como especialista</span><span class="text-neutral-500 text-sm ml-2">- Você gerencia, ela desenvolve</span></div>
-          </button>
-          <div id="t31-5" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Falar com a IA como com um desenvolvedor experiente: você define objetivo e contexto, ela escolhe ferramentas, escreve e depura.</p></div>
-              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Microgerenciar limita a IA ao seu conhecimento; delegar libera o melhor dela.</p></div>
-              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Gerente vs desenvolvedor; delegar resultado; confiar no repertório.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t31-6" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
-            <span class="text-lg">🔥</span>
-            <div><span class="font-medium">Os erros que mais custam token</span><span class="text-neutral-500 text-sm ml-2">- Sessão inchada, sem "pronto", MCP ligado à toa</span></div>
-          </button>
-          <div id="t31-6" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Padrões que queimam token: reutilizar conversa inchada, não definir "pronto", deixar servers MCP ligados, corrigir a mesma coisa três vezes.</p></div>
-              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Token é custo; e contexto inchado degrada a qualidade (context rot).</p></div>
-              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Uma tarefa por sessão; definir "pronto"; /clear quando emperra.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t31-7" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">7</span>
-            <span class="text-lg">✅</span>
-            <div><span class="font-medium">Checklist das 12 dicas</span><span class="text-neutral-500 text-sm ml-2">- O resumo prático que cabe no bolso</span></div>
-          </button>
-          <div id="t31-7" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">A consolidação: 12 boas práticas (plan mode, objetivo claro, definir pronto, gerenciar contexto, feedback, segredos em .env, testar com vários inputs…).</p></div>
-              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Vira um checklist mental que você aplica antes de cada build.</p></div>
-              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">12 dicas; assistir o build cedo; salvar skills testadas; recomeçar limpo.</p></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
-        <a href="modulo-3-1.html" class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">Ver Completo</a>
-      </div>
-    </div>
-
-    <!-- MÓDULO 3.2 -->
-    <div id="modulo-3-2" data-inema-module="3-2" data-inema-track="3" class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
-      <img src="../../assets/img/thumb-3-2.png" alt="Ilustração do módulo 3.2" class="w-full h-32 sm:h-40 object-cover rounded-t-xl border-b border-purple-500/20" loading="lazy">
-      <div class="p-6 border-b border-dark-600">
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-purple-400 font-bold">3.2</span>
-          <span class="text-xs text-neutral-500">~45 min · 7 tópicos</span>
-        </div>
-        <h3 class="text-2xl font-bold mb-2">🔄 O Ciclo Plan → Build → Troubleshoot → Optimize</h3>
-        <p class="text-neutral-400 text-sm">As quatro fases de todo build: planejar (pesquisa + perguntas + plano), construir (criar e validar), o que a IA NÃO faz (credenciais, mapeamento), depurar (devolver o erro com contexto), otimizar (melhorar em linguagem natural), verificar de verdade, e fazer backup antes de mudar.</p>
-        <div class="mt-3" data-inema-meter="modulo:3-2">
-          <div class="flex items-center justify-between mb-1 text-xs">
-            <span class="text-neutral-500">Progresso do módulo</span>
-            <span class="text-purple-400"><span data-inema-meter-pct>0%</span> · <span data-inema-meter-frac>0 de 7</span></span>
-          </div>
-          <div class="inema-bar h-1.5 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-purple-500 rounded-full" data-inema-meter-fill style="width:0%"></div></div>
-        </div>
-      </div>
-      <div class="divide-y divide-dark-600">
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t32-1" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
-            <span class="text-lg">🗺️</span>
-            <div><span class="font-medium">Fase 1 — Plan</span><span class="text-neutral-500 text-sm ml-2">- Pesquisa + perguntas + plano aprovado</span></div>
-          </button>
-          <div id="t32-1" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">A IA pesquisa os nós/padrões certos, faz perguntas de esclarecimento e propõe um plano para você aprovar.</p></div>
-              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É a fase mais barata de mudar de ideia; alinhar aqui evita retrabalho.</p></div>
-              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Plan Mode; perguntas de esclarecimento; aprovar o plano.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t32-2" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
-            <span class="text-lg">🏗️</span>
-            <div><span class="font-medium">Fase 2 — Build</span><span class="text-neutral-500 text-sm ml-2">- Criar e validar</span></div>
-          </button>
-          <div id="t32-2" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">A IA constrói o workflow/projeto e valida sozinha o que dá; em bypass, executa sem te interromper.</p></div>
-              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Você assiste cedo para aprender e interromper se sair do trilho.</p></div>
-              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Auto-validação; bypass permissions; assistir o build.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t32-3" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
-            <span class="text-lg">🙅</span>
-            <div><span class="font-medium">O que a IA NÃO faz</span><span class="text-neutral-500 text-sm ml-2">- Credenciais e mapeamento são seus</span></div>
-          </button>
-          <div id="t32-3" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Algumas etapas são manuais: criar credenciais OAuth, criar a planilha de destino, mapear campos.</p></div>
-              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Saber a fronteira evita esperar a IA fazer o que só você pode fazer.</p></div>
-              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">OAuth manual; criar destino; mapear valores; chave nunca no chat.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t32-4" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
-            <span class="text-lg">🔧</span>
-            <div><span class="font-medium">Fase 3 — Troubleshoot</span><span class="text-neutral-500 text-sm ml-2">- Devolver o erro com contexto</span></div>
-          </button>
-          <div id="t32-4" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Quando algo quebra, copie a mensagem de erro inteira + onde ela aconteceu de volta para a IA, e peça para diagnosticar e corrigir.</p></div>
-              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Erro sem contexto vira chute; erro com contexto vira correção rápida.</p></div>
-              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Mensagem + local do nó; "por que isso aconteceu"; reexecutar.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t32-5" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
-            <span class="text-lg">⚡</span>
-            <div><span class="font-medium">Fase 4 — Optimize</span><span class="text-neutral-500 text-sm ml-2">- Melhorar em linguagem natural</span></div>
-          </button>
-          <div id="t32-5" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Com o básico funcionando, você melhora em camadas: tratar erros, melhorar a lógica, polir a saída, acelerar — tudo conversando.</p></div>
-              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">"Funciona" vira "funciona bem": casos de borda, UX, eficiência.</p></div>
-              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Iterar em camadas; ordem de prioridade; uma mudança por vez.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t32-6" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
-            <span class="text-lg">🔬</span>
-            <div><span class="font-medium">Verificação & testes de verdade</span><span class="text-neutral-500 text-sm ml-2">- Verde ≠ correto</span></div>
-          </button>
-          <div id="t32-6" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Testar com cenários reais (inclusive casos de borda e fora de escopo), conferir números e fatos, exigir que o agente diga "não sei".</p></div>
-              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Um fluxo "verde" pode dar a resposta errada; testar é o que revela.</p></div>
-              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Cenários reais; conferir fatos; recusar inventar; checklist por teste.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t32-7" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">7</span>
-            <span class="text-lg">💾</span>
-            <div><span class="font-medium">Backup antes de mudar</span><span class="text-neutral-500 text-sm ml-2">- Export JSON e linha de base</span></div>
-          </button>
-          <div id="t32-7" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Antes de qualquer mudança, duplicar ou exportar (JSON) e estabelecer uma linha de base testada.</p></div>
-              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Você reverte sem perder o que já funcionava — e não culpa a mudança nova por um problema antigo.</p></div>
-              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Export JSON; linha de base; reversível; caminho feliz preservado.</p></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
-        <a href="modulo-3-2.html" class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">Ver Completo</a>
-      </div>
-    </div>
-
-    <!-- MÓDULO 3.3 -->
-    <div id="modulo-3-3" data-inema-module="3-3" data-inema-track="3" class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
-      <img src="../../assets/img/thumb-3-3.png" alt="Ilustração do módulo 3.3" class="w-full h-32 sm:h-40 object-cover rounded-t-xl border-b border-purple-500/20" loading="lazy">
-      <div class="p-6 border-b border-dark-600">
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-purple-400 font-bold">3.3</span>
-          <span class="text-xs text-neutral-500">~60 min · 8 tópicos</span>
-        </div>
-        <h3 class="text-2xl font-bold mb-2">📚 Biblioteca de Prompts Prontos (copy-run)</h3>
-        <p class="text-neutral-400 text-sm">Cada tópico é um prompt real, completo, com partes variáveis <code class="text-purple-400">&lt;assim&gt;</code>, objetivo e como verificar: setup &amp; CLAUDE.md, conectar uma ferramenta via MCP, criar um workflow do zero, debugar um erro, os 6 enhancements, criar uma skill, criar um agente agendado e criar um frontend + auditoria de segurança.</p>
-        <div class="mt-3" data-inema-meter="modulo:3-3">
-          <div class="flex items-center justify-between mb-1 text-xs">
-            <span class="text-neutral-500">Progresso do módulo</span>
-            <span class="text-purple-400"><span data-inema-meter-pct>0%</span> · <span data-inema-meter-frac>0 de 8</span></span>
-          </div>
-          <div class="inema-bar h-1.5 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-purple-500 rounded-full" data-inema-meter-fill style="width:0%"></div></div>
-        </div>
-      </div>
-      <div class="divide-y divide-dark-600">
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t33-1" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
-            <span class="text-lg">📄</span>
-            <div><span class="font-medium">Setup &amp; CLAUDE.md</span><span class="text-neutral-500 text-sm ml-2">- Criar o projeto e o system prompt</span></div>
-          </button>
-          <div id="t33-1" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Um prompt para gerar o CLAUDE.md (papel, contexto, preferências, regras) na raiz de um projeto novo.</p></div>
-              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É o ponto de partida de todo projeto; o system prompt persistente.</p></div>
-              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Pasta dedicada; markdown; iterar o arquivo conversando.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t33-2" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
-            <span class="text-lg">🔌</span>
-            <div><span class="font-medium">Conectar uma ferramenta via MCP</span><span class="text-neutral-500 text-sm ml-2">- Instalar server + chave no .env</span></div>
-          </button>
-          <div id="t33-2" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Prompt para instalar um MCP server (project-level), gerar o .mcp.json e ler a chave do .env — nunca do chat.</p></div>
-              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É como a IA ganha "braços": raspar a web, ler bancos, falar com apps.</p></div>
-              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">.mcp.json; project-level; chave no .env; /mcp para verificar.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t33-3" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
-            <span class="text-lg">🧱</span>
-            <div><span class="font-medium">Criar um workflow do zero</span><span class="text-neutral-500 text-sm ml-2">- Objetivo abrangente num prompt só</span></div>
-          </button>
-          <div id="t33-3" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Um prompt de abertura completo que descreve o resultado, a fonte de dados e o destino — deixando a IA planejar a arquitetura.</p></div>
-              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">"Um prompt para reger todos": começar certo economiza idas e vindas.</p></div>
-              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Outcome + fonte + destino; deixar a IA perguntar; aprovar o plano.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t33-4" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
-            <span class="text-lg">🐞</span>
-            <div><span class="font-medium">Debugar um erro</span><span class="text-neutral-500 text-sm ml-2">- Template de troubleshooting</span></div>
-          </button>
-          <div id="t33-4" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Um template de prompt para colar a mensagem de erro + local + o que você esperava, e pedir diagnóstico, causa e correção.</p></div>
-              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Transforma "deu erro" num pedido acionável que a IA resolve rápido.</p></div>
-              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Erro literal; contexto; "por quê"; sem mudar mais nada.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t33-5" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
-            <span class="text-lg">🎚️</span>
-            <div><span class="font-medium">Os 6 enhancements</span><span class="text-neutral-500 text-sm ml-2">- Fallback, filtros, tom, nome, confiança</span></div>
-          </button>
-          <div id="t33-5" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Seis prompts de melhoria de um agente: fallback sem match, filtro por tempo, filtro de automáticos, tom de marca, nome do cliente, indicador de confiança.</p></div>
-              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É o salto de "funciona" para "funciona bem", aplicado em camadas.</p></div>
-              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Erro/lógica vs qualidade; ancorar no workflow existente; testar cada um.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t33-6" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
-            <span class="text-lg">🧩</span>
-            <div><span class="font-medium">Criar uma skill / slash command</span><span class="text-neutral-500 text-sm ml-2">- Workflow reutilizável em markdown</span></div>
-          </button>
-          <div id="t33-6" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Um prompt para empacotar uma tarefa repetida como skill no formato oficial (SKILL.md) chamável por slash command.</p></div>
-              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Para de reexplicar: consistência, economia de contexto, reuso.</p></div>
-              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">.claude/skills; nome, descrição, argumentos, passos; sob demanda.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t33-7" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">7</span>
-            <span class="text-lg">⏰</span>
-            <div><span class="font-medium">Criar um agente agendado</span><span class="text-neutral-500 text-sm ml-2">- Cron → pesquisa → planilha</span></div>
-          </button>
-          <div id="t33-7" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Prompt para construir uma tarefa agendada (cron) que roda sozinha, pesquisa um tópico fixo, sintetiza e escreve uma linha numa planilha.</p></div>
-              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Para algo rodar sem você, é preciso build pensado para o "agentic gap".</p></div>
-              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Inputs fixos; saída estruturada; erro + log desde o 1º prompt.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t33-8" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">8</span>
-            <span class="text-lg">🛡️</span>
-            <div><span class="font-medium">Frontend + auditoria de segurança</span><span class="text-neutral-500 text-sm ml-2">- App + audit como especialista</span></div>
-          </button>
-          <div id="t33-8" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Dois prompts: gerar um frontend (com a skill de design) e, depois, pedir uma auditoria de segurança rigorosa do app.</p></div>
-              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">App aberto é risco (alguém gasta seus tokens); auditar fecha as brechas.</p></div>
-              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Skill de design; rotas protegidas; segredos em env; RLS ativa.</p></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
-        <a href="modulo-3-3.html" class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">Ver Completo</a>
-      </div>
-    </div>
-
-    <!-- NAVEGAÇÃO ENTRE TRILHAS -->
-    <div class="flex flex-col sm:flex-row gap-4 mt-10">
-      <a href="../trilha2/index.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← Trilha 2: Técnica</a>
-      <a href="../trilha4/index.html" class="flex-1 text-center px-6 py-3 bg-amber-600 text-white rounded-lg font-semibold hover:bg-amber-500 transition-colors">Trilha 4: Skills &amp; Agentes →</a>
-    </div>
-
-  </main>
-
-  <footer class="border-t border-dark-600 py-8 mt-16">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
-      <p>Vibe Coding: Domínio Completo · Curso original <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 font-medium">INEMA.CLUB</a> · 2026</p>
-    </div>
-  </footer>
-
-  <script>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">3</div>
+<div class="text-xs text-neutral-400">Módulos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">22</div>
+<div class="text-xs text-neutral-400">Tópicos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">~2h30</div>
+<div class="text-xs text-neutral-400">Duração</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">Prático</div>
+<div class="text-xs text-neutral-400">Nível</div>
+</div>
+</div>
+<!-- progresso da trilha -->
+<div aria-label="Progresso da trilha 3" aria-valuemax="100" aria-valuemin="0" class="mt-6 max-w-2xl" data-inema-meter="trilha:3" role="progressbar">
+<div class="flex items-center justify-between mb-1 text-sm">
+<span class="text-neutral-400">Progresso da trilha</span>
+<span class="text-purple-400 font-semibold"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 22</span></span>
+</div>
+<div class="inema-bar h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-purple-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12" id="conteudo">
+<img alt="Banner da trilha de prompts: um terminal e balões de diálogo em roxo virando fluxos estruturados" class="w-full h-auto rounded-2xl border border-purple-500/30 mb-8 shadow-lg shadow-purple-500/5" loading="lazy" src="../../assets/img/hero-t3.png"/>
+<!-- HERO SVG -->
+<section class="mb-12">
+<div class="rounded-2xl border border-purple-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden">
+<svg aria-label="O arco da trilha 3: primeiro os padrões de prompting que orientam toda conversa, depois o ciclo de quatro fases planejar, construir, depurar e otimizar, e por fim a biblioteca de prompts prontos para copiar e rodar" class="w-full h-auto" role="img" viewbox="0 0 1000 220">
+<defs>
+<lineargradient id="t3-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#c084fc"></stop><stop offset="1" stop-color="#8b5cf6"></stop>
+</lineargradient>
+<filter height="180%" id="t3-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="32" id="t3-grid" patternunits="userSpaceOnUse" width="32">
+<circle cx="1.3" cy="1.3" fill="#8b5cf6" opacity="0.12" r="1.3"></circle>
+</pattern>
+<marker id="t3-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#c084fc"></path></marker>
+</defs>
+<rect fill="url(#t3-grid)" height="220" width="1000" x="0" y="0"></rect>
+<g fill="none" opacity="0.55" stroke="#c084fc" stroke-width="2">
+<path d="M330,110 L372,110" marker-end="url(#t3-ah)"></path>
+<path d="M622,110 L664,110" marker-end="url(#t3-ah)"></path>
+</g>
+<g filter="url(#t3-glow)"><rect fill="#1c1033" height="72" rx="16" stroke="url(#t3-grad)" stroke-width="2.5" width="290" x="40" y="74"></rect></g>
+<text fill="#c084fc" font-family="Inter,sans-serif" font-size="16" font-weight="600" text-anchor="middle" x="185" y="104">Módulo 3.1</text>
+<text fill="#d8c4f7" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="185" y="126">Os padrões de prompting</text>
+<rect fill="#0e1b26" height="72" rx="16" stroke="#38bdf8" stroke-width="2" width="250" x="372" y="74"></rect>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="16" font-weight="600" text-anchor="middle" x="497" y="104">Módulo 3.2</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="497" y="126">O ciclo de 4 fases</text>
+<rect fill="#1c1033" height="72" rx="16" stroke="#a78bfa" stroke-width="2" width="294" x="664" y="74"></rect>
+<text fill="#c084fc" font-family="Inter,sans-serif" font-size="16" font-weight="600" text-anchor="middle" x="811" y="104">Módulo 3.3</text>
+<text fill="#d8c4f7" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="811" y="126">Biblioteca de prompts (copy-run)</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mt-2">O caminho da trilha 3: dos padrões que orientam cada pedido, passando pelo ciclo de quatro fases, até a biblioteca pronta para copiar e rodar.</p>
+</section>
+<!-- MAPA DA TRILHA (OBRIGATORIO) -->
+<section class="mb-12">
+<h2 class="text-2xl font-bold mb-6">Mapa da trilha</h2>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-purple-500/30 p-5 transition-all" href="#modulo-3-1">
+<div class="flex items-center justify-between mb-2">
+<span class="text-purple-400 font-bold text-sm">3.1</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-purple-400 transition-colors">🎯 Os Padrões de Prompting</h3>
+<p class="text-xs text-neutral-400">Os hábitos que tiram resultado consistente</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-purple-500/30 p-5 transition-all" href="#modulo-3-2">
+<div class="flex items-center justify-between mb-2">
+<span class="text-purple-400 font-bold text-sm">3.2</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-purple-400 transition-colors">🔄 O Ciclo de 4 Fases</h3>
+<p class="text-xs text-neutral-400">Plan → Build → Troubleshoot → Optimize</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-purple-500/30 p-5 transition-all" href="#modulo-3-3">
+<div class="flex items-center justify-between mb-2">
+<span class="text-purple-400 font-bold text-sm">3.3</span>
+<span class="text-xs text-neutral-500">~60 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-purple-400 transition-colors">📚 Biblioteca de Prompts</h3>
+<p class="text-xs text-neutral-400">8 prompts prontos, copy-run</p>
+</a>
+</div>
+</section>
+<h2 class="text-2xl font-bold mb-6">Conteúdo detalhado</h2>
+<!-- MÓDULO 3.1 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" data-inema-module="3-1" data-inema-track="3" id="modulo-3-1">
+<img alt="Ilustração do módulo 3.1" class="w-full h-32 sm:h-40 object-cover rounded-t-xl border-b border-purple-500/20" loading="lazy" src="../../assets/img/thumb-3-1.png"/>
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-purple-400 font-bold">3.1</span>
+<span class="text-xs text-neutral-500">~45 min · 7 tópicos</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">🎯 Os Padrões de Prompting</h3>
+<p class="text-neutral-400 text-sm">Os hábitos que separam um pedido qualquer de um pedido que rende: definir o objetivo (não os passos), ser específico sobre a saída, planejar antes de executar, dar feedback em vez de correção, tratar a IA como especialista, evitar os erros que mais custam token, e o checklist das 12 dicas.</p>
+<div class="mt-3" data-inema-meter="modulo:3-1">
+<div class="flex items-center justify-between mb-1 text-xs">
+<span class="text-neutral-500">Progresso do módulo</span>
+<span class="text-purple-400"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 7</span></span>
+</div>
+<div class="inema-bar h-1.5 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-purple-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button aria-controls="t31-1" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">🎯</span>
+<div><span class="font-medium">Definir o objetivo, não os passos</span><span class="text-neutral-500 text-sm ml-2">- Diga o "o quê", deixe a IA achar o "como"</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t31-1">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Descrever o resultado desejado em vez de ditar a sequência técnica — "identifique perguntas técnicas e rascunhe a resposta", não "use um nó IF com regex".</p></div>
+<div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Liberta a IA para usar todo o repertório dela; o caminho costuma ser melhor que o seu.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Outcome &gt; instrução; não microgerenciar; a IA escolhe a rota.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t31-2" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">📐</span>
+<div><span class="font-medium">Ser específico sobre a saída</span><span class="text-neutral-500 text-sm ml-2">- Formato, estrutura, nome, onde salvar</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t31-2">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Dizer exatamente o formato e o destino: "75 perfis", ".docx na pasta saídas", "tabela com colunas data, tópico, resumo".</p></div>
+<div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Saída vaga gera resultado vago e mais idas e vindas (mais token).</p></div>
+<div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Quantidade exata; formato; nome do arquivo; pasta de saída.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t31-3" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">🗺️</span>
+<div><span class="font-medium">Plan Mode primeiro, executar depois</span><span class="text-neutral-500 text-sm ml-2">- Planejar antes de tocar em qualquer coisa</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t31-3">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Começar no modo de planejamento: a IA pesquisa, faz perguntas e propõe um plano; só depois de aprovado é que constrói.</p></div>
+<div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Você corrige rumo no plano (barato) e não no meio do build (caro).</p></div>
+<div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Pesquisa → perguntas → plano → aprovar → bypass para executar.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t31-4" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">💬</span>
+<div><span class="font-medium">Feedback, não correção</span><span class="text-neutral-500 text-sm ml-2">- "Gostei de X, mude Y"</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t31-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Devolver feedback específico ("gostei da estrutura, mas o tom está formal demais") em vez de correção seca ("está errado").</p></div>
+<div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Feedback faz a IA ajustar o raciocínio; correção seca só remenda a saída.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Específico; o que gostou + o que mudar; alimenta o loop de melhoria.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t31-5" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">🧑‍🔬</span>
+<div><span class="font-medium">Tratar o agente como especialista</span><span class="text-neutral-500 text-sm ml-2">- Você gerencia, ela desenvolve</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t31-5">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Falar com a IA como com um desenvolvedor experiente: você define objetivo e contexto, ela escolhe ferramentas, escreve e depura.</p></div>
+<div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Microgerenciar limita a IA ao seu conhecimento; delegar libera o melhor dela.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Gerente vs desenvolvedor; delegar resultado; confiar no repertório.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t31-6" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">🔥</span>
+<div><span class="font-medium">Os erros que mais custam token</span><span class="text-neutral-500 text-sm ml-2">- Sessão inchada, sem "pronto", MCP ligado à toa</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t31-6">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Padrões que queimam token: reutilizar conversa inchada, não definir "pronto", deixar servers MCP ligados, corrigir a mesma coisa três vezes.</p></div>
+<div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Token é custo; e contexto inchado degrada a qualidade (context rot).</p></div>
+<div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Uma tarefa por sessão; definir "pronto"; /clear quando emperra.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t31-7" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">7</span>
+<span class="text-lg">✅</span>
+<div><span class="font-medium">Checklist das 12 dicas</span><span class="text-neutral-500 text-sm ml-2">- O resumo prático que cabe no bolso</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t31-7">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">A consolidação: 12 boas práticas (plan mode, objetivo claro, definir pronto, gerenciar contexto, feedback, segredos em .env, testar com vários inputs…).</p></div>
+<div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Vira um checklist mental que você aplica antes de cada build.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">12 dicas; assistir o build cedo; salvar skills testadas; recomeçar limpo.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<a class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors" href="modulo-3-1.html">Ver Completo</a>
+</div>
+</div>
+<!-- MÓDULO 3.2 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" data-inema-module="3-2" data-inema-track="3" id="modulo-3-2">
+<img alt="Ilustração do módulo 3.2" class="w-full h-32 sm:h-40 object-cover rounded-t-xl border-b border-purple-500/20" loading="lazy" src="../../assets/img/thumb-3-2.png"/>
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-purple-400 font-bold">3.2</span>
+<span class="text-xs text-neutral-500">~45 min · 7 tópicos</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">🔄 O Ciclo Plan → Build → Troubleshoot → Optimize</h3>
+<p class="text-neutral-400 text-sm">As quatro fases de todo build: planejar (pesquisa + perguntas + plano), construir (criar e validar), o que a IA NÃO faz (credenciais, mapeamento), depurar (devolver o erro com contexto), otimizar (melhorar em linguagem natural), verificar de verdade, e fazer backup antes de mudar.</p>
+<div class="mt-3" data-inema-meter="modulo:3-2">
+<div class="flex items-center justify-between mb-1 text-xs">
+<span class="text-neutral-500">Progresso do módulo</span>
+<span class="text-purple-400"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 7</span></span>
+</div>
+<div class="inema-bar h-1.5 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-purple-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button aria-controls="t32-1" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">🗺️</span>
+<div><span class="font-medium">Fase 1 — Plan</span><span class="text-neutral-500 text-sm ml-2">- Pesquisa + perguntas + plano aprovado</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t32-1">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">A IA pesquisa os nós/padrões certos, faz perguntas de esclarecimento e propõe um plano para você aprovar.</p></div>
+<div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É a fase mais barata de mudar de ideia; alinhar aqui evita retrabalho.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Plan Mode; perguntas de esclarecimento; aprovar o plano.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t32-2" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">🏗️</span>
+<div><span class="font-medium">Fase 2 — Build</span><span class="text-neutral-500 text-sm ml-2">- Criar e validar</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t32-2">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">A IA constrói o workflow/projeto e valida sozinha o que dá; em bypass, executa sem te interromper.</p></div>
+<div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Você assiste cedo para aprender e interromper se sair do trilho.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Auto-validação; bypass permissions; assistir o build.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t32-3" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">🙅</span>
+<div><span class="font-medium">O que a IA NÃO faz</span><span class="text-neutral-500 text-sm ml-2">- Credenciais e mapeamento são seus</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t32-3">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Algumas etapas são manuais: criar credenciais OAuth, criar a planilha de destino, mapear campos.</p></div>
+<div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Saber a fronteira evita esperar a IA fazer o que só você pode fazer.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">OAuth manual; criar destino; mapear valores; chave nunca no chat.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t32-4" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">🔧</span>
+<div><span class="font-medium">Fase 3 — Troubleshoot</span><span class="text-neutral-500 text-sm ml-2">- Devolver o erro com contexto</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t32-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Quando algo quebra, copie a mensagem de erro inteira + onde ela aconteceu de volta para a IA, e peça para diagnosticar e corrigir.</p></div>
+<div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Erro sem contexto vira chute; erro com contexto vira correção rápida.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Mensagem + local do nó; "por que isso aconteceu"; reexecutar.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t32-5" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">⚡</span>
+<div><span class="font-medium">Fase 4 — Optimize</span><span class="text-neutral-500 text-sm ml-2">- Melhorar em linguagem natural</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t32-5">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Com o básico funcionando, você melhora em camadas: tratar erros, melhorar a lógica, polir a saída, acelerar — tudo conversando.</p></div>
+<div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">"Funciona" vira "funciona bem": casos de borda, UX, eficiência.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Iterar em camadas; ordem de prioridade; uma mudança por vez.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t32-6" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">🔬</span>
+<div><span class="font-medium">Verificação &amp; testes de verdade</span><span class="text-neutral-500 text-sm ml-2">- Verde ≠ correto</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t32-6">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Testar com cenários reais (inclusive casos de borda e fora de escopo), conferir números e fatos, exigir que o agente diga "não sei".</p></div>
+<div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Um fluxo "verde" pode dar a resposta errada; testar é o que revela.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Cenários reais; conferir fatos; recusar inventar; checklist por teste.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t32-7" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">7</span>
+<span class="text-lg">💾</span>
+<div><span class="font-medium">Backup antes de mudar</span><span class="text-neutral-500 text-sm ml-2">- Export JSON e linha de base</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t32-7">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Antes de qualquer mudança, duplicar ou exportar (JSON) e estabelecer uma linha de base testada.</p></div>
+<div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Você reverte sem perder o que já funcionava — e não culpa a mudança nova por um problema antigo.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Export JSON; linha de base; reversível; caminho feliz preservado.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<a class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors" href="modulo-3-2.html">Ver Completo</a>
+</div>
+</div>
+<!-- MÓDULO 3.3 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" data-inema-module="3-3" data-inema-track="3" id="modulo-3-3">
+<img alt="Ilustração do módulo 3.3" class="w-full h-32 sm:h-40 object-cover rounded-t-xl border-b border-purple-500/20" loading="lazy" src="../../assets/img/thumb-3-3.png"/>
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-purple-400 font-bold">3.3</span>
+<span class="text-xs text-neutral-500">~60 min · 8 tópicos</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">📚 Biblioteca de Prompts Prontos (copy-run)</h3>
+<p class="text-neutral-400 text-sm">Cada tópico é um prompt real, completo, com partes variáveis <code class="text-purple-400">&lt;assim&gt;</code>, objetivo e como verificar: setup &amp; CLAUDE.md, conectar uma ferramenta via MCP, criar um workflow do zero, debugar um erro, os 6 enhancements, criar uma skill, criar um agente agendado e criar um frontend + auditoria de segurança.</p>
+<div class="mt-3" data-inema-meter="modulo:3-3">
+<div class="flex items-center justify-between mb-1 text-xs">
+<span class="text-neutral-500">Progresso do módulo</span>
+<span class="text-purple-400"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 8</span></span>
+</div>
+<div class="inema-bar h-1.5 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-purple-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button aria-controls="t33-1" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">📄</span>
+<div><span class="font-medium">Setup &amp; CLAUDE.md</span><span class="text-neutral-500 text-sm ml-2">- Criar o projeto e o system prompt</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t33-1">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Um prompt para gerar o CLAUDE.md (papel, contexto, preferências, regras) na raiz de um projeto novo.</p></div>
+<div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É o ponto de partida de todo projeto; o system prompt persistente.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Pasta dedicada; markdown; iterar o arquivo conversando.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t33-2" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">🔌</span>
+<div><span class="font-medium">Conectar uma ferramenta via MCP</span><span class="text-neutral-500 text-sm ml-2">- Instalar server + chave no .env</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t33-2">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Prompt para instalar um MCP server (project-level), gerar o .mcp.json e ler a chave do .env — nunca do chat.</p></div>
+<div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É como a IA ganha "braços": raspar a web, ler bancos, falar com apps.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">.mcp.json; project-level; chave no .env; /mcp para verificar.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t33-3" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">🧱</span>
+<div><span class="font-medium">Criar um workflow do zero</span><span class="text-neutral-500 text-sm ml-2">- Objetivo abrangente num prompt só</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t33-3">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Um prompt de abertura completo que descreve o resultado, a fonte de dados e o destino — deixando a IA planejar a arquitetura.</p></div>
+<div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">"Um prompt para reger todos": começar certo economiza idas e vindas.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Outcome + fonte + destino; deixar a IA perguntar; aprovar o plano.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t33-4" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">🐞</span>
+<div><span class="font-medium">Debugar um erro</span><span class="text-neutral-500 text-sm ml-2">- Template de troubleshooting</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t33-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Um template de prompt para colar a mensagem de erro + local + o que você esperava, e pedir diagnóstico, causa e correção.</p></div>
+<div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Transforma "deu erro" num pedido acionável que a IA resolve rápido.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Erro literal; contexto; "por quê"; sem mudar mais nada.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t33-5" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">🎚️</span>
+<div><span class="font-medium">Os 6 enhancements</span><span class="text-neutral-500 text-sm ml-2">- Fallback, filtros, tom, nome, confiança</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t33-5">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Seis prompts de melhoria de um agente: fallback sem match, filtro por tempo, filtro de automáticos, tom de marca, nome do cliente, indicador de confiança.</p></div>
+<div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É o salto de "funciona" para "funciona bem", aplicado em camadas.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Erro/lógica vs qualidade; ancorar no workflow existente; testar cada um.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t33-6" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">🧩</span>
+<div><span class="font-medium">Criar uma skill / slash command</span><span class="text-neutral-500 text-sm ml-2">- Workflow reutilizável em markdown</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t33-6">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Um prompt para empacotar uma tarefa repetida como skill no formato oficial (SKILL.md) chamável por slash command.</p></div>
+<div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Para de reexplicar: consistência, economia de contexto, reuso.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">.claude/skills; nome, descrição, argumentos, passos; sob demanda.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t33-7" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">7</span>
+<span class="text-lg">⏰</span>
+<div><span class="font-medium">Criar um agente agendado</span><span class="text-neutral-500 text-sm ml-2">- Cron → pesquisa → planilha</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t33-7">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Prompt para construir uma tarefa agendada (cron) que roda sozinha, pesquisa um tópico fixo, sintetiza e escreve uma linha numa planilha.</p></div>
+<div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Para algo rodar sem você, é preciso build pensado para o "agentic gap".</p></div>
+<div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Inputs fixos; saída estruturada; erro + log desde o 1º prompt.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t33-8" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">8</span>
+<span class="text-lg">🛡️</span>
+<div><span class="font-medium">Frontend + auditoria de segurança</span><span class="text-neutral-500 text-sm ml-2">- App + audit como especialista</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t33-8">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Dois prompts: gerar um frontend (com a skill de design) e, depois, pedir uma auditoria de segurança rigorosa do app.</p></div>
+<div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">App aberto é risco (alguém gasta seus tokens); auditar fecha as brechas.</p></div>
+<div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Skill de design; rotas protegidas; segredos em env; RLS ativa.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<a class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors" href="modulo-3-3.html">Ver Completo</a>
+</div>
+</div>
+<!-- NAVEGAÇÃO ENTRE TRILHAS -->
+<div class="flex flex-col sm:flex-row gap-4 mt-10">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="../trilha2/index.html">← Trilha 2: Técnica</a>
+<a class="flex-1 text-center px-6 py-3 bg-amber-600 text-white rounded-lg font-semibold hover:bg-amber-500 transition-colors" href="../trilha4/index.html">Trilha 4: Skills &amp; Agentes →</a>
+</div>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Vibe Coding: Domínio Completo · Curso original <a class="text-sky-400 hover:text-sky-300 font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a> · 2026</p>
+</div>
+</footer>
+<script>
     function toggleTopic(button) {
       const topicItem = button.closest('.topic-item');
       const explanation = topicItem.querySelector('.topic-explanation');
@@ -796,11 +774,9 @@
       if (window.INEMA && INEMA.setPref) { INEMA.setPref('theme', isDark ? 'inema-dark' : 'claro'); }
     });
   </script>
-
-  <script src="../../assets/learn.js"></script>
-  <script>
+<script src="../../assets/learn.js"></script>
+<script>
     if (window.INEMA && typeof window.INEMA.init === 'function') { window.INEMA.init(); }
   </script>
-
 </body>
 </html>

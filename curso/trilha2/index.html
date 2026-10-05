@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="dark">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="inema-course" content="vibe-coding-completo">
 
-  <!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
-  <script>
+<html class="dark" lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="vibe-coding-completo" name="inema-course"/>
+<!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
+<script>
   (function () {
     try {
       var html = document.documentElement;
@@ -74,10 +74,9 @@
     }
   })();
   </script>
-
-  <title>Trilha 2 · Técnica: Arquitetura & Engenharia | Vibe Coding: Domínio Completo</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
+<title>Trilha 2 · Técnica: Arquitetura &amp; Engenharia | Vibe Coding: Domínio Completo</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
@@ -90,10 +89,9 @@
       }
     }
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
-  <script type="application/json" data-inema-manifest>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
+<script data-inema-manifest="" type="application/json">
   {
     "course": "vibe-coding-completo",
     "tracks": [
@@ -133,10 +131,8 @@
     ]
   }
   </script>
-
-  <link rel="stylesheet" href="../../assets/learn.css">
-
-  <style>
+<link href="../../assets/learn.css" rel="stylesheet"/>
+<style>
     body { font-family: 'Inter', sans-serif; }
     .dark body { background-color: #111827; }
     .topic-explanation { display: none; }
@@ -202,789 +198,767 @@
       .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
     }
   </style>
-</head>
-<body class="bg-dark-900 text-neutral-100 min-h-screen">
-
-  <a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-blue-600 focus:text-white focus:rounded-lg" href="#conteudo">Pular para o conteúdo</a>
-
-  <!-- NAVIGATION (T2 ativa) -->
-  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-14">
-        <div class="flex items-center space-x-4">
-          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
-            <span class="text-2xl">⚡</span>
-            <span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
-          </a>
-          <span class="text-neutral-600">|</span>
-          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
-        </div>
-        <div class="flex items-center space-x-1 sm:space-x-2">
-          <a href="../trilha1/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
-            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
-          </a>
-          <a href="index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10">
-            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Técnica</span>
-          </a>
-          <a href="../trilha3/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
-            <span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
-          </a>
-          <a href="../trilha4/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors">
-            <span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
-          </a>
-          <a href="../trilha5/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors">
-            <span class="sm:hidden">T5</span><span class="hidden sm:inline">Projetos</span>
-          </a>
-          <a href="../trilha6/index.html" class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors">
-            <span class="sm:hidden">T6</span><span class="hidden sm:inline">Produção</span>
-          </a>
-          <button type="button" data-inema-journey-open class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1">
-            <span aria-hidden="true">◷</span><span>Minha jornada</span>
-            <span class="inema-journey-badge hidden" data-inema-journey-badge data-count="0"></span>
-          </button>
-          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" aria-label="Alternar tema claro/escuro">
-            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-            </svg>
-            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <!-- HEADER DA TRILHA -->
-  <header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4">TRILHA 2</span>
-      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🔵 Técnica: Arquitetura & Engenharia</h1>
-      <p class="text-lg text-neutral-400 max-w-3xl">
-        Abra o capô. Aqui você entende como cada peça funciona por dentro e adquire a disciplina de engenharia que separa "funcionou uma vez" de "confiável". Engenharia de CLAUDE.md, o framework WAT a fundo, MCP por dentro, gestão de contexto e tokens e RAG & dados — cinco módulos que transformam você de operador em arquiteto.
+<link href="https://inematds.github.io/vibe-coding-completo/curso/trilha2/" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/en/curso/trilha2/" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/es/curso/trilha2/" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="./" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">PT</a><a href="../../en/curso/trilha2/" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="../../es/curso/trilha2/" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-blue-600 focus:text-white focus:rounded-lg" href="#conteudo">Pular para o conteúdo</a>
+<!-- NAVIGATION (T2 ativa) -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10" href="index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Técnica</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Projetos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Produção</span>
+</a>
+<button class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-inema-journey-open="" type="button">
+<span aria-hidden="true">◷</span><span>Minha jornada</span>
+<span class="inema-journey-badge hidden" data-count="0" data-inema-journey-badge=""></span>
+</button>
+<button aria-label="Alternar tema claro/escuro" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20">
+<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+</svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- HEADER DA TRILHA -->
+<header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4">TRILHA 2</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🔵 Técnica: Arquitetura &amp; Engenharia</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">
+        Abra o capô. Aqui você entende como cada peça funciona por dentro e adquire a disciplina de engenharia que separa "funcionou uma vez" de "confiável". Engenharia de CLAUDE.md, o framework WAT a fundo, MCP por dentro, gestão de contexto e tokens e RAG &amp; dados — cinco módulos que transformam você de operador em arquiteto.
       </p>
-      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-blue-400">5</div>
-          <div class="text-xs text-neutral-400">Módulos</div>
-        </div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-blue-400">32</div>
-          <div class="text-xs text-neutral-400">Tópicos</div>
-        </div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-blue-400">~4h</div>
-          <div class="text-xs text-neutral-400">Duração</div>
-        </div>
-        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
-          <div class="text-xl font-bold text-blue-400">Inter.</div>
-          <div class="text-xs text-neutral-400">Nível</div>
-        </div>
-      </div>
-
-      <!-- progresso da trilha -->
-      <div class="mt-6 max-w-2xl" data-inema-meter="trilha:2" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso da trilha 2">
-        <div class="flex items-center justify-between mb-1 text-sm">
-          <span class="text-neutral-400">Progresso da trilha</span>
-          <span class="text-blue-400 font-semibold"><span data-inema-meter-pct>0%</span> · <span data-inema-meter-frac>0 de 32</span></span>
-        </div>
-        <div class="inema-bar h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-blue-500 rounded-full" data-inema-meter-fill style="width:0%"></div></div>
-      </div>
-    </div>
-  </header>
-
-  <main id="conteudo" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-
-    <img src="../../assets/img/hero-t2.png" alt="Banner da trilha técnica: blueprint, engrenagens e circuitos em azul — a arquitetura e a engenharia por dentro" class="w-full h-auto rounded-2xl border border-blue-500/30 mb-8 shadow-lg shadow-blue-500/5" loading="lazy">
-
-    <!-- HERO SVG -->
-    <section class="mb-12">
-      <div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden">
-        <svg viewBox="0 0 1000 220" class="w-full h-auto" role="img" aria-label="O arco da trilha 2: começa pela engenharia do arquivo de instruções (CLAUDE.md), passa pelo framework WAT e pelo protocolo MCP, e termina dominando contexto/tokens e RAG — a arquitetura interna que torna um agente confiável">
-          <defs>
-            <linearGradient id="t2-grad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#60a5fa"/><stop offset="1" stop-color="#3b82f6"/>
-            </linearGradient>
-            <filter id="t2-glow" x="-40%" y="-40%" width="180%" height="180%">
-              <feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-            <pattern id="t2-grid" width="32" height="32" patternUnits="userSpaceOnUse">
-              <circle cx="1.3" cy="1.3" r="1.3" fill="#3b82f6" opacity="0.12"/>
-            </pattern>
-            <marker id="t2-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#60a5fa"/></marker>
-          </defs>
-          <rect x="0" y="0" width="1000" height="220" fill="url(#t2-grid)"/>
-          <g fill="none" stroke="#60a5fa" stroke-width="2" opacity="0.55">
-            <path d="M236,110 L268,110" marker-end="url(#t2-ah)"/>
-            <path d="M444,110 L476,110" marker-end="url(#t2-ah)"/>
-            <path d="M636,110 L668,110" marker-end="url(#t2-ah)"/>
-            <path d="M812,110 L844,110" marker-end="url(#t2-ah)"/>
-          </g>
-          <g filter="url(#t2-glow)"><rect x="34" y="74" width="202" height="72" rx="16" fill="#0e1b2e" stroke="url(#t2-grad)" stroke-width="2.5"/></g>
-          <text x="135" y="104" text-anchor="middle" fill="#60a5fa" font-family="Inter,sans-serif" font-weight="600" font-size="16">Módulo 2.1</text>
-          <text x="135" y="126" text-anchor="middle" fill="#bcd7ff" font-family="Inter,sans-serif" font-size="12">CLAUDE.md</text>
-
-          <rect x="268" y="74" width="176" height="72" rx="16" fill="#0e1b2e" stroke="#3b82f6" stroke-width="2"/>
-          <text x="356" y="104" text-anchor="middle" fill="#60a5fa" font-family="Inter,sans-serif" font-weight="600" font-size="16">Módulo 2.2</text>
-          <text x="356" y="126" text-anchor="middle" fill="#bcd7ff" font-family="Inter,sans-serif" font-size="12">Framework WAT</text>
-
-          <rect x="476" y="74" width="160" height="72" rx="16" fill="#0e1f2a" stroke="#38bdf8" stroke-width="2"/>
-          <text x="556" y="104" text-anchor="middle" fill="#bfe6ff" font-family="Inter,sans-serif" font-weight="600" font-size="16">Módulo 2.3</text>
-          <text x="556" y="126" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="12">MCP por dentro</text>
-
-          <rect x="668" y="74" width="144" height="72" rx="16" fill="#0e1b2e" stroke="#3b82f6" stroke-width="2"/>
-          <text x="740" y="104" text-anchor="middle" fill="#60a5fa" font-family="Inter,sans-serif" font-weight="600" font-size="16">Módulo 2.4</text>
-          <text x="740" y="126" text-anchor="middle" fill="#bcd7ff" font-family="Inter,sans-serif" font-size="12">Contexto & tokens</text>
-
-          <rect x="844" y="74" width="122" height="72" rx="16" fill="#0e1b2e" stroke="#3b82f6" stroke-width="2"/>
-          <text x="905" y="104" text-anchor="middle" fill="#60a5fa" font-family="Inter,sans-serif" font-weight="600" font-size="16">Módulo 2.5</text>
-          <text x="905" y="126" text-anchor="middle" fill="#bcd7ff" font-family="Inter,sans-serif" font-size="12">RAG & dados</text>
-        </svg>
-      </div>
-      <p class="text-xs text-neutral-500 mt-2">O caminho da trilha 2: do arquivo de instruções (a "constituição" do projeto) à arquitetura WAT, ao protocolo MCP, à economia de contexto e ao RAG — as camadas internas que separam o protótipo do sistema confiável.</p>
-    </section>
-
-    <!-- MAPA DA TRILHA (OBRIGATORIO) -->
-    <section class="mb-12">
-      <h2 class="text-2xl font-bold mb-6">Mapa da trilha</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <a href="#modulo-2-1" class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-blue-500/30 p-5 transition-all">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-blue-400 font-bold text-sm">2.1</span>
-            <span class="text-xs text-neutral-500">~45 min</span>
-          </div>
-          <h3 class="font-semibold mb-1 group-hover:text-blue-400 transition-colors">📜 Engenharia de CLAUDE.md</h3>
-          <p class="text-xs text-neutral-400">O system prompt persistente do projeto</p>
-        </a>
-        <a href="#modulo-2-2" class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-blue-500/30 p-5 transition-all">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-blue-400 font-bold text-sm">2.2</span>
-            <span class="text-xs text-neutral-500">~50 min</span>
-          </div>
-          <h3 class="font-semibold mb-1 group-hover:text-blue-400 transition-colors">🔠 O Framework WAT</h3>
-          <p class="text-xs text-neutral-400">Workflows + Agent + Tools, a fundo</p>
-        </a>
-        <a href="#modulo-2-3" class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-blue-500/30 p-5 transition-all">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-blue-400 font-bold text-sm">2.3</span>
-            <span class="text-xs text-neutral-500">~50 min</span>
-          </div>
-          <h3 class="font-semibold mb-1 group-hover:text-blue-400 transition-colors">🔌 MCP por Dentro</h3>
-          <p class="text-xs text-neutral-400">Como o agente ganha ferramentas externas</p>
-        </a>
-        <a href="#modulo-2-4" class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-blue-500/30 p-5 transition-all">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-blue-400 font-bold text-sm">2.4</span>
-            <span class="text-xs text-neutral-500">~40 min</span>
-          </div>
-          <h3 class="font-semibold mb-1 group-hover:text-blue-400 transition-colors">🧠 Contexto & Tokens</h3>
-          <p class="text-xs text-neutral-400">Não deixe o agente "apodrecer"</p>
-        </a>
-        <a href="#modulo-2-5" class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-blue-500/30 p-5 transition-all">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-blue-400 font-bold text-sm">2.5</span>
-            <span class="text-xs text-neutral-500">~45 min</span>
-          </div>
-          <h3 class="font-semibold mb-1 group-hover:text-blue-400 transition-colors">🗂️ RAG & Dados</h3>
-          <p class="text-xs text-neutral-400">Dar memória e fontes ao agente</p>
-        </a>
-        <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-5 flex flex-col justify-center">
-          <p class="text-sm font-semibold text-blue-400 mb-1">Como percorrer</p>
-          <p class="text-xs text-neutral-400">Os módulos são independentes, mas a ordem 2.1 → 2.5 constrói camada sobre camada: instruções, arquitetura, ferramentas, economia e dados.</p>
-        </div>
-      </div>
-    </section>
-
-    <h2 class="text-2xl font-bold mb-6">Conteúdo detalhado</h2>
-
-    <!-- MÓDULO 2.1 -->
-    <div id="modulo-2-1" data-inema-module="2-1" data-inema-track="2" class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
-      <img src="../../assets/img/thumb-2-1.png" alt="Ilustração do módulo 2.1" class="w-full h-32 sm:h-40 object-cover rounded-t-xl border-b border-blue-500/20" loading="lazy">
-      <div class="p-6 border-b border-dark-600">
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-blue-400 font-bold">2.1</span>
-          <span class="text-xs text-neutral-500">~45 min · 6 tópicos</span>
-        </div>
-        <h3 class="text-2xl font-bold mb-2">📜 Engenharia de CLAUDE.md</h3>
-        <p class="text-neutral-400 text-sm">O CLAUDE.md é o system prompt persistente do projeto — a "constituição" que o agente relê a cada sessão. Anatomia, regras operacionais, enxugar para sob ~500 linhas, o que vai no CLAUDE.md vs. em skills, e como iterar o arquivo conversando.</p>
-        <div class="mt-3" data-inema-meter="modulo:2-1">
-          <div class="flex items-center justify-between mb-1 text-xs">
-            <span class="text-neutral-500">Progresso do módulo</span>
-            <span class="text-blue-400"><span data-inema-meter-pct>0%</span> · <span data-inema-meter-frac>0 de 6</span></span>
-          </div>
-          <div class="inema-bar h-1.5 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-blue-500 rounded-full" data-inema-meter-fill style="width:0%"></div></div>
-        </div>
-      </div>
-      <div class="divide-y divide-dark-600">
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t21-1" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
-            <span class="text-lg">📌</span>
-            <div><span class="font-medium">CLAUDE.md como system prompt persistente</span><span class="text-neutral-500 text-sm ml-2">- A constituição relida a cada sessão</span></div>
-          </button>
-          <div id="t21-1" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Um arquivo markdown na raiz do projeto que define papel, contexto e preferências — e que o agente lê no início de cada sessão, sem você reexplicar.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É o que dá consistência entre sessões; mal escrito, o agente esquece as regras toda vez.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Persistente; markdown; lido a cada sessão; papel + contexto + regras.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t21-2" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
-            <span class="text-lg">🧱</span>
-            <div><span class="font-medium">Anatomia</span><span class="text-neutral-500 text-sm ml-2">- Papel, contexto, regras, estilo, estrutura</span></div>
-          </button>
-          <div id="t21-2" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">As seções típicas: quem o agente é, o que está sendo construído, regras de operação, estilo de comunicação e a estrutura de pastas do projeto.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Um esqueleto claro evita arquivos confusos e regras perdidas.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Papel; contexto; regras; estilo; estrutura.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t21-3" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
-            <span class="text-lg">⚙️</span>
-            <div><span class="font-medium">Regras operacionais</span><span class="text-neutral-500 text-sm ml-2">- Procurar tool existente, aprender ao falhar, manter atualizado</span></div>
-          </button>
-          <div id="t21-3" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Diretivas de comportamento: procurar uma ferramenta existente antes de criar uma nova, aprender e adaptar quando algo falha, e manter os arquivos atualizados.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">São as regras que ativam o loop de auto-melhoria do agente.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Reuso antes de criar; aprender ao falhar; manter atual.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t21-4" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
-            <span class="text-lg">✂️</span>
-            <div><span class="font-medium">Manter enxuto</span><span class="text-neutral-500 text-sm ml-2">- Sob ~500 linhas e por quê</span></div>
-          </button>
-          <div id="t21-4" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Limitar o arquivo (alvo: sob ~500 linhas) porque ele entra no contexto toda sessão; arquivos longos diluem as regras importantes.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Se o agente erra a mesma regra apesar de escrita, o arquivo pode estar longo demais e a regra "se perde".</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Sob ~500 linhas; só conteúdo de toda sessão; conciso.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t21-5" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
-            <span class="text-lg">🔀</span>
-            <div><span class="font-medium">CLAUDE.md vs skills</span><span class="text-neutral-500 text-sm ml-2">- O que vai onde</span></div>
-          </button>
-          <div id="t21-5" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">CLAUDE.md guarda só o que vale para toda sessão (propósito, regras, framework); instruções de tarefas específicas vão para skills, carregadas sob demanda.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Colocar tudo no CLAUDE.md estoura a janela de contexto; skills economizam.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Toda sessão → CLAUDE.md; sob demanda → skills.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t21-6" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
-            <span class="text-lg">💬</span>
-            <div><span class="font-medium">Iterar o arquivo conversando</span><span class="text-neutral-500 text-sm ml-2">- Pedir mudanças em linguagem natural</span></div>
-          </button>
-          <div id="t21-6" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">O CLAUDE.md não é escrito uma vez e esquecido — você pede ao agente para adicionar/alterar seções ("adicione uma regra de manter explicações curtas").</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">O arquivo evolui com o projeto; iterar é como ele fica afiado.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Editável sempre; pedir em linguagem natural; documento vivo.</p></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
-        <a href="modulo-2-1.html" class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">Ver Completo</a>
-      </div>
-    </div>
-
-    <!-- MÓDULO 2.2 -->
-    <div id="modulo-2-2" data-inema-module="2-2" data-inema-track="2" class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
-      <img src="../../assets/img/thumb-2-2.png" alt="Ilustração do módulo 2.2" class="w-full h-32 sm:h-40 object-cover rounded-t-xl border-b border-blue-500/20" loading="lazy">
-      <div class="p-6 border-b border-dark-600">
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-blue-400 font-bold">2.2</span>
-          <span class="text-xs text-neutral-500">~50 min · 7 tópicos</span>
-        </div>
-        <h3 class="text-2xl font-bold mb-2">🔠 O Framework WAT a Fundo</h3>
-        <p class="text-neutral-400 text-sm">A estrutura por trás de todo workflow agêntico: W = Workflows (instruções markdown = SOP), A = Agent (o coordenador que decide), T = Tools (scripts de um trabalho cada). Mais o loop de auto-melhoria, a estrutura de pastas e quando NÃO usar WAT.</p>
-        <div class="mt-3" data-inema-meter="modulo:2-2">
-          <div class="flex items-center justify-between mb-1 text-xs">
-            <span class="text-neutral-500">Progresso do módulo</span>
-            <span class="text-blue-400"><span data-inema-meter-pct>0%</span> · <span data-inema-meter-frac>0 de 7</span></span>
-          </div>
-          <div class="inema-bar h-1.5 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-blue-500 rounded-full" data-inema-meter-fill style="width:0%"></div></div>
-        </div>
-      </div>
-      <div class="divide-y divide-dark-600">
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t22-1" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
-            <span class="text-lg">🗺️</span>
-            <div><span class="font-medium">Visão geral WAT</span><span class="text-neutral-500 text-sm ml-2">- As três camadas e como se encaixam</span></div>
-          </button>
-          <div id="t22-1" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Um padrão de três camadas — Workflows, Agent, Tools — que dá ao agente um "manual + cérebro + mãos". A maioria dos builds agênticos cabe nesse molde.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Dá um vocabulário comum e uma forma repetível de estruturar qualquer projeto.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">W + A + T; manual + cérebro + mãos; repetível.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t22-2" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
-            <span class="text-lg">📄</span>
-            <div><span class="font-medium">W = Workflows</span><span class="text-neutral-500 text-sm ml-2">- Instruções markdown = SOP</span></div>
-          </button>
-          <div id="t22-2" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Arquivos markdown em linguagem natural (com títulos, bullets, negrito) que funcionam como uma descrição de cargo ou SOP, dizendo ao agente o que fazer.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É a camada que você mais edita; um bom workflow é metade do resultado.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Markdown; SOP; objetivo + entrada + saída + passos.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t22-3" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
-            <span class="text-lg">🧠</span>
-            <div><span class="font-medium">A = Agent</span><span class="text-neutral-500 text-sm ml-2">- O coordenador que decide</span></div>
-          </button>
-          <div id="t22-3" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">O próprio assistente de código: o cérebro coordenador que lê os workflows, vê as ferramentas disponíveis e decide qual usar e quando — como um gerente de projeto delegando.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Entender que o agente decide (não é roteiro fixo) muda como você escreve as instruções.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Coordenador; lê e decide; delega às tools.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t22-4" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
-            <span class="text-lg">🔧</span>
-            <div><span class="font-medium">T = Tools</span><span class="text-neutral-500 text-sm ml-2">- Scripts de um trabalho cada</span></div>
-          </button>
-          <div id="t22-4" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Scripts (geralmente Python) que fazem o trabalho concreto, idealmente um por tarefa (raspar um site, gerar um PDF, analisar dados). O agente os escreve e conserta — você não precisa programar.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Tools pequenas e focadas são fáceis de testar, reusar e consertar.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Um trabalho cada; auto-geradas; reutilizáveis.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t22-5" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
-            <span class="text-lg">🔄</span>
-            <div><span class="font-medium">O loop de auto-melhoria</span><span class="text-neutral-500 text-sm ml-2">- Errar → diagnosticar → consertar tool → atualizar workflow</span></div>
-          </button>
-          <div id="t22-5" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">O agente roda um workflow, encontra um erro, diagnostica, conserta a tool e atualiza o arquivo de workflow para o erro não se repetir — execuções ficam mais suaves e rápidas com o tempo.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É o superpoder do WAT: o sistema melhora a si mesmo enquanto roda.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Erro → diagnóstico → fix → workflow atualizado.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t22-6" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
-            <span class="text-lg">📁</span>
-            <div><span class="font-medium">Estrutura de pastas</span><span class="text-neutral-500 text-sm ml-2">- workflows / tools / temporary / .env</span></div>
-          </button>
-          <div id="t22-6" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">A organização recomendada: pasta workflows, pasta tools, pasta temporary (arquivos intermediários/saída), o arquivo de ambiente (.env, segredos) e o CLAUDE.md.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Uma estrutura clara faz o agente achar o que precisa e separar segredos do código.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">workflows; tools; temporary; .env; CLAUDE.md.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t22-7" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">7</span>
-            <span class="text-lg">🚦</span>
-            <div><span class="font-medium">Quando NÃO usar WAT</span><span class="text-neutral-500 text-sm ml-2">- Tarefa de uma frase</span></div>
-          </button>
-          <div id="t22-7" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Para tarefas únicas, experimentação inicial ou instruções que cabem numa frase, montar a estrutura WAT é exagero — basta digitar o pedido.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Saber quando NÃO usar evita burocracia e desperdício de contexto.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Tarefa única; one-off; não force a estrutura.</p></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
-        <a href="modulo-2-2.html" class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">Ver Completo</a>
-      </div>
-    </div>
-
-    <!-- MÓDULO 2.3 -->
-    <div id="modulo-2-3" data-inema-module="2-3" data-inema-track="2" class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
-      <img src="../../assets/img/thumb-2-3.png" alt="Ilustração do módulo 2.3" class="w-full h-32 sm:h-40 object-cover rounded-t-xl border-b border-blue-500/20" loading="lazy">
-      <div class="p-6 border-b border-dark-600">
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-blue-400 font-bold">2.3</span>
-          <span class="text-xs text-neutral-500">~50 min · 7 tópicos</span>
-        </div>
-        <h3 class="text-2xl font-bold mb-2">🔌 MCP por Dentro</h3>
-        <p class="text-neutral-400 text-sm">O protocolo que dá ferramentas externas ao agente. O que ele resolve, como o agente descobre e decide ferramentas, o .mcp.json e a chave manual (nunca no chat), project-level vs global, onde achar servers, como verificar/diagnosticar e o custo de contexto.</p>
-        <div class="mt-3" data-inema-meter="modulo:2-3">
-          <div class="flex items-center justify-between mb-1 text-xs">
-            <span class="text-neutral-500">Progresso do módulo</span>
-            <span class="text-blue-400"><span data-inema-meter-pct>0%</span> · <span data-inema-meter-frac>0 de 7</span></span>
-          </div>
-          <div class="inema-bar h-1.5 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-blue-500 rounded-full" data-inema-meter-fill style="width:0%"></div></div>
-        </div>
-      </div>
-      <div class="divide-y divide-dark-600">
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t23-1" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
-            <span class="text-lg">🧩</span>
-            <div><span class="font-medium">O que o protocolo resolve</span><span class="text-neutral-500 text-sm ml-2">- Uma conexão, muitas ferramentas</span></div>
-          </button>
-          <div id="t23-1" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">MCP (Model Context Protocol) deixa uma única conexão expor várias ferramentas/ações — como o Gmail expondo enviar, rascunhar e buscar e-mails de uma vez.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É como a IA ganha "braços" sem você integrar cada ação à mão.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Protocolo; uma conexão = muitas tools; ações expostas.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t23-2" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
-            <span class="text-lg">🤖</span>
-            <div><span class="font-medium">Como o agente descobre/decide ferramentas</span><span class="text-neutral-500 text-sm ml-2">- Sozinho, sem você indicar</span></div>
-          </button>
-          <div id="t23-2" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Assim que agente e server se conectam, o agente conhece todas as ferramentas disponíveis e decide sozinho qual chamar, quando e com quais parâmetros.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Você descreve o resultado; a escolha da tool é dele.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Descoberta; decisão autônoma; parâmetros.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t23-3" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
-            <span class="text-lg">🔑</span>
-            <div><span class="font-medium">.mcp.json e a chave manual</span><span class="text-neutral-500 text-sm ml-2">- Nunca no chat</span></div>
-          </button>
-          <div id="t23-3" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Ao instalar um server, o agente gera um .mcp.json com a configuração e um espaço para a chave de API; você cola a chave manualmente no arquivo — nunca no chat.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É a regra de segurança básica do MCP: segredo fora da conversa.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">.mcp.json; placeholder; chave manual; nunca no chat.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t23-4" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
-            <span class="text-lg">🏷️</span>
-            <div><span class="font-medium">Project-level vs global</span><span class="text-neutral-500 text-sm ml-2">- Onde a config deve viver</span></div>
-          </button>
-          <div id="t23-4" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">A config de MCP pode ficar global (toda a máquina) ou no nível do projeto; o nível de projeto é o recomendado para manter segredos e contexto isolados.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Config global pode disparar avisos de segurança a cada reinício; project-level resolve.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Project-level; isolamento; mover para a pasta do projeto.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t23-5" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
-            <span class="text-lg">🔎</span>
-            <div><span class="font-medium">Onde achar servers</span><span class="text-neutral-500 text-sm ml-2">- Diretórios, GitHub</span></div>
-          </button>
-          <div id="t23-5" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Servers vivem em diretórios dedicados (ex.: mcp.so) ou no GitHub (busque "MCP server" + nome do serviço). Categorias comuns: raspagem (Firecrawl), bancos (Postgres, Supabase), documentos, comunicação.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Saber onde procurar acelera muito o build.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Diretórios; GitHub; categorias de server.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t23-6" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
-            <span class="text-lg">🩺</span>
-            <div><span class="font-medium">Verificar/diagnosticar</span><span class="text-neutral-500 text-sm ml-2">- /mcp, reiniciar</span></div>
-          </button>
-          <div id="t23-6" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">O comando /mcp lista servers instalados e o status; se um server novo não aparece, reiniciar o assistente resolve na maioria das vezes.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É o primeiro passo de qualquer troubleshooting de MCP.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">/mcp; status; reiniciar primeiro.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t23-7" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">7</span>
-            <span class="text-lg">💸</span>
-            <div><span class="font-medium">Custo de contexto</span><span class="text-neutral-500 text-sm ml-2">- Desligar servers não usados</span></div>
-          </button>
-          <div id="t23-7" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Cada server ativo injeta as definições das suas ferramentas no contexto — o que consome tokens. Desligar os que não usa libera contexto.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Menos ruído no contexto = menos erros e menos custo.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Definições de tool = tokens; desligar não usados.</p></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
-        <a href="modulo-2-3.html" class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">Ver Completo</a>
-      </div>
-    </div>
-
-    <!-- MÓDULO 2.4 -->
-    <div id="modulo-2-4" data-inema-module="2-4" data-inema-track="2" class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
-      <img src="../../assets/img/thumb-2-4.png" alt="Ilustração do módulo 2.4" class="w-full h-32 sm:h-40 object-cover rounded-t-xl border-b border-blue-500/20" loading="lazy">
-      <div class="p-6 border-b border-dark-600">
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-blue-400 font-bold">2.4</span>
-          <span class="text-xs text-neutral-500">~40 min · 6 tópicos</span>
-        </div>
-        <h3 class="text-2xl font-bold mb-2">🧠 Contexto & Tokens</h3>
-        <p class="text-neutral-400 text-sm">Não deixe o agente "apodrecer". Context rot e a degradação após ~60%, os limiares (0-50 / 50-70 / 70-85 / 85%+), /clear vs /compact, uma tarefa por sessão, definir "pronto" para evitar loop, e estratégias de economia.</p>
-        <div class="mt-3" data-inema-meter="modulo:2-4">
-          <div class="flex items-center justify-between mb-1 text-xs">
-            <span class="text-neutral-500">Progresso do módulo</span>
-            <span class="text-blue-400"><span data-inema-meter-pct>0%</span> · <span data-inema-meter-frac>0 de 6</span></span>
-          </div>
-          <div class="inema-bar h-1.5 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-blue-500 rounded-full" data-inema-meter-fill style="width:0%"></div></div>
-        </div>
-      </div>
-      <div class="divide-y divide-dark-600">
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t24-1" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
-            <span class="text-lg">🍂</span>
-            <div><span class="font-medium">Context rot</span><span class="text-neutral-500 text-sm ml-2">- Degradação após ~60%</span></div>
-          </button>
-          <div id="t24-1" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">A qualidade cai gradualmente quanto mais longa a sessão; os erros aparecem mais depois de ~60% de uso do contexto, quando histórico ruidoso abafa as regras centrais.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Saber disso evita brigar com um agente que só está "cansado".</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Degradação; ~60%; ruído abafa regras.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t24-2" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
-            <span class="text-lg">🚥</span>
-            <div><span class="font-medium">Os limiares</span><span class="text-neutral-500 text-sm ml-2">- 0-50 / 50-70 / 70-85 / 85%+</span></div>
-          </button>
-          <div id="t24-2" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Uma régua: 0-50% seguro; 50-70% amarelo (pense em compactar); 70-85% laranja (rode /compact); acima de 85% rode /clear e recomece.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Transforma "context rot" abstrato em ação concreta por faixa.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Verde / amarelo / laranja / vermelho.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t24-3" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
-            <span class="text-lg">🧹</span>
-            <div><span class="font-medium">/clear vs /compact</span><span class="text-neutral-500 text-sm ml-2">- Reset total vs resumo inteligente</span></div>
-          </button>
-          <div id="t24-3" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">/clear zera toda a conversa (use ao trocar de tarefa ou quando a qualidade cai); /compact gera um resumo esperto que mantém o essencial e comprime o resto (use no meio de uma tarefa longa).</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Escolher o errado perde contexto útil ou mantém lixo.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">clear = reset; compact = resumo; quando usar cada.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t24-4" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
-            <span class="text-lg">1️⃣</span>
-            <div><span class="font-medium">Uma tarefa por sessão</span><span class="text-neutral-500 text-sm ml-2">- Limpe antes da próxima</span></div>
-          </button>
-          <div id="t24-4" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Manter cada sessão focada numa tarefa e limpar antes de começar a próxima, em vez de reaproveitar uma conversa inchada para algo não relacionado.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Contexto limpo = mais precisão e menos token gasto.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Uma tarefa; limpar antes; foco.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t24-5" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
-            <span class="text-lg">🏁</span>
-            <div><span class="font-medium">Definir "pronto"</span><span class="text-neutral-500 text-sm ml-2">- Evita loop</span></div>
-          </button>
-          <div id="t24-5" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Dar ao agente um critério explícito de conclusão (ex.: "exatamente 75 perfis") para ele parar em vez de pesquisar sem fim.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Sem um "pronto", o agente pode entrar em loop e queimar tokens.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Definição de pronto; critério; evita loop.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t24-6" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
-            <span class="text-lg">💰</span>
-            <div><span class="font-medium">Economia</span><span class="text-neutral-500 text-sm ml-2">- Skills, desligar MCP, CLAUDE.md enxuto</span></div>
-          </button>
-          <div id="t24-6" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">As alavancas de economia: usar skills (carregam sob demanda), desligar MCP não usados, manter o CLAUDE.md enxuto e uma tarefa por sessão.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Junta tudo do módulo numa rotina de "higiene de contexto".</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Skills; desligar MCP; CLAUDE.md enxuto.</p></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
-        <a href="modulo-2-4.html" class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">Ver Completo</a>
-      </div>
-    </div>
-
-    <!-- MÓDULO 2.5 -->
-    <div id="modulo-2-5" data-inema-module="2-5" data-inema-track="2" class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
-      <img src="../../assets/img/thumb-2-5.png" alt="Ilustração do módulo 2.5" class="w-full h-32 sm:h-40 object-cover rounded-t-xl border-b border-blue-500/20" loading="lazy">
-      <div class="p-6 border-b border-dark-600">
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-blue-400 font-bold">2.5</span>
-          <span class="text-xs text-neutral-500">~45 min · 6 tópicos</span>
-        </div>
-        <h3 class="text-2xl font-bold mb-2">🗂️ RAG & Dados</h3>
-        <p class="text-neutral-400 text-sm">Dar memória e fontes ao agente. O problema (a IA não sabe o que não está no contexto), system prompt vs vector store, embeddings & vector store em linguagem simples, o indexador, o classifier que roteia antes de gastar o agente, e confidence score & fallback.</p>
-        <div class="mt-3" data-inema-meter="modulo:2-5">
-          <div class="flex items-center justify-between mb-1 text-xs">
-            <span class="text-neutral-500">Progresso do módulo</span>
-            <span class="text-blue-400"><span data-inema-meter-pct>0%</span> · <span data-inema-meter-frac>0 de 6</span></span>
-          </div>
-          <div class="inema-bar h-1.5 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-blue-500 rounded-full" data-inema-meter-fill style="width:0%"></div></div>
-        </div>
-      </div>
-      <div class="divide-y divide-dark-600">
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t25-1" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
-            <span class="text-lg">❓</span>
-            <div><span class="font-medium">O problema</span><span class="text-neutral-500 text-sm ml-2">- A IA não sabe o que não está no contexto</span></div>
-          </button>
-          <div id="t25-1" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Um modelo só responde sobre o que está no contexto ou no treino. Para responder sobre seus documentos (políticas, FAQ), é preciso colocar essa informação ao alcance dele.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É o "porquê" do RAG: sem fonte, a IA inventa ou erra.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Fora do contexto = invisível; fundamentar em fonte.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t25-2" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
-            <span class="text-lg">⚖️</span>
-            <div><span class="font-medium">System prompt vs vector store</span><span class="text-neutral-500 text-sm ml-2">- Quando cada um</span></div>
-          </button>
-          <div id="t25-2" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">System prompt embute o texto direto (simples e barato para poucos documentos); vector store busca só os trechos relevantes (escalável, melhor para crescer).</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Escolher errado custa contexto ou limita o crescimento.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Embutir vs buscar; pequeno vs escalável.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t25-3" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
-            <span class="text-lg">🧬</span>
-            <div><span class="font-medium">Embeddings & vector store</span><span class="text-neutral-500 text-sm ml-2">- Em linguagem simples</span></div>
-          </button>
-          <div id="t25-3" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Embeddings transformam texto em números que capturam significado; o vector store guarda esses números e acha por semelhança de sentido, não por palavra exata.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É o motor que faz a busca "entender" a pergunta.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Significado em números; busca por semelhança.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t25-4" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
-            <span class="text-lg">📥</span>
-            <div><span class="font-medium">Indexador</span><span class="text-neutral-500 text-sm ml-2">- Manual trigger → docs → vector store</span></div>
-          </button>
-          <div id="t25-4" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Um workflow separado que lê os documentos, divide em pedaços, gera embeddings e popula o vector store — rodado uma vez (ou ao atualizar a base).</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Separar indexação de consulta é o padrão de arquitetura do RAG.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Trigger manual; loader/splitter; popular o store.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t25-5" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
-            <span class="text-lg">🚏</span>
-            <div><span class="font-medium">Classifier</span><span class="text-neutral-500 text-sm ml-2">- Rotear antes de gastar o agente</span></div>
-          </button>
-          <div id="t25-5" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Um nó classificador decide cedo se a entrada é relevante (ex.: pergunta de suporte ou não) e roteia — só o que importa chega ao agente caro.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Triagem barata antes do agente economiza tokens e evita respostas fora de escopo.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Triagem; roteamento; só o relevante passa.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="topic-item">
-          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t25-6" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
-            <span class="text-lg">🎯</span>
-            <div><span class="font-medium">Confidence score & fallback</span><span class="text-neutral-500 text-sm ml-2">- Não inventar</span></div>
-          </button>
-          <div id="t25-6" class="topic-explanation px-6 pb-4">
-            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
-              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Quando a busca não acha algo relevante, o agente emite um marcador de "não achei" e cai num fallback (ex.: "vamos pesquisar e retornar") em vez de inventar.</p></div>
-              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Um agente honesto que recusa inventar é um resultado desejado, não um bug.</p></div>
-              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Marcador de confiança; fallback; não alucinar.</p></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
-        <a href="modulo-2-5.html" class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">Ver Completo</a>
-      </div>
-    </div>
-
-    <!-- NAV ENTRE TRILHAS -->
-    <div class="flex flex-col sm:flex-row gap-4 mt-10">
-      <a href="../trilha1/index.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← Trilha 1 · Fundamentos & Glossário</a>
-      <a href="../trilha3/index.html" class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors">Trilha 3 · Prompts & Padrões →</a>
-    </div>
-
-  </main>
-
-  <footer class="border-t border-dark-600 py-8 mt-8">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
-      <p>Vibe Coding: Domínio Completo · Curso original <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 font-medium">INEMA.CLUB</a> · 2026</p>
-    </div>
-  </footer>
-
-  <script>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-blue-400">5</div>
+<div class="text-xs text-neutral-400">Módulos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-blue-400">32</div>
+<div class="text-xs text-neutral-400">Tópicos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-blue-400">~4h</div>
+<div class="text-xs text-neutral-400">Duração</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-blue-400">Inter.</div>
+<div class="text-xs text-neutral-400">Nível</div>
+</div>
+</div>
+<!-- progresso da trilha -->
+<div aria-label="Progresso da trilha 2" aria-valuemax="100" aria-valuemin="0" class="mt-6 max-w-2xl" data-inema-meter="trilha:2" role="progressbar">
+<div class="flex items-center justify-between mb-1 text-sm">
+<span class="text-neutral-400">Progresso da trilha</span>
+<span class="text-blue-400 font-semibold"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 32</span></span>
+</div>
+<div class="inema-bar h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-blue-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12" id="conteudo">
+<img alt="Banner da trilha técnica: blueprint, engrenagens e circuitos em azul — a arquitetura e a engenharia por dentro" class="w-full h-auto rounded-2xl border border-blue-500/30 mb-8 shadow-lg shadow-blue-500/5" loading="lazy" src="../../assets/img/hero-t2.png"/>
+<!-- HERO SVG -->
+<section class="mb-12">
+<div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden">
+<svg aria-label="O arco da trilha 2: começa pela engenharia do arquivo de instruções (CLAUDE.md), passa pelo framework WAT e pelo protocolo MCP, e termina dominando contexto/tokens e RAG — a arquitetura interna que torna um agente confiável" class="w-full h-auto" role="img" viewbox="0 0 1000 220">
+<defs>
+<lineargradient id="t2-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#60a5fa"></stop><stop offset="1" stop-color="#3b82f6"></stop>
+</lineargradient>
+<filter height="180%" id="t2-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="32" id="t2-grid" patternunits="userSpaceOnUse" width="32">
+<circle cx="1.3" cy="1.3" fill="#3b82f6" opacity="0.12" r="1.3"></circle>
+</pattern>
+<marker id="t2-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#60a5fa"></path></marker>
+</defs>
+<rect fill="url(#t2-grid)" height="220" width="1000" x="0" y="0"></rect>
+<g fill="none" opacity="0.55" stroke="#60a5fa" stroke-width="2">
+<path d="M236,110 L268,110" marker-end="url(#t2-ah)"></path>
+<path d="M444,110 L476,110" marker-end="url(#t2-ah)"></path>
+<path d="M636,110 L668,110" marker-end="url(#t2-ah)"></path>
+<path d="M812,110 L844,110" marker-end="url(#t2-ah)"></path>
+</g>
+<g filter="url(#t2-glow)"><rect fill="#0e1b2e" height="72" rx="16" stroke="url(#t2-grad)" stroke-width="2.5" width="202" x="34" y="74"></rect></g>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="16" font-weight="600" text-anchor="middle" x="135" y="104">Módulo 2.1</text>
+<text fill="#bcd7ff" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="135" y="126">CLAUDE.md</text>
+<rect fill="#0e1b2e" height="72" rx="16" stroke="#3b82f6" stroke-width="2" width="176" x="268" y="74"></rect>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="16" font-weight="600" text-anchor="middle" x="356" y="104">Módulo 2.2</text>
+<text fill="#bcd7ff" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="356" y="126">Framework WAT</text>
+<rect fill="#0e1f2a" height="72" rx="16" stroke="#38bdf8" stroke-width="2" width="160" x="476" y="74"></rect>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="16" font-weight="600" text-anchor="middle" x="556" y="104">Módulo 2.3</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="556" y="126">MCP por dentro</text>
+<rect fill="#0e1b2e" height="72" rx="16" stroke="#3b82f6" stroke-width="2" width="144" x="668" y="74"></rect>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="16" font-weight="600" text-anchor="middle" x="740" y="104">Módulo 2.4</text>
+<text fill="#bcd7ff" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="740" y="126">Contexto &amp; tokens</text>
+<rect fill="#0e1b2e" height="72" rx="16" stroke="#3b82f6" stroke-width="2" width="122" x="844" y="74"></rect>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="16" font-weight="600" text-anchor="middle" x="905" y="104">Módulo 2.5</text>
+<text fill="#bcd7ff" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="905" y="126">RAG &amp; dados</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mt-2">O caminho da trilha 2: do arquivo de instruções (a "constituição" do projeto) à arquitetura WAT, ao protocolo MCP, à economia de contexto e ao RAG — as camadas internas que separam o protótipo do sistema confiável.</p>
+</section>
+<!-- MAPA DA TRILHA (OBRIGATORIO) -->
+<section class="mb-12">
+<h2 class="text-2xl font-bold mb-6">Mapa da trilha</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-blue-500/30 p-5 transition-all" href="#modulo-2-1">
+<div class="flex items-center justify-between mb-2">
+<span class="text-blue-400 font-bold text-sm">2.1</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-blue-400 transition-colors">📜 Engenharia de CLAUDE.md</h3>
+<p class="text-xs text-neutral-400">O system prompt persistente do projeto</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-blue-500/30 p-5 transition-all" href="#modulo-2-2">
+<div class="flex items-center justify-between mb-2">
+<span class="text-blue-400 font-bold text-sm">2.2</span>
+<span class="text-xs text-neutral-500">~50 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-blue-400 transition-colors">🔠 O Framework WAT</h3>
+<p class="text-xs text-neutral-400">Workflows + Agent + Tools, a fundo</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-blue-500/30 p-5 transition-all" href="#modulo-2-3">
+<div class="flex items-center justify-between mb-2">
+<span class="text-blue-400 font-bold text-sm">2.3</span>
+<span class="text-xs text-neutral-500">~50 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-blue-400 transition-colors">🔌 MCP por Dentro</h3>
+<p class="text-xs text-neutral-400">Como o agente ganha ferramentas externas</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-blue-500/30 p-5 transition-all" href="#modulo-2-4">
+<div class="flex items-center justify-between mb-2">
+<span class="text-blue-400 font-bold text-sm">2.4</span>
+<span class="text-xs text-neutral-500">~40 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-blue-400 transition-colors">🧠 Contexto &amp; Tokens</h3>
+<p class="text-xs text-neutral-400">Não deixe o agente "apodrecer"</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-blue-500/30 p-5 transition-all" href="#modulo-2-5">
+<div class="flex items-center justify-between mb-2">
+<span class="text-blue-400 font-bold text-sm">2.5</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-blue-400 transition-colors">🗂️ RAG &amp; Dados</h3>
+<p class="text-xs text-neutral-400">Dar memória e fontes ao agente</p>
+</a>
+<div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-5 flex flex-col justify-center">
+<p class="text-sm font-semibold text-blue-400 mb-1">Como percorrer</p>
+<p class="text-xs text-neutral-400">Os módulos são independentes, mas a ordem 2.1 → 2.5 constrói camada sobre camada: instruções, arquitetura, ferramentas, economia e dados.</p>
+</div>
+</div>
+</section>
+<h2 class="text-2xl font-bold mb-6">Conteúdo detalhado</h2>
+<!-- MÓDULO 2.1 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" data-inema-module="2-1" data-inema-track="2" id="modulo-2-1">
+<img alt="Ilustração do módulo 2.1" class="w-full h-32 sm:h-40 object-cover rounded-t-xl border-b border-blue-500/20" loading="lazy" src="../../assets/img/thumb-2-1.png"/>
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-blue-400 font-bold">2.1</span>
+<span class="text-xs text-neutral-500">~45 min · 6 tópicos</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">📜 Engenharia de CLAUDE.md</h3>
+<p class="text-neutral-400 text-sm">O CLAUDE.md é o system prompt persistente do projeto — a "constituição" que o agente relê a cada sessão. Anatomia, regras operacionais, enxugar para sob ~500 linhas, o que vai no CLAUDE.md vs. em skills, e como iterar o arquivo conversando.</p>
+<div class="mt-3" data-inema-meter="modulo:2-1">
+<div class="flex items-center justify-between mb-1 text-xs">
+<span class="text-neutral-500">Progresso do módulo</span>
+<span class="text-blue-400"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 6</span></span>
+</div>
+<div class="inema-bar h-1.5 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-blue-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button aria-controls="t21-1" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">📌</span>
+<div><span class="font-medium">CLAUDE.md como system prompt persistente</span><span class="text-neutral-500 text-sm ml-2">- A constituição relida a cada sessão</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t21-1">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Um arquivo markdown na raiz do projeto que define papel, contexto e preferências — e que o agente lê no início de cada sessão, sem você reexplicar.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É o que dá consistência entre sessões; mal escrito, o agente esquece as regras toda vez.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Persistente; markdown; lido a cada sessão; papel + contexto + regras.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t21-2" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">🧱</span>
+<div><span class="font-medium">Anatomia</span><span class="text-neutral-500 text-sm ml-2">- Papel, contexto, regras, estilo, estrutura</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t21-2">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">As seções típicas: quem o agente é, o que está sendo construído, regras de operação, estilo de comunicação e a estrutura de pastas do projeto.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Um esqueleto claro evita arquivos confusos e regras perdidas.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Papel; contexto; regras; estilo; estrutura.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t21-3" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">⚙️</span>
+<div><span class="font-medium">Regras operacionais</span><span class="text-neutral-500 text-sm ml-2">- Procurar tool existente, aprender ao falhar, manter atualizado</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t21-3">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Diretivas de comportamento: procurar uma ferramenta existente antes de criar uma nova, aprender e adaptar quando algo falha, e manter os arquivos atualizados.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">São as regras que ativam o loop de auto-melhoria do agente.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Reuso antes de criar; aprender ao falhar; manter atual.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t21-4" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">✂️</span>
+<div><span class="font-medium">Manter enxuto</span><span class="text-neutral-500 text-sm ml-2">- Sob ~500 linhas e por quê</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t21-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Limitar o arquivo (alvo: sob ~500 linhas) porque ele entra no contexto toda sessão; arquivos longos diluem as regras importantes.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Se o agente erra a mesma regra apesar de escrita, o arquivo pode estar longo demais e a regra "se perde".</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Sob ~500 linhas; só conteúdo de toda sessão; conciso.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t21-5" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">🔀</span>
+<div><span class="font-medium">CLAUDE.md vs skills</span><span class="text-neutral-500 text-sm ml-2">- O que vai onde</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t21-5">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">CLAUDE.md guarda só o que vale para toda sessão (propósito, regras, framework); instruções de tarefas específicas vão para skills, carregadas sob demanda.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Colocar tudo no CLAUDE.md estoura a janela de contexto; skills economizam.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Toda sessão → CLAUDE.md; sob demanda → skills.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t21-6" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">💬</span>
+<div><span class="font-medium">Iterar o arquivo conversando</span><span class="text-neutral-500 text-sm ml-2">- Pedir mudanças em linguagem natural</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t21-6">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">O CLAUDE.md não é escrito uma vez e esquecido — você pede ao agente para adicionar/alterar seções ("adicione uma regra de manter explicações curtas").</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">O arquivo evolui com o projeto; iterar é como ele fica afiado.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Editável sempre; pedir em linguagem natural; documento vivo.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<a class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors" href="modulo-2-1.html">Ver Completo</a>
+</div>
+</div>
+<!-- MÓDULO 2.2 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" data-inema-module="2-2" data-inema-track="2" id="modulo-2-2">
+<img alt="Ilustração do módulo 2.2" class="w-full h-32 sm:h-40 object-cover rounded-t-xl border-b border-blue-500/20" loading="lazy" src="../../assets/img/thumb-2-2.png"/>
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-blue-400 font-bold">2.2</span>
+<span class="text-xs text-neutral-500">~50 min · 7 tópicos</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">🔠 O Framework WAT a Fundo</h3>
+<p class="text-neutral-400 text-sm">A estrutura por trás de todo workflow agêntico: W = Workflows (instruções markdown = SOP), A = Agent (o coordenador que decide), T = Tools (scripts de um trabalho cada). Mais o loop de auto-melhoria, a estrutura de pastas e quando NÃO usar WAT.</p>
+<div class="mt-3" data-inema-meter="modulo:2-2">
+<div class="flex items-center justify-between mb-1 text-xs">
+<span class="text-neutral-500">Progresso do módulo</span>
+<span class="text-blue-400"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 7</span></span>
+</div>
+<div class="inema-bar h-1.5 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-blue-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button aria-controls="t22-1" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">🗺️</span>
+<div><span class="font-medium">Visão geral WAT</span><span class="text-neutral-500 text-sm ml-2">- As três camadas e como se encaixam</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t22-1">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Um padrão de três camadas — Workflows, Agent, Tools — que dá ao agente um "manual + cérebro + mãos". A maioria dos builds agênticos cabe nesse molde.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Dá um vocabulário comum e uma forma repetível de estruturar qualquer projeto.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">W + A + T; manual + cérebro + mãos; repetível.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t22-2" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">📄</span>
+<div><span class="font-medium">W = Workflows</span><span class="text-neutral-500 text-sm ml-2">- Instruções markdown = SOP</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t22-2">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Arquivos markdown em linguagem natural (com títulos, bullets, negrito) que funcionam como uma descrição de cargo ou SOP, dizendo ao agente o que fazer.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É a camada que você mais edita; um bom workflow é metade do resultado.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Markdown; SOP; objetivo + entrada + saída + passos.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t22-3" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">🧠</span>
+<div><span class="font-medium">A = Agent</span><span class="text-neutral-500 text-sm ml-2">- O coordenador que decide</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t22-3">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">O próprio assistente de código: o cérebro coordenador que lê os workflows, vê as ferramentas disponíveis e decide qual usar e quando — como um gerente de projeto delegando.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Entender que o agente decide (não é roteiro fixo) muda como você escreve as instruções.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Coordenador; lê e decide; delega às tools.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t22-4" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">🔧</span>
+<div><span class="font-medium">T = Tools</span><span class="text-neutral-500 text-sm ml-2">- Scripts de um trabalho cada</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t22-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Scripts (geralmente Python) que fazem o trabalho concreto, idealmente um por tarefa (raspar um site, gerar um PDF, analisar dados). O agente os escreve e conserta — você não precisa programar.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Tools pequenas e focadas são fáceis de testar, reusar e consertar.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Um trabalho cada; auto-geradas; reutilizáveis.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t22-5" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">🔄</span>
+<div><span class="font-medium">O loop de auto-melhoria</span><span class="text-neutral-500 text-sm ml-2">- Errar → diagnosticar → consertar tool → atualizar workflow</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t22-5">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">O agente roda um workflow, encontra um erro, diagnostica, conserta a tool e atualiza o arquivo de workflow para o erro não se repetir — execuções ficam mais suaves e rápidas com o tempo.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É o superpoder do WAT: o sistema melhora a si mesmo enquanto roda.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Erro → diagnóstico → fix → workflow atualizado.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t22-6" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">📁</span>
+<div><span class="font-medium">Estrutura de pastas</span><span class="text-neutral-500 text-sm ml-2">- workflows / tools / temporary / .env</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t22-6">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">A organização recomendada: pasta workflows, pasta tools, pasta temporary (arquivos intermediários/saída), o arquivo de ambiente (.env, segredos) e o CLAUDE.md.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Uma estrutura clara faz o agente achar o que precisa e separar segredos do código.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">workflows; tools; temporary; .env; CLAUDE.md.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t22-7" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">7</span>
+<span class="text-lg">🚦</span>
+<div><span class="font-medium">Quando NÃO usar WAT</span><span class="text-neutral-500 text-sm ml-2">- Tarefa de uma frase</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t22-7">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Para tarefas únicas, experimentação inicial ou instruções que cabem numa frase, montar a estrutura WAT é exagero — basta digitar o pedido.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Saber quando NÃO usar evita burocracia e desperdício de contexto.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Tarefa única; one-off; não force a estrutura.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<a class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors" href="modulo-2-2.html">Ver Completo</a>
+</div>
+</div>
+<!-- MÓDULO 2.3 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" data-inema-module="2-3" data-inema-track="2" id="modulo-2-3">
+<img alt="Ilustração do módulo 2.3" class="w-full h-32 sm:h-40 object-cover rounded-t-xl border-b border-blue-500/20" loading="lazy" src="../../assets/img/thumb-2-3.png"/>
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-blue-400 font-bold">2.3</span>
+<span class="text-xs text-neutral-500">~50 min · 7 tópicos</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">🔌 MCP por Dentro</h3>
+<p class="text-neutral-400 text-sm">O protocolo que dá ferramentas externas ao agente. O que ele resolve, como o agente descobre e decide ferramentas, o .mcp.json e a chave manual (nunca no chat), project-level vs global, onde achar servers, como verificar/diagnosticar e o custo de contexto.</p>
+<div class="mt-3" data-inema-meter="modulo:2-3">
+<div class="flex items-center justify-between mb-1 text-xs">
+<span class="text-neutral-500">Progresso do módulo</span>
+<span class="text-blue-400"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 7</span></span>
+</div>
+<div class="inema-bar h-1.5 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-blue-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button aria-controls="t23-1" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">🧩</span>
+<div><span class="font-medium">O que o protocolo resolve</span><span class="text-neutral-500 text-sm ml-2">- Uma conexão, muitas ferramentas</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t23-1">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">MCP (Model Context Protocol) deixa uma única conexão expor várias ferramentas/ações — como o Gmail expondo enviar, rascunhar e buscar e-mails de uma vez.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É como a IA ganha "braços" sem você integrar cada ação à mão.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Protocolo; uma conexão = muitas tools; ações expostas.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t23-2" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">🤖</span>
+<div><span class="font-medium">Como o agente descobre/decide ferramentas</span><span class="text-neutral-500 text-sm ml-2">- Sozinho, sem você indicar</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t23-2">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Assim que agente e server se conectam, o agente conhece todas as ferramentas disponíveis e decide sozinho qual chamar, quando e com quais parâmetros.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Você descreve o resultado; a escolha da tool é dele.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Descoberta; decisão autônoma; parâmetros.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t23-3" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">🔑</span>
+<div><span class="font-medium">.mcp.json e a chave manual</span><span class="text-neutral-500 text-sm ml-2">- Nunca no chat</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t23-3">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Ao instalar um server, o agente gera um .mcp.json com a configuração e um espaço para a chave de API; você cola a chave manualmente no arquivo — nunca no chat.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É a regra de segurança básica do MCP: segredo fora da conversa.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">.mcp.json; placeholder; chave manual; nunca no chat.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t23-4" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">🏷️</span>
+<div><span class="font-medium">Project-level vs global</span><span class="text-neutral-500 text-sm ml-2">- Onde a config deve viver</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t23-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">A config de MCP pode ficar global (toda a máquina) ou no nível do projeto; o nível de projeto é o recomendado para manter segredos e contexto isolados.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Config global pode disparar avisos de segurança a cada reinício; project-level resolve.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Project-level; isolamento; mover para a pasta do projeto.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t23-5" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">🔎</span>
+<div><span class="font-medium">Onde achar servers</span><span class="text-neutral-500 text-sm ml-2">- Diretórios, GitHub</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t23-5">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Servers vivem em diretórios dedicados (ex.: mcp.so) ou no GitHub (busque "MCP server" + nome do serviço). Categorias comuns: raspagem (Firecrawl), bancos (Postgres, Supabase), documentos, comunicação.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Saber onde procurar acelera muito o build.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Diretórios; GitHub; categorias de server.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t23-6" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">🩺</span>
+<div><span class="font-medium">Verificar/diagnosticar</span><span class="text-neutral-500 text-sm ml-2">- /mcp, reiniciar</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t23-6">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">O comando /mcp lista servers instalados e o status; se um server novo não aparece, reiniciar o assistente resolve na maioria das vezes.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É o primeiro passo de qualquer troubleshooting de MCP.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">/mcp; status; reiniciar primeiro.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t23-7" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">7</span>
+<span class="text-lg">💸</span>
+<div><span class="font-medium">Custo de contexto</span><span class="text-neutral-500 text-sm ml-2">- Desligar servers não usados</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t23-7">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Cada server ativo injeta as definições das suas ferramentas no contexto — o que consome tokens. Desligar os que não usa libera contexto.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Menos ruído no contexto = menos erros e menos custo.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Definições de tool = tokens; desligar não usados.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<a class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors" href="modulo-2-3.html">Ver Completo</a>
+</div>
+</div>
+<!-- MÓDULO 2.4 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" data-inema-module="2-4" data-inema-track="2" id="modulo-2-4">
+<img alt="Ilustração do módulo 2.4" class="w-full h-32 sm:h-40 object-cover rounded-t-xl border-b border-blue-500/20" loading="lazy" src="../../assets/img/thumb-2-4.png"/>
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-blue-400 font-bold">2.4</span>
+<span class="text-xs text-neutral-500">~40 min · 6 tópicos</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">🧠 Contexto &amp; Tokens</h3>
+<p class="text-neutral-400 text-sm">Não deixe o agente "apodrecer". Context rot e a degradação após ~60%, os limiares (0-50 / 50-70 / 70-85 / 85%+), /clear vs /compact, uma tarefa por sessão, definir "pronto" para evitar loop, e estratégias de economia.</p>
+<div class="mt-3" data-inema-meter="modulo:2-4">
+<div class="flex items-center justify-between mb-1 text-xs">
+<span class="text-neutral-500">Progresso do módulo</span>
+<span class="text-blue-400"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 6</span></span>
+</div>
+<div class="inema-bar h-1.5 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-blue-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button aria-controls="t24-1" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">🍂</span>
+<div><span class="font-medium">Context rot</span><span class="text-neutral-500 text-sm ml-2">- Degradação após ~60%</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t24-1">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">A qualidade cai gradualmente quanto mais longa a sessão; os erros aparecem mais depois de ~60% de uso do contexto, quando histórico ruidoso abafa as regras centrais.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Saber disso evita brigar com um agente que só está "cansado".</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Degradação; ~60%; ruído abafa regras.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t24-2" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">🚥</span>
+<div><span class="font-medium">Os limiares</span><span class="text-neutral-500 text-sm ml-2">- 0-50 / 50-70 / 70-85 / 85%+</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t24-2">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Uma régua: 0-50% seguro; 50-70% amarelo (pense em compactar); 70-85% laranja (rode /compact); acima de 85% rode /clear e recomece.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Transforma "context rot" abstrato em ação concreta por faixa.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Verde / amarelo / laranja / vermelho.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t24-3" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">🧹</span>
+<div><span class="font-medium">/clear vs /compact</span><span class="text-neutral-500 text-sm ml-2">- Reset total vs resumo inteligente</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t24-3">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">/clear zera toda a conversa (use ao trocar de tarefa ou quando a qualidade cai); /compact gera um resumo esperto que mantém o essencial e comprime o resto (use no meio de uma tarefa longa).</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Escolher o errado perde contexto útil ou mantém lixo.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">clear = reset; compact = resumo; quando usar cada.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t24-4" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">1️⃣</span>
+<div><span class="font-medium">Uma tarefa por sessão</span><span class="text-neutral-500 text-sm ml-2">- Limpe antes da próxima</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t24-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Manter cada sessão focada numa tarefa e limpar antes de começar a próxima, em vez de reaproveitar uma conversa inchada para algo não relacionado.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Contexto limpo = mais precisão e menos token gasto.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Uma tarefa; limpar antes; foco.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t24-5" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">🏁</span>
+<div><span class="font-medium">Definir "pronto"</span><span class="text-neutral-500 text-sm ml-2">- Evita loop</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t24-5">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Dar ao agente um critério explícito de conclusão (ex.: "exatamente 75 perfis") para ele parar em vez de pesquisar sem fim.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Sem um "pronto", o agente pode entrar em loop e queimar tokens.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Definição de pronto; critério; evita loop.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t24-6" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">💰</span>
+<div><span class="font-medium">Economia</span><span class="text-neutral-500 text-sm ml-2">- Skills, desligar MCP, CLAUDE.md enxuto</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t24-6">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">As alavancas de economia: usar skills (carregam sob demanda), desligar MCP não usados, manter o CLAUDE.md enxuto e uma tarefa por sessão.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Junta tudo do módulo numa rotina de "higiene de contexto".</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Skills; desligar MCP; CLAUDE.md enxuto.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<a class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors" href="modulo-2-4.html">Ver Completo</a>
+</div>
+</div>
+<!-- MÓDULO 2.5 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" data-inema-module="2-5" data-inema-track="2" id="modulo-2-5">
+<img alt="Ilustração do módulo 2.5" class="w-full h-32 sm:h-40 object-cover rounded-t-xl border-b border-blue-500/20" loading="lazy" src="../../assets/img/thumb-2-5.png"/>
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-blue-400 font-bold">2.5</span>
+<span class="text-xs text-neutral-500">~45 min · 6 tópicos</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">🗂️ RAG &amp; Dados</h3>
+<p class="text-neutral-400 text-sm">Dar memória e fontes ao agente. O problema (a IA não sabe o que não está no contexto), system prompt vs vector store, embeddings &amp; vector store em linguagem simples, o indexador, o classifier que roteia antes de gastar o agente, e confidence score &amp; fallback.</p>
+<div class="mt-3" data-inema-meter="modulo:2-5">
+<div class="flex items-center justify-between mb-1 text-xs">
+<span class="text-neutral-500">Progresso do módulo</span>
+<span class="text-blue-400"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 6</span></span>
+</div>
+<div class="inema-bar h-1.5 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-blue-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button aria-controls="t25-1" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">❓</span>
+<div><span class="font-medium">O problema</span><span class="text-neutral-500 text-sm ml-2">- A IA não sabe o que não está no contexto</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t25-1">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Um modelo só responde sobre o que está no contexto ou no treino. Para responder sobre seus documentos (políticas, FAQ), é preciso colocar essa informação ao alcance dele.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É o "porquê" do RAG: sem fonte, a IA inventa ou erra.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Fora do contexto = invisível; fundamentar em fonte.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t25-2" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">⚖️</span>
+<div><span class="font-medium">System prompt vs vector store</span><span class="text-neutral-500 text-sm ml-2">- Quando cada um</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t25-2">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">System prompt embute o texto direto (simples e barato para poucos documentos); vector store busca só os trechos relevantes (escalável, melhor para crescer).</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Escolher errado custa contexto ou limita o crescimento.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Embutir vs buscar; pequeno vs escalável.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t25-3" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">🧬</span>
+<div><span class="font-medium">Embeddings &amp; vector store</span><span class="text-neutral-500 text-sm ml-2">- Em linguagem simples</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t25-3">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Embeddings transformam texto em números que capturam significado; o vector store guarda esses números e acha por semelhança de sentido, não por palavra exata.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">É o motor que faz a busca "entender" a pergunta.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Significado em números; busca por semelhança.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t25-4" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">📥</span>
+<div><span class="font-medium">Indexador</span><span class="text-neutral-500 text-sm ml-2">- Manual trigger → docs → vector store</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t25-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Um workflow separado que lê os documentos, divide em pedaços, gera embeddings e popula o vector store — rodado uma vez (ou ao atualizar a base).</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Separar indexação de consulta é o padrão de arquitetura do RAG.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Trigger manual; loader/splitter; popular o store.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t25-5" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">🚏</span>
+<div><span class="font-medium">Classifier</span><span class="text-neutral-500 text-sm ml-2">- Rotear antes de gastar o agente</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t25-5">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Um nó classificador decide cedo se a entrada é relevante (ex.: pergunta de suporte ou não) e roteia — só o que importa chega ao agente caro.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Triagem barata antes do agente economiza tokens e evita respostas fora de escopo.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Triagem; roteamento; só o relevante passa.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button aria-controls="t25-6" aria-expanded="false" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">🎯</span>
+<div><span class="font-medium">Confidence score &amp; fallback</span><span class="text-neutral-500 text-sm ml-2">- Não inventar</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4" id="t25-6">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Quando a busca não acha algo relevante, o agente emite um marcador de "não achei" e cai num fallback (ex.: "vamos pesquisar e retornar") em vez de inventar.</p></div>
+<div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Um agente honesto que recusa inventar é um resultado desejado, não um bug.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Marcador de confiança; fallback; não alucinar.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<a class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors" href="modulo-2-5.html">Ver Completo</a>
+</div>
+</div>
+<!-- NAV ENTRE TRILHAS -->
+<div class="flex flex-col sm:flex-row gap-4 mt-10">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="../trilha1/index.html">← Trilha 1 · Fundamentos &amp; Glossário</a>
+<a class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors" href="../trilha3/index.html">Trilha 3 · Prompts &amp; Padrões →</a>
+</div>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Vibe Coding: Domínio Completo · Curso original <a class="text-sky-400 hover:text-sky-300 font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a> · 2026</p>
+</div>
+</footer>
+<script>
     const themeToggle = document.getElementById('theme-toggle');
     const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
     const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
@@ -1007,13 +981,11 @@
       button.setAttribute('aria-expanded', String(!isOpen));
     }
   </script>
-
-  <script src="../../assets/learn.js"></script>
-  <script>
+<script src="../../assets/learn.js"></script>
+<script>
     if (window.INEMA && typeof window.INEMA.init === 'function') {
       window.INEMA.init();
     }
   </script>
-
 </body>
 </html>

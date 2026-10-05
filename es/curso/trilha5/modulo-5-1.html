@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="vibe-coding-completo" name="inema-course"/>
+<!-- ANTI-FOUC: script BLOQUEANTE, SEPARADO, PRIMEIRO no <head>, antes do Tailwind e do learn.css. -->
+<script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        } else {
+          var legacy = localStorage.getItem('theme');
+          if (legacy === 'light') p.theme = 'claro';
+          else if (legacy === 'dark') p.theme = 'inema-dark';
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'inema-dark': { dark: true,  attr: null,        cs: 'dark'  },
+        'claro':      { dark: false, attr: null,        cs: 'light' },
+        'sepia':      { dark: false, attr: 'sepia',     cs: 'light' },
+        'foco':       { dark: null,  attr: 'foco',      cs: null    },
+        'contraste':  { dark: true,  attr: 'contraste', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['inema-dark'];
+
+      if (t.dark === true) html.classList.add('dark');
+      else if (t.dark === false) html.classList.remove('dark');
+
+      if (t.attr) html.setAttribute('data-theme', t.attr);
+      else html.removeAttribute('data-theme');
+
+      html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark') ? 'dark' : 'light'));
+
+      html.setAttribute('data-font', p.font || 'inter');
+      html.setAttribute('data-accent', p.accent || 'emerald');
+
+      var s = html.style;
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--inema-font-scale', (scale / 100).toString());
+      s.setProperty('font-size', scale + '%');
+      s.setProperty('--measure', (+p.lineWidth || 68) + 'ch');
+      s.setProperty('--lh-body', (+p.leading || 1.7).toString());
+      var fam = p.font === 'system'
+        ? 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif'
+        : (p.font === 'leitura'
+          ? '"Atkinson Hyperlegible", "Inter", system-ui, sans-serif'
+          : '"Inter", system-ui, sans-serif');
+      s.setProperty('--font-body', fam);
+
+      var ACC = {
+        emerald: [152, 76, 45], blue: [217, 91, 60], purple: [258, 90, 66],
+        amber: [38, 92, 50], teal: [174, 72, 41], rose: [350, 89, 60]
+      };
+      var a = ACC[p.accent] || ACC.emerald;
+      s.setProperty('--accent-h', a[0] + '');
+      s.setProperty('--accent-s', a[1] + '%');
+      s.setProperty('--accent-l', a[2] + '%');
+      s.setProperty('--accent', 'hsl(' + a[0] + ' ' + a[1] + '% ' + a[2] + '%)');
+    } catch (err) {
+      try { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme = 'dark'; } catch (e) {}
+    }
+  })();
+  </script>
+<title>Módulo 5.1 · Agente de soporte por correo electrónico con RAG | Vibe Coding: Dominio completo</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Manifesto do curso (OBRIGATORIO, identico em TODA pagina) -->
+<script data-inema-manifest="" type="application/json">
+  {
+    "course": "vibe-coding-completo",
+    "tracks": [
+      { "n": "1", "title": "Fundamentos & Glossário", "modules": [
+        { "id": "1-1", "title": "A Mentalidade do Vibe Coding", "topics": 7, "href": "curso/trilha1/modulo-1-1.html" },
+        { "id": "1-2", "title": "O Ecossistema: Como as Peças se Encaixam", "topics": 6, "href": "curso/trilha1/modulo-1-2.html" },
+        { "id": "1-3", "title": "Glossário Essencial (Parte 1: IA, Claude Code, n8n)", "topics": 7, "href": "curso/trilha1/modulo-1-3.html" },
+        { "id": "1-4", "title": "Glossário Essencial (Parte 2: Agêntico, RAG, Deploy, Segurança)", "topics": 6, "href": "curso/trilha1/modulo-1-4.html" }
+      ]},
+      { "n": "2", "title": "Técnica: Arquitetura & Engenharia", "modules": [
+        { "id": "2-1", "title": "Engenharia de CLAUDE.md", "topics": 6, "href": "curso/trilha2/modulo-2-1.html" },
+        { "id": "2-2", "title": "O Framework WAT a Fundo", "topics": 7, "href": "curso/trilha2/modulo-2-2.html" },
+        { "id": "2-3", "title": "MCP por Dentro", "topics": 7, "href": "curso/trilha2/modulo-2-3.html" },
+        { "id": "2-4", "title": "Contexto & Tokens", "topics": 6, "href": "curso/trilha2/modulo-2-4.html" },
+        { "id": "2-5", "title": "RAG & Dados", "topics": 6, "href": "curso/trilha2/modulo-2-5.html" }
+      ]},
+      { "n": "3", "title": "Prompts & Padrões de Conversa", "modules": [
+        { "id": "3-1", "title": "Os Padrões de Prompting", "topics": 7, "href": "curso/trilha3/modulo-3-1.html" },
+        { "id": "3-2", "title": "O Ciclo Plan → Build → Troubleshoot → Optimize", "topics": 7, "href": "curso/trilha3/modulo-3-2.html" },
+        { "id": "3-3", "title": "Biblioteca de Prompts Prontos (copy-run)", "topics": 8, "href": "curso/trilha3/modulo-3-3.html" }
+      ]},
+      { "n": "4", "title": "Skills & Agentes", "modules": [
+        { "id": "4-1", "title": "Skills: Conceito & Anatomia", "topics": 7, "href": "curso/trilha4/modulo-4-1.html" },
+        { "id": "4-2", "title": "Construindo Skills na Prática", "topics": 7, "href": "curso/trilha4/modulo-4-2.html" },
+        { "id": "4-3", "title": "Agentes: Locais, Agendados & por Evento", "topics": 8, "href": "curso/trilha4/modulo-4-3.html" }
+      ]},
+      { "n": "5", "title": "Projetos Práticos (End-to-End)", "modules": [
+        { "id": "5-1", "title": "Projeto: Agente de Suporte por E-mail com RAG", "topics": 8, "href": "curso/trilha5/modulo-5-1.html" },
+        { "id": "5-2", "title": "Projeto: Agentes Hospedados (Agendado + Webhook)", "topics": 8, "href": "curso/trilha5/modulo-5-2.html" },
+        { "id": "5-3", "title": "Projeto: App Full-Stack (Lead Qualifier) + Frontend pra n8n", "topics": 8, "href": "curso/trilha5/modulo-5-3.html" }
+      ]},
+      { "n": "6", "title": "Produção, Deploy & Segurança", "modules": [
+        { "id": "6-1", "title": "GitHub & Trigger.dev", "topics": 7, "href": "curso/trilha6/modulo-6-1.html" },
+        { "id": "6-2", "title": "Secrets & Segurança", "topics": 8, "href": "curso/trilha6/modulo-6-2.html" },
+        { "id": "6-3", "title": "Confiabilidade & Monetização", "topics": 7, "href": "curso/trilha6/modulo-6-3.html" }
+      ]}
+    ]
+  }
+  </script>
+<link href="../../../assets/learn.css" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+    [id] { scroll-margin-top: 5rem; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - acento (teal) + cores das outras trilhas no nav */
+    html:not(.dark) .text-teal-400 { color: #0d9488; }
+    html:not(.dark) .bg-teal-500\/20 { background-color: rgba(13, 148, 136, 0.12); }
+    html:not(.dark) .bg-teal-500\/10 { background-color: rgba(13, 148, 136, 0.08); }
+    html:not(.dark) .border-teal-500\/30 { border-color: rgba(13, 148, 136, 0.25); }
+    html:not(.dark) .hover\:bg-teal-500\/30:hover { background-color: rgba(13, 148, 136, 0.18); }
+    html:not(.dark) .hover\:bg-teal-500\/10:hover { background-color: rgba(13, 148, 136, 0.08); }
+    html:not(.dark) .hover\:text-teal-400:hover { color: #0d9488; }
+    html:not(.dark) .text-teal-300 { color: #0f766e; }
+    html:not(.dark) .bg-teal-900\/20 { background-color: rgba(13, 148, 136, 0.08); }
+    /* nav: outras trilhas (hover) — amber/rose com texto -800 */
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5, 150, 105, 0.08); }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37, 99, 235, 0.08); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124, 58, 237, 0.08); }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .hover\:bg-amber-500\/10:hover { background-color: rgba(217, 119, 6, 0.08); }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .hover\:bg-rose-500\/10:hover { background-color: rgba(225, 29, 72, 0.08); }
+    html:not(.dark) .text-red-400 { color: #dc2626; }
+    html:not(.dark) .bg-red-900\/20 { background-color: rgba(220, 38, 38, 0.07); }
+    html:not(.dark) .border-red-500\/30 { border-color: rgba(220, 38, 38, 0.25); }
+
+    /* Light mode - remove gradientes + cores especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    /* Dark mode - bordas suavizadas */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* TOC scrollspy active link */
+    .inema-toc-link.is-active, [data-inema-toc] a.is-active { color: #2dd4bf; font-weight: 600; }
+    html:not(.dark) [data-inema-toc] a.is-active { color: #0d9488; }
+
+    /* code box (copy-run) */
+    .codebox pre { white-space: pre-wrap; word-break: break-word; }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
+    }
+  </style>
+<link href="https://inematds.github.io/vibe-coding-completo/curso/trilha5/modulo-5-1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/en/curso/trilha5/modulo-5-1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/vibe-coding-completo/es/curso/trilha5/modulo-5-1.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha5/modulo-5-1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha5/modulo-5-1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="modulo-5-1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<a class="skip sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-teal-600 focus:text-white focus:rounded-lg" href="#conteudo">Saltar al contenido</a>
+<!-- NAVIGATION (T5 ativa) -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">⚡</span>
+<span class="font-bold text-lg hidden sm:inline">Vibe Coding</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Técnica</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Prompts</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-teal-400 bg-teal-500/10" href="index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Proyectos</span>
+</a>
+<a class="px-2.5 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Producción</span>
+</a>
+<button class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-inema-journey-open="" type="button">
+<span aria-hidden="true">◷</span><span>Mi recorrido</span>
+<span class="inema-journey-badge hidden" data-count="0" data-inema-journey-badge=""></span>
+</button>
+<button aria-label="Alternar tema claro/oscuro" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20">
+<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+</svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav aria-label="Ruta de navegación" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-teal-400" href="../../index.html">Inicio</a>
+<span>/</span>
+<a class="hover:text-teal-400" href="index.html">Ruta 5</a>
+<span>/</span>
+<span class="text-teal-400">Módulo 5.1</span>
+</div>
+</nav>
+<!-- HEADER DO MÓDULO -->
+<header class="bg-gradient-to-br from-teal-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-teal-500/20 text-teal-400 text-xs font-semibold rounded-full mb-4">MÓDULO 5.1</span>
+<h3 class="text-2xl font-bold mb-4">📧 Proyecto: agente de soporte por correo electrónico con RAG</h3>
+<p class="text-lg text-neutral-400 max-w-3xl">Tu primer proyecto end-to-end. Vas a crear un agente que lee las <strong class="text-teal-300">políticas de la empresa</strong> (PDF de devoluciones, garantías, plazos) para una base de conocimiento, <strong class="text-teal-300">clasifica</strong> cada correo que llega y <strong class="text-teal-300">redacta</strong> la respuesta basada en los documentos, y rechaza inventar cuando el tema está fuera de alcance. Son dos workflows en n8n, un prompt de apertura integral, las credenciales que solo tú conectas, pruebas con casos reales y los <strong>6 enhancements</strong> aplicados en capas.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-teal-400">8</div>
+<div class="text-xs text-neutral-400">Temas</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-teal-400">~75</div>
+<div class="text-xs text-neutral-400">Minutos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-teal-400">Práctico</div>
+<div class="text-xs text-neutral-400">Nivel</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-teal-400">Proyecto</div>
+<div class="text-xs text-neutral-400">Tipo</div>
+</div>
+</div>
+<div aria-label="Progreso del módulo 5.1" aria-valuemax="100" aria-valuemin="0" class="mt-6 max-w-2xl" data-inema-meter="modulo:5-1" role="progressbar">
+<div class="flex items-center justify-between mb-1 text-sm">
+<span class="text-neutral-400">Progreso del módulo</span>
+<span class="text-teal-400 font-semibold"><span data-inema-meter-pct="">0%</span> · <span data-inema-meter-frac="">0 de 8</span></span>
+</div>
+<div class="inema-bar h-2 rounded-full bg-dark-700 overflow-hidden"><div class="inema-bar__fill h-full bg-teal-500 rounded-full" data-inema-meter-fill="" style="width:0%"></div></div>
+</div>
+</div>
+</header>
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:grid lg:grid-cols-[1fr_220px] lg:gap-10">
+<main class="min-w-0" id="conteudo">
+<!-- Pré-requisitos / como usar -->
+<div class="bg-teal-900/20 border border-teal-500/30 rounded-xl p-5 mb-10">
+<h2 class="text-base font-semibold text-teal-400 mb-2 flex items-center"><span class="mr-2">🧰</span> Cómo usar este módulo</h2>
+<p class="text-neutral-300 text-sm">Es una compilación real. Cada bloque de código de abajo es un <strong>prompt para copiar y ejecutar</strong> en tu asistente (con n8n conectado vía MCP), siempre con <strong>🎯 objetivo</strong>, el bloque para copiar y <strong>✅ cómo verificar</strong>. Las partes entre <code class="text-teal-300">&lt;chaves&gt;</code> los reemplazas por tus valores. Requisitos previos: un asistente de código con el MCP de n8n conectado, una cuenta de correo electrónico y una clave de IA con embeddings (p. ej., OpenAI). Avanza por etapas: ejecuta un prompt, verifícalo y solo entonces continúa.</p>
+</div>
+<!-- SVG FUTURISTA (visão geral / arquitetura, #29) -->
+<section class="mb-12">
+<p class="text-neutral-300 mb-4 inema-prose leading-relaxed">El plano del proyecto tiene <strong>dos máquinas</strong> que dividen el trabajo: una <em>aprende</em> las políticas una sola vez (el indexador), la otra <em>responde</em> cada vez que llega un correo electrónico (el agente). Se comunican a través de un lugar común: el <strong class="text-teal-400">vector store</strong>, donde el conocimiento se puede buscar.</p>
+<div class="rounded-2xl border border-teal-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="Arquitectura del agente de soporte: el workflow indexador se ejecuta manualmente una vez, lee los PDF de políticas, los divide en fragmentos, genera embeddings y los guarda en el vector store; el workflow del agente se activa desde Gmail cada 15 minutos, clasifica el correo, busca el fragmento pertinente en el vector store y crea un borrador de respuesta en Gmail" class="w-full h-auto" role="img" viewbox="0 0 1000 290">
+<defs>
+<lineargradient id="m51-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#2dd4bf"></stop><stop offset="1" stop-color="#14b8a6"></stop></lineargradient>
+<filter height="180%" id="m51-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.6"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m51-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#14b8a6" opacity="0.1" r="1.3"></circle></pattern>
+<marker id="m51-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#2dd4bf"></path></marker>
+<marker id="m51-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m51-grid)" height="290" width="1000" x="0" y="0"></rect>
+<!-- workflow 1: indexador -->
+<text fill="#2dd4bf" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="40" y="36">Workflow 1 — Indexador (se ejecuta manualmente, una vez)</text>
+<g fill="none" opacity="0.6" stroke="#2dd4bf" stroke-width="2">
+<path d="M180,68 L214,68" marker-end="url(#m51-ah)"></path>
+<path d="M360,68 L394,68" marker-end="url(#m51-ah)"></path>
+<path d="M540,68 L574,68" marker-end="url(#m51-ah)"></path>
+</g>
+<rect fill="#0c211f" height="36" rx="9" stroke="#2dd4bf" stroke-width="1.8" width="140" x="40" y="50"></rect><text fill="#9beadd" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="110" y="73">📄 PDFs de políticas</text>
+<rect fill="#0c211f" height="36" rx="9" stroke="#2dd4bf" stroke-width="1.8" width="146" x="214" y="50"></rect><text fill="#9beadd" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="287" y="73">✂️ text splitter</text>
+<rect fill="#0c211f" height="36" rx="9" stroke="#2dd4bf" stroke-width="1.8" width="146" x="394" y="50"></rect><text fill="#9beadd" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="467" y="73">🔢 embeddings</text>
+<g filter="url(#m51-glow)"><rect fill="#0c211f" height="44" rx="12" stroke="url(#m51-grad)" stroke-width="2.5" width="180" x="574" y="46"></rect></g>
+<text fill="#2dd4bf" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="664" y="64">🗄️ Almacén vectorial</text>
+<text fill="#7fd6c9" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="664" y="80">conocimiento que se puede buscar</text>
+<!-- elo entre os dois -->
+<g fill="none" opacity="0.55" stroke="#64748b" stroke-dasharray="5 4" stroke-width="2"><path d="M664,90 L664,150" marker-end="url(#m51-ah)"></path></g>
+<text fill="#94a3b8" font-family="Inter,sans-serif" font-size="11" x="700" y="124">el agente consulta aquí</text>
+<!-- workflow 2: agente -->
+<text fill="#38bdf8" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="40" y="180">Workflow 2 — Agente (Gmail se activa cada 15 min)</text>
+<g fill="none" opacity="0.6" stroke="#38bdf8" stroke-width="2">
+<path d="M180,214 L214,214" marker-end="url(#m51-ahc)"></path>
+<path d="M360,214 L394,214" marker-end="url(#m51-ahc)"></path>
+<path d="M574,214 L608,214" marker-end="url(#m51-ahc)"></path>
+</g>
+<rect fill="#0e1b26" height="36" rx="9" stroke="#38bdf8" stroke-width="1.8" width="140" x="40" y="196"></rect><text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="110" y="219">📥 Gmail trigger</text>
+<rect fill="#0e1b26" height="36" rx="9" stroke="#38bdf8" stroke-width="1.8" width="146" x="214" y="196"></rect><text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="287" y="219">🏷️ classifier</text>
+<rect fill="#0e1b26" height="36" rx="9" stroke="#38bdf8" stroke-width="1.8" width="180" x="394" y="196"></rect><text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="484" y="219">🤖 agente + herramienta RAG</text>
+<rect fill="#0e1b26" height="36" rx="9" stroke="#38bdf8" stroke-width="1.8" width="150" x="608" y="196"></rect><text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="683" y="219">✉️ Borrador de Gmail</text>
+<text fill="#94a3b8" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="287" y="256">"no relevante" → termina (no responde)</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500">Diagrama ilustrativo — el indexador alimenta el vector store; el agente lo consulta en cada ejecución. Separar «aprender» de «responder» mantiene cada parte fácil de probar.</p>
+</section>
+<!-- TÓPICO 1 -->
+<section class="mb-16" data-inema-topic="modulo-5-1#topico-1" id="topico-1">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🎯 El alcance del proyecto</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m5-1-t1-p1">
+          El proyecto es un <strong class="text-teal-400">agente de soporte por correo electrónico</strong>. Parte de dos documentos: uno de <strong>políticas</strong> (envíos, devoluciones, garantía, facturación, precios, promociones, privacidad, tarjetas de regalo) y uno de <strong>FAQ</strong>. A partir de ellos, por cada correo que llega, decide si es una consulta de soporte, busca la respuesta en los documentos y <strong>redacta</strong> una réplica — que una persona aún aprueba antes de enviar.
+        </p>
+<div class="bg-dark-800 border border-teal-500/30 rounded-xl p-4 mb-4">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-teal-500/20 text-teal-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>RAG (Retrieval-Augmented Generation)</strong> — en lugar de que la IA "adivine" de memoria, primero <em>búsqueda</em> (recuperación) el fragmento correcto en tus documentos y solo entonces <em>genera</em> la respuesta basada en él. <strong>Borrador (draft)</strong> — la respuesta queda guardada como borrador en la bandeja de salida del correo; no se envía sola.</p>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m5-1-t1-p2">
+          El alcance es deliberadamente limitado y seguro: el agente <strong>redacta, no envía</strong> (humano en el circuito), y la regla de oro es <strong>no inventar</strong> — si el tema no está en las políticas, no improvisa una respuesta. Ese límite es lo que hace que el proyecto sea lo bastante confiable para un entorno empresarial real.
+        </p>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Por qué aprender</h3>
+<div class="bg-gradient-to-br from-teal-900/30 to-dark-800 rounded-xl border border-teal-500/30 p-6 mb-6">
+<p class="text-neutral-300 mb-3 inema-prose" data-inema-block="m5-1-t1-p3">Este es el «hola mundo» de los agentes que generan ingresos: reúne tres habilidades en un único caso útil — RAG (basarse en documentos), clasificación (filtrar lo que es soporte) y generación de texto (redactar la respuesta con el tono adecuado).</p>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-teal-400 mt-1">•</span><span><strong>Anclado:</strong> las respuestas provienen de las políticas, no de la imaginación de la IA.</span></li>
+<li class="flex items-start space-x-2"><span class="text-teal-400 mt-1">•</span><span><strong>Seguro:</strong> borrador + una persona lo aprueba; fuera del alcance = no responde.</span></li>
+<li class="flex items-start space-x-2"><span class="text-teal-400 mt-1">•</span><span><strong>Reutilizable:</strong> cambia los PDFs y el mismo agente sirve a otra empresa.</span></li>
+</ul>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">RAG</div><p class="text-xs text-neutral-400">Buscar antes de generar.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Clasificar</div><p class="text-xs text-neutral-400">¿Es compatible o no?</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Borrador</div><p class="text-xs text-neutral-400">Una persona aprueba el envío.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">No inventes</div><p class="text-xs text-neutral-400">Fuera de alcance = no responde.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500/20 border border-teal-500/30 text-teal-400 hover:bg-teal-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 2 -->
+<section class="mb-16" data-inema-topic="modulo-5-1#topico-2" id="topico-2">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">🏗️ La arquitectura: indexador + agente</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m5-1-t2-p1">
+          Son <strong>dos workflows</strong> separados. El <strong class="text-teal-400">indexador</strong> se ejecuta con un disparador manual: lee los documentos, divide el texto en fragmentos (<em>text splitter</em>), genera <strong>embeddings</strong> y registra en el <strong>vector store</strong>. O <strong class="text-teal-400">agente</strong> se ejecuta con un disparador de correo electrónico: cada 15 minutos lee los mensajes sin leer, los clasifica, consulta el vector store como herramienta y crea el borrador.
+        </p>
+<div class="bg-dark-800 border border-teal-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-teal-500/20 text-teal-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Embeddings</strong> — una forma de convertir texto en números que capturan su significado, para que la búsqueda encuentre fragmentos por sentido, no solo por coincidencia exacta de palabras. <strong>Vector store</strong> — la base de datos que guarda esos números y devuelve los fragmentos más parecidos a la pregunta. <strong>Text splitter</strong> — divide el documento en fragmentos (chunks) del tamaño adecuado para la búsqueda.</p>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m5-1-t2-p2">Separar quién <em>aprende</em> de quién <em>responde</em> es una decisión de ingeniería: indexas solo cuando cambian las políticas (pocas veces), pero el agente se ejecuta todo el tiempo (a bajo costo, porque solo consulta). Mezclar ambas cosas encarecería cada correo electrónico y dificultaría las pruebas.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-teal-900/20 rounded-xl border border-teal-500/30 p-6">
+<h4 class="font-bold text-teal-400 mb-4">✓ Indexador (aprende)</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-teal-400">✓</span><span>Disparador manual — lo ejecutas cuando cambian los PDF.</span></li>
+<li class="flex items-start space-x-2"><span class="text-teal-400">✓</span><span>Documento → splitter → embeddings → vector store.</span></li>
+<li class="flex items-start space-x-2"><span class="text-teal-400">✓</span><span>Se ejecuta una vez y el conocimiento queda guardado.</span></li>
+</ul>
+</div>
+<div class="bg-teal-900/20 rounded-xl border border-teal-500/30 p-6">
+<h4 class="font-bold text-teal-400 mb-4">✓ Agente (responde)</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-teal-400">✓</span><span>Disparador de Gmail — cada 15 min, correos no leídos.</span></li>
+<li class="flex items-start space-x-2"><span class="text-teal-400">✓</span><span>Classifier → agente con la herramienta de vector store.</span></li>
+<li class="flex items-start space-x-2"><span class="text-teal-400">✓</span><span>Genera el borrador; la rama "no relevante" termina.</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🎯</span> Decisión de arquitectura: system prompt vs vector store</h3>
+<p class="text-neutral-300 text-sm">Para pocos documentos pequeños, puedes pegar todo el texto en el <strong>system prompt</strong> (más simple y barato). Pero elegimos <strong>vector store</strong> porque escala: busca solo la sección relevante, en vez de enviar el documento completo con cada correo electrónico; es mejor cuando la base crece. Deja que la IA lo proponga y confirma la elección.</p>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Dos workflows</div><p class="text-xs text-neutral-400">Aprender vs. responder.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Vector store</div><p class="text-xs text-neutral-400">Puente entre los dos.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Escala</div><p class="text-xs text-neutral-400">Encuentra solo lo relevante.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Barato</div><p class="text-xs text-neutral-400">Indexa poco, consulta siempre.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500/20 border border-teal-500/30 text-teal-400 hover:bg-teal-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 3 -->
+<section class="mb-16" data-inema-topic="modulo-5-1#topico-3" id="topico-3">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">📝 El prompt de apertura integral</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m5-1-t3-p1">
+          É <strong>una sola solicitud</strong>, en <strong class="text-teal-400">Plan Mode</strong>, que describe el resultado completo: los documentos de origen, la lógica del flujo y el comportamiento esperado, dejando que la IA elija <em>cómo</em> almacenar y buscar. Coloca los PDF en la carpeta del proyecto y haz referencia a ellos mediante una etiqueta. En lugar de pedir un vector store de entrada, describe el resultado y deja que la IA proponga la arquitectura.
+        </p>
+<div class="bg-dark-800 border border-teal-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-teal-500/20 text-teal-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>Plan Mode</strong> — un modo en el que la IA investiga, hace preguntas y propone un plan <em>antes</em> de construir, sin cambiar nada. Revisas y apruebas; solo entonces se ejecuta.</p>
+</div>
+<!-- CODE BOX 1: prompt de abertura -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-teal-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">describir todo el agente en un solo prompt y dejar que la IA proponga el plan (en Plan Mode).</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (cópialo y ejecútalo en Plan Mode)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Entre em plan mode. Quero um agente de suporte por e-mail no n8n.
+
+Anexei dois documentos na pasta do projeto:
+- @<politicas.pdf> (envio, devoluções, garantia, cobrança, preços, promoções, privacidade)
+- @<faq.pdf>
+
+Resultado desejado:
+1. Use esses documentos como base de conhecimento da empresa.
+2. A cada e-mail novo, classifique se é uma dúvida de suporte técnico.
+3. Se for, rascunhe uma resposta APOIADA nos documentos (não invente nada).
+4. Se NÃO for suporte, ignore (não responda).
+5. A resposta deve ficar como RASCUNHO no Gmail, nunca enviada automaticamente.
+
+Você decide como armazenar e buscar os documentos. Antes de construir,
+me faça as perguntas que precisar e me mostre o plano dos workflows.</faq.pdf></politicas.pdf></pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Cómo verificar: la IA debe <strong>hacer preguntas</strong> (proveedor de IA, cómo almacenarlo, qué cuenta como soporte, tono) y devolver un <strong>plan con dos workflows</strong> antes de crear cualquier nodo. Si ya empieza a construir, pídele "quédate en plan mode y muéstrame el plan primero".</p>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m5-1-t3-p2">Un buen prompt inicial ahorra horas: la IA anticipa las decisiones (proveedor, almacenamiento, tono, qué está «fuera de alcance») y pregunta qué falta, en vez de adivinar y construir algo incorrecto. Tú respondes, apruebas el plan y solo entonces dejas que construya: el ciclo Plan → Build en acción.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-teal-900/20 rounded-xl border border-teal-500/30 p-6">
+<h4 class="font-bold text-teal-400 mb-4">✓ En el prompt, incluye</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-teal-400">✓</span><span>Los documentos de origen (por etiqueta/adjunto).</span></li>
+<li class="flex items-start space-x-2"><span class="text-teal-400">✓</span><span>El resultado completo (clasificar, fundamentar, redactar).</span></li>
+<li class="flex items-start space-x-2"><span class="text-teal-400">✓</span><span>Las reglas de seguridad (no inventar, no enviar).</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Evita</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Indicar «usa un nodo de vector store en memoria con…».</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Dejar que la IA construya sin mostrar el plan antes.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Omitir sus preguntas de aclaración.</span></li>
+</ul>
+</div>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Plan Mode</div><p class="text-xs text-neutral-400">Planificar antes de construir.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Resultado</div><p class="text-xs text-neutral-400">El «qué», no el «cómo».</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Adjuntar docs</div><p class="text-xs text-neutral-400">PDFs en la carpeta + etiqueta.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Aclarar</div><p class="text-xs text-neutral-400">Responde las preguntas.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500/20 border border-teal-500/30 text-teal-400 hover:bg-teal-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 4 -->
+<section class="mb-16" data-inema-topic="modulo-5-1#topico-4" id="topico-4">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">🔧 Construcción de los dos workflows</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m5-1-t4-p1">
+          Con el plan aprobado, la IA construye los nodos. El <strong>Workflow 1 (indexador)</strong> queda así: activador manual → nodo de código con el texto de los documentos → inserción en el vector store (con data loader y text splitter por carácter). El <strong>Workflow 2 (agente)</strong> queda así: activador de Gmail (cada 15 min, solo los no leídos) → classifier (soporte vs. no relevante) → agente de IA con la herramienta de vector store → nodo de borrador en Gmail; la rama «no relevante» termina sin responder.
+        </p>
+<!-- CODE BOX 2: ordem de execução -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-teal-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">cargar la base y activar el agente en el orden correcto.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">pasos (en orden)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">1. Construa os dois workflows conforme o plano.
+2. Rode o Workflow 1 (indexador) manualmente UMA vez,
+   para popular o vector store com as políticas.
+3. Só depois, ATIVE o Workflow 2 (agente do e-mail).
+4. Se algum nó der erro, me copie a mensagem e diga em qual nó —
+   eu te devolvo a correção.</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Cómo verificar: el indexador debe finalizar sin errores y el vector store debe quedar poblado. Activa el agente solo <strong>después</strong> — de lo contrario, consulta una base vacía.</p>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🐛</span> Debug en capas (errores reales que aparecen)</h3>
+<p class="text-neutral-300 text-sm mb-2">En el build, dos errores típicos del classifier: (1) la propiedad del modelo necesitaba el formato estructurado <code class="text-teal-300">{mode, id/value}</code> en lugar de texto sin formato; (2) un error de parsing desaparece al <strong>desactivar la opción de respuesta-JSON predeterminada</strong> del nodo del modelo del classifier. La corrección siempre es la misma receta: copia el mensaje del nodo y devuélveselo a la IA con la ubicación.</p>
+<p class="text-neutral-300 text-sm">Para leer un nodo: a la <strong>izquierda</strong> quedan las entradas (nodos anteriores), en el <strong>medio</strong> el nodo, a la <strong>derecha</strong> el resultado en JSON.</p>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m5-1-t4-p2">Observar el build y devolver errores es el ciclo central del vibe coding: no corriges los nodos a mano, describes el síntoma. Ver la entrada y salida de cada nodo también te enseña la anatomía de un pipeline RAG y a confirmar que el borrador coincide con la fuente (p. ej., que los términos de garantía del borrador coincidan con el PDF de políticas).</p>
+<h3 class="text-lg font-semibold text-teal-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Orden</div><p class="text-xs text-neutral-400">Indexa antes de activar.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Devolver error</div><p class="text-xs text-neutral-400">Mensaje + nodo.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Leer I/O</div><p class="text-xs text-neutral-400">Entra por la izquierda, sale por la derecha.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Anclar</div><p class="text-xs text-neutral-400">El borrador coincide con el PDF.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500/20 border border-teal-500/30 text-teal-400 hover:bg-teal-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 5 -->
+<section class="mb-16" data-inema-topic="modulo-5-1#topico-5" id="topico-5">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">🔑 Credenciales (lo que la IA NO hace)</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m5-1-t5-p1">
+          Hay un límite claro: la IA construye los flujos, pero <strong>tú</strong> conecta las credenciales manualmente. Son dos: la cuenta de correo electrónico mediante <strong class="text-teal-400">Gmail OAuth</strong> (autoriza a n8n a leer y redactar borradores) y la <strong class="text-teal-400">clave de API de IA</strong> (OpenAI, utilizada tanto por los modelos de chat como por los embeddings). Nunca pongas secretos en el chat.
+        </p>
+<div class="bg-dark-800 border border-teal-500/30 rounded-xl p-4 mb-6">
+<p class="text-sm"><span class="inline-block px-2 py-0.5 rounded bg-teal-500/20 text-teal-400 text-xs font-semibold mr-2">¿Qué es?</span><strong>OAuth</strong> — una forma de autorizar a una app para que actúe en tu nombre <em>sin</em> entregar tu contraseña; haces clic en "permitir" y la app obtiene un acceso revocable. <strong>Clave de API</strong> — una contraseña de máquina que identifica y cobra el uso de la IA; se guarda en las credenciales de la herramienta, no en el código ni en el chat.</p>
+</div>
+<!-- SVG: fronteira IA vs você (#29) -->
+<div class="rounded-2xl border border-teal-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="La frontera de responsabilidades: la IA construye los workflows y la lógica; tú, manualmente, conectas Gmail mediante OAuth y pegas la clave de API de la IA en la credencial. Los secretos nunca pasan por el chat." class="w-full h-auto" role="img" viewbox="0 0 1000 180">
+<defs>
+<pattern height="32" id="m51b-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#14b8a6" opacity="0.1" r="1.3"></circle></pattern>
+</defs>
+<rect fill="url(#m51b-grid)" height="180" width="1000" x="0" y="0"></rect>
+<line stroke="#64748b" stroke-dasharray="6 5" stroke-width="1.6" x1="500" x2="500" y1="24" y2="156"></line>
+<text fill="#38bdf8" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="250" y="40">🤖 La IA hace</text>
+<rect fill="#0e1b26" height="34" rx="9" stroke="#38bdf8" stroke-width="1.6" width="360" x="70" y="58"></rect><text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="250" y="80">arma los nodos y la lógica de los workflows</text>
+<rect fill="#0e1b26" height="34" rx="9" stroke="#38bdf8" stroke-width="1.6" width="360" x="70" y="100"></rect><text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="250" y="122">escribe el system prompt y los filtros</text>
+<text fill="#2dd4bf" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="750" y="40">🙋 Tú haces (con las manos)</text>
+<rect fill="#0c211f" height="34" rx="9" stroke="#2dd4bf" stroke-width="1.6" width="360" x="570" y="58"></rect><text fill="#9beadd" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="750" y="80">conecta Gmail por OAuth (hacer clic en «permitir»)</text>
+<rect fill="#0c211f" height="34" rx="9" stroke="#2dd4bf" stroke-width="1.6" width="360" x="570" y="100"></rect><text fill="#9beadd" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="750" y="122">pega la clave de API en la credencial (nunca en el chat)</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — la IA no tiene (ni debe tener) tus credenciales. Conectar OAuth y pegar la clave es tarea tuya, en la herramienta.</p>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m5-1-t5-p2">Saber qué <strong>no</strong> delegar es la mitad de la disciplina de seguridad. El mapeo de credenciales y la autorización quedan a tu cargo; eso protege tus datos y mantiene el secreto fuera del contexto de la IA, una regla de oro que vuelve a aparecer en toda la ruta de producción.</p>
+<h3 class="text-lg font-semibold text-teal-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Gmail OAuth</div><p class="text-xs text-neutral-400">Autoriza sin contraseña.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Clave de IA</div><p class="text-xs text-neutral-400">Chat + embeddings.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Tú conectas</div><p class="text-xs text-neutral-400">La IA no tiene el secreto.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Nunca en el chat</div><p class="text-xs text-neutral-400">El secreto permanece en la herramienta.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500/20 border border-teal-500/30 text-teal-400 hover:bg-teal-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 6 -->
+<section class="mb-16" data-inema-topic="modulo-5-1#topico-6" id="topico-6">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">🧪 Pruebas: devolución, garantía, fuera del alcance</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m5-1-t6-p1">
+          Prueba con casos reales que cubran los tres comportamientos: un correo electrónico de <strong>devolución</strong> (debe responder con la política correcta), uno de <strong>garantía</strong> (la respuesta debe coincidir término por término con el PDF) y un <strong>fuera de alcance</strong> — un «¿cenamos mañana?» — que debe clasificarse como <em>no relevante</em> e <strong>no recibir respuesta</strong>. Verde ≠ correcto: solo estas pruebas revelan si el RAG realmente está anclado.
+        </p>
+<!-- CODE BOX 3: roteiro de teste -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-teal-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">activar los tres escenarios y comprobar el comportamiento.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">guion de prueba</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Envie 3 e-mails de teste para a caixa conectada:
+
+A) "Qual é o prazo para devolver um produto?"      → deve rascunhar a política de devolução
+B) "Meu aparelho parou; ainda está na garantia?"   → resposta deve bater com o PDF de garantia
+C) "Bora jantar amanhã às 20h?"                     → classificar como "não relevante", NÃO responder
+
+Rode o agente e me diga: ele ancorou nas políticas?
+Algum número (ex.: "30 dias") confere com o documento?
+Ele recusou o caso C sem inventar?</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Cómo verificar: A y B generan un borrador fiel al PDF (revisa los números — "30 días" ≠ "un año"); C no genera una respuesta. Si se respondió C, ajusta el classifier.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-teal-900/20 rounded-xl border border-teal-500/30 p-6">
+<h4 class="font-bold text-teal-400 mb-4">✓ Señales de que está bien</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-teal-400">✓</span><span>Los términos de garantía coinciden con el PDF, palabra por palabra.</span></li>
+<li class="flex items-start space-x-2"><span class="text-teal-400">✓</span><span>El correo social se marca como «no relevante» y termina.</span></li>
+<li class="flex items-start space-x-2"><span class="text-teal-400">✓</span><span>Los números (plazos, valores) coinciden con la fuente.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Señales de alerta</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Respuesta «bonita» pero con un plazo inventado.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>El agente responde a la invitación a cenar.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Confiar en el "verde" sin leer el contenido del borrador.</span></li>
+</ul>
+</div>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m5-1-t6-p2">El caso fuera de alcance es el más importante: demuestra que el agente <strong>se niega a inventar</strong>. Un agente que responde todo es peligroso; uno que sabe decir "eso no está en mi base" es confiable. Los casos límite lo revelan mejor que cualquier ejecución "en verde".</p>
+<h3 class="text-lg font-semibold text-teal-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">3 escenarios</div><p class="text-xs text-neutral-400">Devolución, garantía, social.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Verificar los hechos</div><p class="text-xs text-neutral-400">Números vs PDF.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Rechazar</div><p class="text-xs text-neutral-400">Fuera de alcance = silencio.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Verde ≠ correcto</div><p class="text-xs text-neutral-400">Lee el contenido.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500/20 border border-teal-500/30 text-teal-400 hover:bg-teal-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 7 -->
+<section class="mb-16" data-inema-topic="modulo-5-1#topico-7" id="topico-7">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">7</span>
+<h2 class="text-2xl font-bold">✨ Los 6 enhancements aplicados</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m5-1-t7-p1">
+          Seis mejoras incrementales, solicitadas en lenguaje natural y probadas <strong>una a la vez</strong> — iterar en capas en la práctica. Las tres primeras se ocupan de la lógica y los errores (fallback, filtro de tiempo, ignorar automáticos); las tres últimas, de la calidad de la salida (tono, nombre del cliente, indicador de confianza).
+        </p>
+<!-- SVG: timeline dos 6 enhancements (#29 + timeline) -->
+<div class="rounded-2xl border border-teal-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden mb-3">
+<svg aria-label="Línea de tiempo de los seis enhancements aplicados por capas: 1 fallback de no encontrado, 2 filtro por tiempo, 3 ignorar correos automáticos, 4 tono de marca, 5 nombre del cliente, 6 indicador de confianza; cada uno se prueba antes del siguiente" class="w-full h-auto" role="img" viewbox="0 0 1000 150">
+<defs>
+<marker id="m51c-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#2dd4bf"></path></marker>
+</defs>
+<line marker-end="url(#m51c-ah)" opacity="0.4" stroke="#14b8a6" stroke-width="2" x1="40" x2="960" y1="75" y2="75"></line>
+<g font-family="Inter,sans-serif">
+<circle cx="110" cy="75" fill="#0c211f" r="20" stroke="#2dd4bf" stroke-width="2"></circle><text fill="#2dd4bf" font-size="15" font-weight="700" text-anchor="middle" x="110" y="81">1</text><text fill="#9beadd" font-size="10" text-anchor="middle" x="110" y="115">fallback</text>
+<circle cx="252" cy="75" fill="#0c211f" r="20" stroke="#2dd4bf" stroke-width="2"></circle><text fill="#2dd4bf" font-size="15" font-weight="700" text-anchor="middle" x="252" y="81">2</text><text fill="#9beadd" font-size="10" text-anchor="middle" x="252" y="115">filtro de tiempo</text>
+<circle cx="394" cy="75" fill="#0c211f" r="20" stroke="#2dd4bf" stroke-width="2"></circle><text fill="#2dd4bf" font-size="15" font-weight="700" text-anchor="middle" x="394" y="81">3</text><text fill="#9beadd" font-size="10" text-anchor="middle" x="394" y="115">ignora los procesos automáticos</text>
+<circle cx="536" cy="75" fill="#0e1b26" r="20" stroke="#38bdf8" stroke-width="2"></circle><text fill="#38bdf8" font-size="15" font-weight="700" text-anchor="middle" x="536" y="81">4</text><text fill="#bfe6ff" font-size="10" text-anchor="middle" x="536" y="115">tono de marca</text>
+<circle cx="678" cy="75" fill="#0e1b26" r="20" stroke="#38bdf8" stroke-width="2"></circle><text fill="#38bdf8" font-size="15" font-weight="700" text-anchor="middle" x="678" y="81">5</text><text fill="#bfe6ff" font-size="10" text-anchor="middle" x="678" y="115">nombre del cliente</text>
+<circle cx="820" cy="75" fill="#0e1b26" r="20" stroke="#38bdf8" stroke-width="2"></circle><text fill="#38bdf8" font-size="15" font-weight="700" text-anchor="middle" x="820" y="81">6</text><text fill="#bfe6ff" font-size="10" text-anchor="middle" x="820" y="115">confianza</text>
+</g>
+<text fill="#94a3b8" font-family="Inter,sans-serif" font-size="11" x="40" y="36">lógica / error</text>
+<text fill="#94a3b8" font-family="Inter,sans-serif" font-size="11" x="536" y="36">calidad del resultado</text>
+</svg>
+</div>
+<p class="text-xs text-neutral-500 mb-6">Diagrama ilustrativo — una capa a la vez, probando cada una. Si se rompe, sabes exactamente qué cambio fue el culpable.</p>
+<!-- CODE BOX 4: enhancement 1 (fallback) -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-teal-400 font-semibold mb-1">🎯 Enhancement 1 — Fallback cuando no se encuentra: <span class="text-neutral-300 font-normal">si la base no tiene la respuesta, no inventes.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompt (cópialo y ejecútalo)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">Quando a base de conhecimento NÃO tiver a resposta, o agente não deve inventar.
+Faça o agente emitir um marcador ("política encontrada" / "política não encontrada");
+um nó de código lê esse marcador, um nó IF ramifica, e no caso "não encontrada"
+crie um rascunho educado de "vamos pesquisar e retornamos em breve".
+Antes de mudar, me pergunte o limiar de match e o texto do fallback.</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Cómo verificar: envía una pregunta fuera de la base (p. ej.: «¿Hacen envíos al exterior?»). Debe pasar al borrador de investigación, no a una respuesta inventada.</p>
+</div>
+<!-- CODE BOX 5: enhancements 2 e 3 -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-teal-400 font-semibold mb-1">🎯 Enhancements 2 y 3 — Filtros: <span class="text-neutral-300 font-normal">solo correos recientes; ignora los automáticos.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompts (uno a la vez)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">[2] Processe apenas e-mails recebidos há menos de &lt;10&gt; minutos.
+    (a IA descobre a sintaxe de busca do Gmail e adiciona um filtro
+     "newer than" no próprio gatilho, sem nó extra.)
+
+[3] Ignore e-mails automáticos: fora-do-escritório, notificações de entrega,
+    newsletters e remetentes no-reply / postmaster / bounce / marketing.
+    Adicione um nó de código que marque isAutomated + motivo e ramifique
+    para PULAR esses casos.</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Cómo verificar: quedan <strong>tres puertas</strong> en secuencia: ¿automático? → ¿es soporte? → ¿tiene política? Atención a un error clásico: el filtro puede dejar pasar un <code class="text-teal-300">no-reply@</code> si el código lee el campo equivocado del remitente.</p>
+</div>
+<!-- CODE BOX 6: enhancements 4, 5, 6 -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-teal-400 font-semibold mb-1">🎯 Enhancements 4, 5 y 6 — Calidad: <span class="text-neutral-300 font-normal">tono, nombre y confianza.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">prompts (uno a la vez)</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">[4] Ajuste o tom para &lt;amigável, prestativo, descontraído&gt; — "experto, mas
+    nunca condescendente". Atualize TANTO o system prompt do agente QUANTO o
+    rascunho de "vamos pesquisar". Varie as despedidas.
+
+[5] Personalize com o nome do cliente: um nó de código extrai o nome da
+    assinatura ("Abraço, João" / "Obrigada, Sara") e usa na saudação,
+    com fallback "Olá" quando não houver assinatura.
+
+[6] Adicione um indicador de confiança (uso interno): o agente marca
+    alto/médio/baixo conforme o match (alto &gt; 0.8, médio 0.6–0.8, baixo &lt; 0.6);
+    um nó de código monta um selo HTML (verde/amarelo/vermelho) anexado ao
+    rascunho, só para revisão interna.</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Cómo verificar: el tono cambia en los dos borradores (respuesta y fallback); se responde a un correo firmado «Un abrazo, João» con «Hola, João»; el borrador muestra el sello de confianza. Prueba cada uno <strong>antes</strong> de pedir el siguiente.</p>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m5-1-t7-p2">Los enhancements muestran el <strong>stair-step</strong> real: cada mejora es una solicitud en portugués, probada de forma aislada. Observa cómo a veces la IA hace más de lo que pediste (reorganiza nodos, reescribe la rama falsa); por eso revisas cada paso. <strong>Ancla</strong> cada solicitud en el comportamiento deseado, no en la implementación.</p>
+<h3 class="text-lg font-semibold text-teal-400 mb-3">Conceptos clave</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Capas</div><p class="text-xs text-neutral-400">Una mejora a la vez.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">3 puertas</div><p class="text-xs text-neutral-400">¿Automático? ¿soporte? ¿política?</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Confidence</div><p class="text-xs text-neutral-400">Indicador alto/medio/bajo.</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600"><div class="text-teal-400 font-semibold text-sm mb-1">Revisar</div><p class="text-xs text-neutral-400">La IA hace algo extra; revísalo.</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500/20 border border-teal-500/30 text-teal-400 hover:bg-teal-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- TÓPICO 8 -->
+<section class="mb-16" data-inema-topic="modulo-5-1#topico-8" id="topico-8">
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl">8</span>
+<h2 class="text-2xl font-bold">✅ Verificación final y checklist</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm" data-inema-doubt-toggle="" type="button">
+<span aria-hidden="true">?</span><span>Tengo una duda</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Qué es</h3>
+<p class="text-neutral-300 mb-4 leading-relaxed inema-prose" data-inema-block="m5-1-t8-p1">
+          Antes de declarar "listo", sigue la checklist objetiva. Definir qué es "listo" evita el bucle infinito de "solo una mejora más" y te da un criterio claro para cerrar el proyecto con seguridad.
+        </p>
+<!-- CODE BOX 7: checklist + backup -->
+<div class="codebox bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<p class="text-sm text-teal-400 font-semibold mb-1">🎯 Objetivo: <span class="text-neutral-300 font-normal">confirmar que el proyecto está listo y guardar una copia de seguridad.</span></p>
+<div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-emerald-400"></span><span class="text-xs text-neutral-500 ml-2">lista de verificación + respaldo</span></div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto leading-relaxed">[ ] O indexador popula o vector store sem erro.
+[ ] E-mails de suporte são classificados como suporte.
+[ ] As respostas ancoram nas políticas (números conferem com o PDF).
+[ ] Fora de escopo NÃO é respondido (recusa inventar).
+[ ] Automáticos e antigos são ignorados (3 portões funcionando).
+[ ] Tom, nome e selo de confiança aparecem no rascunho.
+[ ] Tudo fica como RASCUNHO; humano aprova o envio.
+
+Backup: "Exporte os dois workflows como JSON para eu guardar."</pre>
+<p class="text-xs text-neutral-500 mt-3">✅ Cómo verificar: todos los elementos marcados y el JSON exportado guardado. Si falla algún elemento, vuelve al tema correspondiente e itera solo esa capa.</p>
+</div>
+<h3 class="text-lg font-semibold text-teal-400 mb-2">Por qué aprender</h3>
+<p class="text-neutral-300 mb-6 leading-relaxed inema-prose" data-inema-block="m5-1-t8-p2">"Listo" es una decisión, no un sentimiento. La lista de verificación convierte la comprobación en algo repetible, y el <strong>export JSON</strong> es tu copia de seguridad: si un cambio futuro rompe algo, restauras la versión que funcionaba. Es el mismo hábito de «hacer una copia de seguridad antes de cambiar» que sirve para todos los proyectos de esta ruta.</p>
+<!-- Checagem leve -->
+<div class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6" data-inema-check="modulo-5-1#q1">
+<p class="inema-check__q font-medium mb-4">Un cliente pregunta algo que <strong>no está</strong> en las políticas. ¿Cuál es el comportamiento <strong>correcto</strong> del agente?</p>
+<div class="inema-check-options inema-check__options space-y-2">
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0" type="button">Inventar una respuesta plausible para no dejar al cliente sin respuesta.</button>
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1" type="button">Recurre a la respuesta alternativa ("vamos a investigar y te responderemos"), sin inventar.</button>
+<button class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2" type="button">Enviar la respuesta automáticamente, sin borrador.</button>
+</div>
+<div aria-live="polite" class="mt-4 text-sm" data-inema-check-feedback="" role="status"></div>
+</div>
+<div class="flex justify-start mt-8">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-500/20 border border-teal-500/30 text-teal-400 hover:bg-teal-500/30 transition-colors" data-inema-read-toggle="" type="button">
+<span aria-hidden="true" class="inema-ico-todo">○</span><span aria-hidden="true" class="inema-ico-done hidden">●</span>
+<span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done hidden">Leído</span>
+</button>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-8">
+<div class="bg-gradient-to-br from-teal-900/40 via-dark-800 to-dark-800 rounded-xl border border-teal-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📌</span> Resumen del módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Alcance</strong><span class="text-neutral-400"> — leer las políticas → clasificar → redactar; borrador + aprobación humana; no inventar.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Arquitectura</strong><span class="text-neutral-400"> — dos workflows: indexador (aprende una vez) + agente (responde siempre), conectados mediante el vector store.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Prompt de apertura</strong><span class="text-neutral-400"> — una solicitud amplia en Plan Mode; la IA pregunta y propone el plan.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Build y credenciales</strong><span class="text-neutral-400"> — indexar antes de activar; conectas Gmail OAuth y la clave de IA (nunca en el chat).</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Pruebas</strong><span class="text-neutral-400"> — devolución, garantía y fuera de alcance; verde ≠ correcto; las cifras coinciden con el PDF.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">6 enhancements</strong><span class="text-neutral-400"> — fallback, filtro de tiempo, ignorar automáticos, tono, nombre, confianza — en capas.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-teal-400 mt-1">✓</span><div><strong class="text-neutral-100">Listo</strong><span class="text-neutral-400"> — un checklist objetivo + un respaldo (export JSON) completan el proyecto.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-teal-400 mb-2">Siguiente módulo:</h3>
+<p class="text-neutral-300">5.2 — Agentes alojados (programado + webhook): saca al agente de tu máquina y llévalo a la nube.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="index.html">← Volver a la ruta</a>
+<a class="flex-1 text-center px-6 py-3 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-500 transition-colors" href="modulo-5-2.html">Siguiente módulo →</a>
+</div>
+</div>
+</section>
+</main>
+<!-- TOC sticky + scrollspy -->
+<aside class="hidden lg:block">
+<nav aria-label="Índice de la página" class="sticky top-24 self-start" data-inema-toc="">
+<p class="text-sm text-neutral-400 mb-3">Sección <span data-inema-section-counter=""><span class="inema-toc-pos">1</span> de <span class="inema-toc-total">8</span></span></p>
+<ol class="space-y-1.5 text-sm">
+<li><a class="inema-toc-link text-neutral-400 hover:text-teal-400 block" href="#topico-1">1. El alcance</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-teal-400 block" href="#topico-2">2. La arquitectura</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-teal-400 block" href="#topico-3">3. Prompt de apertura</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-teal-400 block" href="#topico-4">4. Build de los workflows</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-teal-400 block" href="#topico-5">5. Credenciales</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-teal-400 block" href="#topico-6">6. Pruebas</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-teal-400 block" href="#topico-7">7. Los 6 enhancements</a></li>
+<li><a class="inema-toc-link text-neutral-400 hover:text-teal-400 block" href="#topico-8">8. Verificación final</a></li>
+</ol>
+</nav>
+</aside>
+</div>
+<footer class="border-t border-dark-600 py-8 mt-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Vibe Coding: Dominio completo · Curso original <a class="text-sky-400 hover:text-sky-300 font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a> · 2026</p>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const htmlEl = document.documentElement;
+    if (htmlEl.classList.contains('dark')) { themeToggleLightIcon.classList.remove('hidden'); }
+    else { themeToggleDarkIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      htmlEl.classList.toggle('dark');
+      const isDark = htmlEl.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      if (window.INEMA && INEMA.setPref) { INEMA.setPref('theme', isDark ? 'inema-dark' : 'claro'); }
+    });
+  </script>
+<script src="../../../assets/learn.js"></script>
+<script>
+    if (window.INEMA && typeof window.INEMA.init === 'function') {
+      window.INEMA.init();
+      if (window.INEMA.registerCheck) {
+        INEMA.registerCheck('modulo-5-1#q1', {
+          answer: 1,
+          explain: {
+            0: 'Não. Inventar é exatamente o que evitamos — "verde ≠ correto" e a regra de ouro é não alucinar.',
+            1: 'Isso. Sem match na base, o agente cai no fallback de pesquisa, sem inventar. É o que torna o projeto confiável.',
+            2: 'Não. O agente sempre rascunha; o humano aprova antes de enviar. Envio automático não faz parte do escopo.'
+          }
+        });
+      }
+    }
+  </script>
+</body>
+</html>
